@@ -16,5 +16,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.franca.core.dsl;bundle-version="0.13.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: org.franca.connectors.ara,
+Export-Package: org.franca.connectors.ara
 Import-Package: org.apache.log4j
