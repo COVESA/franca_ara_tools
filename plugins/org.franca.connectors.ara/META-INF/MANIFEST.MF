@@ -1,0 +1,20 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Franca AUTOSAR Adaptive Connector
+Bundle-SymbolicName: org.franca.connectors.ara
+Bundle-Version: 0.7.0.qualifier
+Bundle-Activator: org.franca.connectors.ara.Activator
+Bundle-Vendor: itemis AG
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.xtend.lib;bundle-version="2.11.0",
+ com.google.guava,
+ com.google.inject;bundle-version="3.0.0",
+ org.eclipse.xtext,
+ org.eclipse.xtext.xbase.lib,
+ org.eclipse.xtend.typesystem.emf;visibility:=reexport,
+ org.franca.core;bundle-version="0.13.0",
+ org.franca.core.dsl;bundle-version="0.13.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: org.franca.connectors.ara,
+Import-Package: org.apache.log4j
