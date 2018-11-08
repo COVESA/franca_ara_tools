@@ -1,0 +1,15 @@
+package simple
+
+interface Simple01 {
+
+	method callme {
+		in {
+			UInt32 arg1
+			String arg2
+		}
+		out {
+			UInt32 ret1
+			String ret2
+		}
+	}	
+}

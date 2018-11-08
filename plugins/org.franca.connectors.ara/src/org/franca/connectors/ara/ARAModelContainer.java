@@ -8,17 +8,17 @@
 package org.franca.connectors.ara;
 
 import org.franca.core.framework.IModelContainer;
+import autosar40.autosartoplevelstructure.AUTOSAR;
 
 public class ARAModelContainer implements IModelContainer {
-//	private NodeType model = null;
+	private AUTOSAR model = null;
 	
-	public ARAModelContainer(/*NodeType model*/) {
-//		this.model = model;
+	public ARAModelContainer(AUTOSAR model) {
+		this.model = model;
 	}
 	
-	public /*NodeType*/boolean model() {
-		return true;
-		//return model;
+	public AUTOSAR model() {
+		return model;
 	}
 	
  }

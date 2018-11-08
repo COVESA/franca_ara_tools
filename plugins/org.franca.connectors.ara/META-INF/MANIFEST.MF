@@ -13,7 +13,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.xtend.typesystem.emf;visibility:=reexport,
  org.franca.core;bundle-version="0.13.0",
- org.franca.core.dsl;bundle-version="0.13.0"
+ org.franca.core.dsl;bundle-version="0.13.0",
+ org.artop.aal.autosar445;bundle-version="4.10.0";visibility:=reexport,
+ org.artop.eel.serialization;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.franca.connectors.ara
