@@ -7,10 +7,19 @@
  *******************************************************************************/
 package org.franca.connectors.ara;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Collections;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.sphinx.emf.metamodel.MetaModelDescriptorRegistry;
+import org.eclipse.xtext.resource.XtextResourceSet;
 import org.franca.core.framework.AbstractFrancaConnector;
 import org.franca.core.framework.FrancaModelContainer;
 import org.franca.core.framework.IModelContainer;
@@ -21,6 +30,11 @@ import org.franca.core.utils.IntegerTypeConverter;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import autosar40.autosartoplevelstructure.AUTOSAR;
+import autosar40.util.Autosar40Package;
+import autosar40.util.Autosar40ReleaseDescriptor;
+import autosar40.util.Autosar40ResourceFactoryImpl;
+
 public class ARAConnector extends AbstractFrancaConnector {
 
 	private Injector injector;
@@ -30,46 +44,41 @@ public class ARAConnector extends AbstractFrancaConnector {
 	private Set<TransformationIssue> lastTransformationIssues = null;
 
 	/** constructor */
-	public ARAConnector () {
+	public ARAConnector() {
 		injector = Guice.createInjector(new ARAConnectorModule());
 	}
 
 	@Override
-	public IModelContainer loadModel (String filename) {
+	public IModelContainer loadModel(String filename) {
 //		NodeType model = loadARAModel(createConfiguredResourceSet(), filename);
 //		if (model==null) {
 //			out.println("Error: Could not load DBus interface from file " + filename);
 //		} else {
 //			out.println("Loaded DBus interface " + model.getName());
 //		}
-		return new ARAModelContainer(); //(model);
+		return new ARAModelContainer(null); //(model);
 	}
 
 	@Override
-	public boolean saveModel (IModelContainer model, String filename) {
+	public boolean saveModel(IModelContainer model, String filename) {
 		if (! (model instanceof ARAModelContainer)) {
 			return false;
 		}
 
-		String fn = filename;
-		if (! filename.endsWith("." + fileExtension)) {
-			fn += "." + fileExtension;
-		}
-		
 		ARAModelContainer mc = (ARAModelContainer) model;
-		return false;//saveARAModel(createConfiguredResourceSet(), mc.model()/*, mc.getComments()*/, fn);
+		return saveARXML(createConfiguredResourceSet(), mc.model()/*, mc.getComments()*/, filename);
 	}
 
 	
 	@Override
-	public FrancaModelContainer toFranca (IModelContainer model) {
+	public FrancaModelContainer toFranca(IModelContainer model) {
 		if (! (model instanceof ARAModelContainer)) {
 			return null;
 		}
 		
 		ARA2FrancaTransformation trafo = injector.getInstance(ARA2FrancaTransformation.class);
-		ARAModelContainer dbus = (ARAModelContainer)model;
-		FModel fmodel = null;//trafo.transform(dbus.model());
+		ARAModelContainer amodel = (ARAModelContainer)model;
+		FModel fmodel = null;//trafo.transform(amodel.model());
 		
 //		lastTransformationIssues = trafo.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
@@ -78,20 +87,20 @@ public class ARAConnector extends AbstractFrancaConnector {
 	}
 
 	@Override
-	public IModelContainer fromFranca (FModel fmodel) {
-		// ranged integer conversion from Franca to D-Bus as a preprocessing step
+	public IModelContainer fromFranca(FModel fmodel) {
+		// do ranged integer conversion as a preprocessing step
 		IntegerTypeConverter.removeRangedIntegers(fmodel, true);
 
 		// do the actual transformation
 		Franca2ARATransformation trafo = injector.getInstance(Franca2ARATransformation.class);
-//		NodeType dbus = trafo.transform(fmodel);
+		AUTOSAR amodel = trafo.transform(fmodel);
 		
 		// report issues
 //		lastTransformationIssues = trafo.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
 
 		// create the model container and add some comments to the model
-		ARAModelContainer mc = new ARAModelContainer(/*ara*/);
+		ARAModelContainer mc = new ARAModelContainer(amodel);
 		return mc;
 	}
 	
@@ -101,12 +110,28 @@ public class ARAConnector extends AbstractFrancaConnector {
 	
 	private ResourceSet createConfiguredResourceSet() {
 		// create new resource set
-		ResourceSet resourceSet = new ResourceSetImpl();
+//		ResourceSet resourceSet = new ResourceSetImpl();
 		
 		// register the appropriate resource factory to handle all file extensions for Dbus
 //		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new DbusxmlResourceFactoryImpl());
 //		resourceSet.getPackageRegistry().put(DbusxmlPackage.eNS_URI, DbusxmlPackage.eINSTANCE);
 		
+		// next line needs to stay because side effects.
+		Autosar40Package autosar40Package = Autosar40Package.eINSTANCE;
+
+		//ResourceSet resourceSet = new StandaloneResourceSet();
+		ResourceSet resourceSet = new XtextResourceSet();
+		
+		if (MetaModelDescriptorRegistry.INSTANCE.getDescriptors(Autosar40ReleaseDescriptor.INSTANCE.getIdentifier()).isEmpty())
+			MetaModelDescriptorRegistry.INSTANCE.addDescriptor(Autosar40ReleaseDescriptor.INSTANCE);
+		if (!Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().containsKey(
+						Autosar40ReleaseDescriptor.ARXML_DEFAULT_FILE_EXTENSION)) {
+			Resource.Factory arFactory = new Autosar40ResourceFactoryImpl();
+			Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(
+				Autosar40ReleaseDescriptor.ARXML_DEFAULT_FILE_EXTENSION,
+				arFactory
+			);
+		}
 		return resourceSet;
 	}
 	
@@ -156,34 +181,45 @@ public class ARAConnector extends AbstractFrancaConnector {
 //	}
 
 
-//	private boolean saveARAModel (ResourceSet resourceSet, NodeType model, Iterable<String> comments, String fileName) {
-//		URI fileUri = URI.createFileURI(new File(fileName).getAbsolutePath());
-//		ArxmlResourceImpl res = (ArxmlResourceImpl) resourceSet.createResource(fileUri);
-//		res.setEncoding("UTF-8");
-//				
-//		res.getContents().add(model);
-//		try {
-//			res.save(Collections.EMPTY_MAP);
-//	        out.println("Created DBus Introspection file " + fileName);
-//	        
-//	        List<String> additionalLines = Lists.newArrayList();
-//	        
-//	        // add "xml-stylesheet" tag to output xml file
-//	        additionalLines.add("<?xml-stylesheet type=\"text/xsl\" href=\"introspect.xsl\"?>");
-//
-//	        // add comment lines
-//	        for(String c : comments)
-//	        	additionalLines.add(c);
-//
-//	        addLinesToXML(new File(fileName), additionalLines);
-//	        
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//
-//		return true;
-//	}
+	private boolean saveARXML(
+		ResourceSet resourceSet,
+		AUTOSAR autosar,
+		URI uri,
+		PrintStream out
+	) throws IOException {
+
+		Resource resource = resourceSet.createResource(uri, Autosar40ReleaseDescriptor.ARXML_CONTENT_TYPE_ID);
+		if (Platform.isRunning()) {
+			Resource originalResource = autosar.eResource();
+			if (originalResource == null)
+				throw new IllegalStateException("Autosar resource is null");
+			AUTOSAR copy = EcoreUtil.copy(autosar);
+			// if we don't unload the original model the additions will be seen in that one as well
+			originalResource.unload();			
+
+			resource.getContents().add(copy);
+			resource.save(Collections.EMPTY_MAP);
+		} else {
+			resource.getContents().add(autosar);
+			resource.save(Collections.emptyMap());
+		}
+ 
+		if (out != null)
+			out.println("Saved generated arxml-file as '" + uri + "'");
+
+		return true;
+	}
+
+	public boolean saveARXML(ResourceSet resourceSet, AUTOSAR autosar, String name) {
+		URI uri = URI.createFileURI(name);
+		try {
+			saveARXML(resourceSet, autosar, uri, System.out);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
+	}
 	
 //	/**
 //	 * Add some lines to a given XML file. 
