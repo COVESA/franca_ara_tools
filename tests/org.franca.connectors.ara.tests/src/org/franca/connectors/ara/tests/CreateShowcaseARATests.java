@@ -11,6 +11,7 @@ import org.junit.runner.RunWith;
 @InjectWith(FrancaIDLTestsInjectorProvider.class)
 public class CreateShowcaseARATests extends Franca2ARATestBase {
 
+	// TODO: currently the input models are copied, they should be taken from original repo instead
 	private static final String SHOWCASE_FRANCA_MODELS = "models/showcase/";
 
 	@Test
