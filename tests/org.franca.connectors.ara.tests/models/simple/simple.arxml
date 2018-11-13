@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/atls">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="55844377-5b9a-41d8-ae1f-327b5a88f795">
+      <SHORT-NAME>simple</SHORT-NAME>
+      <ELEMENTS>
+        <SERVICE-INTERFACE UUID="266095de-ce7c-445d-ab94-95c2c381cebf">
+          <SHORT-NAME>Simple01</SHORT-NAME>
+          <METHODS>
+            <CLIENT-SERVER-OPERATION UUID="bb4607ea-d2ee-4103-9cb6-52ed77fb8fa5">
+              <SHORT-NAME>callme</SHORT-NAME>
+              <ARGUMENTS>
+                <ARGUMENT-DATA-PROTOTYPE UUID="a030cd31-e9c2-4d68-9caa-c23fea133288">
+                  <SHORT-NAME>arg1</SHORT-NAME>
+                  <DIRECTION>IN</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+                <ARGUMENT-DATA-PROTOTYPE UUID="12b01ba4-5800-4b35-aa47-8e587363aedb">
+                  <SHORT-NAME>arg2</SHORT-NAME>
+                  <DIRECTION>IN</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+                <ARGUMENT-DATA-PROTOTYPE UUID="0c8cd253-2a30-4522-94ab-3cf221d9c346">
+                  <SHORT-NAME>ret1</SHORT-NAME>
+                  <DIRECTION>OUT</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+                <ARGUMENT-DATA-PROTOTYPE UUID="d7717bab-f697-4a3b-b1fa-078864bb5082">
+                  <SHORT-NAME>ret2</SHORT-NAME>
+                  <DIRECTION>OUT</DIRECTION>
+                </ARGUMENT-DATA-PROTOTYPE>
+              </ARGUMENTS>
+            </CLIENT-SERVER-OPERATION>
+          </METHODS>
+        </SERVICE-INTERFACE>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

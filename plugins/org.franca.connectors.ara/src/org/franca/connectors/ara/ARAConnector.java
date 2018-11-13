@@ -10,9 +10,12 @@ package org.franca.connectors.ara;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -31,6 +34,7 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import autosar40.autosartoplevelstructure.AUTOSAR;
+import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage;
 import autosar40.util.Autosar40Package;
 import autosar40.util.Autosar40ReleaseDescriptor;
 import autosar40.util.Autosar40ResourceFactoryImpl;
@@ -50,13 +54,17 @@ public class ARAConnector extends AbstractFrancaConnector {
 
 	@Override
 	public IModelContainer loadModel(String filename) {
-//		NodeType model = loadARAModel(createConfiguredResourceSet(), filename);
-//		if (model==null) {
-//			out.println("Error: Could not load DBus interface from file " + filename);
-//		} else {
-//			out.println("Loaded DBus interface " + model.getName());
-//		}
-		return new ARAModelContainer(null); //(model);
+		AUTOSAR model = loadARAModel(createConfiguredResourceSet(), filename);
+		if (model==null) {
+			out.println("Error: Could not load arxml model from file " + filename);
+		} else {
+			List<ARPackage> packages = model.getArPackages();
+			if (packages.isEmpty())
+				out.println("Loaded arxml model (no packages)");
+			else
+				out.println("Loaded arxml model (first package " + packages.get(0).getShortName() + ")");
+		}
+		return new ARAModelContainer(model);
 	}
 
 	@Override
@@ -78,7 +86,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 		
 		ARA2FrancaTransformation trafo = injector.getInstance(ARA2FrancaTransformation.class);
 		ARAModelContainer amodel = (ARAModelContainer)model;
-		FModel fmodel = null;//trafo.transform(amodel.model());
+		FModel fmodel = trafo.transform(amodel.model());
 		
 //		lastTransformationIssues = trafo.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
@@ -151,34 +159,21 @@ public class ARAConnector extends AbstractFrancaConnector {
 //		}
 //	}
 	
-//	private static NodeType loadARAModel (ResourceSet resourceSet, String fileName) {
-//		URI uri = FileHelper.createURI(fileName);
-////		URI uri = null;
-////		// try creating file URI first
-////		try {
-////			uri = URI.createFileURI(fileName);
-////		} catch (IllegalArgumentException e) {
-////			// didn't work out, try generic URI
-////			uri = URI.createURI(fileName);
-////		}
-//		Resource resource = resourceSet.createResource(uri);
-//
-//		HashMap<String,Object> options = new HashMap<String,Object>();
-//		options.put(XMLResource.OPTION_EXTENDED_META_DATA, Boolean.TRUE);
-//		options.put(XMLResource.OPTION_SCHEMA_LOCATION, "introspect.xsd");
-//		options.put(XMLResource.OPTION_URI_HANDLER, new DBusURIHandler());
-//		try {
-//			resource.load(options);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			//return null;
-//		}
-//
-//		if (resource.getContents().isEmpty())
-//			return null;
-//
-//		return ((DocumentRoot)resource.getContents().get(0)).getNode();
-//	}
+	private static AUTOSAR loadARAModel(ResourceSet resourceSet, String fileName) {
+		URI uri = URI.createFileURI(fileName);
+		
+		//ConnectorStandaloneSetup.doSetup();
+
+		if (Platform.isRunning()) {
+			// TODO
+//			ModelLoadManager.INSTANCE.loadFile(getIFileFromURI(uri),
+//					Autosar40ReleaseDescriptor.INSTANCE, false,
+//					new NullProgressMonitor());
+		}
+
+		Resource resource = resourceSet.getResource(uri, true);
+		return (AUTOSAR)resource.getContents().get(0);
+	}
 
 
 	private boolean saveARXML(
