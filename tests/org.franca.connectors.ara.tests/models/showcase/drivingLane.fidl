@@ -1,0 +1,36 @@
+package genivi.aasr.showcase
+
+/*
+ * Interface description of the detected driving lane. 
+ */
+interface IDrivingLane {
+	// Meta -----------------------------------------------
+	
+	version {
+		major 1
+		minor 0
+	}
+	
+	// Data Types -----------------------------------------
+	
+	// Type definition of a lane
+	struct LaneType {
+		UInt16 frameId
+		String frameHash
+		UInt32 lowerLeftPointX
+		UInt32 lowerLeftPointY
+		UInt32 lowerRightPointX
+		UInt32 lowerRightPointY
+		UInt32 intersectionPointX
+		UInt32 intersectionPointY
+	}
+	
+	// Mesages --------------------------------------------
+	
+	// Event-based communication of the detected lane
+	broadcast LaneDetected {
+		out {
+			LaneType drivingLane
+		}	
+	}
+}
