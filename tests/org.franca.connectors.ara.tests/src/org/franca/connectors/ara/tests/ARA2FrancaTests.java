@@ -9,7 +9,6 @@ import org.franca.core.dsl.FrancaIDLTestsInjectorProvider;
 import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca;
 import org.franca.core.framework.FrancaModelContainer;
-import org.franca.core.franca.FModel;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
