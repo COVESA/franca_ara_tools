@@ -1,0 +1,72 @@
+package genivi.aasr.showcase
+
+interface IVehicles {
+	// Meta -----------------------------------------------
+	
+	version {
+		major 1
+		minor 0
+	}
+	
+	// Data Types -----------------------------------------
+	
+	enumeration FloatingPointPrecision {
+		Bit32
+		Bit64
+	}
+	
+	/* Unions are not supported by the Adaptive AUTOSAR Demonstrator
+	 * as they were just added for the R18-10 release.
+	 * As a workaround I suggest to use a struct or a workaround on
+	 * ARXML level and code.
+	 */ 
+	union FlexibleFloatingPoint {
+		Float floatingPoint32Bit
+		Double floatingPoint64Bit
+	}
+	
+	struct FlexibleFloatingPointContainer {
+		FloatingPointPrecision precision
+		FlexibleFloatingPoint floatingPoint
+	}
+	
+	struct BoundingBox {
+		UInt32 topLeftX
+		UInt32 topLeftY
+		UInt32 width
+		UInt32 height
+	}
+	
+	map BoundingBoxes {
+		UInt8 to BoundingBox
+	}
+	
+	struct Vehicle {
+		// Vehicle Id used to search in the BoundingBoxes map
+		UInt8 id
+		FlexibleFloatingPointContainer currentDistance
+		FlexibleFloatingPointContainer collisionTime
+	}
+	
+	struct ListOfVehicles {
+		UInt16 frameId
+		String frameHash
+		Vehicle[] detectedVehicles
+		BoundingBoxes boxes
+	}
+	
+	// Mesages --------------------------------------------
+	
+	// Currently detected vehicles
+	attribute ListOfVehicles Vehicles
+	
+	// Method could be used to define the precision of the FlexibleFloatingPointContainer
+	method SetFloatingPointPrecision {
+		in {
+			FloatingPointPrecision precision
+		}
+		out {
+			Boolean rv
+		}
+	}
+}
