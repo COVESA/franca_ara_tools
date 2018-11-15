@@ -1,5 +1,8 @@
 package org.franca.connectors.ara.tests;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.eclipse.xtext.testing.InjectWith;
 import org.franca.connectors.ara.tests.util.Franca2ARATestBase;
 import org.franca.core.dsl.FrancaIDLTestsInjectorProvider;
@@ -18,6 +21,11 @@ public class Franca2ARATests extends Franca2ARATestBase {
 	@Test
 	public void test_20() {
 		transformAndCheck(LOCAL_FRANCA_MODELS, "simple");
+	}
+	
+	@Test
+	public void testSimpleStruct() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleStruct");
 	}
 	
 //	@Test
