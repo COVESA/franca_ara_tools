@@ -1,7 +1,6 @@
 package org.franca.connectors.ara
 
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
-import com.google.inject.Guice
 import javax.inject.Inject
 import org.franca.connectors.ara.franca2ara.ARAPackageCreator
 import org.franca.connectors.ara.franca2ara.ARAPrimitveTypesCreator
@@ -10,7 +9,9 @@ import org.franca.core.franca.FArgument
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
+import javax.inject.Singleton
 
+@Singleton
 class Franca2ARATransformation extends Franca2ARABase {
 
 	@Inject
@@ -19,10 +20,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 	private var extension ARATypeCreator araTypeCreator
 	@Inject
 	private var extension ARAPackageCreator araPackageCreator
-
-	new(){
-		Guice.createInjector.injectMembers(this)
-	}
 
 	def create fac.createAUTOSAR transform(FModel src) {
 		arPackages.add(createPrimitiveTypesPackage)
