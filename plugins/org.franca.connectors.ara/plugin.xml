@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension point="org.franca.core.dsl.francaValidator">
+      <validator
+            class="org.franca.connectors.ara.validator.ARACompatibilityValidator"
+            mode="FAST"
+            name="ARA compatibility validator">
+      </validator>
+   </extension>
+</plugin>
