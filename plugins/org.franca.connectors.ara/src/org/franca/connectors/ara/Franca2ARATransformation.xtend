@@ -10,6 +10,8 @@ import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
 import javax.inject.Singleton
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FBroadcast
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -30,6 +32,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	
 	def create fac.createServiceInterface transform(FInterface src) {
 		shortName = src.name
+		events.addAll(src.broadcasts.map[transform])
+		fields.addAll(src.attributes.map[transform])
 		methods.addAll(src.methods.map[transform])
 	}
 	
@@ -44,6 +48,21 @@ class Franca2ARATransformation extends Franca2ARABase {
 		//category = xxx
 		type = createDataTypeReference(arg.type)
 		direction = if (isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
+	}
+	
+	def create fac.createField transform(FAttribute src) {
+		shortName = src.name
+		type = src.type.createDataTypeReference
+		hasGetter = !src.noRead
+		hasNotifier = !src.noSubscriptions
+		hasSetter = !src.readonly
+	}
+	
+	def create fac.createVariableDataPrototype transform(FBroadcast src) {
+		shortName = src.name
+		if (!src.outArgs.empty) {
+			type = src.outArgs.get(0).type.createDataTypeReference
+		}
 	}
 	
 }
