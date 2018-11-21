@@ -1,6 +1,6 @@
-package simplestruct
+package simpleenum
 
-interface SimpleEnum{
+interface SimpleMap{
 
 	method callme {
 		in {
