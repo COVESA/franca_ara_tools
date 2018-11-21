@@ -1,7 +1,9 @@
 package org.franca.connectors.ara.franca2ara
 
+import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import java.util.Map
+import java.util.regex.Pattern
 import javax.inject.Singleton
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -16,10 +18,29 @@ class ARAPackageCreator extends Franca2ARABase {
 
 	val Map<FModel, ARPackage> fModel2Packages = newHashMap()
 	
-	def create fac.createARPackage createPackage(FModel fModel) {
-		val segments = fModel.name.split("\\.")
-		shortName = (if(segments === null) segments.get(0) else fModel.name)
-		fModel2Packages.put(fModel, it)
+	def ARPackage createPackageHierarchyForElementPackage(FModel fModel, AUTOSAR autosar) {
+		val segments = fModel.name.split(Pattern.quote("."))
+		var ARPackage elementPackage = null
+		if(!segments.nullOrEmpty){
+			var ARPackage currentParentPackage = null
+			for(segment : segments){
+				elementPackage = createPackageWithName(segment, currentParentPackage)
+				if(currentParentPackage === null){
+					autosar.arPackages.add(elementPackage)		
+				}
+				currentParentPackage = elementPackage
+			}
+		}else{
+			elementPackage = createPackageWithName(fModel.name, null)
+			autosar.arPackages.add(elementPackage)
+		}
+		fModel2Packages.put(fModel, elementPackage)
+		return elementPackage
+	}
+	
+	def create fac.createARPackage createPackageWithName(String name, ARPackage parent){
+		shortName = name
+		parent?.arPackages?.add(it)
 	}
 
 	def ARPackage findArPackageForFrancaElement(FModelElement fModelElement) {
