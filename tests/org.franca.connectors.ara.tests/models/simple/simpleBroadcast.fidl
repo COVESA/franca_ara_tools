@@ -1,0 +1,16 @@
+package genivi.aasr.showcase
+
+
+interface SimpleBroadcastTest {
+	
+	
+	// Mesages --------------------------------------------
+	
+	// Event-based communication of the detected lane
+	broadcast LaneDetected {
+		out {
+			Boolean booleanOut
+		}	
+	
+	}
+}
