@@ -1,0 +1,19 @@
+package simplestruct
+
+interface SimpleAarry {
+
+	method callme {
+		in {
+			UInt32[] uint32Array
+		}
+		out {
+			BoundingBox[] boundingBoxArray
+		}
+	}
+	
+	struct BoundingBox {
+		Int16[] int16Array	
+	}	
+	
+	
+}
