@@ -28,11 +28,16 @@ public class Franca2ARATests extends Franca2ARATestBase {
 		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleStruct");
 	}
 	
-//	@Test
-//	public void test_30() {
-//		transformAndCheck(LOCAL_FRANCA_MODELS, "30-SimpleAttribute");
-//	}
-//	
+	@Test
+	public void testSimpleAttribute() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleAttribute");
+	}
+	
+	@Test
+	public void testSimpleBroadcast() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleBroadcast");
+	}
+	
 //	@Test
 //	public void test_40() {
 //		transformAndCheck(LOCAL_FRANCA_MODELS, "40-PolymorphicStructs");

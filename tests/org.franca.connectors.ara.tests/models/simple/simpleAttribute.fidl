@@ -1,0 +1,10 @@
+package genivi.aasr.showcase
+
+
+interface SimpleAttributeTest {
+	
+	
+	attribute Boolean booleanAttribute
+	attribute String stringAttribute
+	
+}

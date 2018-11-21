@@ -116,7 +116,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 		return lastTransformationIssues;
 	}
 	
-	private ResourceSet createConfiguredResourceSet() {
+	private static ResourceSet createConfiguredResourceSet() {
 		// create new resource set
 //		ResourceSet resourceSet = new ResourceSetImpl();
 		
@@ -175,6 +175,10 @@ public class ARAConnector extends AbstractFrancaConnector {
 		return (AUTOSAR)resource.getContents().get(0);
 	}
 
+	public static AUTOSAR loadAraModel(String fileName) {
+		ResourceSet resourceSet = createConfiguredResourceSet();
+		return loadARAModel(resourceSet, fileName);
+	}
 
 	private boolean saveARXML(
 		ResourceSet resourceSet,
