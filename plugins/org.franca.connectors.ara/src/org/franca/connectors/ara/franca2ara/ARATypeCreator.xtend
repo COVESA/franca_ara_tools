@@ -12,6 +12,10 @@ import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
 
 import static extension org.franca.connectors.ara.franca2ara.ARATypeHelper.*
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FBasicTypeId
+import org.eclipse.emf.ecore.util.EcoreUtil
+import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {
@@ -50,6 +54,42 @@ class ARATypeCreator extends Franca2ARABase {
 		it.ARPackage = fStructType.findArPackageForFrancaElement
 	}
 	
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FEnumerationType fEnumerationTyppe){
+		val enumCompuMethod = fEnumerationTyppe.createCompuMethod
+		val arPackage = findArPackageForFrancaElement(fEnumerationTyppe)
+		enumCompuMethod.ARPackage = arPackage
+		it.ARPackage = arPackage
+		shortName = fEnumerationTyppe.name
+		it.category = "TYPE_REFERENCE"
+		it.swDataDefProps = fac.createSwDataDefProps =>[
+			swDataDefPropsVariants += fac.createSwDataDefPropsConditional =>[
+				compuMethod = enumCompuMethod
+				implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
+			]
+		]
+	}
+	
+	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationTyppe){
+		shortName = fEnumerationTyppe.name + "_CompuMethod"
+		it.category = "TEXTABLE"
+		val compuScalesForEnum = fEnumerationTyppe.enumerators.map[enumerator|
+			fac.createCompuScale =>[ compuScale|
+				compuScale.symbol = enumerator.name
+				val limitText = String.format("0x%02X", fEnumerationTyppe.enumerators.indexOf(enumerator)+1)
+				val arLimit = fac.createLimitValueVariationPoint =>[
+					it.intervalType = IntervalTypeEnum.CLOSED 
+					it.mixedText = limitText
+				]
+				compuScale.lowerLimit = EcoreUtil.copy(arLimit)
+				compuScale.upperLimit = arLimit
+		]]
+		it.compuInternalToPhys = fac.createCompu =>[
+			it.compuContent = fac.createCompuScales =>[
+				it.compuScales.addAll(compuScalesForEnum)
+			]
+		]
+	}
+	
 	def private create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FField fField) {
 		it.shortName = fField.name
 		if (fField.isArray) {
@@ -68,5 +108,7 @@ class ARATypeCreator extends Franca2ARABase {
 		dataDefProps.swDataDefPropsVariants += dataDefPropsConditional
 		it.swDataDefProps = dataDefProps
 	}
+	
+	
 
 }
