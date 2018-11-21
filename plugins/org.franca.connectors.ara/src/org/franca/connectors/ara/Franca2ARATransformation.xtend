@@ -25,9 +25,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	def create fac.createAUTOSAR transform(FModel src) {
 		arPackages.add(createPrimitiveTypesPackage)
-		val pkg = src.createPackage
-		arPackages.add(pkg)
-		pkg.elements.addAll(src.interfaces.map[transform])
+		val elementPackage = src.createPackageHierarchyForElementPackage(it)
+		elementPackage.elements.addAll(src.interfaces.map[transform])
 	}
 	
 	def create fac.createServiceInterface transform(FInterface src) {
