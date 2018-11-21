@@ -13,6 +13,7 @@ import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
+import org.franca.core.franca.FMapType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
@@ -28,16 +29,18 @@ class ARATypeCreator extends Franca2ARABase {
 	var extension ARAPrimitveTypesCreator
 	@Inject
 	var extension ARAPackageCreator
-	
+
+	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
+
 	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
-		if(fTypedElement===null || !fTypedElement.isArray){
+		if (fTypedElement === null || !fTypedElement.isArray) {
 			return fTypeRef.createDataTypeReference
-		}else{
+		} else {
 			val arrayType = fTypeRef.createArrayTypeForTypedElement(fTypedElement)
 			return arrayType
 		}
 	}
-	
+
 	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef) {
 		if (fTypeRef.refsPrimitiveType) {
 			getBaseTypeForReference(fTypeRef.predefined)
@@ -55,96 +58,120 @@ class ARATypeCreator extends Franca2ARABase {
 			warn('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null
 	}
-	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
-		// use FCompoundType in order to deal with union and struct types (unions are treated like structs)
-		FCompoundType fStructType) {
+
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference( // use FCompoundType in order to deal with union and struct types (unions are treated like structs)
+	FCompoundType fStructType) {
 		it.shortName = fStructType.name
 		it.category = "STRUCTURE"
 		val typeRefs = fStructType.elements.map[it.createImplementationDataTypeElement]
 		it.subElements.addAll(typeRefs)
 		it.ARPackage = fStructType.findArPackageForFrancaElement
 	}
-	
-	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FEnumerationType fEnumerationTyppe){
+
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
+		FEnumerationType fEnumerationTyppe) {
 		val enumCompuMethod = fEnumerationTyppe.createCompuMethod
 		val arPackage = findArPackageForFrancaElement(fEnumerationTyppe)
 		enumCompuMethod.ARPackage = arPackage
 		it.ARPackage = arPackage
 		shortName = fEnumerationTyppe.name
 		it.category = "TYPE_REFERENCE"
-		it.swDataDefProps = fac.createSwDataDefProps =>[
-			swDataDefPropsVariants += fac.createSwDataDefPropsConditional =>[
+		it.swDataDefProps = fac.createSwDataDefProps => [
+			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				compuMethod = enumCompuMethod
 				implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
 			]
 		]
 	}
-	
-	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationTyppe){
+
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
+		it.shortName = fMapType.name
+		it.category = "ASSOCIATIVE_MAP"
+		it.subElements += fac.createImplementationDataTypeElement => [
+			shortName = "keyType"
+			category = "TYPE_REFERENCE"
+			it.swDataDefProps = fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					implementationDataType = fMapType.keyType.createDataTypeReference as ImplementationDataType
+				]
+			]
+		]
+		it.subElements += fac.createImplementationDataTypeElement => [
+			shortName = "valueType"
+			category = "TYPE_REFERENCE"
+			it.swDataDefProps = fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					implementationDataType = fMapType.valueType.createDataTypeReference as ImplementationDataType
+				]
+			]
+		]
+		it.ARPackage = findArPackageForFrancaElement(fMapType)
+	}
+
+	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationTyppe) {
 		shortName = fEnumerationTyppe.name + "_CompuMethod"
 		it.category = "TEXTABLE"
-		val compuScalesForEnum = fEnumerationTyppe.enumerators.map[enumerator|
-			fac.createCompuScale =>[ compuScale|
+		val compuScalesForEnum = fEnumerationTyppe.enumerators.map [ enumerator |
+			fac.createCompuScale => [ compuScale |
 				compuScale.symbol = enumerator.name
-				val limitText = String.format("0x%02X", fEnumerationTyppe.enumerators.indexOf(enumerator)+1)
-				val arLimit = fac.createLimitValueVariationPoint =>[
-					it.intervalType = IntervalTypeEnum.CLOSED 
+				val limitText = String.format("0x%02X", fEnumerationTyppe.enumerators.indexOf(enumerator) + 1)
+				val arLimit = fac.createLimitValueVariationPoint => [
+					it.intervalType = IntervalTypeEnum.CLOSED
 					it.mixedText = limitText
 				]
 				compuScale.lowerLimit = EcoreUtil.copy(arLimit)
 				compuScale.upperLimit = arLimit
-		]]
-		it.compuInternalToPhys = fac.createCompu =>[
-			it.compuContent = fac.createCompuScales =>[
+			]
+		]
+		it.compuInternalToPhys = fac.createCompu => [
+			it.compuContent = fac.createCompuScales => [
 				it.compuScales.addAll(compuScalesForEnum)
 			]
 		]
 	}
-	
+
 	def private create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FField fField) {
 		it.shortName = fField.name
 		it.category = "TYPE_REFERENCE"
 		val dataDefProps = fac.createSwDataDefProps
-		val dataDefPropsConditional = fac.createSwDataDefPropsConditional 
+		val dataDefPropsConditional = fac.createSwDataDefPropsConditional
 		val typeRef = createDataTypeReference(fField.type, fField)
-		if(typeRef instanceof ImplementationDataType){
-			dataDefPropsConditional.implementationDataType = typeRef	
-		}else{
+		if (typeRef instanceof ImplementationDataType) {
+			dataDefPropsConditional.implementationDataType = typeRef
+		} else {
 			logger.warn("Cannot set implementation data type for element '" + it.shortName + "'.")
 		}
 		dataDefProps.swDataDefPropsVariants += dataDefPropsConditional
 		it.swDataDefProps = dataDefProps
 	}
-	
-	val Map<String,ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
-	
-	def private ImplementationDataType createArrayTypeForTypedElement(FTypeRef fTypeRef, FTypedElement fTypedElement){
-		val nameOfArrayType = fTypeRef.nameOfReferencedType + "Vector" 
-		if(arrayTypeNameToImplementationDataType.containsKey(nameOfArrayType)){
+
+	def private ImplementationDataType createArrayTypeForTypedElement(FTypeRef fTypeRef, FTypedElement fTypedElement) {
+		val nameOfArrayType = fTypeRef.nameOfReferencedType + "Vector"
+		if (arrayTypeNameToImplementationDataType.containsKey(nameOfArrayType)) {
 			return arrayTypeNameToImplementationDataType.get(nameOfArrayType)
 		}
 		val vectorImplementationDataType = fac.createImplementationDataType
 		arrayTypeNameToImplementationDataType.put(nameOfArrayType, vectorImplementationDataType)
-		vectorImplementationDataType.shortName =  nameOfArrayType
+		vectorImplementationDataType.shortName = nameOfArrayType
 		vectorImplementationDataType.category = "VECTOR"
 		vectorImplementationDataType.ARPackage = findArPackageForFrancaElement(fTypedElement)
-		vectorImplementationDataType.subElements += fac.createImplementationDataTypeElement =>[
+		vectorImplementationDataType.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
 			it.category = "TYPE_REFERENCE"
-			swDataDefProps = fac.createSwDataDefProps =>[
-				swDataDefPropsVariants += fac.createSwDataDefPropsConditional =>[
+			swDataDefProps = fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 					implementationDataType = fTypeRef.createDataTypeReference as ImplementationDataType
 				]
 			]
 		]
 		return vectorImplementationDataType
 	}
-	
-	def private getNameOfReferencedType(FTypeRef fTypeRef){
-		if(fTypeRef.refsPrimitiveType){
+
+	def private getNameOfReferencedType(FTypeRef fTypeRef) {
+		if (fTypeRef.refsPrimitiveType) {
 			return fTypeRef.predefined.getName
-		}else{
-			return fTypeRef.derived.name  
+		} else {
+			return fTypeRef.derived.name
 		}
 	}
 

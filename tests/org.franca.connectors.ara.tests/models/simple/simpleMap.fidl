@@ -1,0 +1,24 @@
+package simplesmap
+
+interface SimpleMap{
+
+	method callme {
+		in {
+			BoundingBoxes boundingBoxesIn
+		}out{
+			BoundingBox boundingBoxOut
+		}
+	}
+	
+	struct BoundingBox {
+		UInt32 topLeftX
+		UInt32 topLeftY
+		UInt32 width
+		UInt32 height
+	}
+	
+	map BoundingBoxes {
+		UInt8 to BoundingBox
+	}
+	
+}
