@@ -45,13 +45,13 @@ class Franca2ARATransformation extends Franca2ARABase {
 	def create fac.createArgumentDataPrototype transform(FArgument arg, boolean isIn) {
 		shortName = arg.name
 		//category = xxx
-		type = createDataTypeReference(arg.type)
+		type = createDataTypeReference(arg.type, arg)
 		direction = if (isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
 	}
 	
 	def create fac.createField transform(FAttribute src) {
 		shortName = src.name
-		type = src.type.createDataTypeReference
+		type = src.type.createDataTypeReference(src)
 		hasGetter = !src.noRead
 		hasNotifier = !src.noSubscriptions
 		hasSetter = !src.readonly
@@ -60,7 +60,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	def create fac.createVariableDataPrototype transform(FBroadcast src) {
 		shortName = src.name
 		if (!src.outArgs.empty) {
-			type = src.outArgs.get(0).type.createDataTypeReference
+			type = src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
 		}
 	}
 	

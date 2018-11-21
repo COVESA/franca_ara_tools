@@ -1,21 +1,23 @@
 package org.franca.connectors.ara.franca2ara
 
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
+import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
+import java.util.Map
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.apache.log4j.Logger
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.connectors.ara.Franca2ARABase
+import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
+import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
+import org.franca.core.franca.FTypedElement
 
 import static extension org.franca.connectors.ara.franca2ara.ARATypeHelper.*
-import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FBasicTypeId
-import org.eclipse.emf.ecore.util.EcoreUtil
-import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {
@@ -27,7 +29,16 @@ class ARATypeCreator extends Franca2ARABase {
 	@Inject
 	var extension ARAPackageCreator
 	
-	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef) {
+	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
+		if(fTypedElement===null || !fTypedElement.isArray){
+			return fTypeRef.createDataTypeReference
+		}else{
+			val arrayType = fTypeRef.createArrayTypeForTypedElement(fTypedElement)
+			return arrayType
+		}
+	}
+	
+	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef) {
 		if (fTypeRef.refsPrimitiveType) {
 			getBaseTypeForReference(fTypeRef.predefined)
 		} else {
@@ -92,14 +103,10 @@ class ARATypeCreator extends Franca2ARABase {
 	
 	def private create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FField fField) {
 		it.shortName = fField.name
-		if (fField.isArray) {
-			logger.
-				warn('''Can not create Autosar array for the Franca field "«fField.name»", because arrays are not yet supported,''')
-		}
 		it.category = "TYPE_REFERENCE"
 		val dataDefProps = fac.createSwDataDefProps
 		val dataDefPropsConditional = fac.createSwDataDefPropsConditional 
-		val typeRef = createDataTypeReference(fField.type)
+		val typeRef = createDataTypeReference(fField.type, fField)
 		if(typeRef instanceof ImplementationDataType){
 			dataDefPropsConditional.implementationDataType = typeRef	
 		}else{
@@ -109,6 +116,36 @@ class ARATypeCreator extends Franca2ARABase {
 		it.swDataDefProps = dataDefProps
 	}
 	
+	val Map<String,ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
 	
+	def private ImplementationDataType createArrayTypeForTypedElement(FTypeRef fTypeRef, FTypedElement fTypedElement){
+		val nameOfArrayType = fTypeRef.nameOfReferencedType + "Vector" 
+		if(arrayTypeNameToImplementationDataType.containsKey(nameOfArrayType)){
+			return arrayTypeNameToImplementationDataType.get(nameOfArrayType)
+		}
+		val vectorImplementationDataType = fac.createImplementationDataType
+		arrayTypeNameToImplementationDataType.put(nameOfArrayType, vectorImplementationDataType)
+		vectorImplementationDataType.shortName =  nameOfArrayType
+		vectorImplementationDataType.category = "VECTOR"
+		vectorImplementationDataType.ARPackage = findArPackageForFrancaElement(fTypedElement)
+		vectorImplementationDataType.subElements += fac.createImplementationDataTypeElement =>[
+			shortName = "valueType"
+			it.category = "TYPE_REFERENCE"
+			swDataDefProps = fac.createSwDataDefProps =>[
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional =>[
+					implementationDataType = fTypeRef.createDataTypeReference as ImplementationDataType
+				]
+			]
+		]
+		return vectorImplementationDataType
+	}
+	
+	def private getNameOfReferencedType(FTypeRef fTypeRef){
+		if(fTypeRef.refsPrimitiveType){
+			return fTypeRef.predefined.getName
+		}else{
+			return fTypeRef.derived.name  
+		}
+	}
 
 }
