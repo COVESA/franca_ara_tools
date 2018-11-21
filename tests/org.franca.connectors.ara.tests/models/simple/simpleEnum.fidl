@@ -1,0 +1,16 @@
+package simplestruct
+
+interface SimpleEnum{
+
+	method callme {
+		in {
+			EnumTest enumArgument1
+		}
+	}
+	
+	enumeration EnumTest{
+		enumContent1
+		enumContent2
+	}
+	
+}

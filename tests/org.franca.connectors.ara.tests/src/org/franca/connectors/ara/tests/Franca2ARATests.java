@@ -38,6 +38,11 @@ public class Franca2ARATests extends Franca2ARATestBase {
 		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleBroadcast");
 	}
 	
+	@Test
+	public void testSimpleEnum() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleEnum");
+	}
+	
 //	@Test
 //	public void test_40() {
 //		transformAndCheck(LOCAL_FRANCA_MODELS, "40-PolymorphicStructs");
