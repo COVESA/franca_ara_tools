@@ -29,6 +29,8 @@ class ARATypeCreator extends Franca2ARABase {
 	var extension ARAPrimitveTypesCreator
 	@Inject
 	var extension ARAPackageCreator
+	@Inject
+	var extension ARANamespaceCreator
 
 	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
 
@@ -50,7 +52,17 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def private AutosarDataType getDataTypeForReference(FType type) {
-		return type.createDataTypeForReference
+		val autosarType = type.createDataTypeForReference
+		autosarType.createImplementationDataTypeExtension
+		return autosarType
+	}
+
+	def private create fac.createImplementationDataTypeExtension createImplementationDataTypeExtension(
+		AutosarDataType autosarType) {
+		it.shortName = autosarType.shortName + "Ext"
+		it.implementationDataType = autosarType as ImplementationDataType
+		it.namespaces.addAll(autosarType.createNamespaceForElement)
+		autosarType.ARPackage.elements.add(it)
 	}
 
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
@@ -63,7 +75,9 @@ class ARATypeCreator extends Franca2ARABase {
 	FCompoundType fStructType) {
 		it.shortName = fStructType.name
 		it.category = "STRUCTURE"
-		val typeRefs = fStructType.elements.map[it.createImplementationDataTypeElement]
+		val typeRefs = fStructType.elements.map [
+			it.createImplementationDataTypeElement
+		]
 		it.subElements.addAll(typeRefs)
 		it.ARPackage = fStructType.findArPackageForFrancaElement
 	}
@@ -108,7 +122,7 @@ class ARATypeCreator extends Franca2ARABase {
 		it.ARPackage = findArPackageForFrancaElement(fMapType)
 	}
 
-	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationTyppe) {
+	def private create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationTyppe) {
 		shortName = fEnumerationTyppe.name + "_CompuMethod"
 		it.category = "TEXTABLE"
 		val compuScalesForEnum = fEnumerationTyppe.enumerators.map [ enumerator |
@@ -164,6 +178,7 @@ class ARATypeCreator extends Franca2ARABase {
 				]
 			]
 		]
+		vectorImplementationDataType.createImplementationDataTypeExtension
 		return vectorImplementationDataType
 	}
 
