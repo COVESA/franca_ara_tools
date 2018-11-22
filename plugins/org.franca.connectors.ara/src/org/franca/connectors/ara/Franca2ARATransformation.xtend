@@ -1,17 +1,19 @@
 package org.franca.connectors.ara
 
+import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
 import javax.inject.Inject
+import javax.inject.Singleton
+import org.franca.connectors.ara.franca2ara.ARANamespaceCreator
 import org.franca.connectors.ara.franca2ara.ARAPackageCreator
 import org.franca.connectors.ara.franca2ara.ARAPrimitveTypesCreator
 import org.franca.connectors.ara.franca2ara.ARATypeCreator
 import org.franca.core.franca.FArgument
+import org.franca.core.franca.FAttribute
+import org.franca.core.franca.FBroadcast
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
-import javax.inject.Singleton
-import org.franca.core.franca.FAttribute
-import org.franca.core.franca.FBroadcast
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -22,17 +24,20 @@ class Franca2ARATransformation extends Franca2ARABase {
 	private var extension ARATypeCreator araTypeCreator
 	@Inject
 	private var extension ARAPackageCreator araPackageCreator
+	@Inject
+	private var extension ARANamespaceCreator
 
 	def create fac.createAUTOSAR transform(FModel src) {
 		arPackages.add(createPrimitiveTypesPackage)
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)
-		elementPackage.elements.addAll(src.interfaces.map[transform])
+		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
 	}
 	
-	def create fac.createServiceInterface transform(FInterface src) {
+	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
 		shortName = src.name
 		events.addAll(src.broadcasts.map[transform])
 		fields.addAll(src.attributes.map[transform])
+		namespaces.addAll(targetPackage.createNamespaceForPackage)
 		methods.addAll(src.methods.map[transform])
 	}
 	
