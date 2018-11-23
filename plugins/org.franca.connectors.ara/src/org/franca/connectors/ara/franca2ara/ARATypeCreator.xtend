@@ -124,7 +124,7 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def private create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationTyppe) {
 		shortName = fEnumerationTyppe.name + "_CompuMethod"
-		it.category = "TEXTABLE"
+		it.category = "TEXTTABLE"
 		val compuScalesForEnum = fEnumerationTyppe.enumerators.map [ enumerator |
 			fac.createCompuScale => [ compuScale |
 				compuScale.symbol = enumerator.name
