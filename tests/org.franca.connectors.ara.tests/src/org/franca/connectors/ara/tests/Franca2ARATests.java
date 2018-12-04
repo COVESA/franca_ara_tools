@@ -1,8 +1,5 @@
 package org.franca.connectors.ara.tests;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.eclipse.xtext.testing.InjectWith;
 import org.franca.connectors.ara.tests.util.Franca2ARATestBase;
 import org.franca.core.dsl.FrancaIDLTestsInjectorProvider;
