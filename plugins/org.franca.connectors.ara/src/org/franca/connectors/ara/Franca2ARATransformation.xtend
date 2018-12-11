@@ -28,7 +28,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	private var extension ARANamespaceCreator
 
 	def create fac.createAUTOSAR transform(FModel src) {
-		createPrimitiveTypesPackage
+		createPrimitiveTypesPackage(null)
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
 		// arPackages.add(createPrimitiveTypesPackage)
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)

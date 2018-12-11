@@ -13,16 +13,13 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
+import org.artop.aal.common.resource.impl.AutosarResourceSetImpl;
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.sphinx.emf.metamodel.MetaModelDescriptorRegistry;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.franca.core.framework.AbstractFrancaConnector;
 import org.franca.core.framework.FrancaModelContainer;
 import org.franca.core.framework.IModelContainer;
@@ -45,6 +42,9 @@ public class ARAConnector extends AbstractFrancaConnector {
 
 	private String fileExtension = "arxml";
 
+	//todo: use a more reliable path
+	private static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.franca.connectors.ara/models/stdtypes.arxml";
+
 	private Set<TransformationIssue> lastTransformationIssues = null;
 
 	/** constructor */
@@ -54,7 +54,12 @@ public class ARAConnector extends AbstractFrancaConnector {
 
 	@Override
 	public IModelContainer loadModel(String filename) {
-		AUTOSAR model = loadARAModel(createConfiguredResourceSet(), filename);
+		return loadModel(createConfiguredResourceSet(), filename);
+	}
+
+	public IModelContainer loadModel(ResourceSet resourceSet, String filename) {
+		AUTOSAR primitiveTypesModel = loadARAModel(resourceSet, PATH_TO_STD_ARXML_FILES);
+		AUTOSAR model = loadARAModel(resourceSet, filename);
 		if (model==null) {
 			out.println("Error: Could not load arxml model from file " + filename);
 		} else {
@@ -64,7 +69,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 			else
 				out.println("Loaded arxml model (first package " + packages.get(0).getShortName() + ")");
 		}
-		return new ARAModelContainer(model);
+		return new ARAModelContainer(model, primitiveTypesModel);
 	}
 
 	@Override
@@ -77,17 +82,16 @@ public class ARAConnector extends AbstractFrancaConnector {
 		return saveARXML(createConfiguredResourceSet(), mc.model()/*, mc.getComments()*/, filename);
 	}
 
-	
 	@Override
 	public FrancaModelContainer toFranca(IModelContainer model) {
 		if (! (model instanceof ARAModelContainer)) {
 			return null;
 		}
-		
+
 		ARA2FrancaTransformation trafo = injector.getInstance(ARA2FrancaTransformation.class);
 		ARAModelContainer amodel = (ARAModelContainer)model;
 		FModel fmodel = trafo.transform(amodel.model());
-		
+
 //		lastTransformationIssues = trafo.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
 
@@ -102,36 +106,36 @@ public class ARAConnector extends AbstractFrancaConnector {
 		// do the actual transformation
 		Franca2ARATransformation trafo = injector.getInstance(Franca2ARATransformation.class);
 		AUTOSAR amodel = trafo.transform(fmodel);
-		
+
 		// report issues
 //		lastTransformationIssues = trafo.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
 
 		// create the model container and add some comments to the model
-		ARAModelContainer mc = new ARAModelContainer(amodel);
+		ARAModelContainer mc = new ARAModelContainer(amodel, null);
 		return mc;
 	}
-	
+
 	public Set<TransformationIssue> getLastTransformationIssues() {
 		return lastTransformationIssues;
 	}
-	
+
 	private static ResourceSet createConfiguredResourceSet() {
 		// create new resource set
 //		ResourceSet resourceSet = new ResourceSetImpl();
-		
+
 		// register the appropriate resource factory to handle all file extensions for Dbus
 //		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new DbusxmlResourceFactoryImpl());
 //		resourceSet.getPackageRegistry().put(DbusxmlPackage.eNS_URI, DbusxmlPackage.eINSTANCE);
-		
+
 		// next line needs to stay because side effects.
 		Autosar40Package autosar40Package = Autosar40Package.eINSTANCE;
 
-		//ResourceSet resourceSet = new StandaloneResourceSet();
-		ResourceSet resourceSet = new XtextResourceSet();
-		
+		ResourceSet resourceSet = new AutosarResourceSetImpl();
+
 		if (MetaModelDescriptorRegistry.INSTANCE.getDescriptors(Autosar40ReleaseDescriptor.INSTANCE.getIdentifier()).isEmpty())
 			MetaModelDescriptorRegistry.INSTANCE.addDescriptor(Autosar40ReleaseDescriptor.INSTANCE);
+
 		if (!Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().containsKey(
 						Autosar40ReleaseDescriptor.ARXML_DEFAULT_FILE_EXTENSION)) {
 			Resource.Factory arFactory = new Autosar40ResourceFactoryImpl();
@@ -139,7 +143,12 @@ public class ARAConnector extends AbstractFrancaConnector {
 				Autosar40ReleaseDescriptor.ARXML_DEFAULT_FILE_EXTENSION,
 				arFactory
 			);
+
+			resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put(
+					Autosar40ReleaseDescriptor.ARXML_DEFAULT_FILE_EXTENSION,
+					arFactory);
 		}
+
 		return resourceSet;
 	}
 	
@@ -159,7 +168,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 //		}
 //	}
 	
-	private static AUTOSAR loadARAModel(ResourceSet resourceSet, String fileName) {
+	public static AUTOSAR loadARAModel(ResourceSet resourceSet, String fileName) {
 		URI uri = URI.createFileURI(fileName);
 		
 		//ConnectorStandaloneSetup.doSetup();
@@ -175,7 +184,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 		return (AUTOSAR)resource.getContents().get(0);
 	}
 
-	public static AUTOSAR loadAraModel(String fileName) {
+	public static AUTOSAR loadARAModel(String fileName) {
 		ResourceSet resourceSet = createConfiguredResourceSet();
 		return loadARAModel(resourceSet, fileName);
 	}

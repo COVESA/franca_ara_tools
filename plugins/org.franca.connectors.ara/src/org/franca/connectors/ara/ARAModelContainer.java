@@ -11,14 +11,21 @@ import org.franca.core.framework.IModelContainer;
 import autosar40.autosartoplevelstructure.AUTOSAR;
 
 public class ARAModelContainer implements IModelContainer {
+
+	private AUTOSAR primitiveTypesModel = null;
 	private AUTOSAR model = null;
 	
-	public ARAModelContainer(AUTOSAR model) {
+	public ARAModelContainer(AUTOSAR model, AUTOSAR primitiveTypesModel) {
+		this.primitiveTypesModel = primitiveTypesModel;
 		this.model = model;
+	}
+	
+	public AUTOSAR primitiveTypesModel() {
+		return primitiveTypesModel;
 	}
 	
 	public AUTOSAR model() {
 		return model;
 	}
 	
- }
+}

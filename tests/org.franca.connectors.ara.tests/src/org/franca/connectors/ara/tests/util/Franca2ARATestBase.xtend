@@ -4,6 +4,7 @@ import com.google.inject.Inject
 import org.franca.connectors.ara.ARAConnector
 import org.franca.connectors.ara.ARAModelContainer
 import org.franca.core.dsl.FrancaPersistenceManager
+import org.franca.core.framework.FrancaModelContainer
 
 import static org.junit.Assert.assertNotNull
 
@@ -32,6 +33,10 @@ class Franca2ARATestBase {
 		val fromFranca = conn.fromFranca(fmodel) as ARAModelContainer
 		conn.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
 		
+		// transform to Franca IDL
+		val fmodel2 = conn.toFranca(fromFranca) as FrancaModelContainer
+		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
+
 		if (check) {
 			// load reference arxml file
 			val referenceFile = "model/reference/" + fileBasename + ".arxml"
