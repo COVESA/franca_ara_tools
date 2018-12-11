@@ -13,13 +13,18 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.xerces.dom.EntityReferenceImpl;
 import org.artop.aal.common.resource.impl.AutosarResourceSetImpl;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.sphinx.emf.ecore.proxymanagement.IProxyResolverService;
+import org.eclipse.sphinx.emf.metamodel.IMetaModelDescriptor;
 import org.eclipse.sphinx.emf.metamodel.MetaModelDescriptorRegistry;
+import org.eclipse.sphinx.emf.resource.ExtendedResourceSetImpl;
 import org.franca.core.framework.AbstractFrancaConnector;
 import org.franca.core.framework.FrancaModelContainer;
 import org.franca.core.framework.IModelContainer;
@@ -122,16 +127,20 @@ public class ARAConnector extends AbstractFrancaConnector {
 
 	private static ResourceSet createConfiguredResourceSet() {
 		// create new resource set
-//		ResourceSet resourceSet = new ResourceSetImpl();
+		ResourceSet resourceSet = new ExtendedResourceSetImpl() {
+			@Override
+			protected IProxyResolverService getProxyResolverService(IMetaModelDescriptor descriptor) {
+				return null;
+			}
+		};
+		
+		// next line needs to stay because side effects.
+		Autosar40Package autosar40Package = Autosar40Package.eINSTANCE;
+//		EPackage.Registry.INSTANCE.put(autosar40Package.eNS_URI, autosar40Package);
 
 		// register the appropriate resource factory to handle all file extensions for Dbus
 //		resourceSet.getResourceFactoryRegistry().getExtensionToFactoryMap().put("xml", new DbusxmlResourceFactoryImpl());
 //		resourceSet.getPackageRegistry().put(DbusxmlPackage.eNS_URI, DbusxmlPackage.eINSTANCE);
-
-		// next line needs to stay because side effects.
-		Autosar40Package autosar40Package = Autosar40Package.eINSTANCE;
-
-		ResourceSet resourceSet = new AutosarResourceSetImpl();
 
 		if (MetaModelDescriptorRegistry.INSTANCE.getDescriptors(Autosar40ReleaseDescriptor.INSTANCE.getIdentifier()).isEmpty())
 			MetaModelDescriptorRegistry.INSTANCE.addDescriptor(Autosar40ReleaseDescriptor.INSTANCE);
