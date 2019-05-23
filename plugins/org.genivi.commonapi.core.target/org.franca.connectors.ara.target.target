@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target name="Franca Ara Connector" sequenceNumber="33">
+<locations>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.franca.ui.sdk.feature.group" version="0.13.1.201807231814"/>
+<unit id="org.franca.core.sdk.feature.group" version="0.13.1.201807231814"/>
+<repository location="http://franca.github.io/franca/update_site/releases"/>
+	<unit id="org.franca.core.feature.group" version="0.13.1.201807231814"/>
+	<unit id="org.franca.providers.feature.group" version="0.13.1.201807231814"/>
+	<unit id="org.franca.providers.sdk.feature.group" version="0.13.1.201807231814"/>
+	<unit id="org.franca.ui.feature.group" version="0.13.1.201807231814"/>
+</location>
+<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+<unit id="org.eclipse.platform.sdk" version="4.4.1.M20140925-0400"/>
+<unit id="org.eclipse.equinox.sdk.feature.group" version="3.10.0.v20140909-1633"/>
+<unit id="org.eclipse.e4.rcp.R441patch.feature.group" version="1.0.0"/>
+<unit id="org.eclipse.equinox.core.sdk.R441patch.feature.group" version="1.0.0"/>
+<unit id="org.eclipse.equinox.core.feature.R441patch.feature.group" version="1.0.0"/>
+<unit id="org.eclipse.equinox.server.core.R441patch.feature.group" version="1.0.0"/>
+<repository location="http://download.eclipse.org/eclipse/updates/4.4/"/>
+</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<unit id="org.eclipse.xtend.sdk.feature.group" version="2.12.0.v20170519-1412"/>
+		<repository location="https://download.eclipse.org/releases/oxygen/"/>
+		<unit id="org.eclipse.xtext.sdk.feature.group" version="2.12.0.v20170519-1412"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<unit id="org.artop.base.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.base.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar215.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar315.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar321.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar322.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar402.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar403.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar411.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar412.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar421.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar422.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar430.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar442.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar443.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar444.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.autosar445.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.converters.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.examples.autosar412.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel215.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel315.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel321.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel322.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel402.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel403.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel411.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel412.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel421.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel422.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel430.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel442.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel443.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel444.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodel445.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.metamodels.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.viatra.query.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.viatra.query21.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.viatra.query3x.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.viatra.query40.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.core.workspace.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.accessors.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.accessors421.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.accessors422.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.accessors430.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.accessors442.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.examples.accessors421.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.examples.accessors422.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.examples.accessors430.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.examples.accessors442.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.initializers.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.ecuc.xtendxpand.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.eel.feature.group" version="1.1.0.201706291244"/>
+		<unit id="org.artop.eel.sdk.feature.group" version="1.1.0.201706291244"/>
+		<unit id="org.artop.examples.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.examples.installable.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.sdk.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.thirdparty.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation.constraints.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation.examples.check421.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation.examples.check422.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation.examples.check430.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation.examples.check442.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation315.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation321.feature.group" version="4.10.0.201804260849"/>
+		<unit id="org.artop.validation322.feature.group" version="4.10.0.201804260849"/>
+		<repository location="https://www.artop.org/containers/artop-sdk-update-site-4.10"/>
+	</location>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<unit id="org.eclipse.sphinx.examples.feature.group" version="0.11.0.201706140911"/>
+		<unit id="org.eclipse.sphinx.examples.viatra.query.feature.group" version="0.11.0.201706140911"/>
+		<unit id="org.eclipse.sphinx.feature.group" version="0.11.0.201706140911"/>
+		<unit id="org.eclipse.sphinx.sdk.feature.group" version="0.11.0.201706140911"/>
+		<unit id="org.eclipse.sphinx.viatra.query.feature.group" version="0.11.0.201706140911"/>
+		<unit id="org.eclipse.sphinx.viatra.query.sdk.feature.group" version="0.11.0.201706140911"/>
+		<repository location="http://download.eclipse.org/sphinx/releases/0.11.x"/>
+	</location>
+</locations>
+<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+</target>
