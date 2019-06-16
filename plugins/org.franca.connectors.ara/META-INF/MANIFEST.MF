@@ -19,5 +19,6 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.franca.connectors.ara,
+ org.franca.connectors.ara.preferences,
  org.franca.connectors.ara.validator
 Import-Package: org.apache.log4j
