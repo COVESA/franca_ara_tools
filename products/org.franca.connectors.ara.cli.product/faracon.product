@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Franca Ara Connector" uid="org.franca.connectors.ara.cli.product" id="org.franca.connectors.ara.cli.product" application="org.franca.connectors.ara.console.application" version="0.7.0" useFeatures="true" includeLaunchers="true">
+<product name="Franca Ara Converter" uid="org.franca.connectors.ara.cli.product" id="org.franca.connectors.ara.cli.product" application="org.franca.connectors.ara.console.application" version="0.7.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -15,7 +15,7 @@
 
    <windowImages/>
 
-   <launcher name="franca-ara-connector">
+   <launcher name="faracon">
       <solaris/>
       <win useIco="false">
          <bmp/>

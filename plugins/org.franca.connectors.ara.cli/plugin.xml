@@ -6,10 +6,10 @@
          point="org.eclipse.core.runtime.products">
       <product
             application="org.franca.connectors.ara.console.application"
-            name="Franca Ara Connector">
+            name="Franca Ara Converter">
          <property
                name="appName"
-               value="Franca Ara Connector">
+               value="Franca Ara Converter">
          </property>
       </product>
    </extension>
