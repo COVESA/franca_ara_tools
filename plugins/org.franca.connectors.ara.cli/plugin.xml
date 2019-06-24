@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+<plugin>
+   <extension
+         id="product"
+         point="org.eclipse.core.runtime.products">
+      <product
+            application="org.franca.connectors.ara.console.application"
+            name="Franca Ara Connector">
+         <property
+               name="appName"
+               value="Franca Ara Connector">
+         </property>
+      </product>
+   </extension>
+   <extension
+         point="org.franca.connectors.ara.console.commands">
+      <command
+            class="org.franca.connectors.ara.cli.CommandLineHandler"
+            id="org.franca.connectors.ara.cli.command"
+            name="Franca Ara Connector">
+         <options>
+            <option
+                  argCount="0"
+                  description="Switch off generation of common code"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.nocommon"
+                  longName="no-common"
+                  required="false"
+                  shortName="nc">
+            </option>
+            <option
+                  argCount="0"
+                  description="Switch off generation of proxy code"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.noproxy"
+                  longName="no-proxy"
+                  required="false"
+                  shortName="np">
+            </option>
+            <option
+                  argCount="0"
+                  description="Switch off generation of stub code"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.nostub"
+                  longName="no-stub"
+                  required="false"
+                  shortName="ns">
+            </option>
+            <option
+                  argCount="1"
+                  description="The default output directory"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.dir.default"
+                  longName="dest"
+                  required="false"
+                  shortName="d">
+            </option>
+            <option
+                  argCount="0"
+                  description="Use subdir per interface"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.dir.subdirs"
+                  longName="dest-subdirs"
+                  required="false"
+                  shortName="dsub">
+            </option>
+            <option
+                  argCount="1"
+                  description="The directory for the common code"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.dir.common"
+                  longName="dest-common"
+                  required="false"
+                  shortName="dc">
+            </option>
+            <option
+                  argCount="1"
+                  description="The directory for proxy code"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.dir.proxy"
+                  longName="dest-proxy"
+                  required="false"
+                  shortName="dp">
+            </option>
+            <option
+                  argCount="1"
+                  description="The directory for stub code"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.dir.stub"
+                  longName="dest-stub"
+                  required="false"
+                  shortName="ds">
+            </option>
+            <option
+                  argCount="1"
+                  description="The file path to the license text that will be added to each generated file"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.license"
+                  longName="license"
+                  required="false"
+                  shortName="l">
+            </option>
+            <option
+                  argCount="0"
+                  description="Switch off validation of the fidl file"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.validation"
+                  longName="no-val"
+                  required="false"
+                  shortName="nv">
+            </option>
+            <option
+                  argCount="1"
+                  description="The log level (quiet or verbose)"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.loglevel"
+                  longName="loglevel"
+                  required="false"
+                  shortName="ll">
+            </option>  
+            <option
+                  argCount="0"
+                  description="Print out generated files"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.printFiles"
+                  longName="printfiles"
+                  required="false"
+                  shortName="pf">
+            </option>
+            <option
+                  argCount="1"
+                  description="The search path to contain fidl/fdepl files"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.searchpath"
+                  longName="searchpath"
+                  required="false"
+                  shortName="sp">
+            </option>
+            <option
+                  argCount="0"
+                  description="Switch off code generation completely"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.nogeneration"
+                  longName="no-gen"
+                  required="false"
+                  shortName="ng">
+            </option>
+          <option
+                  argCount="0"
+                  description="Switch off code generation of dependencies"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.nodependencies"
+                  longName="without-dependencies"
+                  required="false"
+                  shortName="wod">
+            </option>
+          <option
+                  argCount="0"
+                  description="Switch off code generation of synchronous methods"
+                  hasOptionalArg="false"
+                  id="org.franca.connectors.ara.cli.option.nosynccalls"
+                  longName="no-sync-calls"
+                  required="false"
+                  shortName="nsc">
+            </option>                 
+         </options>
+      </command>
+   </extension>
+</plugin>
