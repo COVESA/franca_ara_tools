@@ -28,11 +28,13 @@ class Franca2ARATestBase {
 		// transform to arxml
 		val conn = new ARAConnector
 		val fromFranca = conn.fromFranca(fmodel) as ARAModelContainer
-		conn.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
+//		conn.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
+		conn.saveModel(fromFranca, "C:/Users/tgoerg/git/franca_ara_tools/tests/org.franca.connectors.ara.tests/src-gen-2/testcases/" + fileBasename + ".arxml")
 		
 		// transform to Franca IDL
 		val fmodel2 = conn.toFranca(fromFranca) as FrancaModelContainer
-		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
+//		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
+		loader.saveModel(fmodel2.model, "C:/Users/tgoerg/git/franca_ara_tools/tests/org.franca.connectors.ara.tests/src-gen-2/testcases/" + fileBasename + ".fidl")
 
 		if (check) {
 			// load reference arxml file

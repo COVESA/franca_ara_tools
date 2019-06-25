@@ -17,7 +17,8 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 	private static final Logger logger = Logger.getLogger(ARAPrimitveTypesCreator.name)
 	
 	//todo: use a more reliable path
-	val static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.franca.connectors.ara/models/stdtypes.arxml"
+//	val static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.franca.connectors.ara/models/stdtypes.arxml"
+	val static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.franca.connectors.ara/models/stdtypes.arxml"
 
 	val nameToType = new HashMap<String, ImplementationDataType>()
 

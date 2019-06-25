@@ -1,21 +1,14 @@
 package org.franca.connectors.ara.cli;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.xtext.generator.IGenerator;
-import org.eclipse.xtext.resource.XtextResourceSet;
 import org.eclipse.xtext.validation.AbstractValidationMessageAcceptor;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
-import org.franca.core.dsl.FrancaIDLRuntimeModule;
-import org.franca.core.franca.FModel;
-import org.franca.deploymodel.dsl.fDeploy.FDModel;
+import org.franca.connectors.ara.ARAConnector;
 import org.franca.connectors.ara.console.CommandlineTool;
 import org.franca.connectors.ara.console.ConsoleLogger;
 //import org.genivi.commonapi.core.generator.GeneratorFileSystemAccess;
@@ -24,6 +17,8 @@ import org.franca.connectors.ara.console.ConsoleLogger;
 //import org.genivi.commonapi.dbus.generator.FrancaDBusGenerator;
 import org.franca.connectors.ara.preferences.Preferences;
 import org.franca.connectors.ara.preferences.PreferencesConstants;
+import org.franca.core.dsl.FrancaIDLRuntimeModule;
+import org.franca.core.framework.IModelContainer;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -33,9 +28,10 @@ import com.google.inject.Injector;
  * generation.
  */
 public class CommandlineToolMain extends CommandlineTool {
-	protected Preferences preferences;
-//	protected GeneratorFileSystemAccess fsa;
 	protected Injector injector;
+	protected CreateShowcaseARATests createShowcaseARATests;
+//	protected GeneratorFileSystemAccess fsa;
+	protected Preferences preferences;
 //	protected IGenerator francaGenerator;
 	protected String SCOPE = "DBus validation: ";
 
@@ -71,6 +67,8 @@ public class CommandlineToolMain extends CommandlineTool {
 
 		injector = Guice.createInjector(new FrancaIDLRuntimeModule());
 
+		createShowcaseARATests = injector.getInstance(CreateShowcaseARATests.class);
+
 //		fsa = injector.getInstance(GeneratorFileSystemAccess.class);
 
 		preferences = Preferences.getInstance();
@@ -78,6 +76,13 @@ public class CommandlineToolMain extends CommandlineTool {
 	}
 
 	public int generateDBus(List<String> fileList) {
+		String inputfile = "C:/Users/tgoerg/git/franca_ara_tools/tests/org.franca.connectors.ara.tests/src-gen/testcases/drivingLane.arxml";
+		System.out.println("Loading arxml file " + inputfile + " ...");
+		ARAConnector conn = new ARAConnector();
+		IModelContainer amodel = conn.loadModel(inputfile);
+
+		createShowcaseARATests.createDrivingLaneARXML();
+		
 //		francaGenerator = injector.getInstance(FrancaDBusGenerator.class);
 
 		System.out.println("Franca Ara Connector");

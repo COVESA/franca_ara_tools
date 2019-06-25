@@ -118,14 +118,10 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
 				cliTool.listGeneratedFiles();
 			}
 			// finally invoke the generator.
-//			return cliTool.generateDBus(files);
+			return cliTool.generateDBus(files);
 		} else {
 			System.out.println("A *.fidl or *.fdepl file was not specified !");
 		}
-		
-		CreateShowcaseARATests createShowcaseARATests = new CreateShowcaseARATests();
-		createShowcaseARATests.createDrivingLaneARXML();
-
 		return 0;
 	}
 }
