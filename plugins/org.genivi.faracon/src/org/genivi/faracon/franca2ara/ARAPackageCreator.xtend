@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.franca2ara
+package org.genivi.faracon.franca2ara
 
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
@@ -7,7 +7,7 @@ import java.util.regex.Pattern
 import javax.inject.Singleton
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.util.EcoreUtil
-import org.franca.connectors.ara.Franca2ARABase
+import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
 

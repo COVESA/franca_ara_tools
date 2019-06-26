@@ -6,8 +6,8 @@
 		<maven>3.0</maven>
 	</prerequisites>
 
-	<groupId>org.franca.connectors.ara</groupId>
-	<artifactId>org.franca.connectors.ara.parent</artifactId>
+	<groupId>org.genivi.faracon</groupId>
+	<artifactId>org.genivi.faracon.parent</artifactId>
 	<version>0.7.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -32,20 +32,20 @@
     		<!-- target platform -->
             <module>../../plugins/org.genivi.commonapi.core.target</module>
     		<!-- actual code modules -->
-            <module>../../plugins/org.franca.connectors.ara</module>
+            <module>../../plugins/org.genivi.faracon</module>
     		<!-- test modules -->
 	    	<!--
-	            <module>../../tests/org.franca.connectors.ara.tests</module>
+	            <module>../../tests/org.genivi.faracon.tests</module>
 	        -->
     		<!-- documentation/help modules -->
 	    	<!--
-	            <module>../../docs/org.franca.connectors.ara.docs</module>
+	            <module>../../docs/org.genivi.faracon.docs</module>
 	        -->
 			<!-- release modules -->
 	    	<!--
-	            <module>../../features/org.franca.connectors.ara.feature</module>
-	            <module>../../features/org.franca.connectors.ara.feature.sdk</module>
-				<module>../../releng/org.franca.connectors.ara.updatesite</module>
+	            <module>../../features/org.genivi.faracon.feature</module>
+	            <module>../../features/org.genivi.faracon.feature.sdk</module>
+				<module>../../releng/org.genivi.faracon.updatesite</module>
 	        -->
     </modules>
 
@@ -67,8 +67,8 @@
 					<pomDependencies>consider</pomDependencies>
 					<target>
 						<artifact>
-							<groupId>org.franca.connectors.ara</groupId>
-							<artifactId>org.franca.connectors.ara.targetplatform</artifactId>
+							<groupId>org.genivi.faracon</groupId>
+							<artifactId>org.genivi.faracon.targetplatform</artifactId>
 							<version>${project.version}</version>
 							<classifier>fara-${platform-version-name}</classifier>
 						</artifact>
@@ -532,8 +532,8 @@
 	</dependencyManagement>
 
 	
-	<name>Franca/ARA Connector</name>
-	<description>The Franca/ARA Connector is a model transformation tool which can translate Franca IDL to Adaptive AUTOSAR and vice versa.</description>
+	<name>Franca ARA Converter</name>
+	<description>The Franca ARA Converter is a model transformation tool which can translate Franca IDL to Adaptive AUTOSAR and vice versa.</description>
 	<url>https://github.com/GENIVI/franca_ara_tools</url>
 	<licenses>
 		<license>

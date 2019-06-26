@@ -1,8 +1,8 @@
-package org.franca.connectors.ara.tests.util
+package org.genivi.faracon.tests.util
 
 import com.google.inject.Inject
-import org.franca.connectors.ara.ARAConnector
-import org.franca.connectors.ara.ARAModelContainer
+import org.genivi.faracon.ARAConnector
+import org.genivi.faracon.ARAModelContainer
 import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.framework.FrancaModelContainer
 

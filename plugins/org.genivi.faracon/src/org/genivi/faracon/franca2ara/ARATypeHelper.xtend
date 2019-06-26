@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.franca2ara
+package org.genivi.faracon.franca2ara
 
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FBasicTypeId

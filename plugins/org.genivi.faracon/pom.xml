@@ -1,15 +1,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.franca.connectors.ara</groupId>
+	<groupId>org.genivi.faracon</groupId>
 	<parent>
-		<groupId>org.franca.connectors.ara</groupId>
-		<artifactId>org.franca.connectors.ara.parent</artifactId>
+		<groupId>org.genivi.faracon</groupId>
+		<artifactId>org.genivi.faracon.parent</artifactId>
 		<version>0.7.0-SNAPSHOT</version>
-		<relativePath>../../releng/org.franca.connectors.ara.parent/pom.xml</relativePath>
+		<relativePath>../../releng/org.genivi.faracon.parent/pom.xml</relativePath>
 	</parent>
 
-	<artifactId>org.franca.connectors.ara</artifactId>
+	<artifactId>org.genivi.faracon</artifactId>
 	<description>This Eclipse plugin contains the actual model transformations.</description>
 	<packaging>eclipse-plugin</packaging>
 	<build>

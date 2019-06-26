@@ -1,11 +1,11 @@
-package org.franca.connectors.ara.cli;
+package org.genivi.faracon.cli;
 
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
-import org.franca.connectors.ara.console.AbstractCommandLineHandler;
-import org.franca.connectors.ara.console.ConsoleLogger;
-import org.franca.connectors.ara.console.ICommandLineHandler;
+import org.genivi.faracon.console.AbstractCommandLineHandler;
+import org.genivi.faracon.console.ConsoleLogger;
+import org.genivi.faracon.console.ICommandLineHandler;
 
 /**
  * Handle command line options

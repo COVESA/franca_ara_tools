@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.cli;
+package org.genivi.faracon.cli;
 
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
@@ -9,7 +9,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends Plugin
 {
     // The plug-in ID
-    public static final String PLUGIN_ID = "org.franca.connectors.ara.cli"; //$NON-NLS-1$
+    public static final String PLUGIN_ID = "org.genivi.faracon.cli"; //$NON-NLS-1$
 
     // The shared instance
     private static Activator   plugin;
@@ -19,8 +19,8 @@ public class Activator extends Plugin
      */
     public Activator()
     {
-        System.out.println("org.franca.connectors.ara.cli.Activator()");
-        System.err.println("org.franca.connectors.ara.cli.Activator() err");
+        System.out.println("org.genivi.faracon.cli.Activator()");
+        System.err.println("org.genivi.faracon.cli.Activator() err");
     }
 
     /**
@@ -40,8 +40,8 @@ public class Activator extends Plugin
      */
     public void start(BundleContext bundleContext) throws Exception
     {
-        System.out.println("org.franca.connectors.ara.cli.Activator.start()");
-        System.err.println("org.franca.connectors.ara.cli.Activator.start() err");
+        System.out.println("org.genivi.faracon.cli.Activator.start()");
+        System.err.println("org.genivi.faracon.cli.Activator.start() err");
         
         super.start(bundleContext);
         plugin = this;

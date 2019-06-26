@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.franca2ara
+package org.genivi.faracon.franca2ara
 
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
@@ -8,7 +8,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.util.EcoreUtil
-import org.franca.connectors.ara.Franca2ARABase
+import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FEnumerationType
@@ -18,7 +18,7 @@ import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 
-import static extension org.franca.connectors.ara.franca2ara.ARATypeHelper.*
+import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {

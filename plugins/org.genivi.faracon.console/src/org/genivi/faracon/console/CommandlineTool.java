@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.console;
+package org.genivi.faracon.console;
 
 import java.io.BufferedReader;
 import java.io.File;

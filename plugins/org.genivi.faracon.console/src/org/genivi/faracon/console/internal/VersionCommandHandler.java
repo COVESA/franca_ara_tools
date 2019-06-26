@@ -1,12 +1,12 @@
-package org.franca.connectors.ara.console.internal;
+package org.genivi.faracon.console.internal;
 
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.cli.CommandLine;
 import org.eclipse.core.runtime.Platform;
-import org.franca.connectors.ara.console.AbstractCommandLineHandler;
-import org.franca.connectors.ara.console.CommandExecuter;
+import org.genivi.faracon.console.AbstractCommandLineHandler;
+import org.genivi.faracon.console.CommandExecuter;
 import org.osgi.framework.Bundle;
 
 public class VersionCommandHandler extends AbstractCommandLineHandler

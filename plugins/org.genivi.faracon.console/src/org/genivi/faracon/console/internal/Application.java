@@ -1,15 +1,15 @@
-package org.franca.connectors.ara.console.internal;
+package org.genivi.faracon.console.internal;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.franca.core.dsl.FrancaIDLStandaloneSetup;
 import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
-import org.franca.connectors.ara.console.CommandExecuter;
+import org.genivi.faracon.console.CommandExecuter;
 
 public class Application implements IApplication
 {
-    public static final String PLUGIN_ID          = "org.franca.connectors.ara.console";
+    public static final String PLUGIN_ID          = "org.genivi.faracon.console";
 
     private final long         MINIMUM_RUNTIME_MS = 100;
 

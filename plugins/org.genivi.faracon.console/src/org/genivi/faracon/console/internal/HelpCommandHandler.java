@@ -1,8 +1,8 @@
-package org.franca.connectors.ara.console.internal;
+package org.genivi.faracon.console.internal;
 
 import org.apache.commons.cli.CommandLine;
-import org.franca.connectors.ara.console.AbstractCommandLineHandler;
-import org.franca.connectors.ara.console.CommandExecuter;
+import org.genivi.faracon.console.AbstractCommandLineHandler;
+import org.genivi.faracon.console.CommandExecuter;
 
 public class HelpCommandHandler extends AbstractCommandLineHandler
 {

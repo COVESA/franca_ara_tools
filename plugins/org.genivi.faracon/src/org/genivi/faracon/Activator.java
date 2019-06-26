@@ -1,4 +1,4 @@
-package org.franca.connectors.ara;
+package org.genivi.faracon;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

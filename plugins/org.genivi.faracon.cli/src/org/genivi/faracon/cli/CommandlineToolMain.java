@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.cli;
+package org.genivi.faracon.cli;
 
 import java.io.File;
 import java.util.List;
@@ -8,15 +8,15 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.validation.AbstractValidationMessageAcceptor;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
-import org.franca.connectors.ara.ARAConnector;
-import org.franca.connectors.ara.console.CommandlineTool;
-import org.franca.connectors.ara.console.ConsoleLogger;
+import org.genivi.faracon.ARAConnector;
+import org.genivi.faracon.console.CommandlineTool;
+import org.genivi.faracon.console.ConsoleLogger;
 //import org.genivi.commonapi.core.generator.GeneratorFileSystemAccess;
 //import org.genivi.commonapi.core.verification.CommandlineValidator;
 //import org.genivi.commonapi.core.verification.ValidatorCore;
 //import org.genivi.commonapi.dbus.generator.FrancaDBusGenerator;
-import org.franca.connectors.ara.preferences.Preferences;
-import org.franca.connectors.ara.preferences.PreferencesConstants;
+import org.genivi.faracon.preferences.Preferences;
+import org.genivi.faracon.preferences.PreferencesConstants;
 import org.franca.core.dsl.FrancaIDLRuntimeModule;
 import org.franca.core.framework.IModelContainer;
 
@@ -76,7 +76,7 @@ public class CommandlineToolMain extends CommandlineTool {
 	}
 
 	public int generateDBus(List<String> fileList) {
-		String inputfile = "C:/Users/tgoerg/git/franca_ara_tools/tests/org.franca.connectors.ara.tests/src-gen/testcases/drivingLane.arxml";
+		String inputfile = "C:/Users/tgoerg/git/franca_ara_tools/tests/org.genivi.faracon.tests/src-gen/testcases/drivingLane.arxml";
 		System.out.println("Loading arxml file " + inputfile + " ...");
 		ARAConnector conn = new ARAConnector();
 		IModelContainer amodel = conn.loadModel(inputfile);
@@ -85,7 +85,7 @@ public class CommandlineToolMain extends CommandlineTool {
 		
 //		francaGenerator = injector.getInstance(FrancaDBusGenerator.class);
 
-		System.out.println("Franca Ara Connector");
+		System.out.println("Franca ARA Converter");
 		return 0;
 	}
 

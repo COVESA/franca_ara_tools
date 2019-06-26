@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.franca.connectors.ara.cli.feature"
-      label="Franca Ara Connector CLI Feature"
+      id="org.genivi.faracon.cli.feature"
+      label="Franca ARA Converter CLI Feature"
       version="0.7.0.qualifier"
       provider-name="GENIVI">
 
@@ -18,14 +18,14 @@
    </license>
 
    <plugin
-         id="org.franca.connectors.ara.cli"
+         id="org.genivi.faracon.cli"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
 
    <plugin
-         id="org.franca.connectors.ara"
+         id="org.genivi.faracon"
          download-size="0"
          install-size="0"
          version="0.0.0"

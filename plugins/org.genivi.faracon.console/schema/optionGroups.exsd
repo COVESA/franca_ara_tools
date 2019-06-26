@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.franca.connectors.ara.console" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.genivi.faracon.console" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.franca.connectors.ara.console" id="optionGroups" name="Franca Ara Connector Console Option Groups"/>
+         <meta.schema plugin="org.genivi.faracon.console" id="optionGroups" name="Franca ARA Converter Console Option Groups"/>
       </appinfo>
       <documentation>
-         This extension point allows plug-ins to declaratively register console option groups which can be referenced by the org.franca.connectors.ara.console.commands extension point. An option group is a group of mutually exclusive options.
+         This extension point allows plug-ins to declaratively register console option groups which can be referenced by the org.genivi.faracon.console.commands extension point. An option group is a group of mutually exclusive options.
       </documentation>
    </annotation>
 
@@ -80,14 +80,14 @@
    <element name="optionGroupId">
       <annotation>
          <documentation>
-            This element can refer to an option group which was contributed by the org.franca.connectors.ara.console.optionGroups extension point.
+            This element can refer to an option group which was contributed by the org.genivi.faracon.console.optionGroups extension point.
          </documentation>
       </annotation>
       <complexType>
          <attribute name="optionGroupId" type="string" use="required">
             <annotation>
                <documentation>
-                  The unique identifier of the option group which was contributed by the org.franca.connectors.ara.console.optionGroups extension point.
+                  The unique identifier of the option group which was contributed by the org.genivi.faracon.console.optionGroups extension point.
                </documentation>
             </annotation>
          </attribute>

@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.ara2franca
+package org.genivi.faracon.ara2franca
 
 import autosar40.commonstructure.datadefproperties.SwDataDefProps
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
@@ -6,7 +6,7 @@ import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeE
 import autosar40.swcomponent.datatype.computationmethod.CompuScales
 import javax.inject.Singleton
 import org.apache.log4j.Logger
-import org.franca.connectors.ara.ARA2FrancaBase
+import org.genivi.faracon.ARA2FrancaBase
 import org.franca.core.franca.FBasicTypeId
 
 @Singleton

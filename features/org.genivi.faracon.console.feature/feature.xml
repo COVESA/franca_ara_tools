@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.franca.connectors.ara.console.feature"
+      id="org.genivi.faracon.console.feature"
       label="Command Line Feature"
       version="0.7.0.qualifier"
       provider-name="GENIVI">
@@ -18,7 +18,7 @@
    </license>
 
    <requires>
-      <import feature="org.franca.connectors.ara.console.franca.feature" version="0.7.0" match="compatible"/>
+      <import feature="org.genivi.faracon.console.franca.feature" version="0.7.0" match="compatible"/>
    </requires>
 
    <plugin
@@ -85,7 +85,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.franca.connectors.ara.console"
+         id="org.genivi.faracon.console"
          download-size="0"
          install-size="0"
          version="0.0.0"

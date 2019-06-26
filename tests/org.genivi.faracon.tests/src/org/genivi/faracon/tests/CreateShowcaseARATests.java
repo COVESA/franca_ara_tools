@@ -1,7 +1,7 @@
-package org.franca.connectors.ara.tests;
+package org.genivi.faracon.tests;
 
 import org.eclipse.xtext.testing.InjectWith;
-import org.franca.connectors.ara.tests.util.Franca2ARATestBase;
+import org.genivi.faracon.tests.util.Franca2ARATestBase;
 import org.franca.core.dsl.FrancaIDLTestsInjectorProvider;
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca;
 import org.junit.Test;

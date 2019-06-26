@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="commands" name="Franca Ara Connector Console Commands" schema="schema/commands.exsd"/>
-   <extension-point id="optionGroups" name="Franca Ara Connector Console Option Groups" schema="schema/optionGroups.exsd"/>
-   <extension-point id="options" name="Franca Ara Connector Console Options" schema="schema/options.exsd"/>
+   <extension-point id="commands" name="Franca ARA Converter Console Commands" schema="schema/commands.exsd"/>
+   <extension-point id="optionGroups" name="Franca ARA Converter Console Option Groups" schema="schema/optionGroups.exsd"/>
+   <extension-point id="options" name="Franca ARA Converter Console Options" schema="schema/options.exsd"/>
    <extension
          id="application"
          point="org.eclipse.core.runtime.applications">
       <application>
          <run
-               class="org.franca.connectors.ara.console.internal.Application">
+               class="org.genivi.faracon.console.internal.Application">
          </run>
       </application>
    </extension>
@@ -17,26 +17,26 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="org.franca.connectors.ara.console.application"
-            name="Franca Ara Connector Code Generator">
+            application="org.genivi.faracon.console.application"
+            name="Franca ARA Converter">
          <property
                name="appName"
-               value="Franca Ara Connector Code Generator">
+               value="Franca ARA Converter">
          </property>
       </product>
    </extension>
    <extension
-         point="org.franca.connectors.ara.console.commands">
+         point="org.genivi.faracon.console.commands">
       <command
-            class="org.franca.connectors.ara.console.internal.HelpCommandHandler"
-            id="org.franca.connectors.ara.console.commands.help"
+            class="org.genivi.faracon.console.internal.HelpCommandHandler"
+            id="org.genivi.faracon.console.commands.help"
             name="Console Help">
          <options>
             <option
                   argCount="0"
                   description="display help of available console commands"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.console.options.help"
+                  id="org.genivi.faracon.console.options.help"
                   longName="help"
                   required="true"
                   shortName="h">
@@ -44,27 +44,27 @@
          </options>
       </command>
       <command
-            class="org.franca.connectors.ara.console.internal.VersionCommandHandler"
-            id="org.franca.connectors.ara.console.commands.versionInfo"
+            class="org.genivi.faracon.console.internal.VersionCommandHandler"
+            id="org.genivi.faracon.console.commands.versionInfo"
             name="Version Information">
          <options>
             <option
                   argCount="0"
                   description="print code generator version"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.console.options.version"
+                  id="org.genivi.faracon.console.options.version"
                   longName="version"
                   required="true"
                   shortName="v">
             </option>
             <optionGroup
-                  id="org.franca.connectors.ara.console.optionGroups.version"
+                  id="org.genivi.faracon.console.optionGroups.version"
                   required="false">
                <option
                      argCount="0"
                      description="print code generator and plug-in versions"
                      hasOptionalArg="false"
-                     id="org.franca.connectors.ara.console.options.pluginVersions"
+                     id="org.genivi.faracon.console.options.pluginVersions"
                      longName="all"
                      required="false"
                      shortName="a">
@@ -73,7 +73,7 @@
                      argCount="0"
                      description="print plug-in versions"
                      hasOptionalArg="false"
-                     id="org.franca.connectors.ara.console.options.allVersions"
+                     id="org.genivi.faracon.console.options.allVersions"
                      longName="plugins"
                      required="false"
                      shortName="p">

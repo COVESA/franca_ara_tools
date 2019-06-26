@@ -1,10 +1,10 @@
-package org.franca.connectors.ara.franca2ara
+package org.genivi.faracon.franca2ara
 
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.arpackage.PackageableElement
 import autosar40.swcomponent.components.SymbolProps
 import java.util.Collection
-import org.franca.connectors.ara.Franca2ARABase
+import org.genivi.faracon.Franca2ARABase
 
 class ARANamespaceCreator extends Franca2ARABase {
 	

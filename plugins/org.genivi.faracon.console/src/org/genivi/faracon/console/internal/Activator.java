@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.console.internal;
+package org.genivi.faracon.console.internal;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +22,7 @@ import org.osgi.framework.BundleContext;
 public class Activator extends Plugin
 {
     // The plug-in ID
-    public static final String  PLUGIN_ID            = "org.franca.connectors.ara.console"; //$NON-NLS-1$
+    public static final String  PLUGIN_ID            = "org.genivi.faracon.console"; //$NON-NLS-1$
 
     // The shared instance
     private static Activator    plugin;

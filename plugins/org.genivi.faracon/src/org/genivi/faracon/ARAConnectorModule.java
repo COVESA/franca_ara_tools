@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package org.franca.connectors.ara;
+package org.genivi.faracon;
 
 import org.franca.core.framework.TransformationLogger;
 

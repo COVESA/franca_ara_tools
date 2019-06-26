@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Franca AUTOSAR Adaptive connector tests
-Bundle-SymbolicName: org.franca.connectors.ara.tests
+Bundle-Name: Franca ARA Converter Tests
+Bundle-SymbolicName: org.genivi.faracon.tests
 Bundle-Version: 0.7.0.qualifier
 Bundle-Vendor: itemis AG
 Require-Bundle: org.eclipse.ui,
@@ -17,6 +17,6 @@ Require-Bundle: org.eclipse.ui,
  org.franca.core.dsl;bundle-version="0.13.0",
  org.franca.core.dsl.ui;bundle-version="0.13.0",
  org.franca.core.dsl.tests.base;bundle-version="0.13.0",
- org.franca.connectors.ara;bundle-version="0.7.0"
+ org.genivi.faracon;bundle-version="0.7.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

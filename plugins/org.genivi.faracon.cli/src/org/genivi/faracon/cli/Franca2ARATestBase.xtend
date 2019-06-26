@@ -1,8 +1,8 @@
-package org.franca.connectors.ara.cli
+package org.genivi.faracon.cli
 
 import com.google.inject.Inject
-import org.franca.connectors.ara.ARAConnector
-import org.franca.connectors.ara.ARAModelContainer
+import org.genivi.faracon.ARAConnector
+import org.genivi.faracon.ARAModelContainer
 import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.framework.FrancaModelContainer
 
@@ -29,12 +29,12 @@ class Franca2ARATestBase {
 		val conn = new ARAConnector
 		val fromFranca = conn.fromFranca(fmodel) as ARAModelContainer
 //		conn.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
-		conn.saveModel(fromFranca, "C:/Users/tgoerg/git/franca_ara_tools/tests/org.franca.connectors.ara.tests/src-gen-2/testcases/" + fileBasename + ".arxml")
+		conn.saveModel(fromFranca, "C:/Users/tgoerg/git/franca_ara_tools/tests/org.genivi.faracon.tests/src-gen-2/testcases/" + fileBasename + ".arxml")
 		
 		// transform to Franca IDL
 		val fmodel2 = conn.toFranca(fromFranca) as FrancaModelContainer
 //		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
-		loader.saveModel(fmodel2.model, "C:/Users/tgoerg/git/franca_ara_tools/tests/org.franca.connectors.ara.tests/src-gen-2/testcases/" + fileBasename + ".fidl")
+		loader.saveModel(fmodel2.model, "C:/Users/tgoerg/git/franca_ara_tools/tests/org.genivi.faracon.tests/src-gen-2/testcases/" + fileBasename + ".fidl")
 
 		if (check) {
 			// load reference arxml file
