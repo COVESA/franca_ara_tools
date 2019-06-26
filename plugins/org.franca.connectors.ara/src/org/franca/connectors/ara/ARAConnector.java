@@ -48,7 +48,8 @@ public class ARAConnector extends AbstractFrancaConnector {
 	private String fileExtension = "arxml";
 
 	//todo: use a more reliable path
-	private static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.franca.connectors.ara/models/stdtypes.arxml";
+//	private static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.franca.connectors.ara/models/stdtypes.arxml";
+	private static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.franca.connectors.ara/models/stdtypes.arxml";
 
 	private Set<TransformationIssue> lastTransformationIssues = null;
 
@@ -208,11 +209,12 @@ public class ARAConnector extends AbstractFrancaConnector {
 		Resource resource = resourceSet.createResource(uri, Autosar40ReleaseDescriptor.ARXML_CONTENT_TYPE_ID);
 		if (Platform.isRunning()) {
 			Resource originalResource = autosar.eResource();
-			if (originalResource == null)
-				throw new IllegalStateException("Autosar resource is null");
 			AUTOSAR copy = EcoreUtil.copy(autosar);
+//			if (originalResource == null)
+//				throw new IllegalStateException("Autosar resource is null");
 			// if we don't unload the original model the additions will be seen in that one as well
-			originalResource.unload();			
+			if (originalResource != null)
+				originalResource.unload();			
 
 			resource.getContents().add(copy);
 			resource.save(Collections.EMPTY_MAP);

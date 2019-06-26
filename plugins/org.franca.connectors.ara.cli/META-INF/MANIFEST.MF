@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Franca Ara Connector Console Interface
+Bundle-SymbolicName: org.franca.connectors.ara.cli;singleton:=true
+Bundle-Version: 0.7.0.qualifier
+Bundle-Activator: org.franca.connectors.ara.cli.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.xtext;bundle-version="[2.7.0,3.0.0)";visibility:=reexport,
+ org.eclipse.xtext.xbase.lib,
+ org.franca.core.dsl;bundle-version="[0.9.0,0.13.2)";visibility:=reexport,
+ org.franca.deploymodel.dsl;bundle-version="[0.9.0,0.13.2)";visibility:=reexport,
+ org.franca.connectors.ara.console,
+ org.franca.connectors.ara;bundle-version="0.7.0"
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-Vendor: GENIVI
