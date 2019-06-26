@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.preferences;
+package org.genivi.faracon.preferences;
 
 public interface PreferencesConstants
 {

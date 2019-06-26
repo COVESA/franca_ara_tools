@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Franca AUTOSAR Adaptive Connector
-Bundle-SymbolicName: org.franca.connectors.ara;singleton:=true
+Bundle-Name: Franca ARA Converter
+Bundle-SymbolicName: org.genivi.faracon;singleton:=true
 Bundle-Version: 0.7.0.qualifier
-Bundle-Activator: org.franca.connectors.ara.Activator
+Bundle-Activator: org.genivi.faracon.Activator
 Bundle-Vendor: GENIVI
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtend.lib;bundle-version="2.11.0",
@@ -18,7 +18,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.artop.eel.serialization;bundle-version="1.1.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: org.franca.connectors.ara,
- org.franca.connectors.ara.preferences,
- org.franca.connectors.ara.validator
+Export-Package: org.genivi.faracon,
+ org.genivi.faracon.preferences,
+ org.genivi.faracon.validator
 Import-Package: org.apache.log4j

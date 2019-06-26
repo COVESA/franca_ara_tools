@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.franca.connectors.ara.console.franca.feature"
+      id="org.genivi.faracon.console.franca.feature"
       label="Franca Core Dependencies Feature"
       version="0.7.0.qualifier"
       provider-name="GENIVI">

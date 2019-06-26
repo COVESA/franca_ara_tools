@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>org.franca.connectors.ara.feature</name>
+	<name>org.genivi.faracon.feature</name>
 	<comment></comment>
 	<projects>
-		<project>org.franca.connectors.ara</project>
+		<project>org.genivi.faracon</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

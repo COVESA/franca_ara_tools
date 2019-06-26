@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.franca2ara
+package org.genivi.faracon.franca2ara
 
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
@@ -7,8 +7,8 @@ import java.util.HashMap
 import javax.inject.Singleton
 import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.resource.ResourceSet
-import org.franca.connectors.ara.ARAConnector
-import org.franca.connectors.ara.Franca2ARABase
+import org.genivi.faracon.ARAConnector
+import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FBasicTypeId
 
 @Singleton
@@ -17,8 +17,8 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 	private static final Logger logger = Logger.getLogger(ARAPrimitveTypesCreator.name)
 	
 	//todo: use a more reliable path
-//	val static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.franca.connectors.ara/models/stdtypes.arxml"
-	val static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.franca.connectors.ara/models/stdtypes.arxml"
+//	val static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.genivi.faracon/models/stdtypes.arxml"
+	val static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.genivi.faracon/models/stdtypes.arxml"
 
 	val nameToType = new HashMap<String, ImplementationDataType>()
 

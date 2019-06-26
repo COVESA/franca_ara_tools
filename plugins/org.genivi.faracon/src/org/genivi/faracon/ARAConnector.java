@@ -5,7 +5,7 @@
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
  *******************************************************************************/
-package org.franca.connectors.ara;
+package org.genivi.faracon;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -48,8 +48,8 @@ public class ARAConnector extends AbstractFrancaConnector {
 	private String fileExtension = "arxml";
 
 	//todo: use a more reliable path
-//	private static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.franca.connectors.ara/models/stdtypes.arxml";
-	private static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.franca.connectors.ara/models/stdtypes.arxml";
+//	private static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.genivi.faracon/models/stdtypes.arxml";
+	private static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.genivi.faracon/models/stdtypes.arxml";
 
 	private Set<TransformationIssue> lastTransformationIssues = null;
 

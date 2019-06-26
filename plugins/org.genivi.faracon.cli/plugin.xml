@@ -5,26 +5,26 @@
          id="product"
          point="org.eclipse.core.runtime.products">
       <product
-            application="org.franca.connectors.ara.console.application"
-            name="Franca Ara Converter">
+            application="org.genivi.faracon.console.application"
+            name="Franca ARA Converter">
          <property
                name="appName"
-               value="Franca Ara Converter">
+               value="Franca ARA Converter">
          </property>
       </product>
    </extension>
    <extension
-         point="org.franca.connectors.ara.console.commands">
+         point="org.genivi.faracon.console.commands">
       <command
-            class="org.franca.connectors.ara.cli.CommandLineHandler"
-            id="org.franca.connectors.ara.cli.command"
-            name="Franca Ara Connector">
+            class="org.genivi.faracon.cli.CommandLineHandler"
+            id="org.genivi.faracon.cli.command"
+            name="Franca ARA Converter">
          <options>
             <option
                   argCount="0"
                   description="Switch off generation of common code"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.nocommon"
+                  id="org.genivi.faracon.cli.option.nocommon"
                   longName="no-common"
                   required="false"
                   shortName="nc">
@@ -33,7 +33,7 @@
                   argCount="0"
                   description="Switch off generation of proxy code"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.noproxy"
+                  id="org.genivi.faracon.cli.option.noproxy"
                   longName="no-proxy"
                   required="false"
                   shortName="np">
@@ -42,7 +42,7 @@
                   argCount="0"
                   description="Switch off generation of stub code"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.nostub"
+                  id="org.genivi.faracon.cli.option.nostub"
                   longName="no-stub"
                   required="false"
                   shortName="ns">
@@ -51,7 +51,7 @@
                   argCount="1"
                   description="The default output directory"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.dir.default"
+                  id="org.genivi.faracon.cli.option.dir.default"
                   longName="dest"
                   required="false"
                   shortName="d">
@@ -60,7 +60,7 @@
                   argCount="0"
                   description="Use subdir per interface"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.dir.subdirs"
+                  id="org.genivi.faracon.cli.option.dir.subdirs"
                   longName="dest-subdirs"
                   required="false"
                   shortName="dsub">
@@ -69,7 +69,7 @@
                   argCount="1"
                   description="The directory for the common code"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.dir.common"
+                  id="org.genivi.faracon.cli.option.dir.common"
                   longName="dest-common"
                   required="false"
                   shortName="dc">
@@ -78,7 +78,7 @@
                   argCount="1"
                   description="The directory for proxy code"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.dir.proxy"
+                  id="org.genivi.faracon.cli.option.dir.proxy"
                   longName="dest-proxy"
                   required="false"
                   shortName="dp">
@@ -87,7 +87,7 @@
                   argCount="1"
                   description="The directory for stub code"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.dir.stub"
+                  id="org.genivi.faracon.cli.option.dir.stub"
                   longName="dest-stub"
                   required="false"
                   shortName="ds">
@@ -96,7 +96,7 @@
                   argCount="1"
                   description="The file path to the license text that will be added to each generated file"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.license"
+                  id="org.genivi.faracon.cli.option.license"
                   longName="license"
                   required="false"
                   shortName="l">
@@ -105,7 +105,7 @@
                   argCount="0"
                   description="Switch off validation of the fidl file"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.validation"
+                  id="org.genivi.faracon.cli.option.validation"
                   longName="no-val"
                   required="false"
                   shortName="nv">
@@ -114,7 +114,7 @@
                   argCount="1"
                   description="The log level (quiet or verbose)"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.loglevel"
+                  id="org.genivi.faracon.cli.option.loglevel"
                   longName="loglevel"
                   required="false"
                   shortName="ll">
@@ -123,7 +123,7 @@
                   argCount="0"
                   description="Print out generated files"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.printFiles"
+                  id="org.genivi.faracon.cli.option.printFiles"
                   longName="printfiles"
                   required="false"
                   shortName="pf">
@@ -132,7 +132,7 @@
                   argCount="1"
                   description="The search path to contain fidl/fdepl files"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.searchpath"
+                  id="org.genivi.faracon.cli.option.searchpath"
                   longName="searchpath"
                   required="false"
                   shortName="sp">
@@ -141,7 +141,7 @@
                   argCount="0"
                   description="Switch off code generation completely"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.nogeneration"
+                  id="org.genivi.faracon.cli.option.nogeneration"
                   longName="no-gen"
                   required="false"
                   shortName="ng">
@@ -150,7 +150,7 @@
                   argCount="0"
                   description="Switch off code generation of dependencies"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.nodependencies"
+                  id="org.genivi.faracon.cli.option.nodependencies"
                   longName="without-dependencies"
                   required="false"
                   shortName="wod">
@@ -159,7 +159,7 @@
                   argCount="0"
                   description="Switch off code generation of synchronous methods"
                   hasOptionalArg="false"
-                  id="org.franca.connectors.ara.cli.option.nosynccalls"
+                  id="org.genivi.faracon.cli.option.nosynccalls"
                   longName="no-sync-calls"
                   required="false"
                   shortName="nsc">

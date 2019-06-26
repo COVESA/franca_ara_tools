@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.franca.connectors.ara.feature"
+      id="org.genivi.faracon.feature"
       label="%featureName"
       version="0.7.0.qualifier"
       provider-name="%providerName">
@@ -14,7 +14,7 @@
    </license>
 
    <plugin
-         id="org.franca.connectors.ara"
+         id="org.genivi.faracon"
          download-size="0"
          install-size="0"
          version="0.0.0"

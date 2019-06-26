@@ -1,4 +1,4 @@
-package org.franca.connectors.ara
+package org.genivi.faracon
 
 import autosar40.adaptiveplatform.applicationdesign.portinterface.Field
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
@@ -10,7 +10,7 @@ import autosar40.swcomponent.portinterface.ArgumentDataPrototype
 import autosar40.swcomponent.portinterface.ClientServerOperation
 import com.google.inject.Inject
 import org.apache.log4j.Logger
-import org.franca.connectors.ara.ara2franca.FrancaTypeCreator
+import org.genivi.faracon.ara2franca.FrancaTypeCreator
 
 class ARA2FrancaTransformation extends ARA2FrancaBase {
 	

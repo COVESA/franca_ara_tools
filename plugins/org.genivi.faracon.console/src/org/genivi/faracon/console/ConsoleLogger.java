@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.console;
+package org.genivi.faracon.console;
 
 /**
  * A simple command line logger.

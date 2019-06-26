@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.preferences;
+package org.genivi.faracon.preferences;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,7 +7,7 @@ import java.io.File;
 import org.eclipse.xtext.generator.IFileSystemAccess;
 import org.eclipse.xtext.generator.OutputConfiguration;
 import org.franca.core.franca.FModel;
-import org.franca.connectors.ara.preferences.PreferencesConstants;
+import org.genivi.faracon.preferences.PreferencesConstants;
 
 public class Preferences {
 

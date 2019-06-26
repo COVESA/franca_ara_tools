@@ -1,4 +1,4 @@
-package org.franca.connectors.ara.console;
+package org.genivi.faracon.console;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,7 +28,7 @@ import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.SafeRunner;
 import org.eclipse.core.runtime.Status;
-import org.franca.connectors.ara.console.internal.Application;
+import org.genivi.faracon.console.internal.Application;
 
 public enum CommandExecuter
 {

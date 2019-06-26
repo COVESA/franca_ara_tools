@@ -3,7 +3,7 @@
 <plugin>
    <extension point="org.franca.core.dsl.francaValidator">
       <validator
-            class="org.franca.connectors.ara.validator.ARACompatibilityValidator"
+            class="org.genivi.faracon.validator.ARACompatibilityValidator"
             mode="FAST"
             name="ARA compatibility validator">
       </validator>

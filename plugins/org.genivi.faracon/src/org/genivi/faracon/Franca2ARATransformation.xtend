@@ -1,13 +1,13 @@
-package org.franca.connectors.ara
+package org.genivi.faracon
 
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.franca.connectors.ara.franca2ara.ARANamespaceCreator
-import org.franca.connectors.ara.franca2ara.ARAPackageCreator
-import org.franca.connectors.ara.franca2ara.ARAPrimitveTypesCreator
-import org.franca.connectors.ara.franca2ara.ARATypeCreator
+import org.genivi.faracon.franca2ara.ARANamespaceCreator
+import org.genivi.faracon.franca2ara.ARAPackageCreator
+import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
+import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FBroadcast

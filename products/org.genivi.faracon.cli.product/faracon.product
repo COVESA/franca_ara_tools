@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Franca Ara Converter" uid="org.franca.connectors.ara.cli.product" id="org.franca.connectors.ara.cli.product" application="org.franca.connectors.ara.console.application" version="0.7.0" useFeatures="true" includeLaunchers="true">
+<product name="Franca ARA Converter" uid="org.genivi.faracon.cli.product" id="org.genivi.faracon.cli.product" application="org.genivi.faracon.console.application" version="0.7.0" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -33,9 +33,9 @@
    </plugins>
 
    <features>
-      <feature id="org.franca.connectors.ara.console.feature"/>
-      <feature id="org.franca.connectors.ara.console.franca.feature"/>
-      <feature id="org.franca.connectors.ara.cli.feature"/>
+      <feature id="org.genivi.faracon.console.feature"/>
+      <feature id="org.genivi.faracon.console.franca.feature"/>
+      <feature id="org.genivi.faracon.cli.feature"/>
    </features>
 
    <configurations>
@@ -44,7 +44,7 @@
       <plugin id="org.eclipse.equinox.ds" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
-      <property name="osgi.instance.area.default" value="@user.home/.franca_connectors_ara" />
+      <property name="osgi.instance.area.default" value="@user.home/.faracon" />
    </configurations>
 
 </product>

@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.franca.connectors.ara.console" xmlns="http://www.w3.org/2001/XMLSchema">
+<schema targetNamespace="org.genivi.faracon.console" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appinfo>
-         <meta.schema plugin="org.franca.connectors.ara.console" id="commands" name="Franca Ara Connector Console Commands"/>
+         <meta.schema plugin="org.genivi.faracon.console" id="commands" name="Franca ARA Converter Console Commands"/>
       </appinfo>
       <documentation>
-         This extension point allows plug-ins to declaratively register console commands which can be executed by running the console application with the ID org.franca.connectors.ara.console.application.
+         This extension point allows plug-ins to declaratively register console commands which can be executed by running the console application with the ID org.genivi.faracon.console.application.
       </documentation>
    </annotation>
 
@@ -96,7 +96,7 @@
                   Command handler class which must implement the ICommandLineHandler interface.
                </documentation>
                <appinfo>
-                  <meta.attribute kind="java" basedOn="org.franca.connectors.ara.console.AbstractCommandLineHandler:org.franca.connectors.ara.console.ICommandLineHandler"/>
+                  <meta.attribute kind="java" basedOn="org.genivi.faracon.console.AbstractCommandLineHandler:org.genivi.faracon.console.ICommandLineHandler"/>
                </appinfo>
             </annotation>
          </attribute>
