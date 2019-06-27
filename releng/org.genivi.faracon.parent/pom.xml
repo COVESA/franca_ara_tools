@@ -30,7 +30,7 @@
 
     <modules>
     		<!-- target platform -->
-            <module>../../plugins/org.genivi.commonapi.core.target</module>
+            <module>../../plugins/org.genivi.faracon.target</module>
     		<!-- actual code modules -->
             <module>../../plugins/org.genivi.faracon</module>
     		<!-- test modules -->

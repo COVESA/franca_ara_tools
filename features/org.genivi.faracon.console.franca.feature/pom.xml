@@ -2,12 +2,12 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>commonapi</groupId>
-    <artifactId>org.genivi.commonapi.console.franca.feature</artifactId>
+    <artifactId>org.genivi.faracon.console.franca.feature</artifactId>
     <packaging>eclipse-feature</packaging>
     <parent>
         <groupId>commonapi</groupId>
-        <artifactId>org.genivi.commonapi.releng</artifactId>
+        <artifactId>org.genivi.faracon.releng</artifactId>
         <version>3.1.12-SNAPSHOT</version>
-        <relativePath>../org.genivi.commonapi.releng</relativePath>
+        <relativePath>../org.genivi.faracon.releng</relativePath>
     </parent>
 </project>
