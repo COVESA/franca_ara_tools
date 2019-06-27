@@ -2,8 +2,8 @@ package org.genivi.faracon.preferences;
 
 public interface PreferencesConstants
 {
-    public static final String SCOPE                 	= "org.genivi.commonapi.dbus.ui";
-    public static final String PROJECT_PAGEID        	= "org.genivi.commonapi.dbus.ui.preferences.CommonAPIDBusPreferencePage";
+    public static final String SCOPE                 	= "org.genivi.faracon.ui";
+    public static final String PROJECT_PAGEID        	= "org.genivi.faracon.ui.preferences.CommonAPIDBusPreferencePage";
 
 
     // preference keys

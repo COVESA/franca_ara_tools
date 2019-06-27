@@ -2,7 +2,7 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>commonapi</groupId>
-    <artifactId>org.genivi.commonapi.dbus.cli.product</artifactId>
+    <artifactId>org.genivi.faracon.cli.product</artifactId>
     <packaging>eclipse-repository</packaging>
     <build>
         <plugins>
@@ -33,73 +33,73 @@
                         <configuration>
                             <target>
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/commonapi-dbus-generator.exe" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/commonapi-dbus-generator.exe" />
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/eclipsec.exe"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/commonapi-dbus-generator-windows-x86.exe" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/eclipsec.exe"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/commonapi-dbus-generator-windows-x86.exe" />
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/commonapi-dbus-generator.ini"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/commonapi-dbus-generator-windows-x86.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/commonapi-dbus-generator.ini"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/commonapi-dbus-generator-windows-x86.ini" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/eclipsec.exe" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/eclipsec.exe" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/commonapi-dbus-generator.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/commonapi-dbus-generator.ini" />
                                 <copy
-                                    todir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/">
+                                    todir="${project.build.directory}/products/org.genivi.faracon.cli.product/all/">
                                     <fileset
-                                        dir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86/" />
+                                        dir="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86/" />
                                 </copy>
 
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/commonapi-dbus-generator.exe" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/commonapi-dbus-generator.exe" />
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/eclipsec.exe"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/commonapi-dbus-generator-windows-x86_64.exe" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/eclipsec.exe"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/commonapi-dbus-generator-windows-x86_64.exe" />
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/commonapi-dbus-generator.ini"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/commonapi-dbus-generator-windows-x86_64.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/commonapi-dbus-generator.ini"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/commonapi-dbus-generator-windows-x86_64.ini" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/eclipsec.exe" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/eclipsec.exe" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/commonapi-dbus-generator.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/commonapi-dbus-generator.ini" />
                                 <copy
-                                    todir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/">
+                                    todir="${project.build.directory}/products/org.genivi.faracon.cli.product/all/">
                                     <fileset
-                                        dir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/win32/win32/x86_64/" />
+                                        dir="${project.build.directory}/products/org.genivi.faracon.cli.product/win32/win32/x86_64/" />
                                 </copy>
 
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/commonapi-dbus-generator"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/commonapi-dbus-generator-linux-x86" />
-                                <chmod file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/commonapi-dbus-generator-linux-x86" perm="755" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/commonapi-dbus-generator"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/commonapi-dbus-generator-linux-x86" />
+                                <chmod file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/commonapi-dbus-generator-linux-x86" perm="755" />
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/commonapi-dbus-generator.ini"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/commonapi-dbus-generator-linux-x86.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/commonapi-dbus-generator.ini"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/commonapi-dbus-generator-linux-x86.ini" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/commonapi-dbus-generator" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/commonapi-dbus-generator" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/commonapi-dbus-generator.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/commonapi-dbus-generator.ini" />
                                 <copy
-                                    todir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/">
+                                    todir="${project.build.directory}/products/org.genivi.faracon.cli.product/all/">
                                     <fileset
-                                        dir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86/" />
+                                        dir="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86/" />
                                 </copy>
 
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/commonapi-dbus-generator"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/commonapi-dbus-generator-linux-x86_64" />
-                                <chmod file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/commonapi-dbus-generator-linux-x86_64" perm="755" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/commonapi-dbus-generator"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/commonapi-dbus-generator-linux-x86_64" />
+                                <chmod file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/commonapi-dbus-generator-linux-x86_64" perm="755" />
                                 <copy
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/commonapi-dbus-generator.ini"
-                                    tofile="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/commonapi-dbus-generator-linux-x86_64.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/commonapi-dbus-generator.ini"
+                                    tofile="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/commonapi-dbus-generator-linux-x86_64.ini" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/commonapi-dbus-generator" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/commonapi-dbus-generator" />
                                 <delete
-                                    file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/commonapi-dbus-generator.ini" />
+                                    file="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/commonapi-dbus-generator.ini" />
                                 <copy
-                                    todir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/">
+                                    todir="${project.build.directory}/products/org.genivi.faracon.cli.product/all/">
                                     <fileset
-                                        dir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/linux/gtk/x86_64/" />
+                                        dir="${project.build.directory}/products/org.genivi.faracon.cli.product/linux/gtk/x86_64/" />
                                 </copy>
                             </target>
                         </configuration>
@@ -112,11 +112,11 @@
                                 <zip excludesfile="zip.excludes"
                                     excludes="commonapi-dbus-generator-linux-x86,commonapi-dbus-generator-linux-x86_64,commonapi-dbus-generator-windows-x86.exe,commonapi-dbus-generator-windows-x86_64.exe"
                                     destfile="${project.build.directory}/products/commonapi_dbus_generator.zip"
-                                    basedir="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all">
-                                    <zipfileset file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/commonapi-dbus-generator-linux-x86" filemode="755"/>
-                                    <zipfileset file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/commonapi-dbus-generator-linux-x86_64" filemode="755"/>
-                                    <zipfileset file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/commonapi-dbus-generator-windows-x86.exe" filemode="755"/>
-                                    <zipfileset file="${project.build.directory}/products/org.genivi.commonapi.dbus.cli.product/all/commonapi-dbus-generator-windows-x86_64.exe" filemode="755"/>
+                                    basedir="${project.build.directory}/products/org.genivi.faracon.cli.product/all">
+                                    <zipfileset file="${project.build.directory}/products/org.genivi.faracon.cli.product/all/commonapi-dbus-generator-linux-x86" filemode="755"/>
+                                    <zipfileset file="${project.build.directory}/products/org.genivi.faracon.cli.product/all/commonapi-dbus-generator-linux-x86_64" filemode="755"/>
+                                    <zipfileset file="${project.build.directory}/products/org.genivi.faracon.cli.product/all/commonapi-dbus-generator-windows-x86.exe" filemode="755"/>
+                                    <zipfileset file="${project.build.directory}/products/org.genivi.faracon.cli.product/all/commonapi-dbus-generator-windows-x86_64.exe" filemode="755"/>
                                 </zip>
                             </target>          
                         </configuration>
@@ -130,8 +130,8 @@
     </build>
     <parent>
         <groupId>commonapi</groupId>
-        <artifactId>org.genivi.commonapi.dbus.releng</artifactId>
+        <artifactId>org.genivi.faracon.releng</artifactId>
         <version>3.1.12-SNAPSHOT</version>
-        <relativePath>../org.genivi.commonapi.dbus.releng</relativePath>
+        <relativePath>../org.genivi.faracon.releng</relativePath>
     </parent>
 </project>
