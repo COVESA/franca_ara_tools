@@ -19,8 +19,6 @@ public class Activator extends Plugin
      */
     public Activator()
     {
-        System.out.println("org.genivi.faracon.cli.Activator()");
-        System.err.println("org.genivi.faracon.cli.Activator() err");
     }
 
     /**
@@ -40,9 +38,6 @@ public class Activator extends Plugin
      */
     public void start(BundleContext bundleContext) throws Exception
     {
-        System.out.println("org.genivi.faracon.cli.Activator.start()");
-        System.err.println("org.genivi.faracon.cli.Activator.start() err");
-        
         super.start(bundleContext);
         plugin = this;
     }
