@@ -42,8 +42,6 @@ public class Activator extends Plugin
      */
     public Activator()
     {
-        System.out.println("Activator()");
-        System.err.println("Activator() err");
     }
 
     /*
@@ -54,9 +52,6 @@ public class Activator extends Plugin
     @Override
     public void start(BundleContext context) throws Exception
     {
-        System.out.println("Activator.start()");
-        System.err.println("Activator.start() err");
-        
         super.start(context);
         plugin = this;
 

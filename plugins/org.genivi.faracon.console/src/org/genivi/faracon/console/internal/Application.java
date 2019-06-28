@@ -16,9 +16,6 @@ public class Application implements IApplication
     @Override
     public Object start(IApplicationContext context) throws Exception
     {
-        System.out.println("Application.start()");
-        System.err.println("Application.start() err");
-        
         long startTime = System.currentTimeMillis();
 
         FrancaIDLStandaloneSetup.doSetup();
