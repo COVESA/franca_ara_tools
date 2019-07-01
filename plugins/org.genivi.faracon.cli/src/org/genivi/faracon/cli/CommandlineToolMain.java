@@ -91,25 +91,29 @@ public class CommandlineToolMain extends CommandlineTool {
 		ARAConnector conn = new ARAConnector();
 		for (String francaFilePath : francaFilePaths) {
 			// Load an input FrancaIDL model.
-			ConsoleLogger.printLog("   Loading FrancaIDL file " + francaFilePath + " ...");
-
+			String normalizedFrancaFilePath = normalize(francaFilePath);
+			ConsoleLogger.printLog("   Loading FrancaIDL file " + normalizedFrancaFilePath);
 			FModel francaModel;
 			try {
-				francaModel = francaLoader.loadModel(francaFilePath);
+				francaModel = francaLoader.loadModel(normalizedFrancaFilePath);
 			} catch(Exception e) {
-				ConsoleLogger.printLog("      Error: File " + francaFilePath + " could not be loaded!");
+				ConsoleLogger.printLog("      Error: File " + normalizedFrancaFilePath + " could not be loaded!");
 				continue;
 			}
 			
 			// Transform the FrancaIDL model to an arxml model.
-			ConsoleLogger.printLog("   Converting FrancaIDL file " + francaFilePath + " ...");
+			ConsoleLogger.printLog("   Converting FrancaIDL file " + normalizedFrancaFilePath);
 			ARAModelContainer araModelContainer = (ARAModelContainer)conn.fromFranca(francaModel);
 
 			// Store the output arxml model.
 			URI francaModelUri = francaModel.eResource().getURI();
 			URI transformedModelUri = francaModelUri.trimFileExtension().appendFileExtension("arxml");
-			String araFilePath = transformedModelUri.lastSegment();
-			ConsoleLogger.printLog("   Storing arxml file " + araFilePath + " ...");
+			String outputDirectoryPath = preferences.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, "");
+			if (!outputDirectoryPath.isEmpty()) {
+				outputDirectoryPath += "/";
+			}
+			String araFilePath = normalize(outputDirectoryPath + transformedModelUri.lastSegment());
+			ConsoleLogger.printLog("   Storing arxml file " + araFilePath);
 			conn.saveModel(araModelContainer, araFilePath);
 		}
 
@@ -130,24 +134,29 @@ public class CommandlineToolMain extends CommandlineTool {
 		ARAConnector conn = new ARAConnector();
 		for (String araFilePath : araFilePaths) {
 			// Load an input arxml model.
-			ConsoleLogger.printLog("   Loading arxml file " + araFilePath + " ...");
+			String normalizedARAFilePath = normalize(araFilePath);
+			ConsoleLogger.printLog("   Loading arxml file " + normalizedARAFilePath);
 			ARAModelContainer araModelContainer;
 			try {
-				araModelContainer = (ARAModelContainer)conn.loadModel(araFilePath);
+				araModelContainer = (ARAModelContainer)conn.loadModel(normalizedARAFilePath);
 			} catch(Exception e) {
-				ConsoleLogger.printLog("      Error: File " + araFilePath + " could not be loaded!");
+				ConsoleLogger.printLog("      Error: File " + normalizedARAFilePath + " could not be loaded!");
 				continue;
 			}
 
 			// Transform the arxml model to a FrancaIDL model.
-			ConsoleLogger.printLog("   Converting arxml file " + araFilePath + " ...");
+			ConsoleLogger.printLog("   Converting arxml file " + normalizedARAFilePath);
 			FrancaModelContainer fmodel = (FrancaModelContainer)conn.toFranca(araModelContainer);
 
 			// Store the output FrancaIDL model.
 			URI araModelUri = araModelContainer.model().eResource().getURI();
 			URI transformedModelUri = araModelUri.trimFileExtension().appendFileExtension("fidl");
-			String francaFilePath = transformedModelUri.lastSegment();
-			ConsoleLogger.printLog("   Storing FrancaIDL file " + francaFilePath + " ...");
+			String outputDirectoryPath = preferences.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, "");
+			if (!outputDirectoryPath.isEmpty()) {
+				outputDirectoryPath += "/";
+			}
+			String francaFilePath = normalize(outputDirectoryPath + transformedModelUri.lastSegment());
+			ConsoleLogger.printLog("   Storing FrancaIDL file " + francaFilePath);
 			francaLoader.saveModel(fmodel.model(), francaFilePath);
 		}
 
@@ -298,8 +307,9 @@ public class CommandlineToolMain extends CommandlineTool {
 	}
 
 	public void setOutputDirectoryPath(String outputDirectoryPath) {
-		ConsoleLogger.printLog("Output directory path: " + outputDirectoryPath);
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, outputDirectoryPath);
+		String normalizedOutputDirectoryPath = normalize(outputDirectoryPath);
+		ConsoleLogger.printLog("Output directory path: " + normalizedOutputDirectoryPath);
+		preferences.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, normalizedOutputDirectoryPath);
 	}
 
 	public void setLogLevel(String optionValue) {
