@@ -21,149 +21,78 @@
             name="Franca ARA Converter">
          <options>
             <option
-                  argCount="0"
-                  description="Switch off generation of common code"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.nocommon"
-                  longName="no-common"
-                  required="false"
-                  shortName="nc">
-            </option>
-            <option
-                  argCount="0"
-                  description="Switch off generation of proxy code"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.noproxy"
-                  longName="no-proxy"
-                  required="false"
-                  shortName="np">
-            </option>
-            <option
-                  argCount="0"
-                  description="Switch off generation of stub code"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.nostub"
-                  longName="no-stub"
-                  required="false"
-                  shortName="ns">
-            </option>
-            <option
                   argCount="1"
-                  description="The default output directory"
+                  description="Output directory for the generated files."
                   hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.dir.default"
+                  id="org.genivi.faracon.cli.option.dest"
                   longName="dest"
                   required="false"
                   shortName="d">
             </option>
             <option
-                  argCount="0"
-                  description="Use subdir per interface"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.dir.subdirs"
-                  longName="dest-subdirs"
-                  required="false"
-                  shortName="dsub">
-            </option>
-            <option
                   argCount="1"
-                  description="The directory for the common code"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.dir.common"
-                  longName="dest-common"
-                  required="false"
-                  shortName="dc">
-            </option>
-            <option
-                  argCount="1"
-                  description="The directory for proxy code"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.dir.proxy"
-                  longName="dest-proxy"
-                  required="false"
-                  shortName="dp">
-            </option>
-            <option
-                  argCount="1"
-                  description="The directory for stub code"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.dir.stub"
-                  longName="dest-stub"
-                  required="false"
-                  shortName="ds">
-            </option>
-            <option
-                  argCount="1"
-                  description="The file path to the license text that will be added to each generated file"
+                  description="The file path to the license text that will be added to each generated file."
                   hasOptionalArg="false"
                   id="org.genivi.faracon.cli.option.license"
                   longName="license"
                   required="false"
+                  shortName="L">
+            </option>
+            <option
+                  argCount="1"
+                  description="The log level (quiet or verbose)."
+                  hasOptionalArg="false"
+                  id="org.genivi.faracon.cli.option.loglevel"
+                  longName="log-level"
+                  required="false"
                   shortName="l">
             </option>
             <option
-                  argCount="0"
-                  description="Switch off validation of the fidl file"
+                  argCount="1"
+                  description="Franca file that will be converted to arxml or directory what will be recursively scanned for fidl files and each one of them will be converted to corresponding arxml ones."
                   hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.validation"
-                  longName="no-val"
+                  id="org.genivi.faracon.cli.option.francatoara"
+                  longName="franca-to-ara"
                   required="false"
-                  shortName="nv">
+                  shortName="f">
             </option>
             <option
                   argCount="1"
-                  description="The log level (quiet or verbose)"
+                  description="Arxml file that will be converted to .fidl or directory what will be recursively scanned for .arxml files and each one of them will be converted to corresponding fidl ones."
                   hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.loglevel"
-                  longName="loglevel"
+                  id="org.genivi.faracon.cli.option.aratofranca"
+                  longName="ara-to-franca"
                   required="false"
-                  shortName="ll">
-            </option>  
-            <option
-                  argCount="0"
-                  description="Print out generated files"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.printFiles"
-                  longName="printfiles"
-                  required="false"
-                  shortName="pf">
+                  shortName="a">
             </option>
             <option
                   argCount="1"
-                  description="The search path to contain fidl/fdepl files"
+                  description="Additions to classpath."
                   hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.searchpath"
-                  longName="searchpath"
+                  id="org.genivi.faracon.cli.option.include"
+                  longName="include"
                   required="false"
-                  shortName="sp">
+                  shortName="i">
             </option>
             <option
                   argCount="0"
-                  description="Switch off code generation completely"
+                  description="Treat warnings as errors."
                   hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.nogeneration"
-                  longName="no-gen"
+                  id="org.genivi.faracon.cli.option.warningsaserrors"
+                  longName="warnings-as-errors"
                   required="false"
-                  shortName="ng">
+                  shortName="e">
             </option>
-          <option
+            <option
                   argCount="0"
-                  description="Switch off code generation of dependencies"
+                  description="Do not stop the generation process and skip to the next one."
                   hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.nodependencies"
-                  longName="without-dependencies"
+                  id="org.genivi.faracon.cli.option.continueonerror"
+                  longName="continue-on-error"
                   required="false"
-                  shortName="wod">
+                  shortName="c">
             </option>
-          <option
-                  argCount="0"
-                  description="Switch off code generation of synchronous methods"
-                  hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.nosynccalls"
-                  longName="no-sync-calls"
-                  required="false"
-                  shortName="nsc">
-            </option>                 
+
          </options>
       </command>
    </extension>
