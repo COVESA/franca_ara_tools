@@ -68,7 +68,7 @@ public enum CommandExecuter
     private final String       OPTION_GROUP_CONFIGURATION_NAME             = "optionGroup";
     private final String       OPTION_GROUP_ID_CONFIGURATION_NAME          = "optionGroupId";
 
-    private final String       ECLIPSE_LAUNCHER_PROPERTY_NAME              = "eclipse.launcher";
+    private final String       ECLIPSE_LAUNCHER_PROPERTY_NAME              = "faracon.launcher";
 
     private final String       ID_OPTION_DESCRIPTION                       = "%s of the desired console command";
     private final String       EXTENSION_POINT_PARSING_ERROR_MESSAGE       = "An error occured while parsing console command \"%s\"!";
@@ -92,7 +92,8 @@ public enum CommandExecuter
 
     private CommandExecuter()
     {
-        String launcherName = System.getProperty(ECLIPSE_LAUNCHER_PROPERTY_NAME);
+//        String launcherName = System.getProperty(ECLIPSE_LAUNCHER_PROPERTY_NAME);
+        String launcherName = "faracon";
         LAUNCHER_NAME = (null != launcherName) ? new Path(launcherName).lastSegment() : Platform.getProduct().getName();
 
         ID_OPTION = new Option(SHORT_ID_OPTION, LONG_ID_OPTION, true, String.format(ID_OPTION_DESCRIPTION, SHORT_ID_OPTION));
@@ -105,8 +106,7 @@ public enum CommandExecuter
     {
         Assert.isNotNull(command);
 
-        String[] arguments = new String[]{new String("cgfcgfc")};
-//        String[] arguments = (command.length() > 0) ? (command.trim().split("\\s")) : (new String[0]);
+        String[] arguments = (command.length() > 0) ? (command.trim().split("\\s")) : (new String[0]);
 
         return executeCommand(arguments);
     }
@@ -126,9 +126,9 @@ public enum CommandExecuter
         }
 
         // Print help text if no option is available.
-        arguments = new String[]{new String("cgfcgfc")};
         if (arguments.length == 0)
         {
+            // Show help text for all console commands.
             printHelp(configurations);
 
             return DEFAULT_RETURN_VALUE;

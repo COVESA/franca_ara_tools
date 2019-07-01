@@ -39,7 +39,7 @@ public class CommandlineTool {
 			File file = new File(createAbsolutPath(fileWithText));
 			if (!file.exists() || file.isDirectory())
 			{
-				ConsoleLogger.printErrorLog("Please specify a path to an existing file after option -l");
+				ConsoleLogger.printErrorLog("Please specify a path to an existing file after option -L");
 			}
 			BufferedReader inReader = null;
 
@@ -72,7 +72,7 @@ public class CommandlineTool {
 		}
 		else
 		{
-			ConsoleLogger.printErrorLog("Please write a path to an existing file after -l");
+			ConsoleLogger.printErrorLog("Please write a path to an existing file after -L");
 		}
 		return licenseText;
 	}
