@@ -70,10 +70,10 @@ public class ARAConnector extends AbstractFrancaConnector {
 			out.println("Error: Could not load arxml model from file " + filename);
 		} else {
 			List<ARPackage> packages = model.getArPackages();
-			if (packages.isEmpty())
-				out.println("Loaded arxml model (no packages)");
-			else
-				out.println("Loaded arxml model (first package " + packages.get(0).getShortName() + ")");
+//			if (packages.isEmpty())
+//				out.println("Loaded arxml model (no packages)");
+//			else
+//				out.println("Loaded arxml model (first package " + packages.get(0).getShortName() + ")");
 		}
 		return new ARAModelContainer(model, primitiveTypesModel);
 	}

@@ -23,7 +23,7 @@ public interface PreferencesConstants
     public static final String P_ENABLE_CORE_VALIDATOR 	= "enableCoreValidator";
 
 	// preference values
-    public static final String DEFAULT_OUTPUT     = ".";
+    public static final String DEFAULT_OUTPUT     = "";
 	public static final String LOGLEVEL_QUIET     = "quiet";
 	public static final String LOGLEVEL_VERBOSE   = "verbose";
     public static final String DEFAULT_LICENSE    = "This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0.\n"
