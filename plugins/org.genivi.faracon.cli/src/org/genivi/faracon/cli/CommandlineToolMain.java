@@ -1,14 +1,19 @@
 package org.genivi.faracon.cli;
 
 import java.io.File;
-import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.validation.AbstractValidationMessageAcceptor;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
+import org.franca.core.dsl.FrancaIDLRuntimeModule;
+import org.franca.core.dsl.FrancaPersistenceManager;
+import org.franca.core.framework.FrancaModelContainer;
+import org.franca.core.franca.FModel;
 import org.genivi.faracon.ARAConnector;
+import org.genivi.faracon.ARAModelContainer;
 import org.genivi.faracon.console.CommandlineTool;
 import org.genivi.faracon.console.ConsoleLogger;
 //import org.genivi.faracon.generator.GeneratorFileSystemAccess;
@@ -17,8 +22,6 @@ import org.genivi.faracon.console.ConsoleLogger;
 //import org.genivi.faracon.generator.FrancaDBusGenerator;
 import org.genivi.faracon.preferences.Preferences;
 import org.genivi.faracon.preferences.PreferencesConstants;
-import org.franca.core.dsl.FrancaIDLRuntimeModule;
-import org.franca.core.framework.IModelContainer;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -30,6 +33,7 @@ import com.google.inject.Injector;
 public class CommandlineToolMain extends CommandlineTool {
 	protected Injector injector;
 	protected CreateShowcaseARATests createShowcaseARATests;
+	protected FrancaPersistenceManager francaLoader;
 //	protected GeneratorFileSystemAccess fsa;
 	protected Preferences preferences;
 //	protected IGenerator francaGenerator;
@@ -68,6 +72,8 @@ public class CommandlineToolMain extends CommandlineTool {
 		injector = Guice.createInjector(new FrancaIDLRuntimeModule());
 
 		createShowcaseARATests = injector.getInstance(CreateShowcaseARATests.class);
+		
+		francaLoader = injector.getInstance(FrancaPersistenceManager.class);
 
 //		fsa = injector.getInstance(GeneratorFileSystemAccess.class);
 
@@ -75,17 +81,76 @@ public class CommandlineToolMain extends CommandlineTool {
 
 	}
 
-	public int generateDBus(List<String> fileList) {
-		String inputfile = "C:/Users/tgoerg/git/franca_ara_tools/tests/org.genivi.faracon.tests/src-gen/testcases/drivingLane.arxml";
-		System.out.println("Loading arxml file " + inputfile + " ...");
-		ARAConnector conn = new ARAConnector();
-		IModelContainer amodel = conn.loadModel(inputfile);
+	public int convertFrancaFiles(String[] francaFilePaths) {
+		if (francaFilePaths == null || francaFilePaths.length == 0) {
+			return -1;
+		}
 
-		createShowcaseARATests.createDrivingLaneARXML();
+		ConsoleLogger.printLog("Converting Franca IDL models to Adaptive AUTOSAR IDL models...");
+
+		ARAConnector conn = new ARAConnector();
+		for (String francaFilePath : francaFilePaths) {
+			// Load an input FrancaIDL model.
+			ConsoleLogger.printLog("   Loading FrancaIDL file " + francaFilePath + " ...");
+
+			FModel francaModel;
+			try {
+				francaModel = francaLoader.loadModel(francaFilePath);
+			} catch(Exception e) {
+				ConsoleLogger.printLog("      Error: File " + francaFilePath + " could not be loaded!");
+				continue;
+			}
+			
+			// Transform the FrancaIDL model to an arxml model.
+			ConsoleLogger.printLog("   Converting FrancaIDL file " + francaFilePath + " ...");
+			ARAModelContainer araModelContainer = (ARAModelContainer)conn.fromFranca(francaModel);
+
+			// Store the output arxml model.
+			URI francaModelUri = francaModel.eResource().getURI();
+			URI transformedModelUri = francaModelUri.trimFileExtension().appendFileExtension("arxml");
+			String araFilePath = transformedModelUri.lastSegment();
+			ConsoleLogger.printLog("   Storing arxml file " + araFilePath + " ...");
+			conn.saveModel(araModelContainer, araFilePath);
+		}
+
+//		createShowcaseARATests.createDrivingLaneARXML();
 		
 //		francaGenerator = injector.getInstance(FrancaDBusGenerator.class);
 
-		System.out.println("Franca ARA Converter");
+		return 0;
+	}
+
+	public int convertARAFiles(String[] araFilePaths) {
+		if (araFilePaths == null || araFilePaths.length == 0) {
+			return -1;
+		}
+
+		ConsoleLogger.printLog("Converting Adaptive AUTOSAR IDL models to Franca IDL models...");
+
+		ARAConnector conn = new ARAConnector();
+		for (String araFilePath : araFilePaths) {
+			// Load an input arxml model.
+			ConsoleLogger.printLog("   Loading arxml file " + araFilePath + " ...");
+			ARAModelContainer araModelContainer;
+			try {
+				araModelContainer = (ARAModelContainer)conn.loadModel(araFilePath);
+			} catch(Exception e) {
+				ConsoleLogger.printLog("      Error: File " + araFilePath + " could not be loaded!");
+				continue;
+			}
+
+			// Transform the arxml model to a FrancaIDL model.
+			ConsoleLogger.printLog("   Converting arxml file " + araFilePath + " ...");
+			FrancaModelContainer fmodel = (FrancaModelContainer)conn.toFranca(araModelContainer);
+
+			// Store the output FrancaIDL model.
+			URI araModelUri = araModelContainer.model().eResource().getURI();
+			URI transformedModelUri = araModelUri.trimFileExtension().appendFileExtension("fidl");
+			String francaFilePath = transformedModelUri.lastSegment();
+			ConsoleLogger.printLog("   Storing FrancaIDL file " + francaFilePath + " ...");
+			francaLoader.saveModel(fmodel.model(), francaFilePath);
+		}
+
 		return 0;
 	}
 
@@ -232,88 +297,28 @@ public class CommandlineToolMain extends CommandlineTool {
 		ConsoleLogger.printLog("No stub code will be generated");
 	}
 
-	public void setDefaultDirectory(String optionValue) {
-		ConsoleLogger.printLog("Default output directory: " + optionValue);
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_DEFAULT_DBUS,
-				optionValue);
-		// In the case where no other output directories are set,
-		// this default directory will be used for them
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_COMMON_DBUS,
-				optionValue);
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_PROXIES_DBUS,
-				optionValue);
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_STUBS_DBUS,
-				optionValue);
-	}
-
-	public void setDestinationSubdirs() {
-		ConsoleLogger.printLog("Using destination subdirs");
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_SUBDIRS_DBUS,
-			"true");
-	}
-
-	public void setCommonDirectory(String optionValue) {
-		ConsoleLogger.printLog("Common output directory: " + optionValue);
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_COMMON_DBUS,
-				optionValue);
-	}
-
-	public void setProxyDirectory(String optionValue) {
-		ConsoleLogger.printLog("Proxy output directory: " + optionValue);
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_PROXIES_DBUS,
-				optionValue);
-	}
-
-	public void setStubDirectory(String optionValue) {
-		ConsoleLogger.printLog("Stub output directory: " + optionValue);
-		preferences.setPreference(PreferencesConstants.P_OUTPUT_STUBS_DBUS,
-				optionValue);
+	public void setOutputDirectoryPath(String outputDirectoryPath) {
+		ConsoleLogger.printLog("Output directory path: " + outputDirectoryPath);
+		preferences.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, outputDirectoryPath);
 	}
 
 	public void setLogLevel(String optionValue) {
 		if (PreferencesConstants.LOGLEVEL_QUIET.equals(optionValue)) {
-			preferences.setPreference(PreferencesConstants.P_LOGOUTPUT_DBUS,
-					"false");
+			preferences.setPreference(PreferencesConstants.P_LOGOUTPUT, "false");
 			ConsoleLogger.enableLogging(false);
 			ConsoleLogger.enableErrorLogging(false);
 		}
 		if (PreferencesConstants.LOGLEVEL_VERBOSE.equals(optionValue)) {
-			preferences.setPreference(PreferencesConstants.P_LOGOUTPUT_DBUS,
-					"true");
+			preferences.setPreference(PreferencesConstants.P_LOGOUTPUT, "true");
 			ConsoleLogger.enableErrorLogging(true);
 			ConsoleLogger.enableLogging(true);
 		}
 	}
 
-	public void disableValidation() {
-		ConsoleLogger.printLog("Validation is off");
-		isValidation = false;
-	}
-
-	/**
-	 * set a preference value to disable code generation
-	 */
-	public void disableCodeGeneration() {
-		ConsoleLogger.printLog("Code generation is off");
-		preferences.setPreference(PreferencesConstants.P_GENERATE_CODE_DBUS,
-				"false");
-	}
-
-	/**
-	 * Set a preference value to disable code generation for included types and
-	 * interfaces
-	 */
-	public void noCodeforDependencies() {
-		ConsoleLogger.printLog("Code generation for includes is off");
-		preferences.setPreference(
-				PreferencesConstants.P_GENERATE_DEPENDENCIES_DBUS, "false");
-	}
-
-	public void disableSyncCalls() {
-		ConsoleLogger.printLog("Code generation for synchronous calls is off");
-		preferences.setPreference(
-				PreferencesConstants.P_GENERATE_SYNC_CALLS_DBUS, "false");
-	}
+//	public void disableValidation() {
+//		ConsoleLogger.printLog("Validation is off");
+//		isValidation = false;
+//	}
 
 	/**
 	 * Set the text from a file which will be inserted as a comment in each
@@ -327,8 +332,7 @@ public class CommandlineToolMain extends CommandlineTool {
 		String licenseText = getLicenseText(fileWithText);
 
 		if (licenseText != null && !licenseText.isEmpty()) {
-			preferences.setPreference(PreferencesConstants.P_LICENSE_DBUS,
-					licenseText);
+			preferences.setPreference(PreferencesConstants.P_LICENSE, licenseText);
 		}
 	}
 
