@@ -25,12 +25,17 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
 
     @Override
 	public int excute(CommandLine parsedArguments) {
-    	println("Command: Franca ARA Converter");
-    	
 		// Handle command line options.
 
 //		@SuppressWarnings("unchecked")
 
+		// -l --log-level quiet or verbose
+		if (parsedArguments.hasOption("l")) {
+			cliTool.setLogLevel(parsedArguments.getOptionValue("l"));
+		}
+
+		ConsoleLogger.printLog("Command: Franca ARA Converter");
+    	
 		List<String> commandLineArguments = parsedArguments.getArgList();
 		if (!commandLineArguments.isEmpty()) {
 			//TODO: error handling
@@ -61,18 +66,12 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
 			cliTool.setLicenseText(parsedArguments.getOptionValue("L"));
 		}
 
-		// -l --log-level quiet or verbose
-		if (parsedArguments.hasOption("l")) {
-			cliTool.setLogLevel(parsedArguments.getOptionValue("l"));
-		}
-
 //			// Switch off validation
 //			if (parsedArguments.hasOption("nv")) {
 //				cliTool.disableValidation();
 //			}
 
 		// Invoke the converters.
-		ConsoleLogger.printLog("Franca ARA Converter");
 		int result = cliTool.convertFrancaFiles(francaFilePaths);
 		if (result == 0) {
 			return result;
