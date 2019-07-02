@@ -3,12 +3,15 @@ package org.genivi.faracon.console.internal;
 import org.apache.commons.cli.CommandLine;
 import org.genivi.faracon.console.AbstractCommandLineHandler;
 import org.genivi.faracon.console.CommandExecuter;
+import org.genivi.faracon.console.ConsoleLogger;
 
 public class HelpCommandHandler extends AbstractCommandLineHandler
 {
     @Override
     public int excute(CommandLine parsedArguments)
     {
+    	ConsoleLogger.printLog("Command: Console Help");
+    	
         // Command executer will print help on empty command.
         CommandExecuter.INSTANCE.executeCommand("");
 

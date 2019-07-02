@@ -7,6 +7,7 @@ import org.apache.commons.cli.CommandLine;
 import org.eclipse.core.runtime.Platform;
 import org.genivi.faracon.console.AbstractCommandLineHandler;
 import org.genivi.faracon.console.CommandExecuter;
+import org.genivi.faracon.console.ConsoleLogger;
 import org.osgi.framework.Bundle;
 
 public class VersionCommandHandler extends AbstractCommandLineHandler
@@ -32,6 +33,8 @@ public class VersionCommandHandler extends AbstractCommandLineHandler
     @Override
     public int excute(final CommandLine parsedArguments)
     {
+    	ConsoleLogger.printLog("Command: Version Information");
+    	
         final boolean printAllVersions = parsedArguments.hasOption(SHORT_ALL_OPTION);
         final boolean printPluginVersions = parsedArguments.hasOption(SHORT_PLUGINS_OPTION);
 
