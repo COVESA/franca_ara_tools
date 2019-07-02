@@ -14,6 +14,8 @@ public interface PreferencesConstants
     public static final String P_GENERATE_STUB     		= "generatestub";
     public static final String P_GENERATE_SKELETON 		= "generateskeleton";
 	public static final String P_LOGOUTPUT        		= "logOutput";
+	public static final String P_WARNINGS_AS_ERRORS 	= "warningsAsErrors";
+	public static final String P_CONTINUE_ON_ERRORS 	= "continueOnErrors";
 	public static final String P_ENUMPREFIX       		= "enumprefix";
 	public static final String P_SKELETONPOSTFIX  		= "skeletonpostfix";
 	public static final String P_USEPROJECTSETTINGS 	= "useProjectSettings";

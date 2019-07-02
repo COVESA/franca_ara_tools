@@ -34,11 +34,22 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
 			cliTool.setLogLevel(parsedArguments.getOptionValue("l"));
 		}
 
-		ConsoleLogger.printLog("Command: Franca ARA Converter");
+		ConsoleLogger.logInfo("Command: Franca ARA Converter");
+		ConsoleLogger.increaseIndentationLevel();
     	
+		// -e --warnings-as-errors Treat warnings as errors.
+		if (parsedArguments.hasOption("e")) {
+			cliTool.setWarningsAsErrors(true);
+		}
+
+		// -c --continue-on-errorsDo not stop the tool execution when an error occurs.
+		if (parsedArguments.hasOption("c")) {
+			cliTool.setContinueOnErrors(true);
+		}
+
 		List<String> commandLineArguments = parsedArguments.getArgList();
-		if (!commandLineArguments.isEmpty()) {
-			//TODO: error handling
+		for (String commandLineArgument : commandLineArguments) {
+			ConsoleLogger.logWarning("Unexpected command line argument \"" + commandLineArgument + "\"");			
 		}
 
 		String[] francaFilePaths = parsedArguments.getOptionValues('f');
@@ -46,8 +57,10 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
 //		// We expect at least one fidl/fdepl file as command line argument
 //		if (files.size() > 0 && files.get(0) != null) {
 		if ((francaFilePaths == null || francaFilePaths.length == 0) && (araFilePaths == null || araFilePaths.length == 0)) {
-			//TODO: error handling
-//			System.out.println("A *.fidl or *.fdepl file was not specified !");
+			ConsoleLogger.logError("At least one input model file has to be given!");			
+		}		
+		if ((francaFilePaths != null && francaFilePaths.length > 0) && (araFilePaths != null && araFilePaths.length > 0)) {
+			ConsoleLogger.logWarning("A mix of FrancaIDL and Adaptive AUTOSAR input model files is given.");			
 		}		
 //		// a search path may be specified, collect all fidl/fdepl files
 //		if (parsedArguments.hasOption("sp")) {
@@ -71,15 +84,12 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
 //				cliTool.disableValidation();
 //			}
 
+		ConsoleLogger.decreaseIndentationLevel();
+
 		// Invoke the converters.
-		int result = cliTool.convertFrancaFiles(francaFilePaths);
-		if (result == 0) {
-			return result;
-		}
-		result = cliTool.convertARAFiles(araFilePaths);
-		if (result == 0) {
-			return result;
-		}
+		cliTool.convertFrancaFiles(francaFilePaths);
+		cliTool.convertARAFiles(araFilePaths);
+		
 		return 0;
 	}
 }
