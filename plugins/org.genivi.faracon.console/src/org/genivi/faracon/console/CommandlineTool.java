@@ -39,7 +39,7 @@ public class CommandlineTool {
 			File file = new File(createAbsolutPath(fileWithText));
 			if (!file.exists() || file.isDirectory())
 			{
-				ConsoleLogger.printErrorLog("Please specify a path to an existing file after option -L");
+				ConsoleLogger.logError("Please specify a path to an existing file after option -L");
 			}
 			BufferedReader inReader = null;
 
@@ -54,7 +54,7 @@ public class CommandlineTool {
 			}
 			catch (IOException e)
 			{
-				ConsoleLogger.printLog("Failed to get the text from the given file: " + e.getLocalizedMessage());
+				ConsoleLogger.logInfo("Failed to get the text from the given file: " + e.getLocalizedMessage());
 			}
 			finally
 			{
@@ -72,7 +72,7 @@ public class CommandlineTool {
 		}
 		else
 		{
-			ConsoleLogger.printErrorLog("Please write a path to an existing file after -L");
+			ConsoleLogger.logError("Please write a path to an existing file after -L");
 		}
 		return licenseText;
 	}

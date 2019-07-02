@@ -85,10 +85,10 @@
             </option>
             <option
                   argCount="0"
-                  description="Do not stop the generation process and skip to the next one."
+                  description="Do not stop the tool execution when an error occurs."
                   hasOptionalArg="false"
-                  id="org.genivi.faracon.cli.option.continueonerror"
-                  longName="continue-on-error"
+                  id="org.genivi.faracon.cli.option.continueonerrors"
+                  longName="continue-on-errors"
                   required="false"
                   shortName="c">
             </option>
