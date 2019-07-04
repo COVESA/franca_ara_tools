@@ -29,9 +29,9 @@
 						<configuration>
 							<artifacts>
 								<artifact>
-									<file>fara-${platform-version-name}.target</file>
+									<file>fara-${platform-version-name}${artop-suffix}.target</file>
 									<type>target</type>
-									<classifier>fara-${platform-version-name}</classifier>
+									<classifier>fara-${platform-version-name}${artop-suffix}</classifier>
 								</artifact>
 							</artifacts>
 						</configuration>

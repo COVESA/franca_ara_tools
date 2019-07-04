@@ -30,7 +30,7 @@
 
     <modules>
     		<!-- target platform -->
-            <module>../../plugins/org.genivi.faracon.target</module>
+            <module>../org.genivi.faracon.target</module>
     		<!-- actual code modules -->
             <module>../../plugins/org.genivi.faracon</module>
     		<!-- test modules -->
@@ -70,7 +70,7 @@
 							<groupId>org.genivi.faracon</groupId>
 							<artifactId>org.genivi.faracon.targetplatform</artifactId>
 							<version>${project.version}</version>
-							<classifier>fara-${platform-version-name}</classifier>
+							<classifier>fara-${platform-version-name}${artop-suffix}</classifier>
 						</artifact>
 					</target>
 					<filters>
@@ -416,14 +416,6 @@
 		</pluginManagement>
 	</build>
 	
-	<repositories>
-		<repository>
-			<id>artop</id>
-			<layout>p2</layout>
-			<url>https://www.artop.org/containers/artop-sdk-update-site-4.10</url>
-		</repository>
-	</repositories>
-	
 	<pluginRepositories>	
 		<!--pluginRepository>			
 			<id>tycho-0.14.0-staged</id>
@@ -446,6 +438,26 @@
 	</pluginRepositories>
 
 	<profiles>
+		<profile>
+			<id>without-artop</id>
+			<properties>
+				<artop-suffix></artop-suffix>
+			</properties>
+		</profile>
+		<profile>
+			<id>with-artop</id>
+			<properties>
+				<artop-suffix>-artop</artop-suffix>
+			</properties>
+			<repositories>
+				<repository>
+					<id>artop</id>
+					<layout>p2</layout>
+					<url>https://www.artop.org/containers/artop-sdk-update-site-4.10</url>
+				</repository>
+			</repositories>
+		</profile>
+
 		<profile>
 			<id>macosx-jvm-flags</id>
 			<activation>
