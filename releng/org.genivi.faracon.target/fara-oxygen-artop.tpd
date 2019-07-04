@@ -1,0 +1,102 @@
+/**
+ * Target definition for FARACON tooling including Artop dependencies.
+ * 
+ * ---------------------------------------------------------------------------------
+ * Use the "Target Platform Definition DSL" tool for working with this file.
+ * 
+ * P2 Repository for installation: https://dl.bintray.com/mbarbero/fr.obeo.releng.targetplatform/
+ * 
+ * Note that the latest source repository of the Target Platform Definition DSL project is 
+ * https://github.com/eclipse-cbi/targetplatform-dsl. However, the latest release uses Xtext 2.14,
+ * thus we have to fall back to an older version which is compatible with faracon's current Xtext
+ * dependency. 
+ */
+
+target "FARACON Target Platform - Eclipse 4.7"
+
+include "fara-oxygen.tpd" 
+
+with requirements source
+
+environment en
+
+location "https://www.artop.org/containers/artop-sdk-update-site-4.10" {
+	org.artop.base.sdk.feature.group [4.10.0,4.11.0)
+	org.artop.sdk.feature.group [4.10.0,4.11.0)
+
+//	org.artop.core.autosar215.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar315.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar321.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar322.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar402.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar403.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar411.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar412.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar421.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar422.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar430.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar442.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar443.sdk.feature.group [4.10.0,4.11.0)
+//	org.artop.core.autosar444.sdk.feature.group [4.10.0,4.11.0)
+	org.artop.core.autosar445.sdk.feature.group [4.10.0,4.11.0)
+
+//	org.artop.core.metamodel215.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel315.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel321.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel322.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel402.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel403.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel411.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel412.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel421.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel422.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel430.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel442.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel443.feature.group [4.10.0,4.11.0)
+//	org.artop.core.metamodel444.feature.group [4.10.0,4.11.0)
+	org.artop.core.metamodel445.feature.group [4.10.0,4.11.0)
+
+	org.artop.core.metamodels.feature.group [4.10.0,4.11.0)
+	org.artop.core.converters.feature.group [4.10.0,4.11.0)
+	org.artop.core.workspace.feature.group [4.10.0,4.11.0)
+	org.artop.validation.feature.group [4.10.0,4.11.0)
+	org.artop.thirdparty.feature.group [4.10.0,4.11.0)
+	org.artop.validation.constraints.feature.group [4.10.0,4.11.0)
+	org.artop.eel.sdk.feature.group [1.1.0,1.2.0)
+
+//	org.artop.validation315.feature.group [4.10.0,4.11.0)
+//	org.artop.validation321.feature.group [4.10.0,4.11.0)
+	org.artop.validation322.feature.group [4.10.0,4.11.0)
+
+	org.artop.core.viatra.query.feature.group [4.10.0,4.11.0)
+//	org.artop.core.viatra.query21.feature.group [4.10.0,4.11.0)
+//	org.artop.core.viatra.query3x.feature.group [4.10.0,4.11.0)
+	org.artop.core.viatra.query40.feature.group [4.10.0,4.11.0)
+
+	org.artop.ecuc.accessors.feature.group [4.10.0,4.11.0)
+//	org.artop.ecuc.accessors421.feature.group [4.10.0,4.11.0)
+//	org.artop.ecuc.accessors422.feature.group [4.10.0,4.11.0)
+//	org.artop.ecuc.accessors430.feature.group [4.10.0,4.11.0)
+	org.artop.ecuc.accessors442.feature.group [4.10.0,4.11.0)
+
+//	org.artop.ecuc.examples.accessors421.feature.group [4.10.0,4.11.0)
+//	org.artop.ecuc.examples.accessors422.feature.group [4.10.0,4.11.0)
+//	org.artop.ecuc.examples.accessors430.feature.group [4.10.0,4.11.0)
+	org.artop.ecuc.examples.accessors442.feature.group [4.10.0,4.11.0)
+
+	org.artop.ecuc.initializers.feature.group [4.10.0,4.11.0)
+	org.artop.ecuc.xtendxpand.feature.group [4.10.0,4.11.0)
+
+
+	// examples
+	
+	org.artop.examples.feature.group [4.10.0,4.11.0)
+	org.artop.examples.installable.feature.group [4.10.0,4.11.0)
+
+	org.artop.core.examples.autosar412.feature.group [4.10.0,4.11.0)
+
+//	org.artop.validation.examples.check421.feature.group [4.10.0,4.11.0)
+//	org.artop.validation.examples.check422.feature.group [4.10.0,4.11.0)
+//	org.artop.validation.examples.check430.feature.group [4.10.0,4.11.0)
+	org.artop.validation.examples.check442.feature.group [4.10.0,4.11.0)
+}

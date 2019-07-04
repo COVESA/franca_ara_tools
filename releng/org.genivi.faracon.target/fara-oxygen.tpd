@@ -1,0 +1,68 @@
+/**
+ * Target definition for FARACON tooling without the dependency to Artop.
+ * 
+ * ---------------------------------------------------------------------------------
+ * Use the "Target Platform Definition DSL" tool for working with this file.
+ * 
+ * P2 Repository for installation: https://dl.bintray.com/mbarbero/fr.obeo.releng.targetplatform/
+ * 
+ * Note that the latest source repository of the Target Platform Definition DSL project is 
+ * https://github.com/eclipse-cbi/targetplatform-dsl. However, the latest release uses Xtext 2.14,
+ * thus we have to fall back to an older version which is compatible with faracon's current Xtext
+ * dependency. 
+ */
+ 
+target "FARACON Base Target Platform - Eclipse 4.7"
+
+with requirements source
+
+environment en
+
+/**
+ * From this point, we list required locations and their contributions.
+ * 
+ * Note that we try to be very specific with the location URIs in order
+ * to avoid probing large parts of P2 repos which we don't need.
+ */
+ 
+// required installable units for Oxygen platform
+location "https://download.eclipse.org/releases/oxygen/201712201001" {
+	org.eclipse.sdk.feature.group [4.7.2,5.0.0)
+	org.eclipse.pde.feature.group
+
+	org.eclipse.equinox.executable.feature.group [3.7.2,4.0.0)
+	
+	org.eclipse.emf.sdk.feature.group [2.13.0,2.14.0)
+	
+	org.eclipse.xtend.sdk.feature.group [2.12.0,2.13.0)
+	org.eclipse.xtext.sdk.feature.group [2.12.0,2.13.0)
+}
+
+// additional required installable units for Eclipse equinox
+//location "http://download.eclipse.org/eclipse/updates/4.4/" {
+//	org.eclipse.platform.sdk [4.4.1,5.0.0)
+//	org.eclipse.equinox.sdk.feature.group [3.10.0,4.0.0)
+//	org.eclipse.e4.rcp.R441patch.feature.group [1.0.0,1.1.0)
+//	org.eclipse.equinox.core.sdk.R441patch.feature.group [1.0.0,1.1.0)
+//	org.eclipse.equinox.core.feature.R441patch.feature.group [1.0.0,1.1.0)
+//	org.eclipse.equinox.server.core.R441patch.feature.group [1.0.0,1.1.0)
+//}
+
+// Franca features
+// (we are using the SDK versions in order to have the source code available)
+location "http://franca.github.io/franca/update_site/releases/0.13.1" {
+	org.franca.core.sdk.feature.group [0.13.1,0.14.0)
+	org.franca.ui.sdk.feature.group [0.13.1,0.14.0)
+	org.franca.providers.sdk.feature.group [0.13.1,0.14.0)
+}
+
+// Sphinx features
+// (this is needed as a base for Artop)
+location "http://download.eclipse.org/sphinx/releases/0.11.x" {
+	org.eclipse.sphinx.examples.feature.group [0.11.0,0.12.0)
+	org.eclipse.sphinx.examples.viatra.query.feature.group [0.11.0,0.12.0)
+	org.eclipse.sphinx.feature.group [0.11.0,0.12.0)
+	org.eclipse.sphinx.sdk.feature.group [0.11.0,0.12.0)
+	org.eclipse.sphinx.viatra.query.feature.group [0.11.0,0.12.0)
+	org.eclipse.sphinx.viatra.query.sdk.feature.group [0.11.0,0.12.0)
+}
