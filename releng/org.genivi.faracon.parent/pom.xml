@@ -33,6 +33,8 @@
             <module>../org.genivi.faracon.target</module>
     		<!-- actual code modules -->
             <module>../../plugins/org.genivi.faracon</module>
+            <module>../../plugins/org.genivi.faracon.console</module>
+            <module>../../plugins/org.genivi.faracon.cli</module>
     		<!-- test modules -->
 	    	<!--
 	            <module>../../tests/org.genivi.faracon.tests</module>
@@ -42,8 +44,8 @@
 	            <module>../../docs/org.genivi.faracon.docs</module>
 	        -->
 			<!-- release modules -->
+            <module>../../features/org.genivi.faracon.feature</module>
 	    	<!--
-	            <module>../../features/org.genivi.faracon.feature</module>
 	            <module>../../features/org.genivi.faracon.feature.sdk</module>
 				<module>../../releng/org.genivi.faracon.updatesite</module>
 	        -->
