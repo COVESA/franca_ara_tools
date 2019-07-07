@@ -44,6 +44,9 @@
 	            <module>../../docs/org.genivi.faracon.docs</module>
 	        -->
 			<!-- release modules -->
+            <module>../../features/org.genivi.faracon.console.feature</module>
+            <module>../../features/org.genivi.faracon.console.franca.feature</module>
+            <module>../../features/org.genivi.faracon.cli.feature</module>
             <module>../../features/org.genivi.faracon.feature</module>
 	    	<!--
 				<module>../../releng/org.genivi.faracon.updatesite</module>
