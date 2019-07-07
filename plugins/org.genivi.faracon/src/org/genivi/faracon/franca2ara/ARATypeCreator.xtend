@@ -53,17 +53,19 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def private AutosarDataType getDataTypeForReference(FType type) {
 		val autosarType = type.createDataTypeForReference
-		autosarType.createImplementationDataTypeExtension
+		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
+//		autosarType.createImplementationDataTypeExtension
 		return autosarType
 	}
 
-	def private create fac.createImplementationDataTypeExtension createImplementationDataTypeExtension(
-		AutosarDataType autosarType) {
-		it.shortName = autosarType.shortName + "Ext"
-		it.implementationDataType = autosarType as ImplementationDataType
-		it.namespaces.addAll(autosarType.createNamespaceForElement)
-		autosarType.ARPackage.elements.add(it)
-	}
+	// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
+//	def private create fac.createImplementationDataTypeExtension createImplementationDataTypeExtension(
+//		AutosarDataType autosarType) {
+//		it.shortName = autosarType.shortName + "Ext"
+//		it.implementationDataType = autosarType as ImplementationDataType
+//		it.namespaces.addAll(autosarType.createNamespaceForElement)
+//		autosarType.ARPackage.elements.add(it)
+//	}
 
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
 		logger.
@@ -178,7 +180,8 @@ class ARATypeCreator extends Franca2ARABase {
 				]
 			]
 		]
-		vectorImplementationDataType.createImplementationDataTypeExtension
+		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
+//		vectorImplementationDataType.createImplementationDataTypeExtension
 		return vectorImplementationDataType
 	}
 
