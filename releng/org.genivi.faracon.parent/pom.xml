@@ -46,7 +46,6 @@
 			<!-- release modules -->
             <module>../../features/org.genivi.faracon.feature</module>
 	    	<!--
-	            <module>../../features/org.genivi.faracon.feature.sdk</module>
 				<module>../../releng/org.genivi.faracon.updatesite</module>
 	        -->
     </modules>
@@ -455,7 +454,7 @@
 				<repository>
 					<id>artop</id>
 					<layout>p2</layout>
-					<url>https://www.artop.org/containers/artop-sdk-update-site-4.10</url>
+					<url>https://www.artop.org/containers/artop-sdk-update-site-4.12</url>
 				</repository>
 			</repositories>
 		</profile>
