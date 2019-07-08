@@ -10,4 +10,5 @@
 	</parent>
 
 	<artifactId>org.genivi.faracon.cli.feature</artifactId>
+	<packaging>eclipse-feature</packaging>
 </project>
