@@ -39,7 +39,7 @@ location "https://www.artop.org/containers/artop-sdk-update-site-4.12" {
 //	org.artop.core.autosar443.sdk.feature.group [4.12.0,4.13.0)
 //	org.artop.core.autosar444.sdk.feature.group [4.12.0,4.13.0)
 //	org.artop.core.autosar445.sdk.feature.group [4.12.0,4.13.0)
-	org.artop.core.autosar446.sdk.feature.group [4.12.0,4.13.0)
+//	org.artop.core.autosar446.sdk.feature.group [4.12.0,4.13.0)
 	org.artop.core.autosar447.sdk.feature.group [4.12.0,4.13.0)
 
 //	org.artop.core.metamodel215.feature.group [4.12.0,4.13.0)
@@ -90,17 +90,4 @@ location "https://www.artop.org/containers/artop-sdk-update-site-4.12" {
 
 	org.artop.ecuc.initializers.feature.group [4.12.0,4.13.0)
 	org.artop.ecuc.xtendxpand.feature.group [4.12.0,4.13.0)
-
-
-	// examples
-	
-	org.artop.examples.feature.group [4.12.0,4.13.0)
-	org.artop.examples.installable.feature.group [4.12.0,4.13.0)
-
-	org.artop.core.examples.autosar412.feature.group [4.12.0,4.13.0)
-
-//	org.artop.validation.examples.check421.feature.group [4.12.0,4.13.0)
-//	org.artop.validation.examples.check422.feature.group [4.12.0,4.13.0)
-//	org.artop.validation.examples.check430.feature.group [4.12.0,4.13.0)
-	org.artop.validation.examples.check442.feature.group [4.12.0,4.13.0)
 }
