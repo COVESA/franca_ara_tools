@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
-<target name="FARACON Base Target Platform - Eclipse 4.7" sequenceNumber="1562565040">
+<target name="FARACON Base Target Platform - Eclipse 4.7" sequenceNumber="1562682628">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.sdk.feature.group" version="4.7.2.v20171130-0906"/>
@@ -23,11 +23,7 @@
       <repository location="http://franca.github.io/franca/update_site/releases/0.13.1"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.eclipse.sphinx.examples.feature.group" version="0.11.0.201706140911"/>
-      <unit id="org.eclipse.sphinx.examples.viatra.query.feature.group" version="0.11.0.201706140911"/>
-      <unit id="org.eclipse.sphinx.feature.group" version="0.11.0.201706140911"/>
       <unit id="org.eclipse.sphinx.sdk.feature.group" version="0.11.0.201706140911"/>
-      <unit id="org.eclipse.sphinx.viatra.query.feature.group" version="0.11.0.201706140911"/>
       <unit id="org.eclipse.sphinx.viatra.query.sdk.feature.group" version="0.11.0.201706140911"/>
       <repository location="http://download.eclipse.org/sphinx/releases/0.11.x"/>
     </location>
