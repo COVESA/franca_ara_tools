@@ -9,15 +9,13 @@ package org.genivi.faracon;
 
 import java.io.IOException;
 import java.io.PrintStream;
+import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.xerces.dom.EntityReferenceImpl;
-import org.artop.aal.common.resource.impl.AutosarResourceSetImpl;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -47,9 +45,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 
 	private String fileExtension = "arxml";
 
-	//todo: use a more reliable path
-//	private static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.genivi.faracon/models/stdtypes.arxml";
-	private static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.genivi.faracon/models/stdtypes.arxml";
+	private static String PATH_TO_STD_ARXML_FILE = "stdtypes.arxml";
 
 	private Set<TransformationIssue> lastTransformationIssues = null;
 
@@ -64,7 +60,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 	}
 
 	public IModelContainer loadModel(ResourceSet resourceSet, String filename) {
-		AUTOSAR primitiveTypesModel = loadARAModel(resourceSet, PATH_TO_STD_ARXML_FILES);
+		AUTOSAR primitiveTypesModel = loadARAModelFromPluginResource(resourceSet, PATH_TO_STD_ARXML_FILE);
 		AUTOSAR model = loadARAModel(resourceSet, filename);
 		if (model==null) {
 			out.println("Error: Could not load arxml model from file " + filename);
@@ -197,6 +193,29 @@ public class ARAConnector extends AbstractFrancaConnector {
 	public static AUTOSAR loadARAModel(String fileName) {
 		ResourceSet resourceSet = createConfiguredResourceSet();
 		return loadARAModel(resourceSet, fileName);
+	}
+
+	public static AUTOSAR loadARAModelFromPluginResource(ResourceSet resourceSet, String fileName) {
+		URL url = resourceSet.getClass().getResource("/" + fileName);
+		URI logicalURI = URI.createFileURI(fileName);
+		try {
+			Resource resource = loadResource(resourceSet, url, logicalURI);
+			return (AUTOSAR)resource.getContents().get(0);
+		} catch (IOException e) {
+			//TODO: error handling
+			return null;
+		}
+	}
+
+	public static AUTOSAR loadARAModelFromPluginResource(String fileName) {
+		ResourceSet resourceSet = createConfiguredResourceSet();
+		return loadARAModelFromPluginResource(resourceSet, fileName);
+	}
+
+	public static Resource loadResource(ResourceSet set, URL url, URI uri) throws IOException {
+		Resource resource = set.createResource(uri);
+		resource.load(url.openStream(), Collections.EMPTY_MAP);
+		return resource;
 	}
 
 	private boolean saveARXML(

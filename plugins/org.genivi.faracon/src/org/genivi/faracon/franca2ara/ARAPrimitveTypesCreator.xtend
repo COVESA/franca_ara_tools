@@ -16,18 +16,16 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 
 	private static final Logger logger = Logger.getLogger(ARAPrimitveTypesCreator.name)
 	
-	//todo: use a more reliable path
-//	val static String PATH_TO_STD_ARXML_FILES = "../../plugins/org.genivi.faracon/models/stdtypes.arxml"
-	val static String PATH_TO_STD_ARXML_FILES = "C:/Users/tgoerg/git/franca_ara_tools/plugins/org.genivi.faracon/models/stdtypes.arxml"
+	val static String PATH_TO_STD_ARXML_FILE = "stdtypes.arxml"
 
 	val nameToType = new HashMap<String, ImplementationDataType>()
 
 	def ARPackage createPrimitiveTypesPackage(ResourceSet resourceSet) {
 		var AUTOSAR primitiveTypeModel
 		if (resourceSet === null) {
-			primitiveTypeModel = ARAConnector.loadARAModel(PATH_TO_STD_ARXML_FILES)
+			primitiveTypeModel = ARAConnector.loadARAModelFromPluginResource(PATH_TO_STD_ARXML_FILE)
 		} else {
-			primitiveTypeModel = ARAConnector.loadARAModel(resourceSet, PATH_TO_STD_ARXML_FILES)
+			primitiveTypeModel = ARAConnector.loadARAModelFromPluginResource(resourceSet, PATH_TO_STD_ARXML_FILE)
 		}
 		val topLevelPackage = primitiveTypeModel.arPackages.get(0)
 		primitiveTypeModel.eAllContents.filter(ImplementationDataType).forEach[
