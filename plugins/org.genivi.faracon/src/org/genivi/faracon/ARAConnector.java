@@ -81,7 +81,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 		}
 
 		ARAModelContainer mc = (ARAModelContainer) model;
-		return saveARXML(createConfiguredResourceSet(), mc.model()/*, mc.getComments()*/, filename);
+		return saveARXML(createConfiguredResourceSet(), mc.model()/*, mc.getComments()*/, filename, null);
 	}
 
 	@Override
@@ -248,15 +248,19 @@ public class ARAConnector extends AbstractFrancaConnector {
 		return true;
 	}
 
-	public boolean saveARXML(ResourceSet resourceSet, AUTOSAR autosar, String name) {
+	public boolean saveARXML(ResourceSet resourceSet, AUTOSAR autosar, String name, PrintStream out) {
 		URI uri = URI.createFileURI(name);
 		try {
-			saveARXML(resourceSet, autosar, uri, System.out);
+			saveARXML(resourceSet, autosar, uri, out);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean saveARXML(ResourceSet resourceSet, AUTOSAR autosar, String name) {
+		return saveARXML(resourceSet, autosar, name, System.out);
 	}
 	
 //	/**
