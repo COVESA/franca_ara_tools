@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
-<!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="FARACON Target Platform - Eclipse 4.7" sequenceNumber="1562837467">
+<!-- generated with https://github.com/mbarbero/fr.obeo.releng.targetplatform -->
+<target name="FARACON Target Platform - Eclipse 4.7" sequenceNumber="1562682767">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.sdk.feature.group" version="4.7.2.v20171130-0906"/>
@@ -47,7 +47,7 @@
       <unit id="org.artop.ecuc.examples.accessors442.feature.group" version="4.12.0.201904251603"/>
       <unit id="org.artop.ecuc.initializers.feature.group" version="4.12.0.201904251603"/>
       <unit id="org.artop.ecuc.xtendxpand.feature.group" version="4.12.0.201904251603"/>
-      <repository id="artop" location="https://www.artop.org/containers/artop-sdk-update-site-4.12"/>
+      <repository location="https://yakindu-builds.itemis.de/updates/targets/.thirdparty/artop/4.12.0/"/>
     </location>
   </locations>
   <environment>

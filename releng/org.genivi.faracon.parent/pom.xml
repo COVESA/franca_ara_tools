@@ -12,47 +12,52 @@
 	<packaging>pom</packaging>
 
 	<parent>
-    	<groupId>org.sonatype.oss</groupId>
-    	<artifactId>oss-parent</artifactId>
-    	<version>7</version>
-  	</parent>
+		<groupId>org.sonatype.oss</groupId>
+		<artifactId>oss-parent</artifactId>
+		<version>7</version>
+	</parent>
 
 
 	<properties>
-		<eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
 		<platform-version-name>oxygen</platform-version-name>
+		<eclipse-site>http://download.eclipse.org/releases/${platform-version-name}</eclipse-site>
 		<project.build.sourceEncoding>ISO-8859-1</project.build.sourceEncoding>
 		<tycho-version>1.3.0</tycho-version>
 		<junit-version>4.8.1</junit-version>
 		<slf4j-version>1.6.1</slf4j-version>
+
+		<!-- Pinned versions needed for Xtext/Xtend Maven plug-in -->
+		<!-- Pinned to OXYGEN versions!!! -->
+		<xtextVersion>2.14.0</xtextVersion>
+		<jdt-core-version>3.13.100</jdt-core-version>
+		<jdt-compiler-apt-version>1.3.60</jdt-compiler-apt-version>
+		<jdt-compiler-tool-version>1.2.51</jdt-compiler-tool-version>
+		<emf-codegen-version>2.11.0</emf-codegen-version>
+		<xtend-version>2.14.0</xtend-version>
+		<guava.version>15.0</guava.version>
+
 		<skip.deployment>true</skip.deployment>
 	</properties>
 
-    <modules>
-    		<!-- target platform -->
-            <module>../org.genivi.faracon.target</module>
-    		<!-- actual code modules -->
-            <module>../../plugins/org.genivi.faracon</module>
-            <module>../../plugins/org.genivi.faracon.console</module>
-            <module>../../plugins/org.genivi.faracon.cli</module>
-    		<!-- test modules -->
-	    	<!--
-	            <module>../../tests/org.genivi.faracon.tests</module>
-	        -->
-    		<!-- documentation/help modules -->
-	    	<!--
-	            <module>../../docs/org.genivi.faracon.docs</module>
-	        -->
-			<!-- release modules -->
-            <module>../../features/org.genivi.faracon.feature</module>
-            <module>../../features/org.genivi.faracon.console.feature</module>
-            <module>../../features/org.genivi.faracon.console.franca.feature</module>
-            <module>../../features/org.genivi.faracon.cli.feature</module>
-			<module>../../products/org.genivi.faracon.cli.product</module>
-	    	<!--
-				<module>../../releng/org.genivi.faracon.updatesite</module>
-	        -->
-    </modules>
+	<modules>
+		<!-- target platform -->
+		<module>../org.genivi.faracon.target</module>
+		<!-- actual code modules -->
+		<module>../../plugins/org.genivi.faracon</module>
+		<module>../../plugins/org.genivi.faracon.console</module>
+		<module>../../plugins/org.genivi.faracon.cli</module>
+		<!-- test modules -->
+		<!-- <module>../../tests/org.genivi.faracon.tests</module> -->
+		<!-- documentation/help modules -->
+		<!-- <module>../../docs/org.genivi.faracon.docs</module> -->
+		<!-- release modules -->
+		<module>../../features/org.genivi.faracon.feature</module>
+		<module>../../features/org.genivi.faracon.console.feature</module>
+		<module>../../features/org.genivi.faracon.console.franca.feature</module>
+		<module>../../features/org.genivi.faracon.cli.feature</module>
+		<module>../../products/org.genivi.faracon.cli.product</module>
+		<!-- <module>../../releng/org.genivi.faracon.updatesite</module> -->
+	</modules>
 
 	<build>
 		<sourceDirectory>src</sourceDirectory>
@@ -109,7 +114,7 @@
 					</environments>
 				</configuration>
 			</plugin>
- 			<plugin>
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-source-plugin</artifactId>
 				<version>${tycho-version}</version>
@@ -157,9 +162,7 @@
 					<excludes>
 						<exclude>**/*.ecore</exclude>
 					</excludes>
-					<!-- 
-						<append>true</append> 
-					-->
+					<!-- <append>true</append> -->
 				</configuration>
 				<executions>
 					<execution>
@@ -171,10 +174,8 @@
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
 							<destFile>${project.build.directory}/coverage-data/jacoco-ut.exec</destFile>
-							<!--
-							   Sets the name of the property containing the settings
-							   for JaCoCo runtime agent.
-							-->
+							<!-- Sets the name of the property containing the settings for JaCoCo 
+								runtime agent. -->
 							<propertyName>surefireArgLine</propertyName>
 						</configuration>
 					</execution>
@@ -191,28 +192,26 @@
 							<outputDirectory>${project.build.directory}/coverage-reports/jacoco-ut</outputDirectory>
 						</configuration>
 					</execution>
-					<!--
-					<execution>
-						<id>default-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<rule>
-									<element>BUNDLE</element>
-									<limits>
-										<limit>
-											<counter>COMPLEXITY</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>0.60</minimum>
-										</limit>
-									</limits>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-					-->
+<!-- 					<execution> -->
+<!-- 						<id>default-check</id> -->
+<!-- 						<goals> -->
+<!-- 							<goal>check</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<rules> -->
+<!-- 								<rule> -->
+<!-- 									<element>BUNDLE</element> -->
+<!-- 									<limits> -->
+<!-- 										<limit> -->
+<!-- 											<counter>COMPLEXITY</counter> -->
+<!-- 											<value>COVEREDRATIO</value> -->
+<!-- 											<minimum>0.60</minimum> -->
+<!-- 										</limit> -->
+<!-- 									</limits> -->
+<!-- 								</rule> -->
+<!-- 							</rules> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
 				</executions>
 			</plugin>
 		</plugins>
@@ -229,29 +228,28 @@
 						<target>6.0</target>
 					</configuration>
 				</plugin>
-	      		<plugin>
-	      			<groupId>org.eclipse.tycho</groupId>
-	      			<artifactId>tycho-packaging-plugin</artifactId>
-	      			<version>${tycho-version}</version>
-	      			<configuration>
-	        			<archiveSite>true</archiveSite>
-	      			</configuration>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-packaging-plugin</artifactId>
+					<version>${tycho-version}</version>
+					<configuration>
+						<archiveSite>true</archiveSite>
+					</configuration>
 				</plugin>
-	      		
+
 				<!-- enable source bundle generation -->
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-surefire-plugin</artifactId>
 					<version>${tycho-version}</version>
 					<configuration>
-						<!-- MacOS specific option to run an SWT application from the command line.
-								See http://www.eclipse.org/swt/faq.php#carbonapp
-						-->
+						<!-- MacOS specific option to run an SWT application from the command 
+							line. See http://www.eclipse.org/swt/faq.php#carbonapp -->
 						<argLine>${os-jvm-flags} -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m ${surefireArgLine}</argLine>
 					</configuration>
 				</plugin>
 
-				<!--This configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -314,7 +312,7 @@
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.2-beta-4</version>
 				</plugin>
-				<!--  If you are releasing your artifacts on OSSRH, you need to make one more configuration change  -->
+				<!-- If you are releasing your artifacts on OSSRH, you need to make one more configuration change -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-release-plugin</artifactId>
@@ -325,16 +323,16 @@
 						<arguments>${arguments} -Psonatype-oss-release</arguments>
 					</configuration>
 				</plugin>
-				<!--  Establish property to control whether to release an artifact -->
+				<!-- Establish property to control whether to release an artifact -->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
 					<configuration>
-					  <!-- default is true, i.e. do skip -->
-					  <skip>${skip.deployment}</skip>
+						<!-- default is true, i.e. do skip -->
+						<skip>${skip.deployment}</skip>
 					</configuration>
 				</plugin>
-				
+
 				<!-- OTHER PLUGINS -->
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
@@ -387,7 +385,7 @@
 				<plugin>
 					<groupId>org.eclipse.xtend</groupId>
 					<artifactId>xtend-maven-plugin</artifactId>
-					<version>2.14.0</version>
+					<version>${xtend-version}</version>
 					<configuration>
 						<!-- need to prefix by basedir to generate to currently built module -->
 						<outputDirectory>${basedir}/xtend-gen</outputDirectory>
@@ -397,22 +395,27 @@
 						<dependency>
 							<groupId>org.eclipse.jdt</groupId>
 							<artifactId>org.eclipse.jdt.core</artifactId>
-							<version>3.13.102</version>
+							<version>${jdt-core-version}</version>
 						</dependency>
 						<dependency>
 							<groupId>org.eclipse.jdt</groupId>
 							<artifactId>org.eclipse.jdt.compiler.apt</artifactId>
-							<version>1.3.110</version>
+							<version>${jdt-compiler-apt-version}</version>
 						</dependency>
 						<dependency>
 							<groupId>org.eclipse.jdt</groupId>
 							<artifactId>org.eclipse.jdt.compiler.tool</artifactId>
-							<version>1.2.101</version>
+							<version>${jdt-compiler-tool-version}</version>
 						</dependency>
 						<dependency>
 							<groupId>org.eclipse.emf</groupId>
 							<artifactId>org.eclipse.emf.codegen</artifactId>
-							<version>2.11.0</version>
+							<version>${emf-codegen-version}</version>
+						</dependency>
+						<dependency>
+							<groupId>com.google.guava</groupId>
+							<artifactId>guava</artifactId>
+							<version>${guava.version}</version>
 						</dependency>
 					</dependencies>
 					<!-- end workaround -->
@@ -420,27 +423,25 @@
 			</plugins>
 		</pluginManagement>
 	</build>
-	
-	<pluginRepositories>	
-		<!--pluginRepository>			
-			<id>tycho-0.14.0-staged</id>
-			<url>https://oss.sonatype.org/content/repositories/orgeclipsetycho-004/</url>
-		</pluginRepository-->		
-		<pluginRepository>
-			<id>sonatype</id>
-			<url>http://repository.sonatype.org/content/groups/sonatype-public-grid/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>xtend</id>
-			<url>http://repo.maven.apache.org/maven2</url>
-		</pluginRepository>
-	</pluginRepositories>
+
+	<!-- <pluginRepositories> -->
+	<!--pluginRepository> <id>tycho-0.14.0-staged</id> <url>https://oss.sonatype.org/content/repositories/orgeclipsetycho-004/</url> 
+		</pluginRepository -->
+	<!-- <pluginRepository> -->
+	<!-- <id>sonatype</id> -->
+	<!-- <url>http://repository.sonatype.org/content/groups/sonatype-public-grid/</url> -->
+	<!-- <releases> -->
+	<!-- <enabled>true</enabled> -->
+	<!-- </releases> -->
+	<!-- <snapshots> -->
+	<!-- <enabled>true</enabled> -->
+	<!-- </snapshots> -->
+	<!-- </pluginRepository> -->
+	<!-- <pluginRepository> -->
+	<!-- <id>xtend</id> -->
+	<!-- <url>http://repo.maven.apache.org/maven2</url> -->
+	<!-- </pluginRepository> -->
+	<!-- </pluginRepositories> -->
 
 	<profiles>
 		<profile>
@@ -454,19 +455,14 @@
 			<properties>
 				<artop-suffix>-artop</artop-suffix>
 			</properties>
-			<repositories>
-				<repository>
-					<id>artop</id>
-					<layout>p2</layout>
-					<url>https://www.artop.org/containers/artop-sdk-update-site-4.12</url>
-				</repository>
-			</repositories>
 		</profile>
 
 		<profile>
 			<id>macosx-jvm-flags</id>
 			<activation>
-				<os><family>mac</family></os>
+				<os>
+					<family>mac</family>
+				</os>
 			</activation>
 			<properties>
 				<os-jvm-flags>-XstartOnFirstThread</os-jvm-flags>
@@ -475,41 +471,44 @@
 		<profile>
 			<id>non-macosx-jvm-flags</id>
 			<activation>
-				<os><family>!mac</family></os>
+				<os>
+					<family>!mac</family>
+				</os>
 			</activation>
 			<properties>
-				<os-jvm-flags> </os-jvm-flags>
+				<os-jvm-flags>
+				</os-jvm-flags>
 			</properties>
 		</profile>
 
-	  <profile>
-	    <id>release-sign-artifacts</id>
-	    <activation>
-	      <property>
-	        <!-- When you use maven-release-plugin and run mvn release:perform, the property value will be set to true  -->
-	        <name>performRelease</name>
-	        <value>true</value>
-	      </property>
-	    </activation>
-	    <build>
-	      <plugins>
-	        <plugin>
-	          <groupId>org.apache.maven.plugins</groupId>
-	          <artifactId>maven-gpg-plugin</artifactId>
-	          <version>1.1</version>
-	          <executions>
-	            <execution>
-	              <id>sign-artifacts</id>
-	              <phase>verify</phase>
-	              <goals>
-	                <goal>sign</goal>
-	              </goals>
-	            </execution>
-	          </executions>
-	        </plugin>
-	      </plugins>
-	    </build>
-	  </profile>
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<!-- When you use maven-release-plugin and run mvn release:perform, the property value will be set to true -->
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<dependencyManagement>
@@ -544,11 +543,11 @@
 				<artifactId>jcl-over-slf4j</artifactId>
 				<version>${slf4j-version}</version>
 				<scope>runtime</scope>
-			</dependency>			
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
-	
+
 	<name>Franca ARA Converter</name>
 	<description>The Franca ARA Converter is a model transformation tool which can translate Franca IDL to Adaptive AUTOSAR and vice versa.</description>
 	<url>https://github.com/GENIVI/franca_ara_tools</url>
@@ -580,7 +579,7 @@
 			<name>Torsten Goerg</name>
 			<email>torsten.goerg@itemis.de</email>
 			<organization>itemis AG</organization>
-      		<organizationUrl>http://www.itemis.com</organizationUrl>
+			<organizationUrl>http://www.itemis.com</organizationUrl>
 			<roles>
 				<role>developer</role>
 			</roles>
@@ -590,7 +589,7 @@
 			<name>Klaus Birken</name>
 			<email>klaus.birken@itemis.de</email>
 			<organization>itemis AG</organization>
-      		<organizationUrl>http://www.itemis.com</organizationUrl>
+			<organizationUrl>http://www.itemis.com</organizationUrl>
 			<roles>
 				<role>developer</role>
 			</roles>
