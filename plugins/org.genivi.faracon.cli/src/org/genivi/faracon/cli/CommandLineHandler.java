@@ -24,7 +24,7 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
     }
 
     @Override
-	public int excute(CommandLine parsedArguments) {
+	public int execute(CommandLine parsedArguments) {
 		// Handle command line options.
 
 //		@SuppressWarnings("unchecked")

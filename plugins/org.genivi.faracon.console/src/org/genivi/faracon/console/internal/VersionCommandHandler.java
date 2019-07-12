@@ -31,7 +31,7 @@ public class VersionCommandHandler extends AbstractCommandLineHandler
     final int                  DEFAULT_NAME_WIDTH     = 50;
 
     @Override
-    public int excute(final CommandLine parsedArguments)
+    public int execute(final CommandLine parsedArguments)
     {
     	ConsoleLogger.logInfo("Command: Version Information");
     	

@@ -9,7 +9,7 @@ public interface ICommandLineHandler
      *
      * @param parsedArguments
      *            The parsed arguments with their values
-     * @return result of the excution
+     * @return result of the execution
      */
-    public int excute(CommandLine parsedArguments);
+    public int execute(CommandLine parsedArguments);
 }

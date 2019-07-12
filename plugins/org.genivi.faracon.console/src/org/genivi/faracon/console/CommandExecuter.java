@@ -217,7 +217,7 @@ public enum CommandExecuter
                     Object executable = configuration.commandConfiguration.createExecutableExtension(COMMAND_HANDLER_ATTRIBUTE_NAME);
                     ICommandLineHandler handler = (ICommandLineHandler) executable;
 
-                    returnValue = handler.excute(configuration.commandLine);
+                    returnValue = handler.execute(configuration.commandLine);
                 }
 
                 @Override

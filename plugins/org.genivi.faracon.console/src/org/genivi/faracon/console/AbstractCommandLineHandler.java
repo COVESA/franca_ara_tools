@@ -16,7 +16,7 @@ public abstract class AbstractCommandLineHandler implements ICommandLineHandler
      * @return result of the excution
      */
     @Override
-    public abstract int excute(CommandLine parsedArguments);
+    public abstract int execute(CommandLine parsedArguments);
 
     /**
      * Converts an instance the CommandLine Object into an array of strings.

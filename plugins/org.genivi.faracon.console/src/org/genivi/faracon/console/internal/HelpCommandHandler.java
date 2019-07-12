@@ -8,7 +8,7 @@ import org.genivi.faracon.console.ConsoleLogger;
 public class HelpCommandHandler extends AbstractCommandLineHandler
 {
     @Override
-    public int excute(CommandLine parsedArguments)
+    public int execute(CommandLine parsedArguments)
     {
     	ConsoleLogger.logInfo("Command: Console Help");
     	
