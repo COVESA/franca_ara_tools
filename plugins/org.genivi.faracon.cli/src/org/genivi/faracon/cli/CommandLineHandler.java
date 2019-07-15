@@ -56,10 +56,12 @@ public class CommandLineHandler extends AbstractCommandLineHandler implements IC
 		String[] araFilePaths = parsedArguments.getOptionValues('a');
 //		// We expect at least one fidl/fdepl file as command line argument
 //		if (files.size() > 0 && files.get(0) != null) {
-		if ((francaFilePaths == null || francaFilePaths.length == 0) && (araFilePaths == null || araFilePaths.length == 0)) {
+		boolean haveFrancaInput = francaFilePaths != null && francaFilePaths.length > 0;
+		boolean haveARAInput = araFilePaths != null && araFilePaths.length > 0;
+		if (!haveFrancaInput && !haveARAInput) {
 			ConsoleLogger.logError("At least one input model file has to be given!");			
 		}		
-		if ((francaFilePaths != null && francaFilePaths.length > 0) && (araFilePaths != null && araFilePaths.length > 0)) {
+		if (haveFrancaInput && haveARAInput) {
 			ConsoleLogger.logWarning("A mix of FrancaIDL and Adaptive AUTOSAR input model files is given.");			
 		}		
 //		// a search path may be specified, collect all fidl/fdepl files
