@@ -16,7 +16,7 @@
    <extension
          point="org.genivi.faracon.console.commands">
       <command
-            class="org.genivi.faracon.cli.CommandLineHandler"
+            class="org.genivi.faracon.cli.ConverterCliCommandHandler"
             id="org.genivi.faracon.cli.command"
             name="Franca ARA Converter">
          <options>

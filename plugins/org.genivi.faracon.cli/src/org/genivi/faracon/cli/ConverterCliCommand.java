@@ -1,14 +1,15 @@
 package org.genivi.faracon.cli;
 
 import java.io.File;
+import java.util.List;
 
+import org.apache.commons.cli.CommandLine;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.xtext.validation.AbstractValidationMessageAcceptor;
 import org.eclipse.xtext.validation.ValidationMessageAcceptor;
-import org.franca.core.dsl.FrancaIDLRuntimeModule;
 import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.framework.FrancaModelContainer;
 import org.franca.core.franca.FModel;
@@ -23,20 +24,25 @@ import org.genivi.faracon.console.ConsoleLogger;
 import org.genivi.faracon.preferences.Preferences;
 import org.genivi.faracon.preferences.PreferencesConstants;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.Inject;
 
-/**
- * Receive command line arguments and set them as preference values for the code
- * generation.
- */
-public class CommandlineToolMain extends CommandlineTool {
-	protected Injector injector;
+public class ConverterCliCommand extends CommandlineTool {
+
+	@Inject
 	protected CreateShowcaseARATests createShowcaseARATests;
+
+	@Inject
 	protected FrancaPersistenceManager francaLoader;
+
+//	@Inject
 //	protected GeneratorFileSystemAccess fsa;
+
 	protected Preferences preferences;
+
+//	@Inject
 //	protected IGenerator francaGenerator;
+//	protected FrancaDBusGenerator francaGenerator;
+
 	protected String SCOPE = "DBus validation: ";
 
 	private ValidationMessageAcceptor cliMessageAcceptor = new AbstractValidationMessageAcceptor() {
@@ -67,18 +73,81 @@ public class CommandlineToolMain extends CommandlineTool {
 	/**
 	 * The constructor registers the needed bindings to use the generator
 	 */
-	public CommandlineToolMain() {
-
-		injector = Guice.createInjector(new FrancaIDLRuntimeModule());
-
-		createShowcaseARATests = injector.getInstance(CreateShowcaseARATests.class);
-		
-		francaLoader = injector.getInstance(FrancaPersistenceManager.class);
-
-//		fsa = injector.getInstance(GeneratorFileSystemAccess.class);
-
+	public ConverterCliCommand() {
 		preferences = Preferences.getInstance();
+	}
 
+	/**
+	 * Receive command line arguments and set them as preference values for the code
+	 * generation.
+	 */
+	public int execute(CommandLine parsedArguments) {
+		// Handle command line options.
+
+//		@SuppressWarnings("unchecked")
+
+		// -l --log-level quiet or verbose
+		if (parsedArguments.hasOption("l")) {
+			setLogLevel(parsedArguments.getOptionValue("l"));
+		}
+
+		ConsoleLogger.logInfo("Command: Franca ARA Converter");
+		ConsoleLogger.increaseIndentationLevel();
+    	
+		// -e --warnings-as-errors Treat warnings as errors.
+		if (parsedArguments.hasOption("e")) {
+			setWarningsAsErrors(true);
+		}
+
+		// -c --continue-on-errorsDo not stop the tool execution when an error occurs.
+		if (parsedArguments.hasOption("c")) {
+			setContinueOnErrors(true);
+		}
+
+		List<String> commandLineArguments = parsedArguments.getArgList();
+		for (String commandLineArgument : commandLineArguments) {
+			ConsoleLogger.logWarning("Unexpected command line argument \"" + commandLineArgument + "\"");			
+		}
+
+		String[] francaFilePaths = parsedArguments.getOptionValues('f');
+		String[] araFilePaths = parsedArguments.getOptionValues('a');
+//		// We expect at least one fidl/fdepl file as command line argument
+//		if (files.size() > 0 && files.get(0) != null) {
+		if ((francaFilePaths == null || francaFilePaths.length == 0) && (araFilePaths == null || araFilePaths.length == 0)) {
+			ConsoleLogger.logError("At least one input model file has to be given!");			
+		}		
+		if ((francaFilePaths != null && francaFilePaths.length > 0) && (araFilePaths != null && araFilePaths.length > 0)) {
+			ConsoleLogger.logWarning("A mix of FrancaIDL and Adaptive AUTOSAR input model files is given.");			
+		}		
+//		// a search path may be specified, collect all fidl/fdepl files
+//		if (parsedArguments.hasOption("sp")) {
+//			files.addAll(cliTool.searchFidlandFdeplFiles(parsedArguments
+//					.getOptionValue("sp")));
+//		}
+
+		// destination: -d --dest overwrite default output directory path
+		if (parsedArguments.hasOption("d")) {
+			setOutputDirectoryPath(parsedArguments.getOptionValue("d"));
+		}
+
+		// A file path, that points to a file, that contains the license text.
+		// -L --license license text in generated files
+		if (parsedArguments.hasOption("L")) {
+			setLicenseText(parsedArguments.getOptionValue("L"));
+		}
+
+//			// Switch off validation
+//			if (parsedArguments.hasOption("nv")) {
+//				cliTool.disableValidation();
+//			}
+
+		ConsoleLogger.decreaseIndentationLevel();
+
+		// Invoke the converters.
+		convertFrancaFiles(francaFilePaths);
+		convertARAFiles(araFilePaths);
+		
+		return 0;
 	}
 
 	public void convertFrancaFiles(String[] francaFilePaths) {
@@ -132,8 +201,6 @@ public class CommandlineToolMain extends CommandlineTool {
 //		createShowcaseARATests.createDrivingLaneARXML();
 
 		ConsoleLogger.decreaseIndentationLevel();
-
-//		francaGenerator = injector.getInstance(FrancaDBusGenerator.class);
 	}
 
 	public void convertARAFiles(String[] araFilePaths) {
