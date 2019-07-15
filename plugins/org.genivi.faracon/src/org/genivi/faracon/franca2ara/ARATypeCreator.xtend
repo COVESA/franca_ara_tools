@@ -6,9 +6,7 @@ import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import java.util.Map
 import javax.inject.Inject
 import javax.inject.Singleton
-import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.util.EcoreUtil
-import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FEnumerationType
@@ -17,13 +15,12 @@ import org.franca.core.franca.FMapType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
+import org.genivi.faracon.Franca2ARABase
 
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {
-
-	private static final Logger logger = Logger.getLogger(ARATypeCreator.simpleName)
 
 	@Inject
 	var extension ARAPrimitveTypesCreator
@@ -68,8 +65,7 @@ class ARATypeCreator extends Franca2ARABase {
 //	}
 
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
-		logger.
-			warn('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
+		getLogger.logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null
 	}
 
@@ -155,7 +151,7 @@ class ARATypeCreator extends Franca2ARABase {
 		if (typeRef instanceof ImplementationDataType) {
 			dataDefPropsConditional.implementationDataType = typeRef
 		} else {
-			logger.warn("Cannot set implementation data type for element '" + it.shortName + "'.")
+			getLogger.logWarning("Cannot set implementation data type for element '" + it.shortName + "'.")
 		}
 		dataDefProps.swDataDefPropsVariants += dataDefPropsConditional
 		it.swDataDefProps = dataDefProps

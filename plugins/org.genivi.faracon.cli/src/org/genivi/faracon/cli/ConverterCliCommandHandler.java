@@ -2,7 +2,9 @@ package org.genivi.faracon.cli;
 
 import org.apache.commons.cli.CommandLine;
 import org.genivi.faracon.console.AbstractCommandLineHandler;
+import org.genivi.faracon.console.ConsoleLogger;
 import org.genivi.faracon.console.ICommandLineHandler;
+import org.genivi.faracon.logging.ILogger;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;

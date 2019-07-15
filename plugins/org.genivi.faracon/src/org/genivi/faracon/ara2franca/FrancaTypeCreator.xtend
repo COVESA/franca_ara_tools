@@ -5,14 +5,11 @@ import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
 import autosar40.swcomponent.datatype.computationmethod.CompuScales
 import javax.inject.Singleton
-import org.apache.log4j.Logger
-import org.genivi.faracon.ARA2FrancaBase
 import org.franca.core.franca.FBasicTypeId
+import org.genivi.faracon.ARA2FrancaBase
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {
-
-	static final Logger logger = Logger.getLogger(FrancaTypeCreator.simpleName)
 
 	def transform(ImplementationDataType src) {
 		if (src.category == "STRUCTURE") {
@@ -24,7 +21,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		} else if (src.category == "VECTOR") {
 			return transformArray(src)
 		} else {
-			logger.warn('''Cannot create Franca type for "«src.shortName»" because AutosarDatatypes of category "«src.category»" are not yet supported''')
+			getLogger.logWarning('''Cannot create Franca type for "«src.shortName»" because AutosarDatatypes of category "«src.category»" are not yet supported''')
 			return null
 		}
 	}
@@ -41,7 +38,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 					]
 					elements.add(field)
 				} else {
-					logger.error('''araStructElementType === null''')
+					getLogger.logError('''araStructElementType === null''')
 				}
 			}
 		}
@@ -54,14 +51,14 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		if (araKeyType !== null) {
 			keyType = createFTypeRef(araKeyType)
 		} else {
-			logger.error('''araKeyType === null''')
+			getLogger.logError('''araKeyType === null''')
 		}
 
 		val araValueType = getPropertyType(src, "valueType")
 		if (araValueType !== null) {
 			valueType = createFTypeRef(araValueType)
 		} else {
-			logger.error('''araValueType === null''')
+			getLogger.logError('''araValueType === null''')
 		}
 	}
 
@@ -76,7 +73,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 				])
 			}
 		} else {
-			logger.error('''araEnumerators === null''')
+			getLogger.logError('''araEnumerators === null''')
 		}
 	}
 
@@ -87,14 +84,14 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		if (araElementType !== null) {
 			elementType = createFTypeRef(araElementType)
 		} else {
-			logger.error('''araElementType === null''')
+			getLogger.logError('''araElementType === null''')
 		}
 	}
 
 	def protected getPropertyType(ImplementationDataType typeDef, String properyName) {
 		val subElements = typeDef.subElements
 		if (subElements === null) {
-			logger.error('''subElements === null''')
+			getLogger.logError('''subElements === null''')
 			return null
 		}
 		// Search for the matching sub element.
@@ -110,16 +107,16 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 	def protected getTypeRefTargetType(ImplementationDataTypeElement typeRef) {
 		if (typeRef === null) {
-			logger.error('''typeRef === null''')
+			getLogger.logError('''typeRef === null''')
 			return null
 		}
 		if (typeRef.category != "TYPE_REFERENCE") {
-			logger.error('''typeRef.category != "TYPE_REFERENCE"''')
+			getLogger.logError('''typeRef.category != "TYPE_REFERENCE"''')
 			return null
 		}
 		val firstProperty = getFirstProperty(typeRef.swDataDefProps)
 		if (firstProperty === null) {
-			logger.error('''firstProperty === null''')
+			getLogger.logError('''firstProperty === null''')
 			return null
 		}
 		val typeRefTargetType = firstProperty.implementationDataType as ImplementationDataType
@@ -129,22 +126,22 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	def protected getEnumerationTypeEnumerators(ImplementationDataType enumerationTypeDef) {
 		val firstProperty = getFirstProperty(enumerationTypeDef.swDataDefProps)
 		if (firstProperty === null) {
-			logger.error('''firstProperty === null''')
+			getLogger.logError('''firstProperty === null''')
 			return null
 		}
 		val compuMethod = firstProperty.compuMethod
 		if (compuMethod === null) {
-			logger.error('''compuMethod === null''')
+			getLogger.logError('''compuMethod === null''')
 			return null
 		}
 		val compu = compuMethod.compuInternalToPhys
 		if (compu === null) {
-			logger.error('''compu === null''')
+			getLogger.logError('''compu === null''')
 			return null
 		}
 		val compuScales = compu.compuContent as CompuScales
 		if (compuScales === null) {
-			logger.error('''compuScales === null''')
+			getLogger.logError('''compuScales === null''')
 			return null
 		}
 		val enumerators = compuScales.compuScales
@@ -153,11 +150,11 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 	def protected getFirstProperty(SwDataDefProps swDataDefProps) {
 		if (swDataDefProps === null) {
-			logger.error('''swDataDefProps === null''')
+			getLogger.logError('''swDataDefProps === null''')
 			return null
 		}
 		if (swDataDefProps.swDataDefPropsVariants.nullOrEmpty) {
-			logger.error('''swDataDefProps.swDataDefPropsVariants.nullOrEmpty''')
+			getLogger.logError('''swDataDefProps.swDataDefPropsVariants.nullOrEmpty''')
 			return null
 		}
 		val firstProperty = swDataDefProps.swDataDefPropsVariants.get(0)

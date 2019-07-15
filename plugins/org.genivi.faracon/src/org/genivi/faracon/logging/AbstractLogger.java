@@ -5,7 +5,7 @@ import java.util.Collections;
 /**
  * This abstract class implements several basic logging features that are useful for most concrete loggers.
  */
-public abstract class AbstractLogger {
+public abstract class AbstractLogger implements ILogger {
 
 	private boolean isLoggingInfos = true;
 	private boolean isLoggingWarnings = true;

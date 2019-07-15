@@ -17,8 +17,6 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 	@Inject 
 	var extension FrancaTypeCreator araTypeCreator
 
-	static final Logger logger = Logger.getLogger(ARA2FrancaTransformation.simpleName)
-
 	def create fac.createFModel transform(AUTOSAR src) {		
 		// TODO: this just takes the first package in the arxml
 		if (!src.arPackages.empty) {

@@ -13,8 +13,6 @@ import org.genivi.faracon.Franca2ARABase
 @Singleton
 class ARAPrimitveTypesCreator extends Franca2ARABase {
 
-	private static final Logger logger = Logger.getLogger(ARAPrimitveTypesCreator.name)
-	
 	val nameToType = new HashMap<String, ImplementationDataType>()
 
 	def ARPackage createPrimitiveTypesPackage(ARAResourceSet araResourceSet) {
@@ -29,7 +27,7 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 
 	def getBaseTypeForReference(FBasicTypeId fBasicTypeId) {
 		if(!this.nameToType.containsKey(fBasicTypeId.getName)){
-			logger.error("Can not find an Autosar simple type for the FBasicType: " + fBasicTypeId?.getName)
+			getLogger.logError("Can not find an Autosar simple type for the FBasicType: " + fBasicTypeId?.getName)
 		}
 		this.nameToType.get(fBasicTypeId.getName)
 	}

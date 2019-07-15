@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.core.runtime.Platform;
+import org.genivi.faracon.logging.BaseWithLogger;
 
 
-public class CommandlineTool {
+public class CommandlineTool extends BaseWithLogger {
 
 	public static final String       FILESEPARATOR    = System.getProperty("file.separator");
 	protected boolean isCodeGeneration = true;
@@ -39,7 +40,7 @@ public class CommandlineTool {
 			File file = new File(createAbsolutPath(fileWithText));
 			if (!file.exists() || file.isDirectory())
 			{
-				ConsoleLogger.logError("Please specify a path to an existing file after option -L");
+				getLogger().logError("Please specify a path to an existing file after option -L");
 			}
 			BufferedReader inReader = null;
 
@@ -54,7 +55,7 @@ public class CommandlineTool {
 			}
 			catch (IOException e)
 			{
-				ConsoleLogger.logInfo("Failed to get the text from the given file: " + e.getLocalizedMessage());
+				getLogger().logInfo("Failed to get the text from the given file: " + e.getLocalizedMessage());
 			}
 			finally
 			{
@@ -72,7 +73,7 @@ public class CommandlineTool {
 		}
 		else
 		{
-			ConsoleLogger.logError("Please write a path to an existing file after -L");
+			this.getLogger().logError("Please write a path to an existing file after -L");
 		}
 		return licenseText;
 	}

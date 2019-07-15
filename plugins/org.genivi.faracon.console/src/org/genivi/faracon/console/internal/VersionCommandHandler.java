@@ -33,7 +33,7 @@ public class VersionCommandHandler extends AbstractCommandLineHandler
     @Override
     public int execute(final CommandLine parsedArguments)
     {
-    	ConsoleLogger.logInfo("Command: Version Information");
+    	ConsoleLogger.staticLogInfo("Command: Version Information");
     	
         final boolean printAllVersions = parsedArguments.hasOption(SHORT_ALL_OPTION);
         final boolean printPluginVersions = parsedArguments.hasOption(SHORT_PLUGINS_OPTION);

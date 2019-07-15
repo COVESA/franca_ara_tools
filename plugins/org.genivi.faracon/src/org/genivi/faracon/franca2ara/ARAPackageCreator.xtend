@@ -5,23 +5,20 @@ import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import java.util.Map
 import java.util.regex.Pattern
 import javax.inject.Singleton
-import org.apache.log4j.Logger
 import org.eclipse.emf.ecore.util.EcoreUtil
-import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
+import org.genivi.faracon.Franca2ARABase
 
 @Singleton
 class ARAPackageCreator extends Franca2ARABase {
-
-	private static Logger logger = Logger.getLogger(ARAPackageCreator.name)
 
 	val Map<FModel, ARPackage> fModel2Packages = newHashMap()
 	
 	def ARPackage createPackageHierarchyForElementPackage(FModel fModel, AUTOSAR autosar) {
 		val segments = fModel.name.split(Pattern.quote("."))
 		var ARPackage elementPackage = null
-		if(!segments.nullOrEmpty){
+		if(!segments.nullOrEmpty) {
 			var ARPackage currentParentPackage = null
 			for(segment : segments){
 				elementPackage = createPackageWithName(segment, currentParentPackage)
@@ -30,7 +27,7 @@ class ARAPackageCreator extends Franca2ARABase {
 				}
 				currentParentPackage = elementPackage
 			}
-		}else{
+		} else {
 			elementPackage = createPackageWithName(fModel.name, null)
 			autosar.arPackages.add(elementPackage)
 		}
@@ -38,7 +35,7 @@ class ARAPackageCreator extends Franca2ARABase {
 		return elementPackage
 	}
 	
-	def create fac.createARPackage createPackageWithName(String name, ARPackage parent){
+	def create fac.createARPackage createPackageWithName(String name, ARPackage parent) {
 		shortName = name
 		parent?.arPackages?.add(it)
 	}
@@ -49,7 +46,7 @@ class ARAPackageCreator extends Franca2ARABase {
 			val reason = if(rootFrancaModel ===
 					null) "No root element for franca element found" else "No package created for franca root " +
 					rootFrancaModel
-			logger.warn('''No package can be found for the Franca element "«fModelElement». ". Reason: «reason»''')
+			getLogger.logWarning('''No package can be found for the Franca element "«fModelElement». ". Reason: «reason»''')
 		}
 		return fModel2Packages.get(rootFrancaModel)
 	}

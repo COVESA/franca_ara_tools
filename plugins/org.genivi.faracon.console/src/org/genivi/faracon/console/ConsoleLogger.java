@@ -1,20 +1,17 @@
 package org.genivi.faracon.console;
 
-import java.util.Collections;
+import org.genivi.faracon.logging.AbstractLogger;
 
 /**
  * A simple command line logger.
  * 
- * @author notbert
- *
  */
 
-
-public class ConsoleLogger {
+public class ConsoleLogger extends AbstractLogger {
 
 	// Singleton realization.
 	private static ConsoleLogger INSTANCE;
-	private ConsoleLogger() {}
+//	private ConsoleLogger() {}
 	public static ConsoleLogger getInstance() {
 		if (INSTANCE == null) {
 			INSTANCE = new ConsoleLogger();
@@ -22,99 +19,39 @@ public class ConsoleLogger {
 		return INSTANCE;
 	}
 
-	private static boolean isLoggingInfos = true;
-	private static boolean isLoggingWarnings = true;
-	private static boolean isLoggingErrors = true;
-
-	private static boolean isWarningsAsErrors = false;
-
-	private static boolean isContinueOnErrors = false;
-	class StopOnErrorException extends RuntimeException {}
-
-	private static int indentationLevel = 0;
-	private static final String INDENTATION_STEP_SPACE = "   ";
-
-	/**
-	 * Enable or disable the logging of infos.
-	 * @param enabled true or false
-	 */
-	public static void enableInfosLogging(boolean enabled) {
-		isLoggingInfos = enabled;
+	@Override
+	protected void logInfoImpl(String infoMessage) {
+		System.out.println(indentationSpace() + infoMessage);
 	}
 
-	/**
-	 * Enable or disable the logging of warnings.
-	 * @param enabled true or false
-	 */
-	public static void enableWarningsLogging(boolean enabled) {
-		isLoggingWarnings = enabled;
+	public static void staticLogInfo(String infoMessage) {
+		getInstance().logInfo(infoMessage);
 	}
 
-	/**
-	 * Enable or disable the logging of errors
-	 * @param enabled true or false
-	 */
-	public static void enableErrorsLogging(boolean enabled) {
-		isLoggingErrors = enabled;
-	}
-
-	/**
-	 * Enable or disable that the processing continues after an error has been reported.
-	 * @param enabled true or false
-	 */
-	public static void enableContinueOnErrors(boolean enabled) {
-		isContinueOnErrors = enabled;
-	}
-
-	/**
-	 * Enable or disable that reported warnings are handled as errors.
-	 * @param enabled true or false
-	 */
-	public static void enableWarningsAsErrors(boolean enabled) {
-		isWarningsAsErrors = enabled;
-	}
-
-	public static void increaseIndentationLevel() {
-		indentationLevel++;
-	}
-
-	public static void decreaseIndentationLevel() {
-		if (indentationLevel > 0) {
-			indentationLevel--;
-		}
-	}
-
-	public static void logInfo(String message) {
-		if(isLoggingInfos) {
-			System.out.println(indentationSpace() + message);
-		}
-	}
-
-	public static void logWarning(String message) {
-		if (isWarningsAsErrors) {
-			logError(message);
-		} else {
-			if(isLoggingWarnings) {
-				System.out.println(indentationSpace() + "WARNING:" + message);
-			}
-		}
-	}
-
-	public static void logError(String message) {
-		getInstance().logErrorImpl(message);
-	}
-
-	protected void logErrorImpl(String message) {
-		if(isLoggingErrors) {
-			System.out.println(indentationSpace() + "ERROR: " + message);
-		}
-		if (!isContinueOnErrors) {
-			throw new StopOnErrorException();
-		}
+	@Override
+	protected void logWarningImpl(String warningMessage) {
+		System.out.println(indentationSpace() + "WARNING:" + warningMessage);
 	}
 	
-	private static String indentationSpace() {
-		return String.join("", Collections.nCopies(indentationLevel, INDENTATION_STEP_SPACE));
+	public static void staticLogWarning(String warningMessage) {
+		getInstance().logWarning(warningMessage);
+	}
+
+	@Override
+	protected void logErrorImpl(String errorMessage) {
+		System.out.println(indentationSpace() + "ERROR: " + errorMessage);
+	}
+
+	public static void staticLogError(String errorMessage) {
+		getInstance().logError(errorMessage);
+	}
+
+	public static void staticIncreaseIndentationLevel() {
+		getInstance().increaseIndentationLevel();
+	}
+
+	public static void staticDecreaseIndentationLevel() {
+		getInstance().decreaseIndentationLevel();
 	}
 
 }

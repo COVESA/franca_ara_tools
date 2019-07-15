@@ -13,37 +13,37 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.franca.core.framework.AbstractFrancaConnector;
 import org.franca.core.framework.FrancaModelContainer;
+import org.franca.core.framework.IFrancaConnector;
 import org.franca.core.framework.IModelContainer;
 import org.franca.core.framework.TransformationIssue;
 import org.franca.core.franca.FModel;
 import org.franca.core.utils.IntegerTypeConverter;
+import org.genivi.faracon.logging.BaseWithLogger;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
+import com.google.inject.Inject;
 
 import autosar40.autosartoplevelstructure.AUTOSAR;
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage;
 import autosar40.util.Autosar40ReleaseDescriptor;
 
-public class ARAConnector extends AbstractFrancaConnector {
+public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 
-	private Injector injector;
+	@Inject
+	ARA2FrancaTransformation ara2FrancaTransformation;
+
+	@Inject
+	Franca2ARATransformation franca2ARATransformation;
 
 	private String fileExtension = "arxml";
 
 	private Set<TransformationIssue> lastTransformationIssues = null;
-
-	/** constructor */
-	public ARAConnector() {
-		injector = Guice.createInjector(new ARAConnectorModule());
-	}
 
 	@Override
 	public IModelContainer loadModel(String filename) {
@@ -53,13 +53,13 @@ public class ARAConnector extends AbstractFrancaConnector {
 	public IModelContainer loadModel(ARAResourceSet araResourceSet, String filename) {
 		AUTOSAR model = loadARAModel(araResourceSet, filename);
 		if (model==null) {
-			out.println("Error: Could not load arxml model from file " + filename);
+			getLogger().logError("Could not load arxml model from file " + filename);
 		} else {
 			List<ARPackage> packages = model.getArPackages();
 //			if (packages.isEmpty())
-//				out.println("Loaded arxml model (no packages)");
+//				getLogger().logInfo("Loaded arxml model (no packages)");
 //			else
-//				out.println("Loaded arxml model (first package " + packages.get(0).getShortName() + ")");
+//				getLogger().logInfo("Loaded arxml model (first package " + packages.get(0).getShortName() + ")");
 		}
 		return new ARAModelContainer(model, araResourceSet.getStandardTypeDefinitionsModel());
 	}
@@ -71,7 +71,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 		}
 
 		ARAModelContainer mc = (ARAModelContainer) model;
-		return saveARXML(new ARAResourceSet(mc.primitiveTypesModel()), mc.model()/*, mc.getComments()*/, filename, null);
+		return saveARXML(new ARAResourceSet(mc.primitiveTypesModel()), mc.model()/*, mc.getComments()*/, filename);
 	}
 
 	@Override
@@ -80,11 +80,10 @@ public class ARAConnector extends AbstractFrancaConnector {
 			return null;
 		}
 
-		ARA2FrancaTransformation trafo = injector.getInstance(ARA2FrancaTransformation.class);
 		ARAModelContainer amodel = (ARAModelContainer)model;
-		FModel fmodel = trafo.transform(amodel.model());
+		FModel fmodel = ara2FrancaTransformation.transform(amodel.model());
 
-//		lastTransformationIssues = trafo.getTransformationIssues();
+//		lastTransformationIssues = ara2FrancaTransformation.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
 
 		return new FrancaModelContainer(fmodel);
@@ -96,11 +95,10 @@ public class ARAConnector extends AbstractFrancaConnector {
 		IntegerTypeConverter.removeRangedIntegers(fmodel, true);
 
 		// do the actual transformation
-		Franca2ARATransformation trafo = injector.getInstance(Franca2ARATransformation.class);
-		AUTOSAR amodel = trafo.transform(fmodel);
+		AUTOSAR amodel = franca2ARATransformation.transform(fmodel);
 
 		// report issues
-//		lastTransformationIssues = trafo.getTransformationIssues();
+//		lastTransformationIssues = franca2ARATransformation.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
 
 		// create the model container and add some comments to the model
@@ -152,8 +150,7 @@ public class ARAConnector extends AbstractFrancaConnector {
 	private boolean saveARXML(
 		ResourceSet resourceSet,
 		AUTOSAR autosar,
-		URI uri,
-		PrintStream out
+		URI uri
 	) throws IOException {
 
 		Resource resource = resourceSet.createResource(uri, Autosar40ReleaseDescriptor.ARXML_CONTENT_TYPE_ID);
@@ -173,25 +170,30 @@ public class ARAConnector extends AbstractFrancaConnector {
 			resource.save(Collections.emptyMap());
 		}
  
-		if (out != null)
-			out.println("Saved generated arxml-file as '" + uri + "'");
+		getLogger().logInfo("Saved generated arxml-file as '" + uri + "'");
 
 		return true;
 	}
 
-	public boolean saveARXML(ResourceSet resourceSet, AUTOSAR autosar, String name, PrintStream out) {
+	public boolean saveARXML(ResourceSet resourceSet, AUTOSAR autosar, String name) {
 		URI uri = URI.createFileURI(name);
 		try {
-			saveARXML(resourceSet, autosar, uri, out);
+			saveARXML(resourceSet, autosar, uri);
 		} catch (IOException e) {
-			e.printStackTrace();
+			getLogger().logError("Couldn't save the ARXML file \"" + name + "\"!");
 			return false;
 		}
 		return true;
 	}
 	
-	public boolean saveARXML(ResourceSet resourceSet, AUTOSAR autosar, String name) {
-		return saveARXML(resourceSet, autosar, name, System.out);
+	@Override
+	public void setOutputStreams(PrintStream out, PrintStream err) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void setLogger(Logger logger) {
+		// TODO Auto-generated method stub
 	}
 	
 //	/**

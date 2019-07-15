@@ -10,7 +10,7 @@ public class HelpCommandHandler extends AbstractCommandLineHandler
     @Override
     public int execute(CommandLine parsedArguments)
     {
-    	ConsoleLogger.logInfo("Command: Console Help");
+    	ConsoleLogger.staticLogInfo("Command: Console Help");
     	
         // Command executer will print help on empty command.
         CommandExecuter.INSTANCE.executeCommand("");
