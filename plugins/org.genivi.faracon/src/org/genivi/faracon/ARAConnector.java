@@ -9,7 +9,6 @@ package org.genivi.faracon;
 
 import java.io.IOException;
 import java.io.PrintStream;
-import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -148,29 +147,6 @@ public class ARAConnector extends AbstractFrancaConnector {
 	public static AUTOSAR loadARAModel(String fileName) {
 		ARAResourceSet araResourceSet = new ARAResourceSet();
 		return loadARAModel(araResourceSet, fileName);
-	}
-
-	public static AUTOSAR loadARAModelFromPluginResource(ResourceSet resourceSet, String fileName) {
-		URL url = resourceSet.getClass().getResource("/" + fileName);
-		URI logicalURI = URI.createFileURI(fileName);
-		try {
-			Resource resource = loadResource(resourceSet, url, logicalURI);
-			return (AUTOSAR)resource.getContents().get(0);
-		} catch (IOException e) {
-			//TODO: error handling
-			return null;
-		}
-	}
-
-	public static AUTOSAR loadARAModelFromPluginResource(String fileName) {
-		ResourceSet resourceSet = createConfiguredResourceSet();
-		return loadARAModelFromPluginResource(resourceSet, fileName);
-	}
-
-	public static Resource loadResource(ResourceSet set, URL url, URI uri) throws IOException {
-		Resource resource = set.createResource(uri);
-		resource.load(url.openStream(), Collections.EMPTY_MAP);
-		return resource;
 	}
 
 	private boolean saveARXML(
