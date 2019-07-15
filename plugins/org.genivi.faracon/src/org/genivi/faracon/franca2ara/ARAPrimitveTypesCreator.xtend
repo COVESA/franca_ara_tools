@@ -6,29 +6,22 @@ import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import java.util.HashMap
 import javax.inject.Singleton
 import org.apache.log4j.Logger
-import org.eclipse.emf.ecore.resource.ResourceSet
-import org.genivi.faracon.ARAConnector
-import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FBasicTypeId
+import org.genivi.faracon.ARAResourceSet
+import org.genivi.faracon.Franca2ARABase
 
 @Singleton
 class ARAPrimitveTypesCreator extends Franca2ARABase {
 
 	private static final Logger logger = Logger.getLogger(ARAPrimitveTypesCreator.name)
 	
-	val static String PATH_TO_STD_ARXML_FILE = "stdtypes.arxml"
-
 	val nameToType = new HashMap<String, ImplementationDataType>()
 
-	def ARPackage createPrimitiveTypesPackage(ResourceSet resourceSet) {
-		var AUTOSAR primitiveTypeModel
-		if (resourceSet === null) {
-			primitiveTypeModel = ARAConnector.loadARAModelFromPluginResource(PATH_TO_STD_ARXML_FILE)
-		} else {
-			primitiveTypeModel = ARAConnector.loadARAModelFromPluginResource(resourceSet, PATH_TO_STD_ARXML_FILE)
-		}
-		val topLevelPackage = primitiveTypeModel.arPackages.get(0)
-		primitiveTypeModel.eAllContents.filter(ImplementationDataType).forEach[
+	def ARPackage createPrimitiveTypesPackage(ARAResourceSet araResourceSet) {
+		val ARAResourceSet araResourceSetLocal = (araResourceSet === null) ? new ARAResourceSet() :  araResourceSet;
+		val AUTOSAR primitiveTypesModel = araResourceSetLocal.standardTypeDefinitionsModel
+		val topLevelPackage = primitiveTypesModel.arPackages.get(0)
+		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
 			nameToType.put(it.shortName,it)
 		]
 		return topLevelPackage
