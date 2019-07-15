@@ -9,19 +9,11 @@ public interface PreferencesConstants
     // preference keys
     public static final String P_LICENSE          		= "licenseHeader";
     public static final String P_OUTPUT_DIRECTORY_PATH	= "outputDirectoryPath";
-	public static final String P_GENERATE_COMMON  		= "generatecommon";
-    public static final String P_GENERATE_PROXY    		= "generateproxy";
-    public static final String P_GENERATE_STUB     		= "generatestub";
-    public static final String P_GENERATE_SKELETON 		= "generateskeleton";
 	public static final String P_LOGOUTPUT        		= "logOutput";
 	public static final String P_WARNINGS_AS_ERRORS 	= "warningsAsErrors";
 	public static final String P_CONTINUE_ON_ERRORS 	= "continueOnErrors";
 	public static final String P_ENUMPREFIX       		= "enumprefix";
-	public static final String P_SKELETONPOSTFIX  		= "skeletonpostfix";
 	public static final String P_USEPROJECTSETTINGS 	= "useProjectSettings";
-	public static final String P_GENERATE_CODE    		= "generateCode";
-	public static final String P_GENERATE_DEPENDENCIES 	= "generateDependencies";
-	public static final String P_GENERATE_SYNC_CALLS 	= "generateSyncCalls";
     public static final String P_ENABLE_CORE_VALIDATOR 	= "enableCoreValidator";
 
 	// preference values
@@ -36,12 +28,6 @@ public interface PreferencesConstants
 
 
 	// preference keys
-    public static final String P_GENERATE_COMMON_DBUS	= P_GENERATE_COMMON;
-    public static final String P_GENERATE_PROXY_DBUS	= P_GENERATE_PROXY;
-    public static final String P_GENERATE_STUB_DBUS     = P_GENERATE_STUB;
 	public static final String P_USEPROJECTSETTINGS_DBUS= P_USEPROJECTSETTINGS;
-	public static final String P_GENERATE_CODE_DBUS     = P_GENERATE_CODE;
-	public static final String P_GENERATE_DEPENDENCIES_DBUS = P_GENERATE_DEPENDENCIES;
-	public static final String P_GENERATE_SYNC_CALLS_DBUS = P_GENERATE_SYNC_CALLS;
 	public static final String P_ENABLE_DBUS_VALIDATOR  = "enableDBusValidator";
 }

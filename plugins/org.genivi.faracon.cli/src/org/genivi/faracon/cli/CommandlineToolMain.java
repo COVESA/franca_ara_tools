@@ -307,24 +307,6 @@ public class CommandlineToolMain extends CommandlineTool {
 //		}
 //	}
 
-	public void setNoCommonCode() {
-		preferences.setPreference(PreferencesConstants.P_GENERATE_COMMON_DBUS,
-				"false");
-		ConsoleLogger.logInfo("No common code will be generated");
-	}
-
-	public void setNoProxyCode() {
-		preferences.setPreference(PreferencesConstants.P_GENERATE_PROXY_DBUS,
-				"false");
-		ConsoleLogger.logInfo("No proxy code will be generated");
-	}
-
-	public void setNoStubCode() {
-		preferences.setPreference(PreferencesConstants.P_GENERATE_STUB_DBUS,
-				"false");
-		ConsoleLogger.logInfo("No stub code will be generated");
-	}
-
 	public void setOutputDirectoryPath(String outputDirectoryPath) {
 		String normalizedOutputDirectoryPath = normalize(outputDirectoryPath);
 		ConsoleLogger.logInfo("Output directory path: " + normalizedOutputDirectoryPath);
