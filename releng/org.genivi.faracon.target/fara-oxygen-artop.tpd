@@ -20,7 +20,7 @@ with requirements source
 
 environment en
 
-location "https://www.artop.org/containers/artop-sdk-update-site-4.12" {
+location artop "https://www.artop.org/containers/artop-sdk-update-site-4.12" {
 	org.artop.base.sdk.feature.group [4.12.0,4.13.0)
 	org.artop.sdk.feature.group [4.12.0,4.13.0)
 

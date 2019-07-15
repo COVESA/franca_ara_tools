@@ -42,15 +42,6 @@ public class Preferences {
 	        if (!preferences.containsKey(PreferencesConstants.P_LICENSE)) {
 	            preferences.put(PreferencesConstants.P_LICENSE, PreferencesConstants.DEFAULT_LICENSE);
 	        }
-	        if (!preferences.containsKey(PreferencesConstants.P_GENERATE_COMMON_DBUS)) {
-	            preferences.put(PreferencesConstants.P_GENERATE_COMMON_DBUS, "true");
-	        }
-	        if (!preferences.containsKey(PreferencesConstants.P_GENERATE_STUB_DBUS)) {
-	            preferences.put(PreferencesConstants.P_GENERATE_STUB_DBUS, "true");
-	        }
-	        if (!preferences.containsKey(PreferencesConstants.P_GENERATE_PROXY_DBUS)) {
-	            preferences.put(PreferencesConstants.P_GENERATE_PROXY_DBUS, "true");
-	        }
 	        if (!preferences.containsKey(PreferencesConstants.P_LOGOUTPUT)) {
 	            preferences.put(PreferencesConstants.P_LOGOUTPUT, "true");
 	        }	        
