@@ -4,6 +4,7 @@ import org.eclipse.xtext.testing.InjectWith;
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca;
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider;
 import org.genivi.faracon.tests.util.Franca2ARATestBase;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -21,6 +22,7 @@ public class Franca2ARATests extends Franca2ARATestBase {
 	}
 	
 	@Test
+	@Ignore
 	public void testSimpleStruct() {
 		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleStruct");
 	}
