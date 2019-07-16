@@ -47,7 +47,7 @@
 		<module>../../plugins/org.genivi.faracon.console</module>
 		<module>../../plugins/org.genivi.faracon.cli</module>
 		<!-- test modules -->
-		<!-- <module>../../tests/org.genivi.faracon.tests</module> -->
+		<module>../../tests/org.genivi.faracon.tests</module>
 		<!-- documentation/help modules -->
 		<!-- <module>../../docs/org.genivi.faracon.docs</module> -->
 		<!-- release modules -->
