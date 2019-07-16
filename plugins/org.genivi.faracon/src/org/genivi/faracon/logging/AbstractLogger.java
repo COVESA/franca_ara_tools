@@ -14,7 +14,7 @@ public abstract class AbstractLogger implements ILogger {
 	private boolean isWarningsAsErrors = false;
 
 	private boolean isContinueOnErrors = false;
-	class StopOnErrorException extends RuntimeException {}
+	public class StopOnErrorException extends RuntimeException {}
 
 	private int indentationLevel = 0;
 	private String indentationStepSpace = "   ";

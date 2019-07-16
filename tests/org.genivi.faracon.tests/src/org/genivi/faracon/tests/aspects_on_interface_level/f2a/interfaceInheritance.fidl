@@ -1,0 +1,13 @@
+package a1.b2.c3
+
+interface A {
+}
+
+interface B extends A {
+}
+
+interface C extends A {
+}
+
+interface D extends B {
+}

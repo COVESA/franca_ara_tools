@@ -1,0 +1,81 @@
+package a1.b2.c3
+
+interface A {
+
+	struct Struct_A_1 {	UInt8 member1 }
+	struct Struct_A_2 {	UInt8 member1 }
+
+	attribute UInt32 attribute_a_1
+	attribute Int8 attribute_a_2
+	
+	method method_a_1 {
+	}
+	method method_a_2 {
+	}
+
+	broadcast broadcast_a_1 {
+	}
+	broadcast broadcast_a_2 {
+	}
+
+}
+
+interface B extends A {
+
+	struct Struct_B_1 {	UInt8 member1 }
+
+	attribute UInt8 attribute_b_1
+
+	method method_b_1 {
+	}
+
+	broadcast broadcast_b_1 {
+	}
+
+}
+
+interface C extends A {
+
+	struct Struct_C_1 {	UInt8 member1 }
+	struct Struct_C_2 {	UInt8 member1 }
+
+	attribute Int32 attribute_c_1
+	attribute UInt16 attribute_c_2
+
+	method method_c_1 {
+	}
+	method method_c_2 {
+	}
+
+	broadcast broadcast_c_1 {
+	}
+	broadcast broadcast_c_2 {
+	}
+
+}
+
+interface D extends B {
+
+	struct Struct_D_1 {	UInt8 member1 }
+	struct Struct_D_2 {	UInt8 member1 }
+	struct Struct_D_3 {	UInt8 member1 }
+
+	attribute UInt16 attribute_d_1
+	attribute Int16 attribute_d_2
+	attribute UInt16 attribute_d_3
+
+	method method_d_1 {
+	}
+	method method_d_2 {
+	}
+	method method_d_3 {
+	}
+
+	broadcast broadcast_d_1 {
+	}
+	broadcast broadcast_d_2 {
+	}
+	broadcast broadcast_d_3 {
+	}
+
+}
