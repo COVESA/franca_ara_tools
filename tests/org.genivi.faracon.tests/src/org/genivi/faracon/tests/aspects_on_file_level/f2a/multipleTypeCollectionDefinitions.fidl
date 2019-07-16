@@ -1,0 +1,10 @@
+package a1.b2.c3
+
+typeCollection A {
+}
+
+typeCollection B {
+}
+
+typeCollection C {
+}

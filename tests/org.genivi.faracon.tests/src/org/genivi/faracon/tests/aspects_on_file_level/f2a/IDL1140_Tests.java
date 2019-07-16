@@ -11,8 +11,16 @@ import org.junit.runner.RunWith;
 @InjectWith(FaraconTestsInjectorProvider.class)
 public class IDL1140_Tests extends Franca2ARATestBase {
 
+	private static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_on_file_level/f2a/";
+
 	@Test
-	public void test1() {	
+	public void oneTypeCollectionDefinition() {	
+		transformAndCheck(LOCAL_FRANCA_MODELS, "oneTypeCollectionDefinition");
+	}
+
+	@Test
+	public void multipleTypeCollectionDefinitions() {	
+		transformAndCheck(LOCAL_FRANCA_MODELS, "multipleTypeCollectionDefinitions");
 	}
 
 }
