@@ -1,17 +1,17 @@
 package org.genivi.faracon.tests;
 
 import org.eclipse.xtext.testing.InjectWith;
-import org.genivi.faracon.tests.util.Franca2ARATestBase;
-import org.franca.core.dsl.FrancaIDLTestsInjectorProvider;
 import org.franca.core.dsl.FrancaPersistenceManager;
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca;
+import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider;
+import org.genivi.faracon.tests.util.Franca2ARATestBase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import com.google.inject.Inject;
 
 @RunWith(XtextRunner2_Franca.class)
-@InjectWith(FrancaIDLTestsInjectorProvider.class)
+@InjectWith(FaraconTestsInjectorProvider.class)
 public class ARA2FrancaTests extends Franca2ARATestBase {
 
 	private static final String LOCAL_ARA_MODELS = "models/simple/";

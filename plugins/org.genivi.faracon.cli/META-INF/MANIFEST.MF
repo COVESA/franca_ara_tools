@@ -12,5 +12,6 @@ Require-Bundle: org.eclipse.core.runtime,
  org.genivi.faracon.console,
  org.genivi.faracon;bundle-version="0.7.0"
 Bundle-ActivationPolicy: lazy
+Export-Package: org.genivi.faracon.cli
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: GENIVI

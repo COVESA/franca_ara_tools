@@ -10,7 +10,11 @@ import static org.junit.Assert.assertNotNull
 
 class Franca2ARATestBase {
 
-	@Inject	FrancaPersistenceManager loader
+	@Inject
+	protected FrancaPersistenceManager loader
+
+	@Inject
+	protected ARAConnector araConnector;
 
 	def void transform(String path, String fileBasename) {
 		doTransformTest(path, fileBasename, false)
@@ -29,12 +33,11 @@ class Franca2ARATestBase {
 		assertNotNull(fmodel)
 		
 		// transform to arxml
-		val conn = new ARAConnector
-		val fromFranca = conn.fromFranca(fmodel) as ARAModelContainer
-		conn.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
+		val fromFranca = araConnector.fromFranca(fmodel) as ARAModelContainer
+		araConnector.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
 		
 		// transform to Franca IDL
-		val fmodel2 = conn.toFranca(fromFranca) as FrancaModelContainer
+		val fmodel2 = araConnector.toFranca(fromFranca) as FrancaModelContainer
 		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
 
 		if (check) {
