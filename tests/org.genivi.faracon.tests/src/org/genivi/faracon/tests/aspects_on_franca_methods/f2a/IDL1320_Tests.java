@@ -11,8 +11,16 @@ import org.junit.runner.RunWith;
 @InjectWith(FaraconTestsInjectorProvider.class)
 public class IDL1320_Tests extends Franca2ARATestBase {
 
+	private static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_on_franca_methods/f2a/";
+
 	@Test
-	public void test1() {	
+	public void oneMethodReturnValue() {	
+		transformAndCheck(LOCAL_FRANCA_MODELS, "oneMethodReturnValue");
+	}
+
+	@Test
+	public void multipleMethodInputArguments() {	
+		transformAndCheck(LOCAL_FRANCA_MODELS, "multipleMethodReturnValue");
 	}
 
 }
