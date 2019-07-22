@@ -9,8 +9,14 @@ interface A {
 	attribute Int8 attribute_a_2
 	
 	method method_a_1 {
+		in {
+			Struct_A_1 param
+		}
 	}
 	method method_a_2 {
+		in {
+			Struct_A_2 param
+		}
 	}
 
 	broadcast broadcast_a_1 {
@@ -33,6 +39,9 @@ interface B extends A {
 	attribute UInt8 attribute_b_1
 
 	method method_b_1 {
+		in {
+			Struct_B_1 param
+		}
 	}
 
 	broadcast broadcast_b_1 {
@@ -52,8 +61,14 @@ interface C extends A {
 	attribute UInt16 attribute_c_2
 
 	method method_c_1 {
+		in {
+			Struct_C_1 param
+		}
 	}
 	method method_c_2 {
+		in {
+			Struct_C_2 param
+		}
 	}
 
 	broadcast broadcast_c_1 {
@@ -80,10 +95,19 @@ interface D extends B {
 	attribute UInt16 attribute_d_3
 
 	method method_d_1 {
+		in {
+			Struct_D_1 param
+		}
 	}
 	method method_d_2 {
+		in {
+			Struct_D_2 param
+		}
 	}
 	method method_d_3 {
+		in {
+			Struct_D_3 param
+		}
 	}
 
 	broadcast broadcast_d_1 {
