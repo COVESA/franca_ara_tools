@@ -14,8 +14,14 @@ interface A {
 	}
 
 	broadcast broadcast_a_1 {
+		out {
+			UInt32 eventValue
+		}
 	}
 	broadcast broadcast_a_2 {
+		out {
+			UInt32 eventValue
+		}
 	}
 
 }
@@ -30,6 +36,9 @@ interface B extends A {
 	}
 
 	broadcast broadcast_b_1 {
+		out {
+			UInt32 eventValue
+		}
 	}
 
 }
@@ -48,8 +57,14 @@ interface C extends A {
 	}
 
 	broadcast broadcast_c_1 {
+		out {
+			UInt32 eventValue
+		}
 	}
 	broadcast broadcast_c_2 {
+		out {
+			UInt32 eventValue
+		}
 	}
 
 }
@@ -72,10 +87,19 @@ interface D extends B {
 	}
 
 	broadcast broadcast_d_1 {
+		out {
+			UInt32 eventValue
+		}
 	}
 	broadcast broadcast_d_2 {
+		out {
+			UInt32 eventValue
+		}
 	}
 	broadcast broadcast_d_3 {
+		out {
+			UInt32 eventValue
+		}
 	}
 
 }
