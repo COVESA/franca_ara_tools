@@ -58,10 +58,14 @@ class Franca2ARATransformation extends Franca2ARABase {
 		methods.addAll(getAllMethods(src).map[transform(src)])
 	}
 	
+	// Beside the original parent interface check, the parameter 'parentInterface' is important
+	// in case of emulation of interface inheritance.
+	// As methods are copied to derived interfaces multiple copies of them are needed.
+	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createClientServerOperation transform(FMethod src, FInterface parentInterface) {
 		shortName = src.name
-		arguments.addAll(src.inArgs.map[transform(true)])
-		arguments.addAll(src.outArgs.map[transform(false)])
+		arguments.addAll(src.inArgs.map[transform(true, parentInterface)])
+		arguments.addAll(src.outArgs.map[transform(false, parentInterface)])
 
 		// If the method is not a direct member of the current interface definition but is inherited from
 		// a direct or indirect base interface the original interface where it comes from is annotated.
@@ -74,13 +78,20 @@ class Franca2ARATransformation extends Franca2ARABase {
 		}
 	}
 	
-	def create fac.createArgumentDataPrototype transform(FArgument arg, boolean isIn) {
+	// The parameter 'parentInterface' is important in case of emulation of interface inheritance.
+	// As methods are copied to derived interfaces multiple copies of the method arguments are needed as well.
+	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
+	def create fac.createArgumentDataPrototype transform(FArgument arg, boolean isIn, FInterface parentInterface) {
 		shortName = arg.name
 		//category = xxx
 		type = createDataTypeReference(arg.type, arg)
 		direction = if (isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
 	}
 	
+	// Beside the original parent interface check, the parameter 'parentInterface' is important
+	// in case of emulation of interface inheritance.
+	// As attributes are copied to derived interfaces multiple copies of them are needed.
+	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createField transform(FAttribute src, FInterface parentInterface) {
 		shortName = src.name
 		type = src.type.createDataTypeReference(src)
@@ -99,6 +110,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 		}
 	}
 	
+	// Beside the original parent interface check, the parameter 'parentInterface' is important
+	// in case of emulation of interface inheritance.
+	// As broadcasts are copied to derived interfaces multiple copies of them are needed.
+	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface) {
 		shortName = src.name
 		if (!src.outArgs.empty) {
