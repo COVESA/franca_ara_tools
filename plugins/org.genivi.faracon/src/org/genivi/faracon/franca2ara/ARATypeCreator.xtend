@@ -11,6 +11,7 @@ import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
+import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
@@ -140,6 +141,11 @@ class ARATypeCreator extends Franca2ARABase {
 				it.compuScales.addAll(compuScalesForEnum)
 			]
 		]
+	}
+
+	def private dispatch AutosarDataType createDataTypeForReference(FIntegerInterval type) {
+		getLogger.logError("The Franca model element \"" + type.name + "\" of metatype 'FIntegerInterval' cannot be converted into an AUTOSAR representation!")
+		return null
 	}
 
 	def private create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FField fField) {
