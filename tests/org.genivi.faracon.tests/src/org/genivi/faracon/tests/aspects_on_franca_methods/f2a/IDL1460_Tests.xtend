@@ -100,8 +100,9 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	@Test
 	def void broadcastConversion() {
 		val FBroadcast fBroadcast = francaFac.createFBroadcast
-		val FInterface fParentInterface = francaFac.createFInterface
-		fParentInterface.broadcasts.add(fBroadcast)
+		val FInterface fParentInterface = francaFac.createFInterface => [
+			broadcasts += fBroadcast
+		]
 		val VariableDataPrototype variableDataPrototype = franca2ARATransformation.transform(fBroadcast, fParentInterface)
 		checkAbstractBaseClasses(fBroadcast, variableDataPrototype)
 	}
@@ -116,10 +117,11 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	@Test
 	def void argumentConversion() {
 		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
-		val FArgument fArgument = francaFac.createFArgument
-		val FTypeRef fTypeRef = francaFac.createFTypeRef
-		fTypeRef.predefined = FBasicTypeId.UINT32
-		fArgument.type = fTypeRef
+		val FArgument fArgument = francaFac.createFArgument => [
+			type = francaFac.createFTypeRef => [
+				predefined = FBasicTypeId.UINT32
+			]
+		]
 		val FInterface fParentInterface = francaFac.createFInterface
 		val ArgumentDataPrototype argumentDataPrototype = franca2ARATransformation.transform(fArgument, true, fParentInterface)
 		checkAbstractBaseClasses(fArgument, argumentDataPrototype)
@@ -128,12 +130,14 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	@Test
 	def void attributeConversion() {
 		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
-		val FAttribute fAttribute = francaFac.createFAttribute
-		val FTypeRef fTypeRef = francaFac.createFTypeRef
-		fTypeRef.predefined = FBasicTypeId.UINT32
-		fAttribute.type = fTypeRef
-		val FInterface fParentInterface = francaFac.createFInterface
-		fParentInterface.attributes.add(fAttribute)
+		val FAttribute fAttribute = francaFac.createFAttribute => [
+			type = francaFac.createFTypeRef => [
+				predefined = FBasicTypeId.UINT32
+			]
+		]
+		val FInterface fParentInterface = francaFac.createFInterface => [
+			attributes += fAttribute
+		]
 		val Field field = franca2ARATransformation.transform(fAttribute, fParentInterface)
 		checkAbstractBaseClasses(fAttribute, field)
 	}
@@ -166,8 +170,9 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	@Test
 	def void methodConversion() {
 		val FMethod fMethod = francaFac.createFMethod
-		val FInterface fParentInterface = francaFac.createFInterface
-		fParentInterface.methods.add(fMethod)
+		val FInterface fParentInterface = francaFac.createFInterface => [
+			methods += fMethod
+		]
 		val ClientServerOperation clientServerOperation = franca2ARATransformation.transform(fMethod, fParentInterface)
 		checkAbstractBaseClasses(fMethod, clientServerOperation)
 	}
