@@ -22,5 +22,6 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.genivi.faracon,
  org.genivi.faracon.logging,
  org.genivi.faracon.preferences,
- org.genivi.faracon.validator
+ org.genivi.faracon.validator,
+ org.genivi.faracon.franca2ara
 Import-Package: org.apache.log4j
