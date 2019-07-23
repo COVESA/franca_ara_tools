@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/atls">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="7609b764-d64e-4d2a-9c60-a7969bc625fe">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="43d01331-4f5d-4683-81e4-faed4274ff40">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="87e71f2d-b083-4751-8ab2-84da2d7251a2">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <SERVICE-INTERFACE UUID="690820a9-2fc8-46e3-ac0d-8e5954567321">
+                  <SHORT-NAME>ExampleInterface</SHORT-NAME>
+                  <METHODS>
+                    <CLIENT-SERVER-OPERATION UUID="2fb76a2d-dd36-43e5-b0b6-252a92ef2eac">
+                      <SHORT-NAME>method_1</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                    <CLIENT-SERVER-OPERATION UUID="ef1e1855-bdfc-442a-8b03-a356fc2e43d7">
+                      <SHORT-NAME>method_2</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                    <CLIENT-SERVER-OPERATION UUID="e07f1d3c-f964-4d77-99ea-ac7db0379bce">
+                      <SHORT-NAME>method_3</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                    <CLIENT-SERVER-OPERATION UUID="73d28638-9984-429c-adb4-bfa68e578895">
+                      <SHORT-NAME>method_4</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                  </METHODS>
+                </SERVICE-INTERFACE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
