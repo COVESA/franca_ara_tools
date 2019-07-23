@@ -1,0 +1,26 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	method method_1 {
+	}
+
+	method method_2 {
+	}
+
+	method method_3 {
+	}
+
+	method method_4 {
+	}
+
+}
+
+interface ExampleInterface2{
+	method method_5{
+		
+	}
+	method method_6{
+		
+	}
+}
