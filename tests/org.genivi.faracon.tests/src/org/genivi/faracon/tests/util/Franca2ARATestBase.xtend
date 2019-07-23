@@ -39,8 +39,8 @@ class Franca2ARATestBase {
 		araConnector.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
 		
 		// transform to Franca IDL
-		val fmodel2 = araConnector.toFranca(fromFranca) as FrancaModelContainer
-		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
+//		val fmodel2 = araConnector.toFranca(fromFranca) as FrancaModelContainer
+//		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
 
 		if (check) {
 			// load reference arxml file
