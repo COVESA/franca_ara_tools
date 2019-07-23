@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/atls">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="bff73cef-fe28-423b-bfde-7af1dcdba489">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="9e5408cc-f079-4b61-a1d5-eeabc817f4b5">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="28b1ff37-b80b-4fc8-b179-9624342171b6">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <SERVICE-INTERFACE UUID="4a5d4b65-8810-4bce-83b5-e44ce0aeb650">
+                  <SHORT-NAME>ExampleInterface</SHORT-NAME>
+                  <METHODS>
+                    <CLIENT-SERVER-OPERATION UUID="d6bf0480-c589-4275-b67f-4d1d86aa2cd2">
+                      <SHORT-NAME>method_1</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                    <CLIENT-SERVER-OPERATION UUID="91e6f577-0dc5-46ce-8747-813dee7aa5b1">
+                      <SHORT-NAME>method_2</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                    <CLIENT-SERVER-OPERATION UUID="c52dcf78-9001-4775-97f6-2df932b2c012">
+                      <SHORT-NAME>method_3</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                    <CLIENT-SERVER-OPERATION UUID="f0eb8248-5f3e-42f2-9174-def656d08361">
+                      <SHORT-NAME>method_4</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                  </METHODS>
+                </SERVICE-INTERFACE>
+                <SERVICE-INTERFACE UUID="c8579dc9-4577-4fed-be69-acb76295808e">
+                  <SHORT-NAME>ExampleInterface2</SHORT-NAME>
+                  <METHODS>
+                    <CLIENT-SERVER-OPERATION UUID="74826fc8-9e4f-42d9-98d3-7b94555a9095">
+                      <SHORT-NAME>method_5</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                    <CLIENT-SERVER-OPERATION UUID="43322dba-17dd-4c74-91dd-52c818c6bbe2">
+                      <SHORT-NAME>method_6</SHORT-NAME>
+                    </CLIENT-SERVER-OPERATION>
+                  </METHODS>
+                </SERVICE-INTERFACE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
