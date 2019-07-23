@@ -1,10 +1,12 @@
 package org.genivi.faracon.tests.util
 
+import autosar40.util.Autosar40Factory
 import com.google.inject.Inject
-import org.genivi.faracon.ARAConnector
-import org.genivi.faracon.ARAModelContainer
 import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.framework.FrancaModelContainer
+import org.franca.core.franca.FrancaFactory
+import org.genivi.faracon.ARAConnector
+import org.genivi.faracon.ARAModelContainer
 
 import static org.junit.Assert.assertNotNull
 
@@ -37,8 +39,8 @@ class Franca2ARATestBase {
 		araConnector.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
 		
 		// transform to Franca IDL
-		val fmodel2 = araConnector.toFranca(fromFranca) as FrancaModelContainer
-		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
+//		val fmodel2 = araConnector.toFranca(fromFranca) as FrancaModelContainer
+//		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
 
 		if (check) {
 			// load reference arxml file
@@ -64,4 +66,13 @@ class Franca2ARATestBase {
 //			assertEquals(0, nDiffs)
 		}
 	}
+
+	def protected francaFac() {
+		FrancaFactory.eINSTANCE
+	}
+
+	def protected araFac() {
+		Autosar40Factory.eINSTANCE
+	}
+
 }

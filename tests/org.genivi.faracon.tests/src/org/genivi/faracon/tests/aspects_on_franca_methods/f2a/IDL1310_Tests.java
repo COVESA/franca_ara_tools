@@ -20,7 +20,7 @@ public class IDL1310_Tests extends Franca2ARATestBase {
 
 	@Test
 	public void multipleMethodInputArguments() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "muqltipleMethodInputArguments");
+		transformAndCheck(LOCAL_FRANCA_MODELS, "multipleMethodInputArguments");
 	}
 
 }
