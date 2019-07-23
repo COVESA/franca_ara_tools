@@ -11,8 +11,11 @@ import org.junit.runner.RunWith;
 @InjectWith(FaraconTestsInjectorProvider.class)
 public class IDL1300_Tests extends Franca2ARATestBase {
 
+	private static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_on_franca_methods/f2a/";
+
 	@Test
-	public void test1() {	
+	public void fireAndForgetMethod() {	
+		transformAndCheck(LOCAL_FRANCA_MODELS, "fireAndForgetMethod");
 	}
 
 }

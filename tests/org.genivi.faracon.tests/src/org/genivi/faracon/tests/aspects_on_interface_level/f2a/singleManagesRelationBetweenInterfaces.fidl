@@ -1,0 +1,7 @@
+package a1.b2.c3
+
+interface A {
+}
+
+interface Master manages A {
+}
