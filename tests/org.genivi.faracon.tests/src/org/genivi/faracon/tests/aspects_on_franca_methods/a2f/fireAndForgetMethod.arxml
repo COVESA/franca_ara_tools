@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/atls">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="ecf9f635-397a-440f-8bae-63e5c164f426">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="d09441d5-1718-4556-be34-3498f1e15015">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="907cedab-908a-47d9-8d48-2b8a61284c60">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <SERVICE-INTERFACE UUID="b9fff832-bc7e-4730-a551-43abaca07500">
+                  <SHORT-NAME>ExampleInterface</SHORT-NAME>
+                  <METHODS>
+                    <CLIENT-SERVER-OPERATION UUID="532bd404-c063-444b-bf65-ebdcfb97a7b6">
+                      <SHORT-NAME>fireAndForgetMethod</SHORT-NAME>
+                      <FIRE-AND-FORGET>true</FIRE-AND-FORGET>
+                    </CLIENT-SERVER-OPERATION>
+                  </METHODS>
+                </SERVICE-INTERFACE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
