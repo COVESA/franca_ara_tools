@@ -82,6 +82,9 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 
 	def create fac.createFMethod transform(ClientServerOperation src) {
 		name = src.shortName
+		if(src.fireAndForget !== null){
+			fireAndForget = src.fireAndForget	
+		}
 		inArgs.addAll(src.arguments.filter[direction == ArgumentDirectionEnum.IN].map[transform])
 		outArgs.addAll(src.arguments.filter[direction == ArgumentDirectionEnum.OUT].map[transform])
 	}
