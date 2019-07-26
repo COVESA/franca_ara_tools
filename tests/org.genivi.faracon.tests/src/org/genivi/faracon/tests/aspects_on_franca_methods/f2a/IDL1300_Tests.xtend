@@ -7,6 +7,9 @@ import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Test cases for testing the conversion of Franca fire&forget methods.
+ */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1300_Tests extends Franca2ARATestBase {
