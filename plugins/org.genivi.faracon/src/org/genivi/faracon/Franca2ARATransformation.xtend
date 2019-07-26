@@ -49,7 +49,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	
 	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
 		if (!src.managedInterfaces.empty) {
-			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted!")
+			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
 		events.addAll(getAllBroadcasts(src).map[transform(src)])
