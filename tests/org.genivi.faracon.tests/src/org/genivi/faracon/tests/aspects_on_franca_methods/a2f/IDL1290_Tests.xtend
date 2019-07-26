@@ -9,7 +9,7 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertEquals
 
-import static extension org.genivi.faracon.tests.util.AssertHelper.*
+import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
 
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider) 

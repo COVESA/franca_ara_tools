@@ -1,0 +1,14 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	method exampleMethod {
+		in {
+			UInt32 input_argument_1
+			UInt32 input_argument_2
+			UInt32 input_argument_3
+			UInt32 input_argument_4
+		}
+	}
+	
+}
