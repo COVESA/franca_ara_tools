@@ -1,0 +1,11 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	method exampleMethod {
+		in {
+			UInt32 input_argument[23]
+		}
+	}
+	
+}
