@@ -30,7 +30,7 @@ public class ConsoleLogger extends AbstractLogger {
 
 	@Override
 	protected void logWarningImpl(String warningMessage) {
-		System.out.println(indentationSpace() + "WARNING:" + warningMessage);
+		System.out.println(indentationSpace() + "WARNING: " + warningMessage);
 	}
 	
 	public static void staticLogWarning(String warningMessage) {
