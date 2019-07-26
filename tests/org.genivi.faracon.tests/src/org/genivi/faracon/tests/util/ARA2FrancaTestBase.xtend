@@ -4,19 +4,30 @@ import autosar40.autosartoplevelstructure.AUTOSAR
 import java.util.Collection
 import java.util.Collections
 import java.util.List
+import javax.inject.Inject
 import org.franca.core.framework.IModelContainer
 import org.franca.core.franca.FModel
+import org.genivi.faracon.ARA2FrancaTransformation
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.FrancaMultiModelContainer
 import org.genivi.faracon.tests.FaraconTestBase
+import org.junit.After
 
 import static org.genivi.faracon.ARAConnector.*
+import static org.genivi.faracon.tests.util.FaraconAssertHelper.*
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertNotNull
-import static org.genivi.faracon.tests.util.FaraconAssertHelper.*
 
 abstract class ARA2FrancaTestBase extends FaraconTestBase{
+
+	@Inject
+	var protected extension ARA2FrancaTransformation ara2FrancaTransformation
+
+	@After
+	def void afterTest(){
+		ara2FrancaTransformation.logger.enableContinueOnErrors(false)
+	}
 
 	def void transformAndCheck(String sourceFilePath, String expectedFilePath) {
 		transformAndCheck(sourceFilePath, Collections.singletonList(expectedFilePath))

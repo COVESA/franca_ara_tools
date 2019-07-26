@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/ap/ad#//portinterface">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="2c6afaff-a69c-454d-8d2d-3ea4ef75a919">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="16ededa1-43b0-4a50-8e32-58cf4d38eff2">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="c2de297a-ee75-4ff7-b2ce-e8170e62ebec">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <SERVICE-INTERFACE UUID="762669e3-bddf-4d0d-b385-79f8cb8d6c1e">
+                  <SHORT-NAME>ExampleInterface</SHORT-NAME>
+                  <METHODS>
+                    <CLIENT-SERVER-OPERATION UUID="7eb1783c-09d5-4654-80a8-64dd7004ef5a">
+                      <SHORT-NAME>exampleMethod</SHORT-NAME>
+                      <ARGUMENTS>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="7f867469-a8c3-460e-8793-32fb3b8d7956">
+                          <SHORT-NAME>return_value_1</SHORT-NAME>
+                          <DIRECTION>OUT</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="e63e93e3-0341-41e4-8d28-ab95bd3b90ca">
+                          <SHORT-NAME>return_value_2</SHORT-NAME>
+                          <DIRECTION>OUT</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="b21130a5-af30-4797-a46d-1e9ee5fc005d">
+                          <SHORT-NAME>return_value_3</SHORT-NAME>
+                          <DIRECTION>OUT</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="654b8e5b-2e9b-40fa-83fb-61ef90119f45">
+                          <SHORT-NAME>return_value_4</SHORT-NAME>
+                          <DIRECTION>OUT</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                      </ARGUMENTS>
+                    </CLIENT-SERVER-OPERATION>
+                  </METHODS>
+                </SERVICE-INTERFACE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
