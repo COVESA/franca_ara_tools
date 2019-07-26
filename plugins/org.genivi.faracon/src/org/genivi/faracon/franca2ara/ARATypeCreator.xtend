@@ -144,7 +144,7 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def private dispatch AutosarDataType createDataTypeForReference(FIntegerInterval type) {
-		getLogger.logError("The Franca model element \"" + type.name + "\" of metatype 'FIntegerInterval' cannot be converted into an AUTOSAR representation!")
+		getLogger.logError("The Franca model element \"" + type.name + "\" of metatype 'FIntegerInterval' cannot be converted into an AUTOSAR representation! (IDL2590)")
 		return null
 	}
 
