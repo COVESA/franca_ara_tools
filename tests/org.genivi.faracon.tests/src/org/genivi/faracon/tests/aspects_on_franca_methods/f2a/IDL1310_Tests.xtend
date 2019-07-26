@@ -7,6 +7,9 @@ import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Test cases for testing the conversion of the set of input parameters of a Franca method.
+ */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1310_Tests extends Franca2ARATestBase {
