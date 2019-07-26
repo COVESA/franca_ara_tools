@@ -64,6 +64,15 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createClientServerOperation transform(FMethod src, FInterface parentInterface) {
 		shortName = src.name
+
+		// The flag that indicates a fire&forget method is an optional member in AUTOSAR models.
+		// It can have the values {true, false, unset}. We encode non-fire&forget methods with 'unset'.
+		// An additional command line option might give the user the choice between encoding 
+		// with 'false' or 'unset' in this case.
+		if (src.fireAndForget) {
+			fireAndForget = true			
+		}
+
 		arguments.addAll(src.inArgs.map[transform(true, parentInterface)])
 		arguments.addAll(src.outArgs.map[transform(false, parentInterface)])
 
