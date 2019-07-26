@@ -28,7 +28,7 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 
 	def getBaseTypeForReference(FBasicTypeId fBasicTypeId) {
 		if(!this.nameToType.containsKey(fBasicTypeId.getName)){
-			getLogger.logError("Can not find an Autosar simple type for the FBasicType: " + fBasicTypeId?.getName)
+			getLogger.logError("Can not find an AUTOSAR simple type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
 		this.nameToType.get(fBasicTypeId.getName)
 	}
