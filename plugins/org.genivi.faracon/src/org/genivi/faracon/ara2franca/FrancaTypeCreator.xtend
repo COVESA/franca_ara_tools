@@ -26,6 +26,16 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 	}
 
+	/**
+	 * Creates a default type, which can be used for the transformation if no source type is provided.
+	 * Before calling this method an error should be logged.
+	 */
+	def createDefaultTypeRef(){
+		val typeRef = fac.createFTypeRef
+		typeRef.predefined = FBasicTypeId.get(FBasicTypeId.UINT32_VALUE)
+		return typeRef 
+	}
+
 	def protected create fac.createFStructType transformStructure(ImplementationDataType src) {
 		name = src.shortName
 		if (src.subElements !== null) {
@@ -160,7 +170,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		val firstProperty = swDataDefProps.swDataDefPropsVariants.get(0)
 		firstProperty
 	}
-
+ 
 	// Important: This cannot be realized as a Xtend create function because we need
 	//            to create multiple type ref objects that point to the same type object!
 	def createFTypeRef(ImplementationDataType src) {

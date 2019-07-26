@@ -82,16 +82,29 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 
 	def create fac.createFMethod transform(ClientServerOperation src) {
 		name = src.shortName
-		if(src.fireAndForget !== null){
-			fireAndForget = src.fireAndForget	
+		if (src.fireAndForget !== null) {
+			fireAndForget = src.fireAndForget
 		}
 		inArgs.addAll(src.arguments.filter[direction == ArgumentDirectionEnum.IN].map[transform])
 		outArgs.addAll(src.arguments.filter[direction == ArgumentDirectionEnum.OUT].map[transform])
+		val inOutArguments = src.arguments.filter[direction == ArgumentDirectionEnum.INOUT]
+		if (!inOutArguments.nullOrEmpty) {
+			val errorMsg = '''The following in-out arguments cannot be transformed to franca as franca does not support in-out arguments: "«inOutArguments.map[it.shortName].join(", ")»"'''
+			logger.logError(errorMsg)
+		}
 	}
 
 	def create fac.createFArgument transform(ArgumentDataPrototype src) {
 		name = src.shortName
-		type = createFTypeRef(src.type as ImplementationDataType)
+		if (src.type !== null) {
+			type = createFTypeRef(src.type as ImplementationDataType)
+		} else {
+			logger.
+				logError('''Cannot create type for franca argument "«name»" because the Autosar argument has no type''')
+			logger.logInfo("Using UINT32 as the default type in order to be able to continue")
+			type = createDefaultTypeRef
+		}
+
 	}
 
 }
