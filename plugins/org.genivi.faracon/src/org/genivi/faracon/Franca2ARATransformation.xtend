@@ -138,6 +138,16 @@ class Franca2ARATransformation extends Franca2ARABase {
 		if (parentInterface !== originalParentInterface) {
 			it.addAnnotation(ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE, originalParentInterface.getARFullyQualifiedName)
 		}
+
+		// Selective broadcasts are not representable in an AUTOSAR model.
+		if (src.selective) {
+			getLogger.logError("The broadcast '" + originalParentInterface.name + "." + src.name + "' cannot be properly converted because selective broadcasts are not representable in an AUTOSAR model! (IDL1390)")
+		}
+
+		// Broadcast selectors are not representable in an AUTOSAR model.
+		if (!src.selector.isNullOrEmpty) {
+			getLogger.logError("The broadcast '" + originalParentInterface.name + "." + src.name + "' cannot be properly converted because broadcast selectors are not representable in an AUTOSAR model! (IDL1400)")
+		}
 	}
 
 	def addAnnotation(Identifiable objectToAnnotate, String labelText, String annotationText) {
