@@ -1,0 +1,17 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	broadcast broadcastWithSelector:selectorName1 {
+		out {
+			UInt32 argument
+		}
+	}
+	
+	broadcast broadcastWithSelector:selectorName2 {
+		out {
+			String argument
+		}
+	}
+	
+}

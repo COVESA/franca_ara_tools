@@ -1,0 +1,29 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	broadcast broadcast_1 {
+		out {
+			UInt32 argument
+		}
+	}
+
+	broadcast broadcast_2 {
+		out {
+			UInt32 argument
+		}
+	}
+
+	broadcast broadcast_3 {
+		out {
+			UInt32 argument
+		}
+	}
+
+	broadcast broadcast_4 {
+		out {
+			UInt32 argument
+		}
+	}
+
+}
