@@ -7,9 +7,12 @@ import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static extension org.genivi.faracon.tests.util.AssertHelper.*
+import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
 import static org.junit.Assert.assertEquals
 
+/**
+ * Test transformation of interfaces from autosar to franca
+ */
 @RunWith(XtextRunner2_Franca) 
 @InjectWith(FaraconTestsInjectorProvider) 
 class IDL1220_Tests extends ARA2FrancaTestBase {
