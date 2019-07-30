@@ -11,6 +11,9 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertEquals
 
+/**
+ * Test fire and forget flag transformation from Autosar to Franca
+ */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1300_Tests extends ARA2FrancaTestBase {
