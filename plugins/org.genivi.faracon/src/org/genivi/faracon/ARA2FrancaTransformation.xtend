@@ -65,8 +65,9 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 	def create fac.createFBroadcast transform(VariableDataPrototype src) {
 		name = src.shortName
 		val outArg = fac.createFArgument => [
-			// TODO: This is not a proper name. The real parameter name is lost during the Franca to AUTOSAR transformation!
-			name = src.type.shortName.toFirstLower
+			// As there is no "real" name for the out-parameter in AUTOSAR,
+			// we reuse the name of the VariableDataPrototoype
+			name = src.shortName
 			type = createFTypeRef(src.type as ImplementationDataType)
 		]
 		outArgs.add(outArg)

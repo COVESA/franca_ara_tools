@@ -11,6 +11,9 @@ import static org.junit.Assert.assertEquals
 
 import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
 
+/**
+ * Tests transformation of Autosar ClientServerOperation to Franca Methods 
+ */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider) 
 class IDL1290_Tests extends ARA2FrancaTestBase {

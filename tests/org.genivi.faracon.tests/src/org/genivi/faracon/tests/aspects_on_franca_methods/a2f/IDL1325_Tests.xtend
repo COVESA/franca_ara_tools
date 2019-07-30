@@ -8,6 +8,9 @@ import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 
+/**
+ * Test Autosar INOUT Parameter to Franca transformation
+ */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1325_Tests extends Franca2AraParameterTest {

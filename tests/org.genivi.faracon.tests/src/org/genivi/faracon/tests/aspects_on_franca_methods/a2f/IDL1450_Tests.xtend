@@ -7,7 +7,15 @@ import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 
-@RunWith(XtextRunner2_Franca) @InjectWith(FaraconTestsInjectorProvider) class IDL1450_Tests extends ARA2FrancaTestBase {
-	@Test def void test1() {
+/**
+ * Test Autosar operation argument to Franca broadcast
+ */
+@RunWith(XtextRunner2_Franca)
+@InjectWith(FaraconTestsInjectorProvider)
+class IDL1450_Tests extends ARA2FrancaTestBase {
+
+	@Test
+	def void testOperationArgumentToBroadcast() {
+		transformAndCheck(testPath + "broadcastArgument.arxml", testPath + "broadcastArgumentExpected.fidl")
 	}
 }

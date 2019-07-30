@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/swc/d/dp">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="347cd303-35bc-42ef-8d6a-e9e45c3c8987">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="6175846e-e7e5-441a-b97c-4ca76f33a904">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="1d7cd759-3028-4e2f-8539-cf79bc312536">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <SERVICE-INTERFACE UUID="24ba4b6f-bc54-4ec3-9250-d9fad10cc560">
+                  <SHORT-NAME>ExampleInterface</SHORT-NAME>
+                  <EVENTS>
+                    <VARIABLE-DATA-PROTOTYPE UUID="2031b2ff-510a-4405-932c-2b9392803546">
+                      <SHORT-NAME>exampleBroadcast</SHORT-NAME>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/Int8</TYPE-TREF>
+                    </VARIABLE-DATA-PROTOTYPE>
+                  </EVENTS>
+                </SERVICE-INTERFACE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
