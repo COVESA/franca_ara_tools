@@ -4,6 +4,7 @@ import autosar40.commonstructure.datadefproperties.SwDataDefProps
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
 import autosar40.swcomponent.datatype.computationmethod.CompuScales
+import java.util.Objects
 import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.ARA2FrancaBase
@@ -12,7 +13,7 @@ import org.genivi.faracon.ARA2FrancaBase
 class FrancaTypeCreator extends ARA2FrancaBase {
 
 	def transform(ImplementationDataType src) {
-		if(src == null){
+		if (src == null) {
 			getLogger.logWarning('''Cannot create Franca type for not set implementation type.''')
 			return null
 		}
@@ -25,7 +26,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		} else if (src.category == "VECTOR") {
 			return transformArray(src)
 		} else {
-			getLogger.logWarning('''Cannot create Franca type for "«src.shortName»" because AutosarDatatypes of category "«src.category»" are not yet supported''')
+			getLogger.
+				logWarning('''Cannot create Franca type for "«src.shortName»" because AutosarDatatypes of category "«src.category»" are not yet supported''')
 			return null
 		}
 	}
@@ -34,10 +36,10 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	 * Creates a default type, which can be used for the transformation if no source type is provided.
 	 * Before calling this method an error should be logged.
 	 */
-	def createDefaultTypeRef(){
+	def createDefaultTypeRef() {
 		val typeRef = fac.createFTypeRef
 		typeRef.predefined = FBasicTypeId.get(FBasicTypeId.UINT32_VALUE)
-		return typeRef 
+		return typeRef
 	}
 
 	def protected create fac.createFStructType transformStructure(ImplementationDataType src) {
@@ -87,7 +89,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 				])
 			}
 		} else {
-			getLogger.logError('''araEnumerators === null''')
+			getLogger.
+				logError('''No Enumerators found for type "«src.shortName»". The Franca enumeration cannot be created correctly as it will not have any enumerators.''')
 		}
 	}
 
@@ -138,45 +141,66 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	}
 
 	def protected getEnumerationTypeEnumerators(ImplementationDataType enumerationTypeDef) {
-		val firstProperty = getFirstProperty(enumerationTypeDef.swDataDefProps)
-		if (firstProperty === null) {
-			getLogger.logError('''firstProperty === null''')
+		val firstPropertyWithCompuMethod = getFirstPropertyWithTexttableCompuMethod(enumerationTypeDef.swDataDefProps)
+		val errorMsg = "Cannot create enumerator. Reason: "
+		if (firstPropertyWithCompuMethod === null) {
+			getLogger.logError('''no property is defined for "«enumerationTypeDef»".''')
 			return null
 		}
-		val compuMethod = firstProperty.compuMethod
+		val compuMethod = firstPropertyWithCompuMethod.compuMethod
 		if (compuMethod === null) {
-			getLogger.logError('''compuMethod === null''')
+			getLogger.logError('''«errorMsg»no CompuMethod is defined for ""«firstPropertyWithCompuMethod»".''')
 			return null
 		}
 		val compu = compuMethod.compuInternalToPhys
 		if (compu === null) {
-			getLogger.logError('''compu === null''')
+			getLogger.logError('''«errorMsg»no compuInternalToPhys is defined for "«compu»"''')
 			return null
 		}
 		val compuScales = compu.compuContent as CompuScales
 		if (compuScales === null) {
-			getLogger.logError('''compuScales === null''')
+			getLogger.logError('''«errorMsg»no CompuScales is defined for CompuMethod "«compu»".''')
 			return null
 		}
 		val enumerators = compuScales.compuScales
-		enumerators
+		return enumerators
+	}
+
+	def protected getFirstPropertyWithTexttableCompuMethod(SwDataDefProps swDataDefProps) {
+		val swDataDefPropsVariants = getSwDataDefPropsVariants(swDataDefProps)
+		if (null === swDataDefPropsVariants) {
+			return null
+		}
+		val firstPropertyWithTexttableCompuMethod = swDataDefPropsVariants.findFirst [
+			it.compuMethod !== null && Objects.equals(it.compuMethod.category, "TEXTTABLE")
+		]
+		if(firstPropertyWithTexttableCompuMethod === null){
+			logger.logError('''No TEXTTABLE compu method found for "«swDataDefProps»" ''')
+			return null
+		}
+		return firstPropertyWithTexttableCompuMethod
+
 	}
 
 	def protected getFirstProperty(SwDataDefProps swDataDefProps) {
+		val firstProperty = getSwDataDefPropsVariants(swDataDefProps)?.get(0)
+		return firstProperty
+	}
+
+	def private getSwDataDefPropsVariants(SwDataDefProps swDataDefProps) {
+		val errorMsg = "Cannot find Autosar data property. Reason: "
 		if (swDataDefProps === null) {
-			getLogger.logError('''swDataDefProps === null''')
 			return null
 		}
 		if (swDataDefProps.swDataDefPropsVariants.nullOrEmpty) {
-			getLogger.logError('''swDataDefProps.swDataDefPropsVariants.nullOrEmpty''')
+			getLogger.logError('''«errorMsg»No variant is defined for «swDataDefProps».''')
 			return null
 		}
-		val firstProperty = swDataDefProps.swDataDefPropsVariants.get(0)
-		firstProperty
+		return swDataDefProps.swDataDefPropsVariants
 	}
- 
+
 	// Important: This cannot be realized as a Xtend create function because we need
-	//            to create multiple type ref objects that point to the same type object!
+	// to create multiple type ref objects that point to the same type object!
 	def createFTypeRef(ImplementationDataType src) {
 		val typeRef = fac.createFTypeRef
 		if (isPrimitiveType(src)) {
@@ -188,7 +212,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	}
 
 	// TODO: This is just a preliminary solution. It should be replaced by an implementation
-	//       that identifies primitive types more reliably.
+	// that identifies primitive types more reliably.
 	def protected isPrimitiveType(ImplementationDataType src) {
 		src?.category == "VALUE" || src?.category == "STRING"
 	}
