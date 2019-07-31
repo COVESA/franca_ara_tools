@@ -22,13 +22,13 @@ abstract class FaraconTestBase {
 	 * The Franca Factory as extension, which can be used to create expected tests
 	 * models in derived classes.
 	 */
-	protected extension val FrancaFactory francaFactory = FrancaFactory.eINSTANCE
+	protected static extension val FrancaFactory francaFactory = FrancaFactory.eINSTANCE
 
 	/**
 	 * The Autosar Factory as extension, which can be used to create expected tests
 	 * models in derived classes.
 	 */
-	protected extension val Autosar40Factory arFactory = Autosar40Factory.eINSTANCE
+	protected static extension val Autosar40Factory arFactory = Autosar40Factory.eINSTANCE
 	
 	def protected francaFac() {
 		return francaFactory

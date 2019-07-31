@@ -31,7 +31,6 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 		val serviceInterfaces = arPackage.elements.filter(ServiceInterface)
 		val francaInterfaces = serviceInterfaces.map[transform]
 		it.interfaces.addAll(francaInterfaces)
-
 		val implementationDataTypes = arPackage.elements.filter(ImplementationDataType)
 		val types = implementationDataTypes.map[transform]
 
