@@ -12,6 +12,10 @@ import org.genivi.faracon.ARA2FrancaBase
 class FrancaTypeCreator extends ARA2FrancaBase {
 
 	def transform(ImplementationDataType src) {
+		if(src == null){
+			getLogger.logWarning('''Cannot create Franca type for not set implementation type.''')
+			return null
+		}
 		if (src.category == "STRUCTURE") {
 			return transformStructure(src)
 		} else if (src.category == "ASSOCIATIVE_MAP") {
@@ -186,7 +190,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	// TODO: This is just a preliminary solution. It should be replaced by an implementation
 	//       that identifies primitive types more reliably.
 	def protected isPrimitiveType(ImplementationDataType src) {
-		src.category == "VALUE" || src.category == "STRING"
+		src?.category == "VALUE" || src?.category == "STRING"
 	}
 
 }

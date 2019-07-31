@@ -1,10 +1,10 @@
 package org.genivi.faracon.tests.util
 
 import autosar40.autosartoplevelstructure.AUTOSAR
+import com.google.inject.Inject
 import java.util.Collection
 import java.util.Collections
 import java.util.List
-import javax.inject.Inject
 import org.franca.core.framework.IModelContainer
 import org.franca.core.franca.FModel
 import org.genivi.faracon.ARA2FrancaTransformation

@@ -7,6 +7,7 @@ import org.franca.core.franca.FModel
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.fail
+import static org.junit.Assert.assertTrue
 
 /**
  * Assertion helper for the faracon test, which contains all general 
@@ -34,13 +35,20 @@ class FaraconAssertHelper {
 			fail("The expected model does not equal the actual model")
 		}
 	}
-	
-	def static <T> T assertOneElement(Collection<T> elements){
+
+	def static <T> T assertOneElement(Collection<T> elements) {
 		return elements.assertElements(1).get(0)
 	}
-	
-	def static <T> Collection<T> assertElements(Collection<T> elements, int expectedElements){
+
+	def static <T> Collection<T> assertElements(Collection<T> elements, int expectedElements) {
 		assertEquals("Wrong number of expected elements in collection " + elements, expectedElements, elements.size)
 		return elements
-	} 
+	}
+
+	def static <T> T assertIsInstanceOf(Object element, Class<T> classInstance) {
+		assertTrue("The element " + element + " is not an instance of " + classInstance + ", but an instance of " +
+			element?.class, classInstance.isInstance(element))
+		return classInstance.cast(element)
+
+	}
 }
