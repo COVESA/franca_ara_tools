@@ -1,0 +1,13 @@
+package a1.b2.c3
+
+interface ExampleInterface{
+	method exampleMethod{
+		in{
+			TestEnum enumArg1
+		}
+	}
+	enumeration TestEnum{
+		enumerator1
+		enumerator2
+	}
+}
