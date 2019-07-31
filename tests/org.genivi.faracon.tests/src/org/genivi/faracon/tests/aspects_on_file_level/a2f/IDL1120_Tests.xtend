@@ -32,7 +32,7 @@ class IDL1120_Tests extends ARA2FrancaTestBase {
 		// when
 		araConnector.toFranca(araContainer) as FrancaModelContainer
 
-// then expect the exception through the expect parameter in the annotation
+		// then expect the exception through the expect parameter in the annotation
 	}
 
 	@Test
