@@ -12,8 +12,8 @@ class AutosarUtil {
 	}
 
 	def static String getPackageNamespace(ARPackage arPackage) {
-		val namespace = arPackage.shortName
-		if (arPackage.eContainer instanceof ARPackage) {
+		val namespace = arPackage?.shortName
+		if (arPackage?.eContainer instanceof ARPackage) {
 			return getPackageNamespace(arPackage.eContainer as ARPackage) + "." + namespace
 		}
 		return namespace
