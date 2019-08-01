@@ -1,5 +1,6 @@
 package org.genivi.faracon.tests.aspects_for_franca_broadcasts.f2a
 
+import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.dataprototypes.VariableDataPrototype
 import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
@@ -30,7 +31,8 @@ class IDL1370_Tests extends Franca2ARATestBase {
 		val FInterface fParentInterface = francaFac.createFInterface => [
 			broadcasts += fBroadcast
 		]
-		val VariableDataPrototype variableDataPrototype = franca2ARATransformation.transform(fBroadcast, fParentInterface)
+		val ARPackage arInterfacePackage = araFac.createARPackage
+		val VariableDataPrototype variableDataPrototype = franca2ARATransformation.transform(fBroadcast, fParentInterface, arInterfacePackage)
 		assertNotNull(variableDataPrototype)
 	}
 
