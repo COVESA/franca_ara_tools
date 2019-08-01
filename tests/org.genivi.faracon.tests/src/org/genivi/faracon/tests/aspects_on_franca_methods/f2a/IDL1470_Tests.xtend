@@ -105,7 +105,8 @@ class IDL1470_Tests extends Franca2ARATestBase {
 		val FInterface fParentInterface = francaFac.createFInterface => [
 			broadcasts += fBroadcast
 		]
-		val VariableDataPrototype variableDataPrototype = franca2ARATransformation.transform(fBroadcast, fParentInterface)
+		val ARPackage arInterfacePackage = araFac.createARPackage
+		val VariableDataPrototype variableDataPrototype = franca2ARATransformation.transform(fBroadcast, fParentInterface, arInterfacePackage)
 		checkNamesEquality(fBroadcast, variableDataPrototype)
 	}
 

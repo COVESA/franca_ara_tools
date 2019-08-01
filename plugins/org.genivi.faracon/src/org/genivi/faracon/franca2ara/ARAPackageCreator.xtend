@@ -35,9 +35,11 @@ class ARAPackageCreator extends Franca2ARABase {
 		return elementPackage
 	}
 	
-	def create fac.createARPackage createPackageWithName(String name, ARPackage parent) {
-		shortName = name
-		parent?.arPackages?.add(it)
+	def private createPackageWithName(String name, ARPackage parent) {
+		val ARPackage newPackage = fac.createARPackage
+		newPackage.shortName = name
+		parent?.arPackages?.add(newPackage)
+		newPackage
 	}
 
 	def ARPackage findArPackageForFrancaElement(FModelElement fModelElement) {
