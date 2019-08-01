@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/swc/d/dp">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="fbe006a8-498d-4968-acc8-c4d38f2c7cf6">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="cd7410da-0213-4f33-8e01-6e0a88b21373">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="c0457f58-cbf9-4834-b325-2ae0dc729097">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <SERVICE-INTERFACE UUID="ca40389d-aa2d-4e85-b320-3a0ca0ea2a1d">
+                  <SHORT-NAME>ExampleInterface</SHORT-NAME>
+                  <EVENTS>
+                    <VARIABLE-DATA-PROTOTYPE UUID="225026d9-5a79-4e3c-818d-d45519638c4e">
+                      <SHORT-NAME>event1</SHORT-NAME>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</TYPE-TREF>
+                    </VARIABLE-DATA-PROTOTYPE>
+                    <VARIABLE-DATA-PROTOTYPE UUID="627695c6-3f7b-4cb5-a9d2-3b729d942315">
+                      <SHORT-NAME>event2</SHORT-NAME>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</TYPE-TREF>
+                    </VARIABLE-DATA-PROTOTYPE>
+                    <VARIABLE-DATA-PROTOTYPE UUID="d3fa1020-64e5-4aa8-a504-2a0fd9fb7b30">
+                      <SHORT-NAME>event3</SHORT-NAME>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</TYPE-TREF>
+                    </VARIABLE-DATA-PROTOTYPE>
+                  </EVENTS>
+                </SERVICE-INTERFACE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

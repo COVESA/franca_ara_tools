@@ -1,0 +1,19 @@
+package a1.b2.c3
+
+interface ExampleInterface{
+	broadcast event1{
+		out{
+			UInt32 event1
+		}
+	}
+	broadcast event2{
+		out{
+			UInt32 event2
+		}
+	}
+	broadcast event3{
+		out{
+			UInt32 event3
+		}
+	}
+}
