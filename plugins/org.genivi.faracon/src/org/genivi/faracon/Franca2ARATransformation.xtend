@@ -1,5 +1,7 @@
 package org.genivi.faracon
 
+import autosar40.autosartoplevelstructure.AUTOSAR
+import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.documentation.annotation.Annotation
 import autosar40.genericstructure.generaltemplateclasses.documentation.blockelements.DocumentationBlock
@@ -22,8 +24,9 @@ import org.genivi.faracon.franca2ara.ARAPackageCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 
+import static org.franca.core.framework.FrancaHelpers.*
+
 import static extension org.franca.core.FrancaModelExtensions.*
-import static extension org.franca.core.framework.FrancaHelpers.*
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -38,6 +41,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	private var extension ARANamespaceCreator
 
 	static final String ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE = "OriginalParentInterface"
+	static final String ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE = "ArtificalEventDataStructType"
 
 	def create fac.createAUTOSAR transform(FModel src) {
 		createPrimitiveTypesPackage(null)
@@ -52,7 +56,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
-		events.addAll(getAllBroadcasts(src).map[transform(src)])
+		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackage)])
 		fields.addAll(getAllAttributes(src).map[transform(src)])
 		namespaces.addAll(targetPackage.createNamespaceForPackage)
 		methods.addAll(getAllMethods(src).map[transform(src)])
@@ -123,11 +127,28 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// in case of emulation of interface inheritance.
 	// As broadcasts are copied to derived interfaces multiple copies of them are needed.
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
-	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface) {
+	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface, ARPackage interfaceArPackage) {
 		shortName = src.name
-		if (!src.outArgs.empty) {
-			type = src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
-		}
+
+		type = 
+			if (src?.outArgs.length == 1) {
+				src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
+			} else {
+				val ImplementationDataType artificalBroadcastStruct = fac.createImplementationDataType
+				artificalBroadcastStruct.shortName = src.name.toFirstUpper + "Data"
+				artificalBroadcastStruct.category = "STRUCTURE"
+				val typeRefs = src.outArgs.map [
+					it.createImplementationDataTypeElement
+				]
+				artificalBroadcastStruct.subElements.addAll(typeRefs)
+				artificalBroadcastStruct.ARPackage = interfaceArPackage
+				artificalBroadcastStruct.addAnnotation(
+					ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE,
+					"Referencing event definition: " + src.getARFullyQualifiedName
+				)
+				interfaceArPackage.elements += artificalBroadcastStruct
+				artificalBroadcastStruct
+			}
 
 		// If the broadcast is not a direct member of the current interface definition but is inherited from
 		// a direct or indirect base interface the original interface where it comes from is annotated.
@@ -173,6 +194,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 	static def String getARFullyQualifiedName(FInterface ^interface) {
 		val FModel model = ^interface.getModel;
 		(if (!model.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "") + "/" + ^interface.name
+	}
+
+	static def String getARFullyQualifiedName(FBroadcast broadcast) {
+		(broadcast.eContainer as FInterface).getARFullyQualifiedName + "/" + broadcast.name
 	}
 
 }

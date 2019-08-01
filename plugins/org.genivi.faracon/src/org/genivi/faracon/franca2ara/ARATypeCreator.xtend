@@ -10,7 +10,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FField
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FType
@@ -148,12 +147,12 @@ class ARATypeCreator extends Franca2ARABase {
 		return null
 	}
 
-	def private create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FField fField) {
-		it.shortName = fField.name
+	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FTypedElement fTypedElement) {
+		it.shortName = fTypedElement.name
 		it.category = "TYPE_REFERENCE"
 		val dataDefProps = fac.createSwDataDefProps
 		val dataDefPropsConditional = fac.createSwDataDefPropsConditional
-		val typeRef = createDataTypeReference(fField.type, fField)
+		val typeRef = createDataTypeReference(fTypedElement.type, fTypedElement)
 		if (typeRef instanceof ImplementationDataType) {
 			dataDefPropsConditional.implementationDataType = typeRef
 		} else {
