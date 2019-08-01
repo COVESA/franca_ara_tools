@@ -1,0 +1,9 @@
+package a1.b2.c3
+
+interface ExampleInterface{
+	broadcast singleEvent{
+		out{
+			UInt32 singleEvent
+		}
+	}
+}
