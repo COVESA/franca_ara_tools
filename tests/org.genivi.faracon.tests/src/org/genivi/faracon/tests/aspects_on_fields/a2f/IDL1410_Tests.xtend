@@ -23,7 +23,7 @@ class IDL1410_Tests extends FieldTestsBaseClass{
 		val result = ara2FrancaTransformation.transform(arField)
 		
 		//then
-		assertField(result, fieldName, true, true, true)
+		assertField(result, fieldName, false, false, false)
 	}
 	
 }
