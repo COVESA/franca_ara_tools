@@ -1,0 +1,7 @@
+package a1.b2.c3
+
+interface ExampleInterface{
+	attribute UInt8 testField1
+	attribute UInt16 testField2
+	attribute UInt32 testField3
+}
