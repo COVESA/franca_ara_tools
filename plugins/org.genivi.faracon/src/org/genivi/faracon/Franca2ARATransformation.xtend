@@ -1,6 +1,5 @@
 package org.genivi.faracon
 
-import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.documentation.annotation.Annotation
@@ -19,10 +18,13 @@ import org.franca.core.franca.FBroadcast
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
+import org.franca.core.franca.FType
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
 import org.genivi.faracon.franca2ara.ARAPackageCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
+import org.genivi.faracon.names.FrancaNamesCollector
+import org.genivi.faracon.names.NamesHierarchy
 
 import static org.franca.core.framework.FrancaHelpers.*
 
@@ -32,23 +34,35 @@ import static extension org.franca.core.FrancaModelExtensions.*
 class Franca2ARATransformation extends Franca2ARABase {
 
 	@Inject
-	private var extension ARAPrimitveTypesCreator aRAPrimitveTypesCreator
+	var extension ARAPrimitveTypesCreator aRAPrimitveTypesCreator
 	@Inject 
-	private var extension ARATypeCreator araTypeCreator
+	var extension ARATypeCreator araTypeCreator
 	@Inject
-	private var extension ARAPackageCreator araPackageCreator
+	var extension ARAPackageCreator araPackageCreator
 	@Inject
-	private var extension ARANamespaceCreator
+	var extension ARANamespaceCreator
+
+	@Inject
+	NamesHierarchy namesHierarchy
 
 	static final String ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE = "OriginalParentInterface"
 	static final String ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE = "ArtificalEventDataStructType"
 
 	def create fac.createAUTOSAR transform(FModel src) {
+		// Fill all names of the Franca model into a hierarchy of names.
+		namesHierarchy.clear();
+		val FrancaNamesCollector francaNamesCollector = new FrancaNamesCollector
+		francaNamesCollector.fillNamesHierarchy(src, namesHierarchy)
+		namesHierarchy.dump
+
+		// Process the conversion.
 		createPrimitiveTypesPackage(null)
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
 		// arPackages.add(createPrimitiveTypesPackage)
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)
 		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
+
+		namesHierarchy.dump
 	}
 	
 	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
@@ -135,7 +149,11 @@ class Franca2ARATransformation extends Franca2ARABase {
 				src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
 			} else {
 				val ImplementationDataType artificalBroadcastStruct = fac.createImplementationDataType
-				artificalBroadcastStruct.shortName = src.name.toFirstUpper + "Data"
+				artificalBroadcastStruct.shortName = namesHierarchy.createAndInsertUniqueName(
+					parentInterface.francaFullyQualifiedName,
+					src.name.toFirstUpper + "Data",
+					FType
+				)
 				artificalBroadcastStruct.category = "STRUCTURE"
 				val typeRefs = src.outArgs.map [
 					it.createImplementationDataTypeElement
@@ -198,6 +216,11 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	static def String getARFullyQualifiedName(FBroadcast broadcast) {
 		(broadcast.eContainer as FInterface).getARFullyQualifiedName + "/" + broadcast.name
+	}
+
+	static def String getFrancaFullyQualifiedName(FInterface ^interface) {
+		val FModel model = ^interface.getModel;
+		(if (!model.name.nullOrEmpty) model.name + "." else "") + ^interface.name
 	}
 
 }
