@@ -2,12 +2,15 @@ package a1.b2.c3
 
 interface ExampleInterface {
 
-	broadcast broadcastWithMultipleArguments {
+	broadcast broadcastNonConflictWithIdenticallyNamedMethod {
 		out {
 			Int8 argument_1
 			String argument_2
 			UInt32 argument_3
 		}
+	}
+
+	method BroadcastNonConflictWithIdenticallyNamedMethodData {
 	}
 
 }
