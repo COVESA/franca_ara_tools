@@ -2,12 +2,17 @@ package a1.b2.c3
 
 interface ExampleInterface {
 
-	broadcast broadcastWithMultipleArguments {
+	broadcast broadcastConflictWithUserEnum {
 		out {
 			Int8 argument_1
 			String argument_2
 			UInt32 argument_3
 		}
+	}
+
+	enumeration BroadcastConflictWithUserEnumData {
+		EnumConstant_1
+		EnumConstant_2
 	}
 
 }

@@ -1,0 +1,21 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	broadcast broadcastDoubleConflictWithUserStructs {
+		out {
+			Int8 argument_1
+			String argument_2
+			UInt32 argument_3
+		}
+	}
+
+	struct BroadcastDoubleConflictWithUserStructsData {
+		UInt32 field
+	}
+
+	struct BroadcastDoubleConflictWithUserStructsData_ {
+		UInt32 field
+	}
+
+}

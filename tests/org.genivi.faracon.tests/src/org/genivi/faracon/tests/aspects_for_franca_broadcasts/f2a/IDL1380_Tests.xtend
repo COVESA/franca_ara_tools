@@ -31,4 +31,24 @@ class IDL1380_Tests extends Franca2ARATestBase {
 		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastWithMultipleArguments")
 	}
 
+	@Test
+	def void broadcastConflictWithUserStruct() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastConflictWithUserStruct")
+	}
+
+	@Test
+	def void broadcastDoubleConflictWithUserStructs() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastDoubleConflictWithUserStructs")
+	}
+
+	@Test
+	def void broadcastConflictWithUserEnum() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastConflictWithUserEnum")
+	}
+
+	@Test
+	def void broadcastNonConflictWithIdenticallyNamedMethod() {
+		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastNonConflictWithIdenticallyNamedMethod")
+	}
+
 }
