@@ -1,0 +1,11 @@
+package a1.b2.c3
+
+typeCollection{
+	struct TestArStruct{
+		UInt8 MyUInt8
+		UInt16 MyUInt16
+	}
+	struct TestArStruct2{
+		UInt8 MyUInt8
+	}
+}

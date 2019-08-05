@@ -17,11 +17,13 @@ import static org.junit.Assert.assertEquals
 
 import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
 import static extension org.genivi.faracon.tests.util.FrancaAssertHelper.*
+import org.franca.core.franca.FTypeCollection
+import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 
 /**
  * Test name transformation of Autosar elements to franca elements 
  */
-@RunWith(XtextRunner2_Franca) 
+@RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1470_Tests extends ARA2FrancaTestBase {
 
@@ -36,64 +38,63 @@ class IDL1470_Tests extends ARA2FrancaTestBase {
 	@Test
 	def void testTransformationOfPackageableElements() {
 		// given: list of packageable elements eacht contained in a package
-		val packagesWithPackagableElements = packageableElementInstances.map[packElement|
+		val packagesWithPackagableElements = packageableElementInstances.map [ packElement |
 			val arTestPackage = createARPackage => [
 				shortName = "ModelElementPackage"
 				elements += packElement
 			]
-			return packElement -> arTestPackage 	
+			return packElement -> arTestPackage
 		]
-		
-		
+
 		// when: all packages are tranformed to franca
-		val results = packagesWithPackagableElements.map[
-			it.key->ara2FrancaTransformation.transform(it.value)
+		val results = packagesWithPackagableElements.map [
+			it.key -> ara2FrancaTransformation.transform(it.value)
 		]
 
 		// then: no exception and for service interface, we expect that a FInterface has been created
 		results.assertElements(packagesWithPackagableElements.size)
-		results.forEach[result|
-			if(result.key instanceof ServiceInterface){
-				// only for service interfaces we expect a Franca Interface
+		results.forEach [ result |
+			if (result.key instanceof ServiceInterface) {
+				// for service interfaces we expect a Franca Interface
 				val francaInterface = result.value.eContents.assertOneElement.assertIsInstanceOf(FInterface)
 				francaInterface.assertName(MODEL_ELEMENT_NAME)
-			}else{
+			} else {
 				// we do not expecte any model elements to be created, but the code not to crash 
-				assertEquals("No element was expected to be created, but created the following elements " +
-					result.value.eContents, 0, result.value.eContents.size)				
+				assertEquals('''No element was expected to be created for elememnt "«result.key»" but created the following elements "«result.value.eContents.join(", ")»".''',
+					0, result.value.eContents.size )
 			}
 		]
 	}
-	
+
 	@Test
-	def void testTransformationOfServiceInterfaceContent(){
+	def void testTransformationOfServiceInterfaceContent() {
 		// given: a interface with all elements set
 		ara2FrancaTransformation.logger.enableContinueOnErrors(true)
-		val serviceInterface = createServiceInterface =>[
+		val serviceInterface = createServiceInterface => [
 			shortName = MODEL_ELEMENT_NAME
 			setIsService = true
-			namespaces += createSymbolProps => [it.shortName= "namespace"]
+			namespaces += createSymbolProps => [it.shortName = "namespace"]
 			serviceKind = ServiceProviderEnum.ANY_STANDARDIZED
 			events += createVariableDataPrototype => [shortName = MODEL_ELEMENT_NAME]
 			fields += createField => [shortName = MODEL_ELEMENT_NAME]
 			methods += createClientServerOperation => [shortName = MODEL_ELEMENT_NAME]
 		]
-		
-		//when
+
+		// when
 		val result = ara2FrancaTransformation.transform(serviceInterface)
-		
-		//then
+
+		// then
 		result.assertName(MODEL_ELEMENT_NAME)
 		result.broadcasts.assertOneElement.assertName(MODEL_ELEMENT_NAME)
 		result.methods.assertOneElement.assertName(MODEL_ELEMENT_NAME)
 		result.attributes.assertOneElement.assertName(MODEL_ELEMENT_NAME)
 	}
-	
+
 	/**
 	 * Initializes all subclasses of PackageableElement and returns instances with the name
 	 * MODEL_ELEMENT_NAME.
 	 */
-	def private getPackageableElementInstances(){
+	def private getPackageableElementInstances() {
 		val arClassifiers = Autosar40Factory.eINSTANCE.EPackage.EClassifiers
 		val packageableElementEClasses = arClassifiers.filter(EClass).filter [
 			PackageableElement.isAssignableFrom(it.instanceClass) && !it.abstract
@@ -104,6 +105,6 @@ class IDL1470_Tests extends ARA2FrancaTestBase {
 			return element
 		].toList
 		return packageableElements
-	} 
-	
+	}
+
 }

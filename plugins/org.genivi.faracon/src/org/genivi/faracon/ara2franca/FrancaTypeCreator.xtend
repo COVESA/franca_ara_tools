@@ -13,7 +13,7 @@ import org.genivi.faracon.ARA2FrancaBase
 class FrancaTypeCreator extends ARA2FrancaBase {
 
 	def transform(ImplementationDataType src) {
-		if (src == null) {
+		if (src === null) {
 			getLogger.logWarning('''Cannot create Franca type for not set implementation type.''')
 			return null
 		}
@@ -54,7 +54,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 					]
 					elements.add(field)
 				} else {
-					getLogger.logError('''araStructElementType === null''')
+					getLogger.
+						logError('''No type for the Autosar sub-element "«subElement?.shortName»" in implementation data type "«src?.shortName»" found. Cannot create a matching franca element.''')
 				}
 			}
 		}
@@ -63,18 +64,19 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	def protected create fac.createFMapType transformMap(ImplementationDataType src) {
 		name = src.shortName
 
+		val errorMsg = '''Franca map type could not be created correctly from Autosar type "«src.shortName»". Reason: '''
 		val araKeyType = getPropertyType(src, "keyType")
 		if (araKeyType !== null) {
 			keyType = createFTypeRef(araKeyType)
 		} else {
-			getLogger.logError('''araKeyType === null''')
+			getLogger.logError(errorMsg + '''No property with type "«"keyType"»" is defined for element "«src.shortName»".''')
 		}
 
 		val araValueType = getPropertyType(src, "valueType")
 		if (araValueType !== null) {
 			valueType = createFTypeRef(araValueType)
 		} else {
-			getLogger.logError('''araValueType === null''')
+			getLogger.logError(errorMsg + '''No property with type "«"valueType"»" is defined for element "«src.shortName»".''')
 		}
 	}
 
@@ -101,14 +103,16 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		if (araElementType !== null) {
 			elementType = createFTypeRef(araElementType)
 		} else {
-			getLogger.logError('''araElementType === null''')
+			getLogger.
+				logError('''No Franca array created for Autosar type "«src.shortName», because no property with value type has been defined."''')
 		}
 	}
 
 	def protected getPropertyType(ImplementationDataType typeDef, String properyName) {
 		val subElements = typeDef.subElements
-		if (subElements === null) {
-			getLogger.logError('''subElements === null''')
+		val errorMessage = '''Cannot find sub-element with property type "«properyName»" for the type «typeDef.shortName» Reason: '''
+		if (subElements.nullOrEmpty) {
+			getLogger.logError(errorMessage + "No sub-elements defined at all")
 			return null
 		}
 		// Search for the matching sub element.
@@ -124,16 +128,18 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 	def protected getTypeRefTargetType(ImplementationDataTypeElement typeRef) {
 		if (typeRef === null) {
-			getLogger.logError('''typeRef === null''')
+			getLogger.logError('''No type references found for sub-element''')
 			return null
 		}
 		if (typeRef.category != "TYPE_REFERENCE") {
-			getLogger.logError('''typeRef.category != "TYPE_REFERENCE"''')
+			getLogger.
+				logError('''The category of the type reference in the sub element "«typeRef.shortName»" needs to be "TYPE_REFERENCE", but was «typeRef.category»''')
 			return null
 		}
 		val firstProperty = getFirstProperty(typeRef.swDataDefProps)
 		if (firstProperty === null) {
-			getLogger.logError('''firstProperty === null''')
+			getLogger.
+				logError('''No property found for the type reference "«typeRef»". Cannot transform the type reference to Franca.''')
 			return null
 		}
 		val typeRefTargetType = firstProperty.implementationDataType as ImplementationDataType
@@ -174,7 +180,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		val firstPropertyWithTexttableCompuMethod = swDataDefPropsVariants.findFirst [
 			it.compuMethod !== null && Objects.equals(it.compuMethod.category, "TEXTTABLE")
 		]
-		if(firstPropertyWithTexttableCompuMethod === null){
+		if (firstPropertyWithTexttableCompuMethod === null) {
 			logger.logError('''No TEXTTABLE compu method found for "«swDataDefProps»" ''')
 			return null
 		}
