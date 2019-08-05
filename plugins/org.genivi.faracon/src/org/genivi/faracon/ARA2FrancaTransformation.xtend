@@ -11,6 +11,7 @@ import autosar40.swcomponent.portinterface.ArgumentDataPrototype
 import autosar40.swcomponent.portinterface.ClientServerOperation
 import com.google.inject.Inject
 import java.util.Collection
+import java.util.Set
 import org.franca.core.franca.FModel
 import org.genivi.faracon.ara2franca.FrancaTypeCreator
 
@@ -22,7 +23,7 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 	var extension FrancaTypeCreator araTypeCreator
 
 	/**
-	 * Transforms the relevant elements of an ArPackage to a FrancaModel.
+	 * Transforms the relevant elements of an ArPackage to a Franca Model
 	 * Only considers the actual elements within the package.
 	 */
 	def create createFModel transform(ARPackage arPackage) {
@@ -31,24 +32,28 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 		val serviceInterfaces = arPackage.elements.filter(ServiceInterface)
 		val francaInterfaces = serviceInterfaces.map[transform]
 		it.interfaces.addAll(francaInterfaces)
+		
 		val implementationDataTypes = arPackage.elements.filter(ImplementationDataType)
-		val types = implementationDataTypes.map[transform]
-
-		if (!francaInterfaces.isNullOrEmpty) {
-			// TODO: eliminate simplification for the prototype (just puts all type definitions into the first interface definition).
-			val typeInterface = francaInterfaces.get(0)
-			typeInterface.types.addAll(types)
+		val types = implementationDataTypes.map[transform].filterNull
+		if(!types.isNullOrEmpty){
+			val typeCollection = createAnonymousTypeCollectionForModel(it)
+			typeCollection.types.addAll(types)	
 		}
 	}
-
-	def Collection<FModel> transform(AUTOSAR src) {
+	
+	def private create createFTypeCollection createAnonymousTypeCollectionForModel(FModel model) {
+		// no implementation - the create method ensures that we only create one anonymous type collection per FModel
+		model.typeCollections.add(it)
+	}
+	
+	def Set<FModel> transform(AUTOSAR src) {
 		val Collection<ARPackage> relevantPackages = newArrayList
 		collectPackagesWithElementsOrLeafPackages(src.arPackages, relevantPackages,
 			newArrayList(ServiceInterface, ImplementationDataType))
-		val fModels = relevantPackages.map[it.transform()].toList
+		val fModels = relevantPackages.map[it.transform].toSet
 		return fModels
 	}
-
+	
 	def create fac.createFInterface transform(ServiceInterface src) {
 		if (!src.namespaces.isNullOrEmpty && !namespaceMathchesHierarchy(src)) {
 			logger.logError('''Namespaces are not supported by Franca. Franca only uses the package hierarchy to identify namespaces. «
