@@ -53,7 +53,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 		namesHierarchy.clear();
 		val FrancaNamesCollector francaNamesCollector = new FrancaNamesCollector
 		francaNamesCollector.fillNamesHierarchy(src, namesHierarchy)
-		namesHierarchy.dump
 
 		// Process the conversion.
 		createPrimitiveTypesPackage(null)
@@ -61,8 +60,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// arPackages.add(createPrimitiveTypesPackage)
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)
 		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
-
-		namesHierarchy.dump
 	}
 	
 	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
