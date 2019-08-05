@@ -35,7 +35,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	@Inject
 	var extension ARAPrimitveTypesCreator aRAPrimitveTypesCreator
-	@Inject 
+	@Inject
 	var extension ARATypeCreator araTypeCreator
 	@Inject
 	var extension ARAPackageCreator araPackageCreator
@@ -61,7 +61,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)
 		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
 	}
-	
+
 	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
 		if (!src.managedInterfaces.empty) {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
@@ -72,7 +72,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		namespaces.addAll(targetPackage.createNamespaceForPackage)
 		methods.addAll(getAllMethods(src).map[transform(src)])
 	}
-	
+
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As methods are copied to derived interfaces multiple copies of them are needed.
@@ -85,7 +85,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// An additional command line option might give the user the choice between encoding 
 		// with 'false' or 'undefined' in this case.
 		if (src.fireAndForget) {
-			fireAndForget = true			
+			fireAndForget = true
 		}
 
 		arguments.addAll(src.inArgs.map[transform(true, parentInterface)])
@@ -98,20 +98,21 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// uniquely from the AUTOSAR model.
 		val FInterface originalParentInterface = src.getInterface
 		if (parentInterface !== originalParentInterface) {
-			it.addAnnotation(ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE, originalParentInterface.getARFullyQualifiedName)
+			it.addAnnotation(ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE,
+				originalParentInterface.getARFullyQualifiedName)
 		}
 	}
-	
+
 	// The parameter 'parentInterface' is important in case of emulation of interface inheritance.
 	// As methods are copied to derived interfaces multiple copies of the method arguments are needed as well.
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createArgumentDataPrototype transform(FArgument arg, boolean isIn, FInterface parentInterface) {
 		shortName = arg.name
-		//category = xxx
+		// category = xxx
 		type = createDataTypeReference(arg.type, arg)
-		direction = if (isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
+		direction = if(isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
 	}
-	
+
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As attributes are copied to derived interfaces multiple copies of them are needed.
@@ -130,40 +131,41 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// uniquely from the AUTOSAR model.
 		val FInterface originalParentInterface = src.interface
 		if (parentInterface !== originalParentInterface) {
-			it.addAnnotation(ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE, originalParentInterface.getARFullyQualifiedName)
+			it.addAnnotation(ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE,
+				originalParentInterface.getARFullyQualifiedName)
 		}
 	}
-	
+
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As broadcasts are copied to derived interfaces multiple copies of them are needed.
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
-	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface, ARPackage interfaceArPackage) {
+	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface,
+		ARPackage interfaceArPackage) {
 		shortName = src.name
 
-		type = 
-			if (src?.outArgs.length == 1) {
-				src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
-			} else {
-				val ImplementationDataType artificalBroadcastStruct = fac.createImplementationDataType
-				artificalBroadcastStruct.shortName = namesHierarchy.createAndInsertUniqueName(
-					parentInterface.francaFullyQualifiedName,
-					src.name.toFirstUpper + "Data",
-					FType
-				)
-				artificalBroadcastStruct.category = "STRUCTURE"
-				val typeRefs = src.outArgs.map [
-					it.createImplementationDataTypeElement
-				]
-				artificalBroadcastStruct.subElements.addAll(typeRefs)
-				artificalBroadcastStruct.ARPackage = interfaceArPackage
-				artificalBroadcastStruct.addAnnotation(
-					ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE,
-					"Referencing event definition: " + src.getARFullyQualifiedName
-				)
-				interfaceArPackage.elements += artificalBroadcastStruct
-				artificalBroadcastStruct
-			}
+		type = if (src?.outArgs.length == 1) {
+			src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
+		} else {
+			val ImplementationDataType artificalBroadcastStruct = fac.createImplementationDataType
+			artificalBroadcastStruct.shortName = namesHierarchy.createAndInsertUniqueName(
+				parentInterface.francaFullyQualifiedName,
+				src.name.toFirstUpper + "Data",
+				FType
+			)
+			artificalBroadcastStruct.category = "STRUCTURE"
+			val typeRefs = src.outArgs.map [
+				it.createImplementationDataTypeElement
+			]
+			artificalBroadcastStruct.subElements.addAll(typeRefs)
+			artificalBroadcastStruct.ARPackage = interfaceArPackage
+			artificalBroadcastStruct.addAnnotation(
+				ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE,
+				"Referencing event definition: " + src.getARFullyQualifiedName
+			)
+			interfaceArPackage.elements += artificalBroadcastStruct
+			artificalBroadcastStruct
+		}
 
 		// If the broadcast is not a direct member of the current interface definition but is inherited from
 		// a direct or indirect base interface the original interface where it comes from is annotated.
@@ -172,17 +174,20 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// uniquely from the AUTOSAR model.
 		val FInterface originalParentInterface = src.interface
 		if (parentInterface !== originalParentInterface) {
-			it.addAnnotation(ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE, originalParentInterface.getARFullyQualifiedName)
+			it.addAnnotation(ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE,
+				originalParentInterface.getARFullyQualifiedName)
 		}
 
 		// Selective broadcasts are not representable in an AUTOSAR model.
 		if (src.selective) {
-			getLogger.logError("The broadcast '" + originalParentInterface.name + "." + src.name + "' cannot be properly converted because selective broadcasts are not representable in an AUTOSAR model! (IDL1390)")
+			getLogger.logError("The broadcast '" + originalParentInterface.name + "." + src.name +
+				"' cannot be properly converted because selective broadcasts are not representable in an AUTOSAR model! (IDL1390)")
 		}
 
 		// Broadcast selectors are not representable in an AUTOSAR model.
 		if (!src.selector.isNullOrEmpty) {
-			getLogger.logError("The broadcast '" + originalParentInterface.name + "." + src.name + "' cannot be properly converted because broadcast selectors are not representable in an AUTOSAR model! (IDL1400)")
+			getLogger.logError("The broadcast '" + originalParentInterface.name + "." + src.name +
+				"' cannot be properly converted because broadcast selectors are not representable in an AUTOSAR model! (IDL1400)")
 		}
 	}
 
@@ -208,7 +213,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	static def String getARFullyQualifiedName(FInterface ^interface) {
 		val FModel model = ^interface.getModel;
-		(if (!model.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "") + "/" + ^interface.name
+		(if(!model?.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "") + "/" + ^interface?.name
 	}
 
 	static def String getARFullyQualifiedName(FBroadcast broadcast) {
@@ -217,7 +222,9 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	static def String getFrancaFullyQualifiedName(FInterface ^interface) {
 		val FModel model = ^interface.getModel;
-		(if (!model.name.nullOrEmpty) model.name + "." else "") + ^interface.name
+		val modelPart = if(model !== null && !model.name.nullOrEmpty) model.name + "." else ""
+		val interfacePart = if(interface !== null && !interface.name.nullOrEmpty) interface.name else ""
+		return modelPart + interfacePart
 	}
 
 }
