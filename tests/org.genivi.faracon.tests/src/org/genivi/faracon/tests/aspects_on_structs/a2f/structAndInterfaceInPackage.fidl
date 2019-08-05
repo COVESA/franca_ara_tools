@@ -1,0 +1,18 @@
+package a1.b2.c3
+
+
+typeCollection{
+	struct TestArStruct{
+		UInt8 MyUInt8
+		UInt16 MyUInt16
+	}
+}
+
+interface TestArInterface{
+	method exampleMethod{
+		in{
+			TestArStruct testStructInstance
+		}
+	}
+}
+
