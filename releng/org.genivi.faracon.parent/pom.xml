@@ -46,6 +46,7 @@
 		<module>../../plugins/org.genivi.faracon</module>
 		<module>../../plugins/org.genivi.faracon.console</module>
 		<module>../../plugins/org.genivi.faracon.cli</module>
+		<module>../../plugins/org.genivi.faracon.eclipse.ui</module>
 		<!-- test modules -->
 		<module>../../tests/org.genivi.faracon.tests</module>
 		<!-- documentation/help modules -->
@@ -55,6 +56,7 @@
 		<module>../../features/org.genivi.faracon.console.feature</module>
 		<module>../../features/org.genivi.faracon.console.franca.feature</module>
 		<module>../../features/org.genivi.faracon.cli.feature</module>
+		<module>../../features/org.genivi.faracon.eclipse.ui.feature</module>
 		<module>../../products/org.genivi.faracon.cli.product</module>
 		<!-- <module>../../releng/org.genivi.faracon.updatesite</module> -->
 	</modules>
