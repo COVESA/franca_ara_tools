@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+	<extension point = "org.eclipse.ui.popupMenus">
+     <objectContribution
+        id="org.genivi.faracon.eclipse.ui.ara2francafolder"
+        objectClass="org.eclipse.core.resources.IResource">
+	    <action
+           class="org.genivi.faracon.eclipse.ui.Ara2FrancaTransformation"
+           enablesFor="+"
+           id="org.genivi.faracon.eclipse.ui.ara2francafolderid"
+           label="ARA 2 Franca Transformation"
+           menubarPath="additions">
+	    </action>
+	 </objectContribution>
+	 <objectContribution
+        id="org.genivi.faracon.eclipse.ui.ara2francafolder"
+        objectClass="org.eclipse.core.resources.IResource">
+	    <action
+           class="org.genivi.faracon.eclipse.ui.Franca2AraTransformation"
+           enablesFor="+"
+           id="org.genivi.faracon.eclipse.ui.ara2francafolderid"
+           label="Franca 2 ARA Transformation"
+           menubarPath="additions">
+	    </action>
+	 </objectContribution>
+	</extension>
+	<extension point="org.eclipse.ui.preferencePages">
+		<page
+            class="org.genivi.faracon.eclipse.ui.FaraconPreferencesPage"
+            id="org.genivi.faracon.eclipse.ui.faraconpreferencespage.id"
+            name="Faracon Transformation Settings">
+        </page>
+	</extension>
+</plugin>

@@ -4,7 +4,6 @@ import org.apache.commons.cli.CommandLine;
 import org.genivi.faracon.console.AbstractCommandLineHandler;
 import org.genivi.faracon.console.ConsoleLogger;
 import org.genivi.faracon.console.ICommandLineHandler;
-import org.genivi.faracon.logging.ILogger;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -21,7 +20,7 @@ public class ConverterCliCommandHandler extends AbstractCommandLineHandler imple
 
     public ConverterCliCommandHandler()
     {
-		injector = Guice.createInjector(new ConverterCliModule());
+		injector = Guice.createInjector(new ConverterCliModule(ConsoleLogger.class));
 
 		converterCliCommand = injector.getInstance(ConverterCliCommand.class);
     }
