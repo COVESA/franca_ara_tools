@@ -1,13 +1,16 @@
 package a1.b2.c3
 
+typeCollection{
+	enumeration TestEnum{
+		enumerator1
+		enumerator2
+	}	
+}
+
 interface ExampleInterface{
 	method exampleMethod{
 		in{
 			TestEnum enumArg1
 		}
-	}
-	enumeration TestEnum{
-		enumerator1
-		enumerator2
 	}
 }
