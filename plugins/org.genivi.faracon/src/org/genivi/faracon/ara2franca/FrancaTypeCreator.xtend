@@ -1,16 +1,17 @@
 package org.genivi.faracon.ara2franca
 
-import autosar40.commonstructure.datadefproperties.SwDataDefProps
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
-import autosar40.swcomponent.datatype.computationmethod.CompuScales
-import java.util.Objects
+import javax.inject.Inject
 import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.ARA2FrancaBase
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {
+
+	@Inject
+	var extension FrancaEnumCreator
 
 	def transform(ImplementationDataType src) {
 		if (src === null) {
@@ -69,34 +70,22 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		if (araKeyType !== null) {
 			keyType = createFTypeRef(araKeyType)
 		} else {
-			getLogger.logError(errorMsg + '''No property with type "«"keyType"»" is defined for element "«src.shortName»".''')
+			getLogger.logError(errorMsg +
+				'''No property with type "«"keyType"»" is defined for element "«src.shortName»".''')
 		}
 
 		val araValueType = getPropertyType(src, "valueType")
 		if (araValueType !== null) {
 			valueType = createFTypeRef(araValueType)
 		} else {
-			getLogger.logError(errorMsg + '''No property with type "«"valueType"»" is defined for element "«src.shortName»".''')
+			getLogger.logError(errorMsg +
+				'''No property with type "«"valueType"»" is defined for element "«src.shortName»".''')
 		}
 	}
 
-	def protected create fac.createFEnumerationType transformEnumeration(ImplementationDataType src) {
-		name = src.shortName
+	
 
-		val araEnumerators = getEnumerationTypeEnumerators(src)
-		if (araEnumerators !== null) {
-			for (araEnumerator : araEnumerators) {
-				enumerators.add(fac.createFEnumerator => [
-					name = araEnumerator.symbol
-				])
-			}
-		} else {
-			getLogger.
-				logError('''No Enumerators found for type "«src.shortName»". The Franca enumeration cannot be created correctly as it will not have any enumerators.''')
-		}
-	}
-
-	def protected create fac.createFArrayType transformArray(ImplementationDataType src) {
+	def private create fac.createFArrayType transformArray(ImplementationDataType src) {
 		name = src.shortName
 
 		val araElementType = getPropertyType(src, "valueType")
@@ -144,65 +133,6 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		val typeRefTargetType = firstProperty.implementationDataType as ImplementationDataType
 		typeRefTargetType
-	}
-
-	def protected getEnumerationTypeEnumerators(ImplementationDataType enumerationTypeDef) {
-		val firstPropertyWithCompuMethod = getFirstPropertyWithTexttableCompuMethod(enumerationTypeDef.swDataDefProps)
-		val errorMsg = "Cannot create enumerator. Reason: "
-		if (firstPropertyWithCompuMethod === null) {
-			getLogger.logError('''no property is defined for "«enumerationTypeDef»".''')
-			return null
-		}
-		val compuMethod = firstPropertyWithCompuMethod.compuMethod
-		if (compuMethod === null) {
-			getLogger.logError('''«errorMsg»no CompuMethod is defined for ""«firstPropertyWithCompuMethod»".''')
-			return null
-		}
-		val compu = compuMethod.compuInternalToPhys
-		if (compu === null) {
-			getLogger.logError('''«errorMsg»no compuInternalToPhys is defined for "«compu»"''')
-			return null
-		}
-		val compuScales = compu.compuContent as CompuScales
-		if (compuScales === null) {
-			getLogger.logError('''«errorMsg»no CompuScales is defined for CompuMethod "«compu»".''')
-			return null
-		}
-		val enumerators = compuScales.compuScales
-		return enumerators
-	}
-
-	def protected getFirstPropertyWithTexttableCompuMethod(SwDataDefProps swDataDefProps) {
-		val swDataDefPropsVariants = getSwDataDefPropsVariants(swDataDefProps)
-		if (null === swDataDefPropsVariants) {
-			return null
-		}
-		val firstPropertyWithTexttableCompuMethod = swDataDefPropsVariants.findFirst [
-			it.compuMethod !== null && Objects.equals(it.compuMethod.category, "TEXTTABLE")
-		]
-		if (firstPropertyWithTexttableCompuMethod === null) {
-			logger.logError('''No TEXTTABLE compu method found for "«swDataDefProps»" ''')
-			return null
-		}
-		return firstPropertyWithTexttableCompuMethod
-
-	}
-
-	def protected getFirstProperty(SwDataDefProps swDataDefProps) {
-		val firstProperty = getSwDataDefPropsVariants(swDataDefProps)?.get(0)
-		return firstProperty
-	}
-
-	def private getSwDataDefPropsVariants(SwDataDefProps swDataDefProps) {
-		val errorMsg = "Cannot find Autosar data property. Reason: "
-		if (swDataDefProps === null) {
-			return null
-		}
-		if (swDataDefProps.swDataDefPropsVariants.nullOrEmpty) {
-			getLogger.logError('''«errorMsg»No variant is defined for «swDataDefProps».''')
-			return null
-		}
-		return swDataDefProps.swDataDefPropsVariants
 	}
 
 	// Important: This cannot be realized as a Xtend create function because we need
