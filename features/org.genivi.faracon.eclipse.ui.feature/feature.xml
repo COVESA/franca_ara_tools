@@ -2,7 +2,7 @@
 <feature
       id="org.genivi.faracon.eclipse.ui.feature"
       label="Eclipse UI feature"
-      version="0.8.0.qualifier"
+      version="0.9.0.qualifier"
       provider-name="GENIVI">
 
    <description url="http://www.example.com/description">

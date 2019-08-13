@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Franca ARA Converter Console Interface
 Bundle-SymbolicName: org.genivi.faracon.cli;singleton:=true
-Bundle-Version: 0.8.0.qualifier
+Bundle-Version: 0.9.0.qualifier
 Bundle-Activator: org.genivi.faracon.cli.Activator
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext;bundle-version="[2.7.0,3.0.0)";visibility:=reexport,
