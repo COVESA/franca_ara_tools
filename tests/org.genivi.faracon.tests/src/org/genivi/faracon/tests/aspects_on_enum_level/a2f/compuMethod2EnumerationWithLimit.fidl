@@ -2,8 +2,8 @@ package a1.b2.c3
 
 typeCollection{
 	enumeration TestEnum{
-		enumerator1 
-		enumerator2 
+		enumerator1 = 1
+		enumerator2 = 2
 	}	
 }
 
