@@ -1,6 +1,8 @@
 package org.genivi.faracon.cli;
 
 import java.io.File;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
@@ -142,15 +144,18 @@ public class ConverterCliCommand extends CommandlineTool {
 
 		getLogger().decreaseIndentationLevel();
 
+		Collection<String> fidlFiles = FilePathsHelper.findFiles(francaFilePaths, "fidl");
+		Collection<String> araFiles = FilePathsHelper.findFiles(francaFilePaths, "arxml");
+		
 		// Invoke the converters.
-		convertFrancaFiles(francaFilePaths);
-		convertARAFiles(araFilePaths);
+		convertFrancaFiles(fidlFiles);
+		convertARAFiles(araFiles);
 
 		return 0;
 	}
-
-	public void convertFrancaFiles(String[] francaFilePaths) {
-		if (francaFilePaths == null || francaFilePaths.length == 0) {
+	
+	public void convertFrancaFiles(Collection<String> francaFilePaths) {
+		if (francaFilePaths == null || francaFilePaths.isEmpty()) {
 			return;
 		}
 
@@ -205,8 +210,8 @@ public class ConverterCliCommand extends CommandlineTool {
 		getLogger().decreaseIndentationLevel();
 	}
 
-	public void convertARAFiles(String[] araFilePaths) {
-		if (araFilePaths == null || araFilePaths.length == 0) {
+	public void convertARAFiles(Collection<String> araFilePaths) {
+		if (araFilePaths == null || araFilePaths.isEmpty()) {
 			return;
 		}
 
