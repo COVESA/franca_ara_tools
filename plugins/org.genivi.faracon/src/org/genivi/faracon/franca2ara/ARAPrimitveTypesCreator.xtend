@@ -13,9 +13,16 @@ import org.genivi.faracon.Franca2ARABase
 class ARAPrimitveTypesCreator extends Franca2ARABase {
 
 	val nameToType = new HashMap<String, ImplementationDataType>()
-
-	new(){
-		initNameToType
+	
+	def ARPackage createPrimitiveTypesPackage(ARAResourceSet araResourceSet) {
+		val ARAResourceSet araResourceSetLocal = 
+			if (araResourceSet === null) new ARAResourceSet() else araResourceSet
+		val AUTOSAR primitiveTypesModel = araResourceSetLocal.standardTypeDefinitionsModel
+		val topLevelPackage = primitiveTypesModel.arPackages.get(0)
+		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
+			nameToType.put(it.shortName,it)
+		]
+		return topLevelPackage
 	}
 
 	def getBaseTypeForReference(FBasicTypeId fBasicTypeId) {
@@ -24,20 +31,12 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 		}
 		this.nameToType.get(fBasicTypeId.getName)
 	}
-	
+
 	// TODO: This predicate function does not work properly with the current implementation
 	//       because the primitive types library is loaded twice.
 	def isPrimitiveType(ImplementationDataType implementationDataType) {
 		val lookupImplementationDataType = nameToType.get(implementationDataType.shortName)
 		return lookupImplementationDataType !== null && lookupImplementationDataType === implementationDataType
-	}
-	
-	def private initNameToType() {
-		val ARAResourceSet araResourceSetLocal = new ARAResourceSet() 
-		val AUTOSAR primitiveTypesModel = araResourceSetLocal.standardTypeDefinitionsModel
-		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
-			nameToType.put(it.shortName,it)
-		]
 	}
 
 }
