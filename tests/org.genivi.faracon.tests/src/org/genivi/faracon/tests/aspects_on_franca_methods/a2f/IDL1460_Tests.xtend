@@ -57,7 +57,7 @@ class IDL1460_Tests extends ARA2FrancaTestBase {
 		]
 		
 		//when
-		val result = araTypeCreator.createFTypeRef(implementationDataType)
+		val result = araTypeCreator.createFTypeRefAndImport(implementationDataType)
 		
 		//then
 		result.assertNotNull

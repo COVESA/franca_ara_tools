@@ -13,6 +13,7 @@ import com.google.inject.Inject
 import java.util.Collection
 import java.util.Set
 import org.franca.core.franca.FModel
+import org.genivi.faracon.ara2franca.FrancaImportCreator
 import org.genivi.faracon.ara2franca.FrancaTypeCreator
 
 import static org.genivi.faracon.util.AutosarUtil.*
@@ -20,7 +21,10 @@ import static org.genivi.faracon.util.AutosarUtil.*
 class ARA2FrancaTransformation extends ARA2FrancaBase {
 
 	@Inject
-	var extension FrancaTypeCreator araTypeCreator
+	var extension FrancaTypeCreator francaTypeCreator
+	@Inject
+	var extension FrancaImportCreator francaImportCreator
+	
 
 	/**
 	 * Transforms the relevant elements of an ArPackage to a Franca Model
@@ -28,6 +32,7 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 	 */
 	def create createFModel transform(ARPackage arPackage) {
 		it.name = getPackageNamespace(arPackage)
+		francaImportCreator.currentModel = it
 
 		val serviceInterfaces = arPackage.elements.filter(ServiceInterface)
 		val francaInterfaces = serviceInterfaces.map[transform]
@@ -39,11 +44,6 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 			val typeCollection = createAnonymousTypeCollectionForModel(it)
 			typeCollection.types.addAll(types)	
 		}
-	}
-	
-	def private create createFTypeCollection createAnonymousTypeCollectionForModel(FModel model) {
-		// no implementation - the create method ensures that we only create one anonymous type collection per FModel
-		model.typeCollections.add(it)
 	}
 	
 	def Set<FModel> transform(AUTOSAR src) {
@@ -72,14 +72,14 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 			// As there is no "real" name for the out-parameter in AUTOSAR,
 			// we reuse the name of the VariableDataPrototoype
 			name = src.shortName
-			type = createFTypeRef(src.type as ImplementationDataType)
+			type = createFTypeRefAndImport(src.type as ImplementationDataType)
 		]
 		outArgs.add(outArg)
 	}
 
 	def create fac.createFAttribute transform(Field src) {
 		name = src.shortName
-		type = createFTypeRef(src.type as ImplementationDataType)
+		type = createFTypeRefAndImport(src.type as ImplementationDataType)
 		noRead = !src.hasGetter
 		noSubscriptions = !src.hasNotifier
 		readonly = !src.hasSetter
@@ -107,7 +107,7 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 	def create fac.createFArgument transform(ArgumentDataPrototype src) {
 		name = src.shortName
 		if (src.type !== null) {
-			type = createFTypeRef(src.type as ImplementationDataType)
+			type = createFTypeRefAndImport(src.type as ImplementationDataType)
 		} else {
 			logger.
 				logError('''Cannot create type for franca argument "«name»" because the Autosar argument has no type''')

@@ -66,7 +66,7 @@ class IDL1110_Tests extends ARA2FrancaTestBase {
 		val fModelContainer = new FrancaMultiModelContainer(Collections.singletonList(fModel))  
 		
 		// when
-		val outputUri = OutputFileHelper.calculateFrancaOutputUri(araModelUri, fModelContainer, fModelContainer.francaModelContainers.get(0))
+		val outputUri = OutputFileHelper.calculateFrancaOutputUri(araModelUri, fModelContainer.francaModelContainers.get(0))
 		
 		//then 
 		val expectedFrancaUri = URI.createFileURI(testPath + "testFileName.fidl")
@@ -82,8 +82,8 @@ class IDL1110_Tests extends ARA2FrancaTestBase {
 		val fModelContainer = new FrancaMultiModelContainer(newArrayList(fModel1, fModel2))  
 		
 		// when
-		val francaUri1 = OutputFileHelper.calculateFrancaOutputUri(araModelUri, fModelContainer, fModelContainer.francaModelContainers.get(0))
-		val francaUri2 = OutputFileHelper.calculateFrancaOutputUri(araModelUri, fModelContainer, fModelContainer.francaModelContainers.get(1))
+		val francaUri1 = OutputFileHelper.calculateFrancaOutputUri(araModelUri, fModelContainer.francaModelContainers.get(0))
+		val francaUri2 = OutputFileHelper.calculateFrancaOutputUri(araModelUri, fModelContainer.francaModelContainers.get(1))
 		
 		//then
 		val expectedFrancaUri1 =  URI.createFileURI(testPath + "testFileName_testFranca1.fidl")

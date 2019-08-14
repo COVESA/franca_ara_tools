@@ -10,9 +10,13 @@ import org.franca.core.franca.FModel
 import org.genivi.faracon.ARA2FrancaTransformation
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
-import org.genivi.faracon.FrancaMultiModelContainer
+import org.genivi.faracon.cli.Ara2FrancaConverter
+import org.genivi.faracon.cli.FilePathsHelper
+import org.genivi.faracon.preferences.Preferences
+import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.FaraconTestBase
 import org.junit.After
+import org.junit.Before
 
 import static org.genivi.faracon.ARAConnector.*
 import static org.genivi.faracon.tests.util.FaraconAssertHelper.*
@@ -23,6 +27,14 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 
 	@Inject
 	var protected extension ARA2FrancaTransformation ara2FrancaTransformation
+
+	@Inject
+	var Ara2FrancaConverter ara2FrancaConverter
+
+	@Before
+	def void beforeTest() {
+		Preferences.instance.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, "src-gen/testcases")
+	}
 
 	@After
 	def void afterTest() {
@@ -50,8 +62,11 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	}
 
 	def void transformAndCheck(String sourceFilePath, Collection<String> expectedFilePaths) {
-		val expectedFrancaModels = expectedFilePaths.map[loader.loadModel(it);].toList
-		val arModel = loadARAModel(sourceFilePath)
+		val expectedFrancaModels = expectedFilePaths.map [
+			loader.loadModel(it);
+		].toList
+		val araModelContainers = ara2FrancaConverter.loadAllAraFiles(Collections.singletonList(sourceFilePath))
+		val arModel = (araModelContainers).get(0).model
 		transformAndCheck(arModel, expectedFrancaModels)
 	}
 
@@ -81,12 +96,36 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 		assertFrancaModelsAreEqual(francaModels, expectedModels)
 	}
 
+	protected def void doTransformAndCheckIntegrationTest(Collection<String> sourceFilePaths,
+		Collection<String> expectedFilePaths, String outputFolderName) {
+		// given: non-null strings, which are not empty
+		assertFalse("No source file path given", sourceFilePaths.nullOrEmpty)
+		Preferences.instance.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH,
+			"src-gen/testcases/" + outputFolderName)
+
+		// when
+		ara2FrancaConverter.convertARAFiles(sourceFilePaths)
+
+		// assert
+		val expectedFrancaModels = expectedFilePaths.map [
+			loader.loadModel(it);
+		].toList
+		val actualFrancaModelsPath = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
+		assertNotNull("no outputpath found", actualFrancaModelsPath)
+		val actualFrancaFilePaths = FilePathsHelper.findFiles(#[actualFrancaModelsPath], "fidl")
+		val actualFrancaModels = actualFrancaFilePaths.map[
+			loader.loadModel(it)
+		].toList
+		assertFrancaModelsAreEqual(actualFrancaModels, expectedFrancaModels)
+	}
+
 	protected def List<FModel> transformToFranca(IModelContainer arModel) {
-		val FrancaMultiModelContainer transformedContainers = araConnector.
-			toFranca(arModel) as FrancaMultiModelContainer
-		val francaModels = transformedContainers.francaModelContainers.map[it.model].toList
-		francaModels.forEach[loader.saveModel(it, "src-gen/testcases/" + it.name + ".fidl")]
-		francaModels
+		val transformationResult = ara2FrancaConverter.transformToFranca(
+			Collections.singletonList(arModel as ARAModelContainer))
+		ara2FrancaConverter.putAllFrancaModelsInOneResource(transformationResult)
+		ara2FrancaConverter.saveAllFrancaModels(transformationResult)
+		val francaModels = transformationResult.map[value].map[it.francaModelContainers].flatten.map[it.model].toList
+		return francaModels
 	}
 
 	protected def ARAModelContainer wrapInModelContainer(AUTOSAR arModel) {

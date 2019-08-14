@@ -1,0 +1,22 @@
+package a1.b2.c3
+
+import model "fileWithMultiImport_a1.b2.c3.d4.fidl"
+import model "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"
+
+typeCollection{
+	struct TestStruct{
+		UInt8 MyUInt8
+	}
+}
+
+interface ExampleInterface{
+	method exampleMethod {
+		in {
+			TestStruct testStructArg
+			a1.b2.c3.d4.TestStructInD4 testStructInD4Arg
+			a1.b2.c3.d4.e5.TestStructInE5 testStructInE5Arg
+		}
+	}
+	
+}
+

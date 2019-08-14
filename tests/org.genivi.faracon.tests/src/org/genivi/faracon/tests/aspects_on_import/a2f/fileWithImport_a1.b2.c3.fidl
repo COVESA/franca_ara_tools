@@ -1,0 +1,11 @@
+package a1.b2.c3
+
+import model "fileWithImport_a1.b2.c3.d4.fidl"
+
+interface ExampleInterface{
+	method exampleMethod {
+		in {
+			a1.b2.c3.d4.TestStruct testStructArg
+		}
+	}
+}

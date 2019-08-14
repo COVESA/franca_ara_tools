@@ -55,4 +55,5 @@ class AutosarUtil {
 		val hierarchy = serviceInterface.namespaces.map[it.shortName]
 		return hierarchy.join(".")	
 	} 
+	
 }

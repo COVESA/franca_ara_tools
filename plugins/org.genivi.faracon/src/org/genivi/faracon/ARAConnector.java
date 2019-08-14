@@ -144,6 +144,7 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 	}
 
 	public static AUTOSAR loadARAModel(String fileName) {
+		
 		ARAResourceSet araResourceSet = new ARAResourceSet();
 		return loadARAModel(araResourceSet, fileName);
 	}

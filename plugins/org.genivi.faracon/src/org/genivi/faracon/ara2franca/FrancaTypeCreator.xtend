@@ -6,6 +6,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
+import org.franca.core.franca.FModel
 import org.genivi.faracon.ARA2FrancaBase
 
 @Singleton
@@ -13,6 +14,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 	@Inject
 	var extension FrancaEnumCreator
+	@Inject
+	var extension FrancaImportCreator francaImportCreator
 
 	def transform(ImplementationDataType src) {
 		if (src === null) {
@@ -35,6 +38,11 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			return null
 		}
 	}
+	
+	def create createFTypeCollection createAnonymousTypeCollectionForModel(FModel model) {
+		// no implementation - the create method ensures that we only create one anonymous type collection per FModel
+		model.typeCollections.add(it)
+	}
 
 	/**
 	 * Creates a default type, which can be used for the transformation if no source type is provided.
@@ -53,7 +61,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	def protected create fac.createFUnionType transformUnion(ImplementationDataType src) {
 		fillFrancaCompoundType(src, it)
 	}
-
+	
 	def protected fillFrancaCompoundType(
 		ImplementationDataType aCompoundType,
 		FCompoundType fCompoundType
@@ -65,7 +73,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 				if (araStructElementType !== null) {
 					val field = fac.createFField => [
 						name = subElement.shortName
-						type = createFTypeRef(araStructElementType)
+						type = createFTypeRefAndImport(araStructElementType)
 					]
 					fCompoundType.elements.add(field)
 				} else {
@@ -82,7 +90,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		val errorMsg = '''Franca map type could not be created correctly from Autosar type "«src.shortName»". Reason: '''
 		val araKeyType = getPropertyType(src, "keyType")
 		if (araKeyType !== null) {
-			keyType = createFTypeRef(araKeyType)
+			keyType = createFTypeRefAndImport(araKeyType)
 		} else {
 			getLogger.logError(errorMsg +
 				'''No property with type "«"keyType"»" is defined for element "«src.shortName»".''')
@@ -90,7 +98,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 		val araValueType = getPropertyType(src, "valueType")
 		if (araValueType !== null) {
-			valueType = createFTypeRef(araValueType)
+			valueType = createFTypeRefAndImport(araValueType)
 		} else {
 			getLogger.logError(errorMsg +
 				'''No property with type "«"valueType"»" is defined for element "«src.shortName»".''')
@@ -102,7 +110,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 		val araElementType = getPropertyType(src, "valueType")
 		if (araElementType !== null) {
-			elementType = createFTypeRef(araElementType)
+			elementType = createFTypeRefAndImport(araElementType)
 		} else {
 			getLogger.
 				logError('''No Franca array created for Autosar type "«src.shortName», because no property with value type has been defined."''')
@@ -149,11 +157,12 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 	// Important: This cannot be realized as a Xtend create function because we need
 	// to create multiple type ref objects that point to the same type object!
-	def createFTypeRef(ImplementationDataType src) {
+	def createFTypeRefAndImport(ImplementationDataType src) {
 		val typeRef = fac.createFTypeRef
 		if (isPrimitiveType(src)) {
 			typeRef.predefined = FBasicTypeId.getByName(src.shortName)
 		} else {
+			src.createImportIfNecessary()
 			typeRef.derived = transform(src)
 		}
 		typeRef
