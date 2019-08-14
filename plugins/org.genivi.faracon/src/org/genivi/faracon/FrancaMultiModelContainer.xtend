@@ -17,7 +17,7 @@ import org.franca.core.franca.FModel
  */
 class FrancaMultiModelContainer extends FrancaModelContainer {
 
-	@Accessors
+	@Accessors 
 	val Collection<FrancaModelContainer> francaModelContainers
 
 	new(Collection<FModel> francaModels) {
