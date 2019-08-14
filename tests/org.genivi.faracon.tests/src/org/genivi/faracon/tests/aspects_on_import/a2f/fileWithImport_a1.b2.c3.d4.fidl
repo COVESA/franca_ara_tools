@@ -1,0 +1,8 @@
+package a1.b2.c3.d4
+
+typeCollection{
+	struct TestStruct{
+		UInt32 MyUInt32
+	}
+}
+
