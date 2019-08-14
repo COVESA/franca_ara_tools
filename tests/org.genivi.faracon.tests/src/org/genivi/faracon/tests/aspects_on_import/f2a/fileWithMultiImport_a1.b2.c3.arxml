@@ -32,38 +32,41 @@
                       <ARGUMENTS>
                         <ARGUMENT-DATA-PROTOTYPE UUID="0">
                           <SHORT-NAME>testStructArg</SHORT-NAME>
-                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/d4/TestStruct</TYPE-TREF>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/TestStruct</TYPE-TREF>
+                          <DIRECTION>IN</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                          <SHORT-NAME>testStructInD4Arg</SHORT-NAME>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/d4/TestStructInD4</TYPE-TREF>
+                          <DIRECTION>IN</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                          <SHORT-NAME>testStructInE5Arg</SHORT-NAME>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/d4/e5/TestStructInE5</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
                         </ARGUMENT-DATA-PROTOTYPE>
                       </ARGUMENTS>
                     </CLIENT-SERVER-OPERATION>
                   </METHODS>
                 </SERVICE-INTERFACE>
-              </ELEMENTS>
-              <AR-PACKAGES>
-                <AR-PACKAGE UUID="0">
-                <SHORT-NAME>d4</SHORT-NAME>
-                  <ELEMENTS>
-                    <IMPLEMENTATION-DATA-TYPE UUID="0">
+                <IMPLEMENTATION-DATA-TYPE UUID="0">
                       <SHORT-NAME>TestStruct</SHORT-NAME>
                       <CATEGORY>STRUCTURE</CATEGORY>
                       <SUB-ELEMENTS>
                         <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                          <SHORT-NAME>MyUInt32</SHORT-NAME>
+                          <SHORT-NAME>MyUInt8</SHORT-NAME>
                           <CATEGORY>TYPE_REFERENCE</CATEGORY>
 	                      <SW-DATA-DEF-PROPS>
 	                        <SW-DATA-DEF-PROPS-VARIANTS>
 	                          <SW-DATA-DEF-PROPS-CONDITIONAL>
-	                            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
+	                            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt8</IMPLEMENTATION-DATA-TYPE-REF>
 	                          </SW-DATA-DEF-PROPS-CONDITIONAL>
 	                        </SW-DATA-DEF-PROPS-VARIANTS>
 	                      </SW-DATA-DEF-PROPS>
                         </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                       </SUB-ELEMENTS>
                     </IMPLEMENTATION-DATA-TYPE>
-                  </ELEMENTS>
-                </AR-PACKAGE>
-              </AR-PACKAGES>
+              </ELEMENTS>
             </AR-PACKAGE>
           </AR-PACKAGES>
         </AR-PACKAGE>

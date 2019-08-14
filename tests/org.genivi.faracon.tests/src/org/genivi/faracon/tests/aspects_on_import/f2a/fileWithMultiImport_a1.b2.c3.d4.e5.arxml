@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/gs/gtc/arp">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <AR-PACKAGES>
+                <AR-PACKAGE UUID="0">
+                <SHORT-NAME>d4</SHORT-NAME>
+                  <AR-PACKAGES>
+                    <AR-PACKAGE UUID="0">
+                  		 <SHORT-NAME>e5</SHORT-NAME>
+		                  <ELEMENTS>
+		                    <IMPLEMENTATION-DATA-TYPE UUID="0">
+		                      <SHORT-NAME>TestStructInE5</SHORT-NAME>
+		                      <CATEGORY>STRUCTURE</CATEGORY>
+		                      <SUB-ELEMENTS>
+		                        <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+		                          <SHORT-NAME>MyUInt32</SHORT-NAME>
+		                          <CATEGORY>TYPE_REFERENCE</CATEGORY>
+			                      <SW-DATA-DEF-PROPS>
+			                        <SW-DATA-DEF-PROPS-VARIANTS>
+			                          <SW-DATA-DEF-PROPS-CONDITIONAL>
+			                            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
+			                          </SW-DATA-DEF-PROPS-CONDITIONAL>
+			                        </SW-DATA-DEF-PROPS-VARIANTS>
+			                      </SW-DATA-DEF-PROPS>
+		                        </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+		                      </SUB-ELEMENTS>
+		                    </IMPLEMENTATION-DATA-TYPE>
+		                  </ELEMENTS>
+                  	</AR-PACKAGE>
+                  </AR-PACKAGES>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

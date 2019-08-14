@@ -105,6 +105,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 	}
 
+	
+
 	def private create fac.createFArrayType transformArray(ImplementationDataType src) {
 		name = src.shortName
 

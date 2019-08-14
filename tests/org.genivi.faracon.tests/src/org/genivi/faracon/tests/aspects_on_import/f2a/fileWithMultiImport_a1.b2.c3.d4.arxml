@@ -9,43 +9,45 @@
           <AR-PACKAGES>
             <AR-PACKAGE UUID="0">
               <SHORT-NAME>c3</SHORT-NAME>
-              <ELEMENTS>
-                <SERVICE-INTERFACE UUID="0">
-                  <SHORT-NAME>ExampleInterface</SHORT-NAME>
-                  <NAMESPACES>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>a1</SHORT-NAME>
-                      <SYMBOL>a1</SYMBOL>
-                    </SYMBOL-PROPS>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>b2</SHORT-NAME>
-                      <SYMBOL>b2</SYMBOL>
-                    </SYMBOL-PROPS>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>c3</SHORT-NAME>
-                      <SYMBOL>c3</SYMBOL>
-                    </SYMBOL-PROPS>
-                  </NAMESPACES>
-                  <METHODS>
-                    <CLIENT-SERVER-OPERATION UUID="0">
-                      <SHORT-NAME>exampleMethod</SHORT-NAME>
-                      <ARGUMENTS>
-                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
-                          <SHORT-NAME>testStructArg</SHORT-NAME>
-                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/d4/TestStruct</TYPE-TREF>
-                          <DIRECTION>IN</DIRECTION>
-                        </ARGUMENT-DATA-PROTOTYPE>
-                      </ARGUMENTS>
-                    </CLIENT-SERVER-OPERATION>
-                  </METHODS>
-                </SERVICE-INTERFACE>
-              </ELEMENTS>
               <AR-PACKAGES>
                 <AR-PACKAGE UUID="0">
                 <SHORT-NAME>d4</SHORT-NAME>
                   <ELEMENTS>
+	                  <SERVICE-INTERFACE UUID="0">
+	                  <SHORT-NAME>ExampleInterfaceMultiImport</SHORT-NAME>
+	                  <NAMESPACES>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>a1</SHORT-NAME>
+                          <SYMBOL>a1</SYMBOL>
+                        </SYMBOL-PROPS>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>b2</SHORT-NAME>
+                          <SYMBOL>b2</SYMBOL>
+                        </SYMBOL-PROPS>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>c3</SHORT-NAME>
+                          <SYMBOL>c3</SYMBOL>
+                        </SYMBOL-PROPS>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>d4</SHORT-NAME>
+                          <SYMBOL>d4</SYMBOL>
+                        </SYMBOL-PROPS>
+                      </NAMESPACES>
+	                  <METHODS>
+	                    <CLIENT-SERVER-OPERATION UUID="0">
+	                      <SHORT-NAME>testMethod</SHORT-NAME>
+	                      <ARGUMENTS>
+	                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+	                          <SHORT-NAME>testStructInE5Arg</SHORT-NAME>
+	                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/d4/e5/TestStructInE5</TYPE-TREF>
+	                          <DIRECTION>IN</DIRECTION>
+	                        </ARGUMENT-DATA-PROTOTYPE>
+	                      </ARGUMENTS>
+	                    </CLIENT-SERVER-OPERATION>
+	                  </METHODS>
+	                </SERVICE-INTERFACE>
                     <IMPLEMENTATION-DATA-TYPE UUID="0">
-                      <SHORT-NAME>TestStruct</SHORT-NAME>
+                      <SHORT-NAME>TestStructInD4</SHORT-NAME>
                       <CATEGORY>STRUCTURE</CATEGORY>
                       <SUB-ELEMENTS>
                         <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">

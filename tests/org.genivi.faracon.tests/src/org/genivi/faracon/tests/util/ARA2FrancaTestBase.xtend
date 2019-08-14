@@ -15,6 +15,7 @@ import org.genivi.faracon.cli.FilePathsHelper
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.FaraconTestBase
+import org.junit.After
 import org.junit.Before
 
 import static org.genivi.faracon.ARAConnector.*
@@ -33,6 +34,10 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	@Before
 	def void beforeTest() {
 		Preferences.instance.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, "src-gen/testcases")
+	}
+
+	@After
+	def void afterTest() {
 		ara2FrancaTransformation.logger.enableContinueOnErrors(false)
 	}
 
@@ -60,7 +65,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 		val expectedFrancaModels = expectedFilePaths.map [
 			loader.loadModel(it);
 		].toList
-		val araModelContainers = ara2FrancaConverter.loadAllAraFiles(Collections.singletonList(sourceFilePath))
+		val araModelContainers = ara2FrancaConverter.loadAllFiles(Collections.singletonList(sourceFilePath))
 		ara2FrancaConverter.resolveProxiesAndCheckRemaining
 		val arModel = (araModelContainers).get(0).model
 		transformAndCheck(arModel, expectedFrancaModels)
@@ -100,7 +105,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 			"src-gen/testcases/" + outputFolderName)
 
 		// when
-		ara2FrancaConverter.convertARAFiles(sourceFilePaths)
+		ara2FrancaConverter.convertFiles(sourceFilePaths)
 
 		// assert
 		val expectedFrancaModels = expectedFilePaths.map [
@@ -115,11 +120,13 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	}
 
 	protected def List<FModel> transformToFranca(IModelContainer arModel) {
-		val transformationResult = ara2FrancaConverter.transformToFranca(
+		val transformationResult = ara2FrancaConverter.transform(
 			Collections.singletonList(arModel as ARAModelContainer))
-		ara2FrancaConverter.putAllFrancaModelsInOneResourceSet(transformationResult)
-		ara2FrancaConverter.saveAllFrancaModels(transformationResult)
-		val francaModels = transformationResult.map[value].map[it.francaModelContainers].flatten.map[it.model].toList
+		ara2FrancaConverter.putAllModelsInOneResourceSet(transformationResult)
+		ara2FrancaConverter.saveAllModels(transformationResult)
+		val francaMultiModelContainer = transformationResult.map[value]
+		val allFrancaModelContainer = francaMultiModelContainer.map[it.francaModelContainers]
+		val francaModels = allFrancaModelContainer.flatten.map[it.model].toList
 		return francaModels
 	}
 
