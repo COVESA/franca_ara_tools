@@ -29,6 +29,7 @@ import org.genivi.faracon.names.NamesHierarchy
 import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import org.franca.core.franca.FTypeCollection
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -54,10 +55,14 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val FrancaNamesCollector francaNamesCollector = new FrancaNamesCollector
 		francaNamesCollector.fillNamesHierarchy(src, namesHierarchy)
 
+		// Process the conversion.
+		createPrimitiveTypesPackage(null)
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
 		// arPackages.add(createPrimitiveTypesPackage)
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)
 		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
+		
+		src.typeCollections.forEach[it.transform(elementPackage)]
 	}
 
 	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
@@ -70,7 +75,21 @@ class Franca2ARATransformation extends Franca2ARABase {
 		namespaces.addAll(targetPackage.createNamespaceForPackage)
 		methods.addAll(getAllMethods(src).map[transform(src)])
 	}
-
+	
+	def void transform(FTypeCollection typeCollection, ARPackage arPackage){
+		val types = typeCollection.types.map[dataTypeForReference]
+		if(typeCollection.name.isNullOrEmpty){
+			// types within an annonymous type collections are added to the package directly 
+			arPackage.elements.addAll(types)	
+		}else{
+			// types within a named type collection are added to an own package
+			arPackage.arPackages += fac.createARPackage =>[
+				elements += types
+				shortName = typeCollection.name
+			] 
+		}
+	}
+	
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As methods are copied to derived interfaces multiple copies of them are needed.
