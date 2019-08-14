@@ -7,10 +7,10 @@ import org.franca.core.framework.FrancaModelContainer
 class OutputFileHelper {
 	private new(){}
 	 
-	def static calculateFrancaOutputUri(URI araModelUri, FrancaMultiModelContainer fmodel,
+	def static calculateFrancaOutputUri(URI araModelUri, FrancaMultiModelContainer multiContainer,
 			FrancaModelContainer francaModelContainer){
 		var transformedModelUri = araModelUri.trimFileExtension();
-		if (fmodel.getFrancaModelContainers().size() > 1) {
+		if (multiContainer.francaModelContainers.size() > 1) {
 			// if we created more than one Franca file, we use the origin file name and the
 			// franca model name as file name as we need to create multiple files and cannot
 			// use the input file with ".fidl" as extension
