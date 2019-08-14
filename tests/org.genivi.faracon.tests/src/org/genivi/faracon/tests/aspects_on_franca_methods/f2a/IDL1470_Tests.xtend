@@ -121,7 +121,6 @@ class IDL1470_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void argumentConversion() {
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FArgument fArgument = francaFac.createFArgument => [
 			name = MODEL_ELEMENT_NAME
 			type = francaFac.createFTypeRef => [
@@ -135,7 +134,6 @@ class IDL1470_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void attributeConversion() {
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FAttribute fAttribute = francaFac.createFAttribute => [
 			name = MODEL_ELEMENT_NAME
 			type = francaFac.createFTypeRef => [
@@ -151,7 +149,6 @@ class IDL1470_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void fieldConversion() {
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FField fField = francaFac.createFField => [
 			name = MODEL_ELEMENT_NAME
 			type = francaFac.createFTypeRef => [
@@ -189,7 +186,6 @@ class IDL1470_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void arrayConversion() {
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FArrayType fArrayType = francaFac.createFArrayType => [
 			name = MODEL_ELEMENT_NAME
 			elementType = francaFac.createFTypeRef => [
@@ -268,7 +264,6 @@ class IDL1470_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void mapConversion() {
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FMapType fMapType = francaFac.createFMapType => [
 			name = MODEL_ELEMENT_NAME
 			keyType = francaFac.createFTypeRef => [
@@ -292,7 +287,6 @@ class IDL1470_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void typeDefConversion() {
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FTypeDef fTypeDef = francaFac.createFTypeDef => [
 			name = MODEL_ELEMENT_NAME
 			actualType = francaFac.createFTypeRef => [
