@@ -1,22 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/ap/ad#//portinterface">
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/swc/components">
   <AR-PACKAGES>
-    <AR-PACKAGE UUID="b212ef9a-7c71-4a04-9ada-92880687d107">
+    <AR-PACKAGE UUID="0">
       <SHORT-NAME>a1</SHORT-NAME>
       <AR-PACKAGES>
-        <AR-PACKAGE UUID="cd4b2abd-ff67-4bd7-9b99-eb03868cd28a">
+        <AR-PACKAGE UUID="0">
           <SHORT-NAME>b2</SHORT-NAME>
           <AR-PACKAGES>
-            <AR-PACKAGE UUID="0fa4b252-3759-4319-874d-3a36d9e74e9f">
+            <AR-PACKAGE UUID="0">
               <SHORT-NAME>c3</SHORT-NAME>
               <ELEMENTS>
-                <SERVICE-INTERFACE UUID="a7581eb1-6638-4c8f-a054-8102349e61f3">
+                <SERVICE-INTERFACE UUID="0">
                   <SHORT-NAME>TestArInterface</SHORT-NAME>
+                  <NAMESPACES>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>a1</SHORT-NAME>
+                      <SYMBOL>a1</SYMBOL>
+                    </SYMBOL-PROPS>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>b2</SHORT-NAME>
+                      <SYMBOL>b2</SYMBOL>
+                    </SYMBOL-PROPS>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>c3</SHORT-NAME>
+                      <SYMBOL>c3</SYMBOL>
+                    </SYMBOL-PROPS>
+                  </NAMESPACES>
                   <METHODS>
-                    <CLIENT-SERVER-OPERATION UUID="8662df0e-e57e-4957-93ce-258046a04f32">
+                    <CLIENT-SERVER-OPERATION UUID="0">
                       <SHORT-NAME>exampleMethod</SHORT-NAME>
                       <ARGUMENTS>
-                        <ARGUMENT-DATA-PROTOTYPE UUID="216e0097-4698-4c8a-a816-b1ae26aceb77">
+                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
                           <SHORT-NAME>testStructInstance</SHORT-NAME>
                           <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/TestArStruct</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
@@ -25,11 +39,11 @@
                     </CLIENT-SERVER-OPERATION>
                   </METHODS>
                 </SERVICE-INTERFACE>
-                <IMPLEMENTATION-DATA-TYPE UUID="dff1dde8-b232-493e-b357-651ac4c95768">
+                <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>TestArStruct</SHORT-NAME>
                   <CATEGORY>STRUCTURE</CATEGORY>
                   <SUB-ELEMENTS>
-                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="db2aec60-bf8a-48f3-853e-8c1eaf2139ff">
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>MyUInt8</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SW-DATA-DEF-PROPS>
@@ -40,7 +54,7 @@
                         </SW-DATA-DEF-PROPS-VARIANTS>
                       </SW-DATA-DEF-PROPS>
                     </IMPLEMENTATION-DATA-TYPE-ELEMENT>
-                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="1eea437a-6622-40a8-9e24-60b673797b23">
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>MyUInt16</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SW-DATA-DEF-PROPS>
