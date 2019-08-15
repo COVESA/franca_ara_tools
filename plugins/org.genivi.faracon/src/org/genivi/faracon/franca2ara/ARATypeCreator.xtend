@@ -3,18 +3,23 @@ package org.genivi.faracon.franca2ara
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
+import java.util.Collections
 import java.util.Map
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.util.EcoreUtil
+import org.franca.core.FrancaModelExtensions
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FField
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FMapType
+import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
+import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
 
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
@@ -71,13 +76,48 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference( // use FCompoundType in order to deal with union and struct types (unions are treated like structs)
 	FCompoundType fStructType) {
+		fStructType.checkCompoundType
 		it.shortName = fStructType.name
 		it.category = "STRUCTURE"
-		val typeRefs = fStructType.elements.map [
+		val allElements = fStructType.flattenStructAndGetElements
+		val typeRefs = allElements.map [
 			it.createImplementationDataTypeElement
 		]
 		it.subElements.addAll(typeRefs)
 		it.ARPackage = fStructType.findArPackageForFrancaElement
+	}
+	
+	def dispatch void checkCompoundType(FCompoundType type){
+		logger.logWarning("Unknown compond type found "  + type + ". Transformation to Autosar might not work correctly.")
+	}
+	
+	def dispatch void checkCompoundType(FStructType type){
+		if(type.polymorphic){
+			logger.logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')			
+		}
+	}
+	
+	def dispatch void checkCompoundType(FUnionType type){
+		// nothing to check
+	}
+	
+	def dispatch Iterable<FField> flattenStructAndGetElements(FStructType fStructType){
+		val inheritSet = FrancaModelExtensions.getInheritationSet(fStructType)
+		val structTypes = inheritSet.map[it as FStructType].filterNull
+		val allElements = structTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
+		return  allElements
+	}
+	
+	def dispatch Iterable<FField> flattenStructAndGetElements(FUnionType fUnionType){
+		val inheritSet = FrancaModelExtensions.getInheritationSet(fUnionType)
+		val structTypes = inheritSet.map[it as FStructType].filterNull
+		val allElements = structTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
+		return  allElements
+	}
+	
+	def dispatch Iterable<FField> flattenStructAndGetElements(FCompoundType fCompoundType){
+		logger.logError("Flattening for type " + fCompoundType.class + "is not yet supported")
+		return Collections.emptyList
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
