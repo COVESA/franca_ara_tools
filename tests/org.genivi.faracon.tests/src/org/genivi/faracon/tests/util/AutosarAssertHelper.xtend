@@ -32,8 +32,10 @@ class AutosarAssertHelper {
 	 * For Autosar models, we compare the actual output files, but ignore the first two lines (which is the Autosar header)
 	 */
 	def static void assertAutosarFilesAreEqual(String actualFileName, String expectedFileName){
-		val actualContent = Files.readAllLines(Paths.get(actualFileName)).drop(2).toList
-		val expectedContent = Files.readAllLines(Paths.get(expectedFileName)).drop(2).toList
+		var actualContent = Files.readAllLines(Paths.get(actualFileName)).drop(2).toList
+		var expectedContent = Files.readAllLines(Paths.get(expectedFileName)).drop(2).toList
+		actualContent = actualContent.map[it.trim]
+		expectedContent = expectedContent.map[it.trim]
 		if(!actualContent.equals(expectedContent)){
 			val actualContentStr = actualContent.join(System.lineSeparator)
 			val expectedContentStr = expectedContent.join(System.lineSeparator)
