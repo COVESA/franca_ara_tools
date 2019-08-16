@@ -38,7 +38,7 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		val inputfile = path + fileBasename + ".fidl"
 		println("Loading Franca file " + inputfile + " ...")
 		val fmodel = loader.loadModel(inputfile)
-		assertNotNull(fmodel)
+		assertNotNull("The franca model " + inputfile + " is null", fmodel)
 		
 		// transform to arxml
 		val fromFranca = araConnector.fromFranca(fmodel) as ARAModelContainer
@@ -51,6 +51,15 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 			//ensure both use the same resource set
 			assertAutosarFilesAreEqual(araFileName, expectedFileName)
 		}
+	}
+	
+	/**
+	 * Returns the path to the corresponding autosar to franca test path.
+	 * The default implementation assumes that the autosar to franca test path
+	 * has the same path, but with "a2f" instead of "f2a" as last segment 
+	 */
+	def protected String getCorrespondingAutosar2FrancaTestPath(){
+		testPath.replaceFirst("f2a", "a2f")
 	}
 
 }
