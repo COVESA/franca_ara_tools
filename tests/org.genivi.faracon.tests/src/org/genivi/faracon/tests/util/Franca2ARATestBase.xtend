@@ -7,8 +7,13 @@ import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.tests.FaraconTestBase
 
 import static org.junit.Assert.assertNotNull
-
+import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
 import static extension org.genivi.faracon.tests.util.AutosarAssertHelper.*
+import org.genivi.faracon.ARAConnector
+import org.genivi.faracon.ARAResourceSet
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import org.eclipse.xtend.typesystem.emf.EcoreUtil2
 
 abstract class Franca2ARATestBase extends FaraconTestBase {
 

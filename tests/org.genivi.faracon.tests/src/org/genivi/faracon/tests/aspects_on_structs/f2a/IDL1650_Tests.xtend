@@ -4,7 +4,11 @@ import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
+import org.franca.core.franca.FBasicTypeId
+import org.genivi.faracon.ARAModelContainer
+import org.genivi.faracon.tests.util.AutosarAssertHelper
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
+import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -16,14 +20,22 @@ import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
  */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
-class IDL1650_Tests extends AbstractFranca2AraStructTest{
+class IDL1650_Tests extends Franca2ARATestBase{
 	
 	@Test
 	def void testUnitFrancaStructToAutosarStruct(){
 		//given
 		val structName = "TestFStruct"
 		val subElementName = "MyUInt32"
-		val fStruct = createFStruct(structName, subElementName, null)
+		val fStruct = createFStructType =>[
+			it.name = structName
+			it.elements += createFField =>[
+				it.name = subElementName
+				it.type = createFTypeRef =>[
+					it.predefined = FBasicTypeId.UINT32
+				]
+			]
+		]
 		
 		//when
 		val type = araTypeCreator.getDataTypeForReference(fStruct)
