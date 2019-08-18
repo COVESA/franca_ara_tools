@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/atls">
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/gs/gtc/arp">
   <AR-PACKAGES>
-    <AR-PACKAGE UUID="0">
+    <AR-PACKAGE UUID="87af1355-173f-4ca7-bb8f-d8da147a974a">
       <SHORT-NAME>a1</SHORT-NAME>
       <AR-PACKAGES>
-        <AR-PACKAGE UUID="0">
+        <AR-PACKAGE UUID="b2633378-961d-4d19-8bc1-edc946acaad7">
           <SHORT-NAME>b2</SHORT-NAME>
           <AR-PACKAGES>
-            <AR-PACKAGE UUID="0">
+            <AR-PACKAGE UUID="94211ecb-84d2-4e96-80ad-68d9c5829e3a">
               <SHORT-NAME>c3</SHORT-NAME>
               <ELEMENTS>
-                <IMPLEMENTATION-DATA-TYPE UUID="0">
+                <IMPLEMENTATION-DATA-TYPE UUID="0a2c7c3f-b820-4963-8ad4-2d9832c3fea1">
                   <SHORT-NAME>TestArStruct</SHORT-NAME>
                   <CATEGORY>STRUCTURE</CATEGORY>
                   <SUB-ELEMENTS>
-                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="db2aec60-bf8a-48f3-853e-8c1eaf2139ff">
                       <SHORT-NAME>MyUInt8</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SW-DATA-DEF-PROPS>
@@ -25,7 +25,7 @@
                         </SW-DATA-DEF-PROPS-VARIANTS>
                       </SW-DATA-DEF-PROPS>
                     </IMPLEMENTATION-DATA-TYPE-ELEMENT>
-                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="1eea437a-6622-40a8-9e24-60b673797b23">
                       <SHORT-NAME>MyUInt16</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SW-DATA-DEF-PROPS>
@@ -38,11 +38,11 @@
                     </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                   </SUB-ELEMENTS>
                 </IMPLEMENTATION-DATA-TYPE>
-                <IMPLEMENTATION-DATA-TYPE UUID="0">
+                <IMPLEMENTATION-DATA-TYPE UUID="0a2c7c3f-b820-4963-8ad4-2d9832c3fea1">
                   <SHORT-NAME>TestArStruct2</SHORT-NAME>
                   <CATEGORY>STRUCTURE</CATEGORY>
                   <SUB-ELEMENTS>
-                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="db2aec60-bf8a-48f3-853e-8c1eaf2139ff">
                       <SHORT-NAME>MyUInt8</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SW-DATA-DEF-PROPS>
