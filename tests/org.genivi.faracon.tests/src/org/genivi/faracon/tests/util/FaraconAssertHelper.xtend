@@ -6,8 +6,8 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.franca.FModel
 
 import static org.junit.Assert.assertEquals
-import static org.junit.Assert.assertTrue
 import static org.junit.Assert.fail
+import static org.junit.Assert.assertTrue
 
 /**
  * Assertion helper for the faracon test, which contains all general 
@@ -31,30 +31,9 @@ class FaraconAssertHelper {
 
 	def static void assertModelsAreEqual(EObject actualModel, EObject expectedModel) {
 		if (!EcoreUtil.equals(actualModel, expectedModel)) {
-			val difference = findFirstDifference(actualModel, expectedModel)
-			fail("The expected model does not equal the actual model. First difference: " + System.lineSeparator +
-				difference)
+			// for now, we just fail without giving a hint why --> todo: improve that
+			fail("The expected model does not equal the actual model")
 		}
-	}
-
-	def private static String findFirstDifference(EObject actualEObject, EObject expectedEObject) {
-		val actualContents = actualEObject.eContents
-		val expectedContents = expectedEObject.eContents
-		if (actualContents.size != expectedContents.size) {
-			return '''The number of contents of the actual EObject "«actualEObject»" differ from the contents in the expected EObject "«expectedEObject»". 
-			Actual is «actualContents.size», expected was «expectedContents.size»
-			Actual content is: «actualContents.map[toString].join(System.lineSeparator)»
-			
-			Expected content was «expectedContents.map[toString].join(System.lineSeparator)»'''
-		}
-		for (var i = 0; i < actualContents.size; i++) {
-			val currentActual = actualContents.get(i)
-			val currentExpected = expectedContents.get(i)
-			if (!EcoreUtil.equals(currentActual, currentExpected)) {
-				return '''The actual EObject "«currentActual»" does not equal the expected EObject "«currentExpected»".«System.lineSeparator»	Reason: «findFirstDifference(currentActual, currentExpected)»'''
-			}
-		}
-		return '''The actual EObject "«actualEObject»" does not equal the expected EObject "«expectedEObject»".«System.lineSeparator»'''
 	}
 
 	def static <T> T assertOneElement(Collection<T> elements) {

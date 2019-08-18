@@ -8,12 +8,7 @@ import org.genivi.faracon.tests.FaraconTestBase
 
 import static org.junit.Assert.assertNotNull
 import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
-import static extension org.genivi.faracon.tests.util.AutosarAssertHelper.*
 import org.genivi.faracon.ARAConnector
-import org.genivi.faracon.ARAResourceSet
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
-import org.eclipse.xtend.typesystem.emf.EcoreUtil2
 
 abstract class Franca2ARATestBase extends FaraconTestBase {
 
@@ -49,12 +44,11 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		val fromFranca = araConnector.fromFranca(fmodel) as ARAModelContainer
 		val araFileName = "src-gen/testcases/" + fileBasename + ".arxml"
 		println("Save ara file " + araFileName)
-		fromFranca.model.setUuidsTo0
 		araConnector.saveModel(fromFranca, araFileName)
 		
 		if (check && expectedFileName !== null) {
-			//ensure both use the same resource set
-			assertAutosarFilesAreEqual(araFileName, expectedFileName)
+			val expectedArModel = ARAConnector.loadARAModel(expectedFileName)
+			assertModelsAreEqual(fromFranca.model, expectedArModel)
 		}
 	}
 
