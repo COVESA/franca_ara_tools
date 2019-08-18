@@ -1,38 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/gs/gtc/arp">
   <AR-PACKAGES>
-    <AR-PACKAGE UUID="0">
+    <AR-PACKAGE UUID="a1a3809d-33d5-4f6a-bf3d-1b80e6ba7824">
       <SHORT-NAME>a1</SHORT-NAME>
       <AR-PACKAGES>
-        <AR-PACKAGE UUID="0">
+        <AR-PACKAGE UUID="f64aac38-4c46-4eb5-9a4f-952bfc55051e">
           <SHORT-NAME>b2</SHORT-NAME>
           <AR-PACKAGES>
-            <AR-PACKAGE UUID="0">
+            <AR-PACKAGE UUID="5e9d2d8b-9aed-4cb9-abe7-70139273f3eb">
               <SHORT-NAME>c3</SHORT-NAME>
               <ELEMENTS>
-                <SERVICE-INTERFACE UUID="0">
+                <SERVICE-INTERFACE UUID="ce03a645-8c06-454c-b2c6-bce168bcba62">
                   <SHORT-NAME>ExampleInterface</SHORT-NAME>
-                  <NAMESPACES>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>a1</SHORT-NAME>
-                      <SYMBOL>a1</SYMBOL>
-                    </SYMBOL-PROPS>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>b2</SHORT-NAME>
-                      <SYMBOL>b2</SYMBOL>
-                    </SYMBOL-PROPS>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>c3</SHORT-NAME>
-                      <SYMBOL>c3</SYMBOL>
-                    </SYMBOL-PROPS>
-                  </NAMESPACES>
                   <FIELDS>
-                    <FIELD UUID="0">
+                    <FIELD UUID="77d4d915-8f30-4a81-878e-8ca0252d7496">
                       <SHORT-NAME>testField</SHORT-NAME>
-                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt8</TYPE-TREF>
                       <HAS-GETTER>true</HAS-GETTER>
                       <HAS-NOTIFIER>true</HAS-NOTIFIER>
                       <HAS-SETTER>true</HAS-SETTER>
+                      <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt8</TYPE-TREF>
                     </FIELD>
                   </FIELDS>
                 </SERVICE-INTERFACE>

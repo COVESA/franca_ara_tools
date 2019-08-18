@@ -9,6 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.FrancaModelExtensions
+import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FEnumerationType
