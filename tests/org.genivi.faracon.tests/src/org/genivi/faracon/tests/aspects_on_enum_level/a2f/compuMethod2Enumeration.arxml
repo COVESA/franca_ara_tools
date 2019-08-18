@@ -1,36 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/ap/ad#//portinterface">
   <AR-PACKAGES>
-    <AR-PACKAGE UUID="0">
+    <AR-PACKAGE UUID="43dea0da-707e-4568-89a3-a938056b7187">
       <SHORT-NAME>a1</SHORT-NAME>
       <AR-PACKAGES>
-        <AR-PACKAGE UUID="0">
+        <AR-PACKAGE UUID="2dfad16c-d615-4dcb-a4de-6563d6f42bfe">
           <SHORT-NAME>b2</SHORT-NAME>
           <AR-PACKAGES>
-            <AR-PACKAGE UUID="0">
+            <AR-PACKAGE UUID="106e6524-69c8-422c-9fd5-a5fdcd92a985">
               <SHORT-NAME>c3</SHORT-NAME>
               <ELEMENTS>
-                <SERVICE-INTERFACE UUID="0">
+                <SERVICE-INTERFACE UUID="823e8eac-0c79-4190-99eb-24500a6b3bf8">
                   <SHORT-NAME>ExampleInterface</SHORT-NAME>
-                  <NAMESPACES>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>a1</SHORT-NAME>
-                      <SYMBOL>a1</SYMBOL>
-                    </SYMBOL-PROPS>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>b2</SHORT-NAME>
-                      <SYMBOL>b2</SYMBOL>
-                    </SYMBOL-PROPS>
-                    <SYMBOL-PROPS>
-                      <SHORT-NAME>c3</SHORT-NAME>
-                      <SYMBOL>c3</SYMBOL>
-                    </SYMBOL-PROPS>
-                  </NAMESPACES>
                   <METHODS>
-                    <CLIENT-SERVER-OPERATION UUID="0">
+                    <CLIENT-SERVER-OPERATION UUID="f0e5d8e1-6c45-4a24-b1f8-37ce4ad01719">
                       <SHORT-NAME>exampleMethod</SHORT-NAME>
                       <ARGUMENTS>
-                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                        <ARGUMENT-DATA-PROTOTYPE UUID="cebecccb-1ca2-4a80-934f-d3cf4b79cd1c">
                           <SHORT-NAME>enumArg1</SHORT-NAME>
                           <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/TestEnum</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
@@ -39,19 +25,8 @@
                     </CLIENT-SERVER-OPERATION>
                   </METHODS>
                 </SERVICE-INTERFACE>
-                <IMPLEMENTATION-DATA-TYPE UUID="0">
-                  <SHORT-NAME>TestEnum</SHORT-NAME>
-                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
-                  <SW-DATA-DEF-PROPS>
-                    <SW-DATA-DEF-PROPS-VARIANTS>
-                      <SW-DATA-DEF-PROPS-CONDITIONAL>
-                        <COMPU-METHOD-REF DEST="COMPU-METHOD">/a1/b2/c3/TestEnum_CompuMethod</COMPU-METHOD-REF>
-                      </SW-DATA-DEF-PROPS-CONDITIONAL>
-                    </SW-DATA-DEF-PROPS-VARIANTS>
-                  </SW-DATA-DEF-PROPS>
-                </IMPLEMENTATION-DATA-TYPE>
-                <COMPU-METHOD UUID="0">
-                  <SHORT-NAME>TestEnum_CompuMethod</SHORT-NAME>
+                <COMPU-METHOD UUID="8ec4d41a-7085-4e4b-ab74-af5ffbb4faa9">
+                  <SHORT-NAME>TestCompuMethod</SHORT-NAME>
                   <CATEGORY>TEXTTABLE</CATEGORY>
                   <COMPU-INTERNAL-TO-PHYS>
                     <COMPU-SCALES>
@@ -64,6 +39,17 @@
                     </COMPU-SCALES>
                   </COMPU-INTERNAL-TO-PHYS>
                 </COMPU-METHOD>
+                <IMPLEMENTATION-DATA-TYPE UUID="df8f7960-8f6e-44ba-a867-16570290572c">
+                  <SHORT-NAME>TestEnum</SHORT-NAME>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                  <SW-DATA-DEF-PROPS>
+                    <SW-DATA-DEF-PROPS-VARIANTS>
+                      <SW-DATA-DEF-PROPS-CONDITIONAL>
+                        <COMPU-METHOD-REF DEST="COMPU-METHOD">/a1/b2/c3/TestCompuMethod</COMPU-METHOD-REF>
+                      </SW-DATA-DEF-PROPS-CONDITIONAL>
+                    </SW-DATA-DEF-PROPS-VARIANTS>
+                  </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE>
               </ELEMENTS>
             </AR-PACKAGE>
           </AR-PACKAGES>

@@ -11,7 +11,6 @@ import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.FrancaModelExtensions
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
-import org.franca.core.franca.FConstant
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
 import org.franca.core.franca.FIntegerInterval
@@ -24,7 +23,6 @@ import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
 
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
-import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {
@@ -70,9 +68,9 @@ class ARATypeCreator extends Franca2ARABase {
 //		it.namespaces.addAll(autosarType.createNamespaceForElement)
 //		autosarType.ARPackage.elements.add(it)
 //	}
+
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
-		getLogger.
-			logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
+		getLogger.logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null
 	}
 
@@ -88,38 +86,36 @@ class ARATypeCreator extends Franca2ARABase {
 		it.subElements.addAll(typeRefs)
 		it.ARPackage = fStructType.findArPackageForFrancaElement
 	}
-
-	def dispatch void checkCompoundType(FCompoundType type) {
-		logger.logWarning("Unknown compond type found " + type +
-			". Transformation to Autosar might not work correctly.")
+	
+	def dispatch void checkCompoundType(FCompoundType type){
+		logger.logWarning("Unknown compond type found "  + type + ". Transformation to Autosar might not work correctly.")
 	}
-
-	def dispatch void checkCompoundType(FStructType type) {
-		if (type.polymorphic) {
-			logger.
-				logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
+	
+	def dispatch void checkCompoundType(FStructType type){
+		if(type.polymorphic){
+			logger.logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')			
 		}
 	}
-
-	def dispatch void checkCompoundType(FUnionType type) {
+	
+	def dispatch void checkCompoundType(FUnionType type){
 		// nothing to check
 	}
-
-	def dispatch Iterable<FField> flattenStructAndGetElements(FStructType fStructType) {
+	
+	def dispatch Iterable<FField> flattenStructAndGetElements(FStructType fStructType){
 		val inheritSet = FrancaModelExtensions.getInheritationSet(fStructType)
 		val structTypes = inheritSet.map[it as FStructType].filterNull
 		val allElements = structTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
-		return allElements
+		return  allElements
 	}
-
-	def dispatch Iterable<FField> flattenStructAndGetElements(FUnionType fUnionType) {
+	
+	def dispatch Iterable<FField> flattenStructAndGetElements(FUnionType fUnionType){
 		val inheritSet = FrancaModelExtensions.getInheritationSet(fUnionType)
 		val fUnionTypes = inheritSet.map[it as FUnionType].filterNull
 		val allElements = fUnionTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
-		return allElements
+		return  allElements
 	}
-
-	def dispatch Iterable<FField> flattenStructAndGetElements(FCompoundType fCompoundType) {
+	
+	def dispatch Iterable<FField> flattenStructAndGetElements(FCompoundType fCompoundType){
 		logger.logError("Flattening for type " + fCompoundType.class + "is not yet supported")
 		return Collections.emptyList
 	}
@@ -135,8 +131,7 @@ class ARATypeCreator extends Franca2ARABase {
 		it.swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				compuMethod = enumCompuMethod
-				// TODO: check whether we need a type for the compu-method itself
-				//implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
+				implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
 			]
 		]
 	}
@@ -165,31 +160,19 @@ class ARATypeCreator extends Franca2ARABase {
 		it.ARPackage = findArPackageForFrancaElement(fMapType)
 	}
 
-	def private create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
-		shortName = fEnumerationType.name + "_CompuMethod"
+	def private create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationTyppe) {
+		shortName = fEnumerationTyppe.name + "_CompuMethod"
 		it.category = "TEXTTABLE"
-		val compuScalesForEnum = fEnumerationType.enumerators.map [ enumerator |
+		val compuScalesForEnum = fEnumerationTyppe.enumerators.map [ enumerator |
 			fac.createCompuScale => [ compuScale |
 				compuScale.symbol = enumerator.name
-				if (enumerator.value !== null) {
-					val enumValue = enumerator.value
-					if (enumValue instanceof FConstant) {
-						val limitText = enumValue.valueFromFConstant
-						if (limitText === null) {
-							logger.
-								logError('''Did not found a constant values for "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
-						}
-						val arLimit = fac.createLimitValueVariationPoint => [
-							it.intervalType = IntervalTypeEnum.CLOSED
-							it.mixedText = limitText
-						]
-						compuScale.lowerLimit = EcoreUtil.copy(arLimit)
-						compuScale.upperLimit = arLimit
-					} else {
-						logger.
-							logError('''Only constant values are supported for enums, but found "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
-					}
-				}
+				val limitText = String.format("0x%02X", fEnumerationTyppe.enumerators.indexOf(enumerator) + 1)
+				val arLimit = fac.createLimitValueVariationPoint => [
+					it.intervalType = IntervalTypeEnum.CLOSED
+					it.mixedText = limitText
+				]
+				compuScale.lowerLimit = EcoreUtil.copy(arLimit)
+				compuScale.upperLimit = arLimit
 			]
 		]
 		it.compuInternalToPhys = fac.createCompu => [
@@ -200,13 +183,11 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def private dispatch AutosarDataType createDataTypeForReference(FIntegerInterval type) {
-		getLogger.logError("The Franca model element \"" + type.name +
-			"\" of metatype 'FIntegerInterval' cannot be converted into an AUTOSAR representation! (IDL2590)")
+		getLogger.logError("The Franca model element \"" + type.name + "\" of metatype 'FIntegerInterval' cannot be converted into an AUTOSAR representation! (IDL2590)")
 		return null
 	}
 
-	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(
-		FTypedElement fTypedElement) {
+	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FTypedElement fTypedElement) {
 		it.shortName = fTypedElement.name
 		it.category = "TYPE_REFERENCE"
 		val dataDefProps = fac.createSwDataDefProps
