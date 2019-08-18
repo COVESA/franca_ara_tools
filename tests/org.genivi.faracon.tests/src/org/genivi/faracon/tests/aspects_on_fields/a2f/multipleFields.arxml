@@ -1,38 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/gs/gtc/arp">
   <AR-PACKAGES>
-    <AR-PACKAGE UUID="e92ab186-6c85-4856-ab87-a818af3f7caf">
+    <AR-PACKAGE UUID="0">
       <SHORT-NAME>a1</SHORT-NAME>
       <AR-PACKAGES>
-        <AR-PACKAGE UUID="155b8449-b7c8-4cb4-8b90-a6ec970801f1">
+        <AR-PACKAGE UUID="0">
           <SHORT-NAME>b2</SHORT-NAME>
           <AR-PACKAGES>
-            <AR-PACKAGE UUID="2750da26-3bd3-450b-9fad-86743f525f0b">
+            <AR-PACKAGE UUID="0">
               <SHORT-NAME>c3</SHORT-NAME>
               <ELEMENTS>
-                <SERVICE-INTERFACE UUID="94ca0810-2e26-4963-9b82-388f1e8e85b7">
+                <SERVICE-INTERFACE UUID="0">
                   <SHORT-NAME>ExampleInterface</SHORT-NAME>
+                  <NAMESPACES>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>a1</SHORT-NAME>
+                      <SYMBOL>a1</SYMBOL>
+                    </SYMBOL-PROPS>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>b2</SHORT-NAME>
+                      <SYMBOL>b2</SYMBOL>
+                    </SYMBOL-PROPS>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>c3</SHORT-NAME>
+                      <SYMBOL>c3</SYMBOL>
+                    </SYMBOL-PROPS>
+                  </NAMESPACES>
                   <FIELDS>
-                    <FIELD UUID="e1c83ac8-80f0-41fc-8e93-f24141d5d168">
+                    <FIELD UUID="0">
                       <SHORT-NAME>testField1</SHORT-NAME>
-                      <HAS-GETTER>true</HAS-GETTER>
-                      <HAS-NOTIFIER>true</HAS-NOTIFIER>
-                      <HAS-SETTER>true</HAS-SETTER>
                       <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt8</TYPE-TREF>
+                      <HAS-GETTER>true</HAS-GETTER>
+                      <HAS-NOTIFIER>true</HAS-NOTIFIER>
+                      <HAS-SETTER>true</HAS-SETTER>
                     </FIELD>
-                    <FIELD UUID="e1c83ac8-80f0-41fc-8e93-f24141d6d168">
+                    <FIELD UUID="0">
                       <SHORT-NAME>testField2</SHORT-NAME>
-                      <HAS-GETTER>true</HAS-GETTER>
-                      <HAS-NOTIFIER>true</HAS-NOTIFIER>
-                      <HAS-SETTER>true</HAS-SETTER>
                       <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt16</TYPE-TREF>
-                    </FIELD>
-                    <FIELD UUID="e1c83ac8-80f0-41fc-8e93-f24141d7d168">
-                      <SHORT-NAME>testField3</SHORT-NAME>
                       <HAS-GETTER>true</HAS-GETTER>
                       <HAS-NOTIFIER>true</HAS-NOTIFIER>
                       <HAS-SETTER>true</HAS-SETTER>
+                    </FIELD>
+                    <FIELD UUID="0">
+                      <SHORT-NAME>testField3</SHORT-NAME>
                       <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</TYPE-TREF>
+                      <HAS-GETTER>true</HAS-GETTER>
+                      <HAS-NOTIFIER>true</HAS-NOTIFIER>
+                      <HAS-SETTER>true</HAS-SETTER>
                     </FIELD>
                   </FIELDS>
                 </SERVICE-INTERFACE>
