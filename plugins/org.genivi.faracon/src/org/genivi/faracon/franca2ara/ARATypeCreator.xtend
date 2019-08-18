@@ -110,8 +110,8 @@ class ARATypeCreator extends Franca2ARABase {
 	
 	def dispatch Iterable<FField> flattenStructAndGetElements(FUnionType fUnionType){
 		val inheritSet = FrancaModelExtensions.getInheritationSet(fUnionType)
-		val fUnionTypes = inheritSet.map[it as FUnionType].filterNull
-		val allElements = fUnionTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
+		val structTypes = inheritSet.map[it as FStructType].filterNull
+		val allElements = structTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
 		return  allElements
 	}
 	

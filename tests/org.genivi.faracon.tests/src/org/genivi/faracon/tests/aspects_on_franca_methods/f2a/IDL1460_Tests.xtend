@@ -31,6 +31,7 @@ import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
+import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARATransformation
 import org.genivi.faracon.franca2ara.ARAPackageCreator
@@ -39,7 +40,6 @@ import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.logging.AbstractLogger
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 
@@ -96,12 +96,6 @@ class IDL1460_Tests extends Franca2ARATestBase {
 
 	@Inject
 	var ARAPackageCreator araPackageCreator
-	
-	@Before
-	def void beforeTest(){
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
-	}
-	
 
 	@Test
 	def void broadcastConversion() {
