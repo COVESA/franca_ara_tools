@@ -42,7 +42,7 @@ abstract class AbstractFrancaEnumTest extends Franca2ARATestBase {
 		return value
 	}
 	
-	protected def assertEnumAndGetCompuScales(AutosarDataType result, String expectedEnumName, int expectedEnumSize){
+	protected def assertEnumAndGetCompuScales(AutosarDataType result, String expectedEnumName){
 		val implementationDataType = result.assertIsInstanceOf(ImplementationDataType)
 		implementationDataType.assertName(expectedEnumName)
 		implementationDataType.assertCategory("TYPE_REFERENCE")
@@ -52,7 +52,7 @@ abstract class AbstractFrancaEnumTest extends Franca2ARATestBase {
 		compuMethod.assertName(expectedEnumName + "_CompuMethod")
 		val compuScales = compuMethod?.compuInternalToPhys?.compuContent.assertIsInstanceOf(CompuScales)
 		assertNotNull("No compuScales found", compuScales)
-		val actualCompuScales = compuScales.compuScales.assertElements(expectedEnumSize).sortBy[symbol]
+		val actualCompuScales = compuScales.compuScales.assertElements(2).sortBy[symbol]
 		return actualCompuScales
 	}
 }

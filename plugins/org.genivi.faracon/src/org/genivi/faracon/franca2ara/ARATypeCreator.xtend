@@ -125,18 +125,18 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
-		FEnumerationType fEnumerationType) {
-		val enumCompuMethod = fEnumerationType.createCompuMethod
-		val arPackage = findArPackageForFrancaElement(fEnumerationType)
+		FEnumerationType fEnumerationTyppe) {
+		val enumCompuMethod = fEnumerationTyppe.createCompuMethod
+		val arPackage = findArPackageForFrancaElement(fEnumerationTyppe)
 		enumCompuMethod.ARPackage = arPackage
 		it.ARPackage = arPackage
-		shortName = fEnumerationType.name
+		shortName = fEnumerationTyppe.name
 		it.category = "TYPE_REFERENCE"
 		it.swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				compuMethod = enumCompuMethod
-			// TODO: check whether we need a type for the compu-method itself
-			// implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
+				// TODO: check whether we need a type for the compu-method itself
+				//implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
 			]
 		]
 	}
@@ -168,10 +168,7 @@ class ARATypeCreator extends Franca2ARABase {
 	def private create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
 		shortName = fEnumerationType.name + "_CompuMethod"
 		it.category = "TEXTTABLE"
-		val allEnumerators = FrancaModelExtensions.getInheritationSet(fEnumerationType).map[it as FEnumerationType].map [
-			it.enumerators
-		].flatten
-		val compuScalesForEnum = allEnumerators.map [ enumerator |
+		val compuScalesForEnum = fEnumerationType.enumerators.map [ enumerator |
 			fac.createCompuScale => [ compuScale |
 				compuScale.symbol = enumerator.name
 				if (enumerator.value !== null) {
