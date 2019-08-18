@@ -1,39 +1,22 @@
 package org.genivi.faracon.tests.util
 
-import javax.inject.Inject
 import org.genivi.faracon.ARAModelContainer
-import org.genivi.faracon.Franca2ARATransformation
-import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.tests.FaraconTestBase
 
 import static org.junit.Assert.assertNotNull
-import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
-import org.genivi.faracon.ARAConnector
 
 abstract class Franca2ARATestBase extends FaraconTestBase {
 
-	@Inject 
-	var protected extension Franca2ARATransformation franca2AraTransformation
-	@Inject
-	var protected extension ARATypeCreator araTypeCreator
-
 	def void transform(String path, String fileBasename) {
-		doTransformTest(path, fileBasename, null, false)
+		doTransformTest(path, fileBasename, false)
 	}
 
-	/**
-	 * Do not use this method any longer as it does not perform any check
-	 */
-	@Deprecated
 	def void transformAndCheck(String path, String fileBasename) {
-		doTransformTest(path, fileBasename, null, true)
+		doTransformTest(path, fileBasename, true)
 	}
-	
-	def void transformAndCheck(String path, String fileBasename, String expectedFilePath){
-		doTransformTest(path, fileBasename, expectedFilePath, true)
-	}
+
 	@SuppressWarnings("restriction")
-	def private void doTransformTest(String path, String fileBasename, String expectedFileName, boolean check) {
+	def private void doTransformTest(String path, String fileBasename, boolean check) {
 		// load example Franca IDL interface
 		val inputfile = path + fileBasename + ".fidl"
 		println("Loading Franca file " + inputfile + " ...")
@@ -42,13 +25,34 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		
 		// transform to arxml
 		val fromFranca = araConnector.fromFranca(fmodel) as ARAModelContainer
-		val araFileName = "src-gen/testcases/" + fileBasename + ".arxml"
-		println("Save ara file " + araFileName)
-		araConnector.saveModel(fromFranca, araFileName)
+		araConnector.saveModel(fromFranca, "src-gen/testcases/" + fileBasename + ".arxml")
 		
-		if (check && expectedFileName !== null) {
-			val expectedArModel = ARAConnector.loadARAModel(expectedFileName)
-			assertModelsAreEqual(fromFranca.model, expectedArModel)
+		// transform to Franca IDL
+//		val fmodel2 = araConnector.toFranca(fromFranca) as FrancaModelContainer
+//		loader.saveModel(fmodel2.model, "src-gen/testcases/" + fileBasename + ".fidl")
+
+		if (check) {
+			// load reference arxml file
+			val referenceFile = "model/reference/" + fileBasename + ".arxml"
+	// TODO: implement comparison against ref model
+//			val ref = conn.loadModel(referenceFile) as ARAModelContainer
+			
+			// compare with reference file
+//			val rset1 = fromFranca.model.eResource.resourceSet
+//			val rset2 = ref.model.eResource.resourceSet
+//	
+//			val IComparisonScope scope = EMFCompare.createDefaultScope(rset1, rset2)
+//			val Comparison comparison = EMFCompare.builder.build.compare(scope)
+//			 
+//			val List<Diff> differences = comparison.getDifferences
+//			val nDiffs = 0
+//			for(Diff diff : differences) {
+//				if (! (diff instanceof ResourceAttachmentChangeSpec)) {
+//					println(diff.toString);
+//					nDiffs++
+//				}
+//			}
+//			assertEquals(0, nDiffs)
 		}
 	}
 

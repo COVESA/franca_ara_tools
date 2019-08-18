@@ -117,6 +117,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void argumentConversion() {
+		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FArgument fArgument = francaFac.createFArgument => [
 			type = francaFac.createFTypeRef => [
 				predefined = FBasicTypeId.UINT32
@@ -129,6 +130,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void attributeConversion() {
+		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FAttribute fAttribute = francaFac.createFAttribute => [
 			type = francaFac.createFTypeRef => [
 				predefined = FBasicTypeId.UINT32
@@ -143,6 +145,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void fieldConversion() {
+		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FField fField = francaFac.createFField => [
 			type = francaFac.createFTypeRef => [
 				predefined = FBasicTypeId.UINT32
@@ -177,6 +180,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void arrayConversion() {
+		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FArrayType fArrayType = francaFac.createFArrayType => [
 			elementType = francaFac.createFTypeRef => [
 				predefined = FBasicTypeId.UINT32
@@ -247,6 +251,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void mapConversion() {
+		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FMapType fMapType = francaFac.createFMapType => [
 			keyType = francaFac.createFTypeRef => [
 				predefined = FBasicTypeId.UINT32
@@ -269,6 +274,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void typeDefConversion() {
+		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
 		val FTypeDef fTypeDef = francaFac.createFTypeDef => [
 			actualType = francaFac.createFTypeRef => [
 				predefined = FBasicTypeId.UINT32

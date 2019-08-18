@@ -54,6 +54,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val FrancaNamesCollector francaNamesCollector = new FrancaNamesCollector
 		francaNamesCollector.fillNamesHierarchy(src, namesHierarchy)
 
+		// Process the conversion.
+		createPrimitiveTypesPackage(null)
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
 		// arPackages.add(createPrimitiveTypesPackage)
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)
