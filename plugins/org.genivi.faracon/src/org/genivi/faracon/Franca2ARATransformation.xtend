@@ -74,6 +74,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 		fields.addAll(getAllAttributes(src).map[transform(src)])
 		namespaces.addAll(targetPackage.createNamespaceForPackage)
 		methods.addAll(getAllMethods(src).map[transform(src)])
+		
+		// Ensure that all local type definitions of the interface definition are translated
+		// even if they are not referenced.
+		for (interfaceLocalTypeDefinition : src.types) {
+			interfaceLocalTypeDefinition.getDataTypeForReference
+		}
 	}
 	
 	def void transform(FTypeCollection typeCollection, ARPackage arPackage){
