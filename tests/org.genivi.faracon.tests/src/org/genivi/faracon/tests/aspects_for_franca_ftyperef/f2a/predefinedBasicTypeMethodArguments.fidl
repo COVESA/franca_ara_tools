@@ -1,0 +1,12 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	method methodWithBasicTypeArguments {
+		in {
+			UInt32 uint32_argument
+			Boolean boolean_argument
+		}
+	}
+	
+}

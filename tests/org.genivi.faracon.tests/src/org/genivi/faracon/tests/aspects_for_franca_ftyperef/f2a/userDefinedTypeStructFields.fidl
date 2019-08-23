@@ -1,0 +1,21 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct StructWithUserDefinedTypeFields {
+		UserDefinedStructType struct_field
+		UserDefinedEnumType enum_field
+	}
+	
+	struct UserDefinedStructType {
+		UInt32 field_1
+		Boolean field_2
+	}
+
+	enumeration UserDefinedEnumType {
+		enum_literal_1
+		enum_literal_2
+		enum_literal_3
+	}
+
+}
