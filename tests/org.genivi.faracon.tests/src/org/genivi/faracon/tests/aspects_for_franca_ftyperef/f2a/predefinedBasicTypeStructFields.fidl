@@ -1,0 +1,10 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct StructWithBasicTypeFields {
+		UInt32 uint32_field
+		Boolean boolean_field
+	}
+	
+}
