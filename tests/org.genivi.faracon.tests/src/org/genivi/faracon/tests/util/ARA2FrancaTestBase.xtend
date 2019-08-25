@@ -15,7 +15,6 @@ import org.genivi.faracon.cli.FilePathsHelper
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.FaraconTestBase
-import org.junit.After
 import org.junit.Before
 
 import static org.genivi.faracon.ARAConnector.*
@@ -34,10 +33,6 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	@Before
 	def void beforeTest() {
 		Preferences.instance.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, "src-gen/testcases")
-	}
-
-	@After
-	def void afterTest() {
 		ara2FrancaTransformation.logger.enableContinueOnErrors(false)
 	}
 

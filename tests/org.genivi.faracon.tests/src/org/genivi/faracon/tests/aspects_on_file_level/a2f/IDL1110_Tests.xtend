@@ -27,6 +27,8 @@ import static extension org.genivi.faracon.tests.util.FrancaAssertHelper.*
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1110_Tests extends ARA2FrancaTestBase {
 
+	val EXPECTED_PATH = "src-gen/testcases/"
+
 	@Inject
 	var ConverterCliCommand cliCommand
 
@@ -69,7 +71,7 @@ class IDL1110_Tests extends ARA2FrancaTestBase {
 		val outputUri = OutputFileHelper.calculateFrancaOutputUri(araModelUri, fModelContainer.francaModelContainers.get(0))
 		
 		//then 
-		val expectedFrancaUri = URI.createFileURI(testPath + "testFileName.fidl")
+		val expectedFrancaUri = URI.createFileURI(testPath + "testFileName_testFranca.fidl")
 		assertEquals("Wrong franca output URI calculated", expectedFrancaUri , outputUri)
 	}
 	
@@ -101,7 +103,7 @@ class IDL1110_Tests extends ARA2FrancaTestBase {
 		cliCommand.convertARAFiles(araFilePath)
 
 		//then
-		val fModel = loader.loadModel("namespacesHierarchy")
+		val fModel = loader.loadModel(EXPECTED_PATH + "namespacesHierarchy_a1.b2.c3")
 		assertNotNull("No franca model created", fModel)
 	}
 
@@ -114,11 +116,11 @@ class IDL1110_Tests extends ARA2FrancaTestBase {
 		cliCommand.convertARAFiles(araFilePath)
 
 		//then
-		val nullFModel = loader.loadModel("multiPackagesWithContent")
+		val nullFModel = loader.loadModel(EXPECTED_PATH + "multiPackagesWithContent")
 		assertNull("The franca file with the name multiPackagesWithContent should not have been created", nullFModel)
-		val expectedFirstFrancaModel = loader.loadModel( "multiPackagesWithContent_parentPackage.firstPackageWithContent")
+		val expectedFirstFrancaModel = loader.loadModel( EXPECTED_PATH + "multiPackagesWithContent_parentPackage.firstPackageWithContent")
 		assertNotNull("No franca file with name multiPackagesWithContent_parentPackage.firstPackageWithContent created", expectedFirstFrancaModel)
-		val expectedSecondFrancaModel = loader.loadModel("multiPackagesWithContent_parentPackage.secondPackageWithContent")
+		val expectedSecondFrancaModel = loader.loadModel(EXPECTED_PATH + "multiPackagesWithContent_parentPackage.secondPackageWithContent")
 		assertNotNull("No franca file with name multiPackagesWithContent_parentPackage.secondPackageWithContent created", expectedSecondFrancaModel)
 	}
 
