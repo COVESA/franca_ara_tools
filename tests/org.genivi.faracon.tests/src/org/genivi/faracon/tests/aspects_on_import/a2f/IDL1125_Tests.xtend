@@ -6,6 +6,7 @@ import org.genivi.faracon.tests.util.ARA2FrancaTestBase
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.genivi.faracon.logging.AbstractLogger
 
 /**
  * Test transformation of imports from autosar to franca
@@ -37,7 +38,7 @@ class IDL1125_Tests extends ARA2FrancaTestBase {
 			testPath + "fileWithMultiImportPart2_a1.b2.c3.d4.e5.fidl"], "IDL1125_testMultipleInputToMultipleOutFiles")
 	}
 
-	@Test
+	@Test(expected = AbstractLogger.StopOnErrorException)
 	def void testSingleInputFileToMultipleFrancaFiles() {
 		transformAndCheck(testPath + "fileWithMultiImportPart1.arxml",
 			#[testPath + "fileWithMultiImport_a1.b2.c3.fidl", testPath + "fileWithMultiImport_a1.b2.c3.d4.fidl",

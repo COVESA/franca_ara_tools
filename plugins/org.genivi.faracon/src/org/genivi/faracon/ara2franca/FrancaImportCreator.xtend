@@ -31,7 +31,7 @@ class FrancaImportCreator extends ARA2FrancaBase {
 		val autosarModelUri = src?.eResource?.URI
 		if(autosarModelUri === null){
 			logger.logError('''Cannot create an import from model "«model?.name»" to package "«packageNameToImport
-			»". Reason: no file source file could be found for the implementation data type "«src»".''')
+			»". Reason: Source file for implementation data type "«src»" cannot be found.''')
 			return 
 		}
 		val francaFileToImport = Ara2FrancaUtil.calculateFrancaFileNameFromAutosarFileName(autosarModelUri, packageNameToImport) 

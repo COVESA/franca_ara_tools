@@ -3,6 +3,8 @@ package org.genivi.faracon.cli
 import java.util.Collection
 import javax.inject.Inject
 import org.eclipse.emf.common.util.URI
+import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.franca.core.dsl.FrancaPersistenceManager
@@ -19,21 +21,21 @@ import org.genivi.faracon.preferences.PreferencesConstants
 import static org.genivi.faracon.cli.ConverterHelper.*
 
 class Ara2FrancaConverter extends BaseWithLogger {
-	
+
 	@Inject
 	var ARAConnector araConnector
 	@Inject
 	var FrancaPersistenceManager francaLoader
-	
+
 	val Preferences preferences
 
-	new(){
+	new() {
 		preferences = Preferences.getInstance();
 	}
 
 	def void convertARAFiles(Collection<String> araFilePaths) {
 		if (araFilePaths.nullOrEmpty) {
-			return 
+			return
 		}
 
 		getLogger().logInfo("Converting Adaptive AUTOSAR IDL models to Franca IDL models...");
@@ -75,8 +77,23 @@ class Ara2FrancaConverter extends BaseWithLogger {
 			return araModelContainer
 
 		].filterNull.toList
-		EcoreUtil.resolveAll(araResourceSet);
+		araResourceSet.ensureNoMoreProxies
+
 		return modelContainer
+	}
+
+	def private ensureNoMoreProxies(ResourceSet resourceSet) {
+		EcoreUtil.resolveAll(resourceSet);
+		val proxiesAfterResolution = EcoreUtil.ProxyCrossReferencer.find(resourceSet)
+
+		if (!proxiesAfterResolution.empty) {
+			val proxiesAfterErrorMsg = proxiesAfterResolution.keySet.map["EObject " + it.toString]
+			val proxy = proxiesAfterResolution.keySet.get(0)
+			println(proxy.eResource)
+			logger.logError(
+				'''Cannot resolve all references in the provided ARXML files. Found following «proxiesAfterErrorMsg.size» remaining unresolved objects: "«System.lineSeparator + proxiesAfterErrorMsg.join(System.lineSeparator)»". Include the ARXML files containing these into the sources of ARXML files in order to fix this error.'''
+			)
+		}
 	}
 
 	def Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> transformToFranca(
