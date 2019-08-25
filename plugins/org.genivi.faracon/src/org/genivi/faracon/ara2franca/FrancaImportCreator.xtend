@@ -19,7 +19,7 @@ class FrancaImportCreator extends ARA2FrancaBase {
 			logger.logError('''Cannot create import for type "«src?.shortName»". Reason: internal error: no franca model is set to be crated''')
 			return
 		}
-		val datatypePackage = src.ARPackage.packageNamespace
+		val datatypePackage = src?.ARPackage?.packageNamespace
 		if(datatypePackage != currentModel.name){
 			// create import
 			currentModel.createAndAddImportTo(datatypePackage, src)

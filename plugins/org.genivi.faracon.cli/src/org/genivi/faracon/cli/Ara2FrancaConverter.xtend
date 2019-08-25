@@ -3,7 +3,6 @@ package org.genivi.faracon.cli
 import java.util.Collection
 import javax.inject.Inject
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.EObject
 import org.eclipse.emf.ecore.resource.ResourceSet
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.resource.XtextResourceSet
@@ -41,7 +40,7 @@ class Ara2FrancaConverter extends BaseWithLogger {
 		getLogger().logInfo("Converting Adaptive AUTOSAR IDL models to Franca IDL models...");
 		getLogger().increaseIndentationLevel();
 
-		val modelContainers = loadAllAraFiles(araFilePaths)
+		val Collection<ARAModelContainer> modelContainers = loadAllAraFiles(araFilePaths)
 		val ara2FrancaMultiModelContainers = modelContainers.transformToFranca()
 		ara2FrancaMultiModelContainers.putAllFrancaModelsInOneResource
 		ara2FrancaMultiModelContainers.saveAllFrancaModels
@@ -88,10 +87,10 @@ class Ara2FrancaConverter extends BaseWithLogger {
 
 		if (!proxiesAfterResolution.empty) {
 			val proxiesAfterErrorMsg = proxiesAfterResolution.keySet.map["EObject " + it.toString]
-			val proxy = proxiesAfterResolution.keySet.get(0)
-			println(proxy.eResource)
 			logger.logError(
-				'''Cannot resolve all references in the provided ARXML files. Found following «proxiesAfterErrorMsg.size» remaining unresolved objects: "«System.lineSeparator + proxiesAfterErrorMsg.join(System.lineSeparator)»". Include the ARXML files containing these into the sources of ARXML files in order to fix this error.'''
+				"Cannot resolve all references in the provided ARXML files. Found following «proxiesAfterResolution.size» remaining unresolved objects " +
+					System.lineSeparator + proxiesAfterErrorMsg +
+					"Include the necessary ARXML files containing the missing objects into the sources of ARXML in order to fix this error"
 			)
 		}
 	}
@@ -111,7 +110,7 @@ class Ara2FrancaConverter extends BaseWithLogger {
 		ara2FrancaMultiModelContainers.forEach [
 			it.value.francaModelContainers.forEach [ francaModelContainer |
 				// put all Franca models in to one resource set
-				val araModelUri = it.key.model().eResource().getURI();
+				val araModelUri = findAraModelUri(it)
 				val francaFilePath = getFrancaFilePath(araModelUri, francaModelContainer);
 				val resource = resourceSet.createResource(FileHelper.createURI(francaFilePath));
 				resource.getContents().add(francaModelContainer.model());
@@ -119,12 +118,21 @@ class Ara2FrancaConverter extends BaseWithLogger {
 		]
 	}
 
+	def private URI findAraModelUri(Pair<ARAModelContainer, FrancaMultiModelContainer> containerMapping) {
+		val araModelUri = containerMapping.key.model()?.eResource()?.getURI()
+		if (araModelUri === null) {
+			logger.logInfo("Cannot find model URI for Autosar model: " + containerMapping.key.model)
+			return URI.createFileURI("")
+		}
+		return araModelUri
+	}
+
 	def saveAllFrancaModels(
 		Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> ara2FrancaMultiModelContainers) {
 		ara2FrancaMultiModelContainers.forEach [
 			it.value.francaModelContainers.forEach [ francaModelContainer |
 				// Store the output FrancaIDL model.
-				val araModelUri = it.key.model().eResource().getURI();
+				val araModelUri = it.findAraModelUri
 				val francaFilePath = getFrancaFilePath(araModelUri, francaModelContainer);
 				getLogger().logInfo("Storing FrancaIDL file " + francaFilePath);
 				francaLoader.saveModel(francaModelContainer.model(), francaFilePath);

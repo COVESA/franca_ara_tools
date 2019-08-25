@@ -1,19 +1,21 @@
 package org.genivi.faracon.tests.aspects_on_franca_methods.a2f
 
+import javax.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
+import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FModelElement
+import org.genivi.faracon.ara2franca.FrancaImportCreator
+import org.genivi.faracon.ara2franca.FrancaTypeCreator
 import org.genivi.faracon.tests.util.ARA2FrancaTestBase
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
-import org.franca.core.franca.FModelElement
-import static extension org.junit.Assert.assertNotNull
-import org.genivi.faracon.ara2franca.FrancaTypeCreator
-import javax.inject.Inject
-import org.franca.core.franca.FBasicTypeId
 import static org.junit.Assert.assertNull
+
+import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
+import static extension org.junit.Assert.assertNotNull
 
 /**
  * Test mapping of Autosar-Elements to Franca-Elements
@@ -36,6 +38,7 @@ class IDL1460_Tests extends ARA2FrancaTestBase {
 	def void eventConversion() {
 		// given
 		val event = createVariableDataPrototype
+		ara2FrancaTransformation.logger.enableContinueOnErrors(true)
 		
 		//when
 		val result = ara2FrancaTransformation.transform(event)
