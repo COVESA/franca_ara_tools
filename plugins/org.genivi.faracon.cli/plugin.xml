@@ -92,7 +92,15 @@
                   required="false"
                   shortName="c">
             </option>
-
+			<option
+                  argCount="0"
+                  description="Checks the provided ARXML files."
+                  hasOptionalArg="false"
+                  id="org.genivi.faracon.cli.option.checkarxmlfiles"
+                  longName="check-arxml-files-only"
+                  required="false"
+                  shortName="ca">
+            </option>
          </options>
       </command>
    </extension>

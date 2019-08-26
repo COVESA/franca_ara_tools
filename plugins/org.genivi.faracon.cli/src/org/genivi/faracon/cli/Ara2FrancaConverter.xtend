@@ -3,7 +3,7 @@ package org.genivi.faracon.cli
 import java.util.Collection
 import javax.inject.Inject
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.franca.core.dsl.FrancaPersistenceManager
@@ -27,6 +27,7 @@ class Ara2FrancaConverter extends BaseWithLogger {
 	var FrancaPersistenceManager francaLoader
 
 	val Preferences preferences
+	var ARAResourceSet araResourceSet
 
 	new() {
 		preferences = Preferences.getInstance();
@@ -41,6 +42,7 @@ class Ara2FrancaConverter extends BaseWithLogger {
 		getLogger().increaseIndentationLevel();
 
 		val Collection<ARAModelContainer> modelContainers = loadAllAraFiles(araFilePaths)
+		resolveProxiesAndCheckRemaining
 		val ara2FrancaMultiModelContainers = modelContainers.transformToFranca()
 		ara2FrancaMultiModelContainers.putAllFrancaModelsInOneResource
 		ara2FrancaMultiModelContainers.saveAllFrancaModels
@@ -52,7 +54,7 @@ class Ara2FrancaConverter extends BaseWithLogger {
 	 * The methods loads all ARA files into a single resource Set and resolves all objects
 	 */
 	def Collection<ARAModelContainer> loadAllAraFiles(Collection<String> araFilePaths) {
-		val araResourceSet = new ARAResourceSet();
+		araResourceSet = new ARAResourceSet();
 		val modelContainer = araFilePaths.map [ araFilePath |
 			val normalizedARAFilePath = normalize(araFilePath);
 			getLogger().logInfo("Loading arxml file " + normalizedARAFilePath);
@@ -76,23 +78,31 @@ class Ara2FrancaConverter extends BaseWithLogger {
 			return araModelContainer
 
 		].filterNull.toList
-		araResourceSet.ensureNoMoreProxies
 
 		return modelContainer
 	}
 
-	def private ensureNoMoreProxies(ResourceSet resourceSet) {
-		EcoreUtil.resolveAll(resourceSet);
-		val proxiesAfterResolution = EcoreUtil.ProxyCrossReferencer.find(resourceSet)
+	def resolveProxiesAndCheckRemaining() {
+		EcoreUtil.resolveAll(araResourceSet);
+		val proxiesAfterResolution = EcoreUtil.ProxyCrossReferencer.find(araResourceSet)
 
 		if (!proxiesAfterResolution.empty) {
-			val proxiesAfterErrorMsg = proxiesAfterResolution.keySet.map["EObject " + it.toString]
+			val proxiesAfterErrorMsg = proxiesAfterResolution.keySet.map [ eObject |
+				if (eObject.eIsProxy && eObject instanceof BasicEObjectImpl) {
+					val basicEObject = eObject as BasicEObjectImpl
+					return "Cannot find object " + basicEObject.eProxyURI()
+				} else {
+					return "Cannot find object " + eObject.toString
+				}
+			].join(System.lineSeparator)
 			logger.logError(
-				"Cannot resolve all references in the provided ARXML files. Found following «proxiesAfterResolution.size» remaining unresolved objects " +
-					System.lineSeparator + proxiesAfterErrorMsg +
+				"Cannot resolve all references in the provided ARXML files. Found following " +
+					proxiesAfterResolution.size + " remaining unresolved objects " + System.lineSeparator +
+					proxiesAfterErrorMsg + System.lineSeparator +
 					"Include the necessary ARXML files containing the missing objects into the sources of ARXML in order to fix this error"
 			)
 		}
+		return proxiesAfterResolution.size
 	}
 
 	def Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> transformToFranca(

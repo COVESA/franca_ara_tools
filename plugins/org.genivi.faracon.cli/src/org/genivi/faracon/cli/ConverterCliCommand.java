@@ -53,6 +53,13 @@ public class ConverterCliCommand extends CommandlineTool {
 		if (parsedArguments.hasOption("c")) {
 			setContinueOnErrors(true);
 		}
+		
+		// -ca --check ARXML files
+		boolean checkArXmlFilesOnly = false;
+		if(parsedArguments.hasOption("ca")) {
+			getLogger().logInfo("Option \"ca\" set. Only the ARXML files will be checked. No tranformation will be executed.");
+			checkArXmlFilesOnly = true;
+		}
 
 		List<String> commandLineArguments = parsedArguments.getArgList();
 		for (String commandLineArgument : commandLineArguments) {
@@ -87,6 +94,14 @@ public class ConverterCliCommand extends CommandlineTool {
 		Collection<String> fidlFiles = FilePathsHelper.findFiles(francaFilePaths, "fidl");
 		Collection<String> araFiles = FilePathsHelper.findFiles(araFilePaths, "arxml");
 
+		if(checkArXmlFilesOnly) {
+			ara2FrancaConverter.loadAllAraFiles(araFiles);
+			setContinueOnErrors(true);
+			int foundRemainingProxies = ara2FrancaConverter.resolveProxiesAndCheckRemaining();
+			getLogger().logInfo("Found " + foundRemainingProxies + " unresolved objects in input files.");
+			return foundRemainingProxies;
+		}
+		
 		// Invoke the converters.
 		this.convertARAFiles(araFiles);
 		this.convertFrancaFiles(fidlFiles);
