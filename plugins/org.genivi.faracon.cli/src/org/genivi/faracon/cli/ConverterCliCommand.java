@@ -85,7 +85,7 @@ public class ConverterCliCommand extends CommandlineTool {
 		getLogger().decreaseIndentationLevel();
 
 		Collection<String> fidlFiles = FilePathsHelper.findFiles(francaFilePaths, "fidl");
-		Collection<String> araFiles = FilePathsHelper.findFiles(francaFilePaths, "arxml");
+		Collection<String> araFiles = FilePathsHelper.findFiles(araFilePaths, "arxml");
 
 		// Invoke the converters.
 		this.convertARAFiles(araFiles);

@@ -15,6 +15,9 @@ class FilePathsHelper {
 
 	def static Collection<String> findFiles(String[] filePaths, String fileExtension) {
 		val files = newHashSet()
+		if(null === filePaths){
+			return files
+		}
 		filePaths.forEach [
 			val fileVisitor = new SimpleFileVisitor<Path>() {
 				override visitFile(Path path, BasicFileAttributes attrs) {
