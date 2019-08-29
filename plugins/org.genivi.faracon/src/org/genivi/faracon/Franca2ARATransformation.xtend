@@ -114,6 +114,16 @@ class Franca2ARATransformation extends Franca2ARABase {
 		arguments.addAll(src.inArgs.map[transform(true, parentInterface)])
 		arguments.addAll(src.outArgs.map[transform(false, parentInterface)])
 
+		// The Franca specific mechanism for the handling of method errors cannot be translated
+		// because it is not compatible with the method errors mechanism of AUTOSAR,
+		// at least in the serialization format of the method reply messages.
+		if (src.errors !== null || src.errorEnum !== null) {
+			getLogger.logError("The error enumeration of the method '" + src.name + "' in the namespace '" + src.model.name + '.' + src.interface
+				+ "' cannot be translated into an AUTOSAR representation. "
+				+ "At least the SOME/IP serialization formats would be incompatible. "
+				+ "Implement your method error reporting based on user defined types instead!")
+		}
+
 		// If the method is not a direct member of the current interface definition but is inherited from
 		// a direct or indirect base interface the original interface where it comes from is annotated.
 		// As interface inheritance cannot be directly mapped to an AUTOSAR representation
