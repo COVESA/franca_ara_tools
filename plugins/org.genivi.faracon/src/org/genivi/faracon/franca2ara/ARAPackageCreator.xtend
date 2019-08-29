@@ -49,9 +49,11 @@ class ARAPackageCreator extends Franca2ARABase {
 	 * package name is correct.
 	 */
 	def ARPackage findArPackageForFrancaElement(FModelElement fModelElement) {
-		val rootFrancaModel = EcoreUtil.getRootContainer(fModelElement) as FModel
-		val foundPackage = fModel2Packages.get(rootFrancaModel)
-		if(foundPackage === null){
+		val rootContainer = EcoreUtil.getRootContainer(fModelElement)
+		val foundPackage = fModel2Packages.get(rootContainer)
+		if(foundPackage === null && rootContainer instanceof FModel){
+			//create a dummy package from the FModel
+			val rootFrancaModel = rootContainer as FModel
 			createPackageHierarchyForElementPackage(rootFrancaModel, Autosar40Factory.eINSTANCE.createAUTOSAR)
 			return fModel2Packages.get(rootFrancaModel)
 		}

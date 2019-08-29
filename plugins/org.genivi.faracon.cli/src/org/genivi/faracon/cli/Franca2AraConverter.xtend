@@ -3,7 +3,6 @@ package org.genivi.faracon.cli
 import java.util.Collection
 import javax.inject.Inject
 import org.eclipse.emf.common.util.URI
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.eclipse.xtext.resource.XtextResourceSet
 import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.framework.FrancaModelContainer
@@ -97,7 +96,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 
 	override protected getTargetModelName() ''''Adaptive AUTOSAR IDL'''
 
-	override protected createResourceSet() {
+	override createResourceSet() {
 		return new XtextResourceSet
 	}
 

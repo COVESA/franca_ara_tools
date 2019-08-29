@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
 @InjectWith(FaraconTestsInjectorProvider.class)
 public class IDL1330_Tests extends Franca2ARATestBase {
 
-	private static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_of_method_errors/f2a/";
+	private static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_on_method_errors/f2a/";
 
 	@Test(expected = AbstractLogger.StopOnErrorException.class)
 	public void separateMethodErrorsEnumeration() {

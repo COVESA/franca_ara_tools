@@ -3,15 +3,13 @@ package org.genivi.faracon.cli
 import java.util.Collection
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.impl.BasicEObjectImpl
 import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.framework.IModelContainer
 import org.genivi.faracon.logging.BaseWithLogger
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
-import org.eclipse.emf.ecore.util.EcoreUtil
-import org.eclipse.emf.ecore.impl.BasicEObjectImpl
-import org.eclipse.xtext.linking.lazy.LazyLinkingResource
-import org.eclipse.xtext.util.CancelIndicator
 
 /**
  * Abstract base class for converters in the Faracon project.
@@ -30,7 +28,7 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 		if (filesToConvert.nullOrEmpty) {
 			return
 		}
-		getLogger().logInfo('''Converting «sourceModelName» models to «targetModelName» models...''');
+		getLogger().logInfo("Converting " + sourceModelName + " models to " + targetModelName + " models...");
 		getLogger().increaseIndentationLevel();
 
 		resourceSet = createResourceSet
@@ -42,8 +40,8 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 
 		getLogger().decreaseIndentationLevel();
 	}
-		
-	def protected abstract ResourceSet createResourceSet()
+
+	def abstract ResourceSet createResourceSet()
 
 	def protected abstract Collection<SRC> loadAllFiles(Collection<String> filesToConvert)
 
@@ -60,7 +58,7 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 	def protected findSourceModelUri(EObject sourceModel) {
 		val srcModelUri = sourceModel?.eResource()?.getURI()
 		if (srcModelUri === null) {
-			logger.logInfo('''Cannot find model URI for «sourceModelName»: "«sourceModel»"''')
+			logger.logInfo("Cannot find model URI for " + sourceModelName + " " + sourceModel)
 			return URI.createFileURI("")
 		}
 		return srcModelUri
@@ -78,7 +76,7 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 		}
 		return outputDirectoryPath
 	}
-	
+
 	def int resolveProxiesAndCheckRemaining() {
 		EcoreUtil.resolveAll(resourceSet);
 		val proxiesAfterResolution = EcoreUtil.ProxyCrossReferencer.find(resourceSet)

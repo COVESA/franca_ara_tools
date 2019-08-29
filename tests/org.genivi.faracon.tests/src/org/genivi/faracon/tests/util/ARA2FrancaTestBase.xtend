@@ -65,6 +65,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 		val expectedFrancaModels = expectedFilePaths.map [
 			loader.loadModel(it);
 		].toList
+		ara2FrancaConverter.createResourceSet
 		val araModelContainers = ara2FrancaConverter.loadAllFiles(Collections.singletonList(sourceFilePath))
 		ara2FrancaConverter.resolveProxiesAndCheckRemaining
 		val arModel = (araModelContainers).get(0).model

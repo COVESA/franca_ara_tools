@@ -61,7 +61,7 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 		].toList
 	}
 
-	def putAllFrancaModelsInOneResourceSet(
+	override putAllModelsInOneResourceSet(
 		Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> ara2FrancaMultiModelContainers) {
 		val resourceSet = new XtextResourceSet();
 		ara2FrancaMultiModelContainers.forEach [
@@ -100,8 +100,9 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 
 	override protected getTargetModelName() '''Franca IDL'''
 	
-	override protected createResourceSet() {
-		return new ARAResourceSet
+	override createResourceSet() {
+		this.resourceSet = new ARAResourceSet
+		return this.resourceSet
 	}
-
+	
 }
