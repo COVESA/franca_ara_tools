@@ -1,0 +1,19 @@
+package a1.b2.c3
+
+interface Calculator {
+	method divide {
+		in {
+			UInt32 dividend
+			UInt32 divisor
+		}
+		out {
+			UInt32 quotient
+			UInt32 remainder
+		}
+		error {
+			DIVISION BY ZERO
+			OVERFLOW
+			UNDERFLOW
+		}
+	}
+}
