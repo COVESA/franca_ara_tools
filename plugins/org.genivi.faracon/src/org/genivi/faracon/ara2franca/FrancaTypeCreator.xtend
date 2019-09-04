@@ -3,6 +3,7 @@ package org.genivi.faracon.ara2franca
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
+import java.util.Collection
 import java.util.Optional
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,6 +13,7 @@ import org.franca.core.franca.FModel
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
 import org.genivi.faracon.ARAResourceSet
+import org.franca.core.franca.FTypeRef
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {
@@ -184,7 +186,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		val typeRef = fac.createFTypeRef
 		if (isPrimitiveType(src)) {
 			if (src.isStdType) {
-				typeRef.predefined = FBasicTypeId.getByName(src.shortName)
+				typeRef.setPrimitveTypeBasedOnName(src, parentTypedElement)
 			} else {
 				val nonVectorName = src.shortName.replace("Vector", "")
 				typeRef.predefined = FBasicTypeId.getByName(nonVectorName)
@@ -197,6 +199,20 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			typeRef.derived = transform(src)
 		}
 		typeRef
+	}
+
+	def void setPrimitveTypeBasedOnName(FTypeRef fTypeRef, ImplementationDataType src, FTypedElement parentTypedElement) {
+		val autosarShortName = src.shortName
+		if (autosarShortName == "ByteArray" || autosarShortName == "ByteVectorType") {
+			fTypeRef.predefined = FBasicTypeId.UINT8
+			if(parentTypedElement === null){
+				logger.logError('''The simple type «autosarShortName» cannot be used within because no Franca Typed parent has been created for the element «src»''')
+			}else{
+				parentTypedElement.array = true	
+			}
+		} else {
+			fTypeRef.predefined = FBasicTypeId.getByName(src.shortName)
+		}
 	}
 
 	/**
