@@ -1,4 +1,4 @@
-package org.genivi.faracon.tests.aspects_of_method_errors.f2a;
+package org.genivi.faracon.tests.aspects_on_method_errors.f2a;
 
 import org.eclipse.xtext.testing.InjectWith;
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca;
