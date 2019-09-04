@@ -87,6 +87,11 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 
 	def create fac.createFMethod transform(ClientServerOperation src) {
 		name = src.shortName
+		if(!src.possibleApErrors.nullOrEmpty || !src.possibleApErrorSets.nullOrEmpty){
+			val errorsMsg = (src.possibleApErrors + src.possibleApErrorSets).map[it?.shortName].join(", ")
+			logger.logError('''The client server operation "«src.shortName»" cannot be transformed to Franca.«
+			»Reason: The client server operation contains ap errors, which are not supported. Errors are: "«errorsMsg»".''')
+		} 
 		if (src.fireAndForget !== null) {
 			fireAndForget = src.fireAndForget
 		}
