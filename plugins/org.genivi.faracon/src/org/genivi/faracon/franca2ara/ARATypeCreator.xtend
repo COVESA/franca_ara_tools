@@ -75,17 +75,29 @@ class ARATypeCreator extends Franca2ARABase {
 		return null
 	}
 
-	def private dispatch create fac.createImplementationDataType createDataTypeForReference( // use FCompoundType in order to deal with union and struct types (unions are treated like structs)
-	FCompoundType fStructType) {
-		fStructType.checkCompoundType
-		it.shortName = fStructType.name
-		it.category = "STRUCTURE"
-		val allElements = fStructType.flattenStructAndGetElements
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FStructType fStructType) {
+		fillAutosarCompoundType(fStructType, "STRUCTURE", it)
+	}
+
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FUnionType fUnionType) {
+		fillAutosarCompoundType(fUnionType, "UNION", it)
+	}
+
+	// Use 'FCompoundType' in order to deal with union and struct types in the same way.
+	def private fillAutosarCompoundType(
+		FCompoundType fCompoundType,
+		String category,
+		ImplementationDataType aCompoundType
+	) {
+		fCompoundType.checkCompoundType
+		aCompoundType.shortName = fCompoundType.name
+		aCompoundType.category = category
+		val allElements = fCompoundType.flattenCompoundTypeAndGetElements
 		val typeRefs = allElements.map [
 			it.createImplementationDataTypeElement
 		]
-		it.subElements.addAll(typeRefs)
-		it.ARPackage = fStructType.findArPackageForFrancaElement
+		aCompoundType.subElements.addAll(typeRefs)
+		aCompoundType.ARPackage = fCompoundType.findArPackageForFrancaElement
 	}
 
 	def dispatch void checkCompoundType(FCompoundType type) {
@@ -104,21 +116,21 @@ class ARATypeCreator extends Franca2ARABase {
 		// nothing to check
 	}
 
-	def dispatch Iterable<FField> flattenStructAndGetElements(FStructType fStructType) {
+	def dispatch Iterable<FField> flattenCompoundTypeAndGetElements(FStructType fStructType) {
 		val inheritSet = FrancaModelExtensions.getInheritationSet(fStructType)
 		val structTypes = inheritSet.map[it as FStructType].filterNull
 		val allElements = structTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
 		return allElements
 	}
 
-	def dispatch Iterable<FField> flattenStructAndGetElements(FUnionType fUnionType) {
+	def dispatch Iterable<FField> flattenCompoundTypeAndGetElements(FUnionType fUnionType) {
 		val inheritSet = FrancaModelExtensions.getInheritationSet(fUnionType)
 		val fUnionTypes = inheritSet.map[it as FUnionType].filterNull
 		val allElements = fUnionTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
 		return allElements
 	}
 
-	def dispatch Iterable<FField> flattenStructAndGetElements(FCompoundType fCompoundType) {
+	def dispatch Iterable<FField> flattenCompountTypeAndGetElements(FCompoundType fCompoundType) {
 		logger.logError("Flattening for type " + fCompoundType.class + "is not yet supported")
 		return Collections.emptyList
 	}
