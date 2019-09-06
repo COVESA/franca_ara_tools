@@ -1,0 +1,8 @@
+package a1.b2.c3
+
+typeCollection {
+	union TestArUnion {
+		UInt8 MyUInt8
+		UInt16 MyUInt16
+	}
+}
