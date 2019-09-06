@@ -5,6 +5,7 @@ import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeE
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
+import org.franca.core.franca.FCompoundType
 import org.genivi.faracon.ARA2FrancaBase
 
 @Singleton
@@ -20,6 +21,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		if (src.category == "STRUCTURE") {
 			return transformStructure(src)
+		} else if (src.category == "UNION") {
+			return transformUnion(src)
 		} else if (src.category == "ASSOCIATIVE_MAP") {
 			return transformMap(src)
 		} else if (src.category == "TYPE_REFERENCE") {
@@ -44,19 +47,30 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	}
 
 	def protected create fac.createFStructType transformStructure(ImplementationDataType src) {
-		name = src.shortName
-		if (src.subElements !== null) {
-			for (subElement : src.subElements) {
+		fillFrancaCompoundType(src, it)
+	}
+
+	def protected create fac.createFUnionType transformUnion(ImplementationDataType src) {
+		fillFrancaCompoundType(src, it)
+	}
+
+	def protected fillFrancaCompoundType(
+		ImplementationDataType aCompoundType,
+		FCompoundType fCompoundType
+	) {
+		fCompoundType.name = aCompoundType.shortName
+		if (aCompoundType.subElements !== null) {
+			for (subElement : aCompoundType.subElements) {
 				val araStructElementType = getTypeRefTargetType(subElement)
 				if (araStructElementType !== null) {
 					val field = fac.createFField => [
 						name = subElement.shortName
 						type = createFTypeRef(araStructElementType)
 					]
-					elements.add(field)
+					fCompoundType.elements.add(field)
 				} else {
 					getLogger.
-						logError('''No type for the Autosar sub-element "«subElement?.shortName»" in implementation data type "«src?.shortName»" found. Cannot create a matching franca element.''')
+						logError('''No type for the AUTOSAR sub-element "«subElement?.shortName»" in implementation data type "«aCompoundType?.shortName»" found. Cannot create a matching franca element.''')
 				}
 			}
 		}
@@ -82,8 +96,6 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 				'''No property with type "«"valueType"»" is defined for element "«src.shortName»".''')
 		}
 	}
-
-	
 
 	def private create fac.createFArrayType transformArray(ImplementationDataType src) {
 		name = src.shortName
