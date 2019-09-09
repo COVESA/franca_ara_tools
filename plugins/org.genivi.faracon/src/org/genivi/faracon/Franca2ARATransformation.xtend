@@ -184,7 +184,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 			)
 			artificalBroadcastStruct.category = "STRUCTURE"
 			val typeRefs = src.outArgs.map [
-				it.createImplementationDataTypeElement
+				it.createImplementationDataTypeElement(null)
 			]
 			artificalBroadcastStruct.subElements.addAll(typeRefs)
 			artificalBroadcastStruct.ARPackage = interfaceArPackage

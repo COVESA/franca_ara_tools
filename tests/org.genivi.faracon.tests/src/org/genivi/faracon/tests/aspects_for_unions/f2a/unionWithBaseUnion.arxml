@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/atls">
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/cs/idt">
   <AR-PACKAGES>
     <AR-PACKAGE UUID="0">
       <SHORT-NAME>a1</SHORT-NAME>
@@ -17,6 +17,19 @@
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>baseBaseUInt64</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                      <ANNOTATIONS>
+                        <ANNOTATION>
+                          <LABEL>
+                            <L-4>OriginalUnionType</L-4>
+                          </LABEL>
+                          <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                          <ANNOTATION-TEXT>
+                            <VERBATIM>
+                              <L-5>/a1/b2/c3/TestBaseBaseUnion</L-5>
+                            </VERBATIM>
+                          </ANNOTATION-TEXT>
+                        </ANNOTATION>
+                      </ANNOTATIONS>
                       <SW-DATA-DEF-PROPS>
                         <SW-DATA-DEF-PROPS-VARIANTS>
                           <SW-DATA-DEF-PROPS-CONDITIONAL>
@@ -28,6 +41,19 @@
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>baseUInt32</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                      <ANNOTATIONS>
+                        <ANNOTATION>
+                          <LABEL>
+                            <L-4>OriginalUnionType</L-4>
+                          </LABEL>
+                          <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                          <ANNOTATION-TEXT>
+                            <VERBATIM>
+                              <L-5>/a1/b2/c3/TestBaseUnion</L-5>
+                            </VERBATIM>
+                          </ANNOTATION-TEXT>
+                        </ANNOTATION>
+                      </ANNOTATIONS>
                       <SW-DATA-DEF-PROPS>
                         <SW-DATA-DEF-PROPS-VARIANTS>
                           <SW-DATA-DEF-PROPS-CONDITIONAL>
@@ -84,6 +110,19 @@
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>baseBaseUInt64</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                      <ANNOTATIONS>
+                        <ANNOTATION>
+                          <LABEL>
+                            <L-4>OriginalUnionType</L-4>
+                          </LABEL>
+                          <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                          <ANNOTATION-TEXT>
+                            <VERBATIM>
+                              <L-5>/a1/b2/c3/TestBaseBaseUnion</L-5>
+                            </VERBATIM>
+                          </ANNOTATION-TEXT>
+                        </ANNOTATION>
+                      </ANNOTATIONS>
                       <SW-DATA-DEF-PROPS>
                         <SW-DATA-DEF-PROPS-VARIANTS>
                           <SW-DATA-DEF-PROPS-CONDITIONAL>

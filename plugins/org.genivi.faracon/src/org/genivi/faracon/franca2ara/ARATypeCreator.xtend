@@ -3,7 +3,6 @@ package org.genivi.faracon.franca2ara
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
-import java.util.Collections
 import java.util.Map
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,13 +14,17 @@ import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FMapType
+import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
+import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
+import org.genivi.faracon.util.AutosarAnnotator
 
+import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
 
@@ -33,9 +36,12 @@ class ARATypeCreator extends Franca2ARABase {
 	@Inject
 	var extension ARAPackageCreator
 	@Inject
-	var extension ARANamespaceCreator
+	var extension AutosarAnnotator
 
 	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
+
+	static final String ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE = "OriginalStructType"
+	static final String ANNOTATION_LABEL_ORIGINAL_UNION_TYPE = "OriginalUnionType"
 
 	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
 		if (fTypedElement === null || !fTypedElement.isArray) {
@@ -69,6 +75,7 @@ class ARATypeCreator extends Franca2ARABase {
 //		it.namespaces.addAll(autosarType.createNamespaceForElement)
 //		autosarType.ARPackage.elements.add(it)
 //	}
+
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
 		getLogger.
 			logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
@@ -76,28 +83,43 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FStructType fStructType) {
-		fillAutosarCompoundType(fStructType, "STRUCTURE", it)
+		fillAutosarCompoundType(fStructType, "STRUCTURE", ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, it)
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FUnionType fUnionType) {
-		fillAutosarCompoundType(fUnionType, "UNION", it)
+		fillAutosarCompoundType(fUnionType, "UNION", ANNOTATION_LABEL_ORIGINAL_UNION_TYPE, it)
 	}
 
 	// Use 'FCompoundType' in order to deal with union and struct types in the same way.
 	def private fillAutosarCompoundType(
 		FCompoundType fCompoundType,
 		String category,
+		String annotationLabelText,
 		ImplementationDataType aCompoundType
 	) {
 		fCompoundType.checkCompoundType
 		aCompoundType.shortName = fCompoundType.name
 		aCompoundType.category = category
-		val allElements = fCompoundType.flattenCompoundTypeAndGetElements
-		val typeRefs = allElements.map [
-			it.createImplementationDataTypeElement
+		val fAllElements = FrancaModelExtensions.getAllElements(fCompoundType).map [it as FField]
+		val aAllElements = fAllElements.map [
+			val newElement = it.createImplementationDataTypeElement(fCompoundType)
+			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
+			if (originalCompoundType !== fCompoundType) {
+				newElement.addAnnotation(annotationLabelText,
+					originalCompoundType.getARFullyQualifiedName)
+			}
+			newElement
 		]
-		aCompoundType.subElements.addAll(typeRefs)
+		aCompoundType.subElements.addAll(aAllElements)
 		aCompoundType.ARPackage = fCompoundType.findArPackageForFrancaElement
+	}
+
+	static def String getARFullyQualifiedName(FCompoundType fCompoundType) {
+		val FModel model = fCompoundType.getModel
+		val FTypeCollection typeCollection = fCompoundType.getTypeCollection;
+		(if(!model?.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "")
+			+ (if(!typeCollection?.name.nullOrEmpty) "/" + typeCollection?.name else "")
+			+ "/" + fCompoundType?.name
 	}
 
 	def dispatch void checkCompoundType(FCompoundType type) {
@@ -114,25 +136,6 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def dispatch void checkCompoundType(FUnionType type) {
 		// nothing to check
-	}
-
-	def dispatch Iterable<FField> flattenCompoundTypeAndGetElements(FStructType fStructType) {
-		val inheritSet = FrancaModelExtensions.getInheritationSet(fStructType)
-		val structTypes = inheritSet.map[it as FStructType].filterNull
-		val allElements = structTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
-		return allElements
-	}
-
-	def dispatch Iterable<FField> flattenCompoundTypeAndGetElements(FUnionType fUnionType) {
-		val inheritSet = FrancaModelExtensions.getInheritationSet(fUnionType)
-		val fUnionTypes = inheritSet.map[it as FUnionType].filterNull
-		val allElements = fUnionTypes.map[it.elements].flatten.map[EcoreUtil.copy(it)]
-		return allElements
-	}
-
-	def dispatch Iterable<FField> flattenCompountTypeAndGetElements(FCompoundType fCompoundType) {
-		logger.logError("Flattening for type " + fCompoundType.class + "is not yet supported")
-		return Collections.emptyList
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
@@ -220,7 +223,8 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(
-		FTypedElement fTypedElement) {
+		FTypedElement fTypedElement,
+		FCompoundType fParentCompoundType) {
 		it.shortName = fTypedElement.name
 		it.category = "TYPE_REFERENCE"
 		val dataDefProps = fac.createSwDataDefProps
