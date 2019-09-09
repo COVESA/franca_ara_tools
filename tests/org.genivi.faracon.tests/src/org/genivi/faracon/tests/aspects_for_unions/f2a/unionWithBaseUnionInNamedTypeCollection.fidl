@@ -1,0 +1,14 @@
+package a1.b2.c3
+
+typeCollection TypeCollectionName {
+	union TestBaseBaseUnion {
+		Int32 baseBaseUInt64
+	}
+	union TestBaseUnion extends TestBaseBaseUnion {
+		UInt32 baseUInt32
+	}
+	union TestArUnion extends TestBaseUnion {
+		UInt8 MyUInt8
+		UInt16 MyUInt16
+	}
+}

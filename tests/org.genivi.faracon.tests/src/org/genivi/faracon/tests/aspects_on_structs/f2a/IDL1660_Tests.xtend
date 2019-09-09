@@ -51,4 +51,9 @@ class IDL1660_Tests extends AbstractFranca2AraStructTest{
 		transformAndCheck(testPath, "structWithBaseStruct", testPath + "structWithBaseStruct.arxml")
 	}
 	
+	@Test
+	def void testStructWithBaseStructInNamedTypeCollectionToAutosarStruct(){
+		transformAndCheck(testPath, "structWithBaseStructInNamedTypeCollection", testPath + "structWithBaseStructInNamedTypeCollection.arxml")
+	}
+	
 }

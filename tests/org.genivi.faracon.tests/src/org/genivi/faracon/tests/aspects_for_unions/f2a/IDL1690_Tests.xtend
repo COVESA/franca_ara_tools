@@ -51,4 +51,9 @@ class IDL1690_Tests extends AbstractFranca2AraUnionTest{
 		transformAndCheck(testPath, "unionWithBaseUnion", testPath + "unionWithBaseUnion.arxml")
 	}
 	
+	@Test
+	def void testUnionWithBaseUnionInNamedTypeCollectionToAutosarUnion(){
+		transformAndCheck(testPath, "unionWithBaseUnionInNamedTypeCollection", testPath + "unionWithBaseUnionInNamedTypeCollection.arxml")
+	}
+	
 }

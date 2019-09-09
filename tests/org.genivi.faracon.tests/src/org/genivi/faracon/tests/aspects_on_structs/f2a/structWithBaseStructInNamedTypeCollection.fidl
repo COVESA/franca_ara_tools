@@ -1,6 +1,6 @@
 package a1.b2.c3
 
-typeCollection {
+typeCollection TypeCollectionName {
 	struct TestBaseBaseStruct {
 		Int32 baseBaseUInt64
 	}
