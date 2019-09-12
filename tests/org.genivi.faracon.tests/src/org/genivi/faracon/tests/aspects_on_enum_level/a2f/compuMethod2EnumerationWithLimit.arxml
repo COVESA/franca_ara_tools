@@ -58,12 +58,12 @@
                       <COMPU-SCALE>
                         <SYMBOL>enumerator1</SYMBOL>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
-                		<UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
+                        <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
                       </COMPU-SCALE>
                       <COMPU-SCALE>
                         <SYMBOL>enumerator2</SYMBOL>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
-                		<UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
+                        <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
                       </COMPU-SCALE>
                     </COMPU-SCALES>
                   </COMPU-INTERNAL-TO-PHYS>

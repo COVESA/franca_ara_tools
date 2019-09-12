@@ -11,13 +11,13 @@ class Ara2FrancaUtil {
 	 * We use the name of the input file with ".fidl" as extension and the name of the fModel
 	 * 
 	 */
-	def static String calculateFrancaFileName(FModel fModel, URI araModelUri) {
+	def static String calculateFrancaFileNameFromAutosarUri(URI araModelUri, FModel fModel) {
 		val modelName = fModel.name
-		return araModelUri.calculateFrancaFileNameFromAutosarFileName(modelName)
+		return araModelUri.calculateFrancaFileNameFromAutosarUri(modelName)
 	}
 	
-	def static String calculateFrancaFileNameFromAutosarFileName(URI araModelUri, String modelName){
-		val araFileName = araModelUri.trimFileExtension().trimFileExtension.lastSegment();
+	def static String calculateFrancaFileNameFromAutosarUri(URI araModelUri, String modelName){
+		val araFileName = araModelUri.trimFileExtension.lastSegment();
 		val francaFileName = araFileName + "_" + modelName;
 		return francaFileName + ".fidl"
 	}

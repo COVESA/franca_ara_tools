@@ -10,7 +10,7 @@ class OutputFileHelper {
 	}
 
 	def static calculateFrancaOutputUri(URI araModelUri, FrancaModelContainer francaModelContainer) {
-		val francaFileName = calculateFrancaFileName(francaModelContainer.model(), araModelUri)
+		val francaFileName = calculateFrancaFileNameFromAutosarUri(araModelUri, francaModelContainer.model())
 		var transformedModelUri = araModelUri.trimFileExtension();
 		transformedModelUri = transformedModelUri.trimSegments(1).appendSegment(francaFileName);
 		return transformedModelUri;

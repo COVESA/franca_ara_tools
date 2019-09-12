@@ -3,8 +3,8 @@ package a1.b2.c3
 import model "fileWithMultiImportPart2_a1.b2.c3.d4.fidl"
 import model "fileWithMultiImportPart2_a1.b2.c3.d4.e5.fidl"
 
-typeCollection{
-	struct TestStruct{
+typeCollection {
+	struct TestStruct {
 		UInt8 MyUInt8
 	}
 }
@@ -17,6 +17,6 @@ interface ExampleInterface{
 			a1.b2.c3.d4.e5.TestStructInE5 testStructInE5Arg
 		}
 	}
-	
+
 }
 

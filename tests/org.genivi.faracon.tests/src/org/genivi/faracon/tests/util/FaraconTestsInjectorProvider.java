@@ -8,8 +8,7 @@ public class FaraconTestsInjectorProvider extends FrancaIDLTestsInjectorProvider
 
 	@Override
 	protected Injector internalCreateInjector() {
-	    Injector faraconInjector = new FaraconTestsStandaloneSetup().createInjectorAndDoEMFRegistration();
-		return faraconInjector;
+		return new FaraconTestsStandaloneSetup().createInjectorAndDoEMFRegistration();
 	}
 
 }

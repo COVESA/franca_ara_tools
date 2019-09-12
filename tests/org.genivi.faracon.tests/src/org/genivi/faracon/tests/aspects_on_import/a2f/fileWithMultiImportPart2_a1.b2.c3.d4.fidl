@@ -2,17 +2,17 @@ package a1.b2.c3.d4
 
 import model "fileWithMultiImportPart2_a1.b2.c3.d4.e5.fidl"
 
-typeCollection{
-	struct TestStructInD4{
+typeCollection {
+	struct TestStructInD4 {
 		UInt32 MyUInt32
 	}
 }
 
 interface ExampleInterfaceMultiImport{
- method testMethod{
- 	in {
- 		a1.b2.c3.d4.e5.TestStructInE5 testStructInE5Arg
- 	}
- }
- 	
+	method testMethod {
+		in {
+			a1.b2.c3.d4.e5.TestStructInE5 testStructInE5Arg
+		}
+	}
+
 }

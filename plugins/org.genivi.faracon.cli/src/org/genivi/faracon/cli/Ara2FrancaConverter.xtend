@@ -44,7 +44,7 @@ class Ara2FrancaConverter extends BaseWithLogger {
 		val Collection<ARAModelContainer> modelContainers = loadAllAraFiles(araFilePaths)
 		resolveProxiesAndCheckRemaining
 		val ara2FrancaMultiModelContainers = modelContainers.transformToFranca()
-		ara2FrancaMultiModelContainers.putAllFrancaModelsInOneResource
+		ara2FrancaMultiModelContainers.putAllFrancaModelsInOneResourceSet
 		ara2FrancaMultiModelContainers.saveAllFrancaModels
 
 		getLogger().decreaseIndentationLevel();
@@ -114,7 +114,7 @@ class Ara2FrancaConverter extends BaseWithLogger {
 		].toList
 	}
 
-	def putAllFrancaModelsInOneResource(
+	def putAllFrancaModelsInOneResourceSet(
 		Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> ara2FrancaMultiModelContainers) {
 		val resourceSet = new XtextResourceSet();
 		ara2FrancaMultiModelContainers.forEach [
