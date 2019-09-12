@@ -37,13 +37,13 @@
                         <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="dabbaeb9-3e64-4917-bf9c-b6d34cb4e792">
                           <SHORT-NAME>MyUInt32</SHORT-NAME>
                           <CATEGORY>TYPE_REFERENCE</CATEGORY>
-	                      <SW-DATA-DEF-PROPS>
-	                        <SW-DATA-DEF-PROPS-VARIANTS>
-	                          <SW-DATA-DEF-PROPS-CONDITIONAL>
-	                            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
-	                          </SW-DATA-DEF-PROPS-CONDITIONAL>
-	                        </SW-DATA-DEF-PROPS-VARIANTS>
-	                      </SW-DATA-DEF-PROPS>
+                          <SW-DATA-DEF-PROPS>
+                            <SW-DATA-DEF-PROPS-VARIANTS>
+                              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
+                              </SW-DATA-DEF-PROPS-CONDITIONAL>
+                            </SW-DATA-DEF-PROPS-VARIANTS>
+                          </SW-DATA-DEF-PROPS>
                         </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                       </SUB-ELEMENTS>
                     </IMPLEMENTATION-DATA-TYPE>

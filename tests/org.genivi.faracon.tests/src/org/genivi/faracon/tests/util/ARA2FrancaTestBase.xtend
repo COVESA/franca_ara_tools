@@ -92,7 +92,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 		assertFrancaModelsAreEqual(francaModels, expectedModels)
 	}
 
-	protected def void doTransformAndCheckIntegrationTest(Collection<String> sourceFilePaths,
+	protected def void transformAndCheckIntegrationTest(Collection<String> sourceFilePaths,
 		Collection<String> expectedFilePaths, String outputFolderName) {
 		// given: non-null strings, which are not empty
 		assertFalse("No source file path given", sourceFilePaths.nullOrEmpty)
@@ -107,7 +107,6 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 			loader.loadModel(it);
 		].toList
 		val actualFrancaModelsPath = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
-		assertNotNull("no outputpath found", actualFrancaModelsPath)
 		val actualFrancaFilePaths = FilePathsHelper.findFiles(#[actualFrancaModelsPath], "fidl")
 		val actualFrancaModels = actualFrancaFilePaths.map[
 			loader.loadModel(it)
@@ -118,7 +117,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	protected def List<FModel> transformToFranca(IModelContainer arModel) {
 		val transformationResult = ara2FrancaConverter.transformToFranca(
 			Collections.singletonList(arModel as ARAModelContainer))
-		ara2FrancaConverter.putAllFrancaModelsInOneResource(transformationResult)
+		ara2FrancaConverter.putAllFrancaModelsInOneResourceSet(transformationResult)
 		ara2FrancaConverter.saveAllFrancaModels(transformationResult)
 		val francaModels = transformationResult.map[value].map[it.francaModelContainers].flatten.map[it.model].toList
 		return francaModels

@@ -16,14 +16,7 @@ import com.google.inject.Module;
 public class FaraconTestsStandaloneSetup extends FrancaIDLTestsStandaloneSetup {
 	@Override
     public Injector createInjector() {
-        return Guice.createInjector(Modules2.mixin(new ConverterCliModule(ConsoleLogger.class), new FrancaIDLTestsModule(), new AddtionalTestBinder()));
+        return Guice.createInjector(Modules2.mixin(new ConverterCliModule(ConsoleLogger.class), new FrancaIDLTestsModule()));
     }
 
-	static class AddtionalTestBinder implements Module {
-		@Override
-		public void configure(Binder binder) {
-			binder.bind(IDirtyStateManager.class).to(DirtyStateManager.class);
-
-		}
-	}
 }
