@@ -11,9 +11,9 @@
               <SHORT-NAME>c3</SHORT-NAME>
               <AR-PACKAGES>
                 <AR-PACKAGE UUID="28165420-07df-4cd9-8378-7de4b7f1204c">
-                <SHORT-NAME>d4</SHORT-NAME>
+                  <SHORT-NAME>d4</SHORT-NAME>
                   <ELEMENTS>
-                      <SERVICE-INTERFACE UUID="21d546b7-bdc8-4e75-b746-23ab69bc0291">
+                    <SERVICE-INTERFACE UUID="21d546b7-bdc8-4e75-b746-23ab69bc0291">
                       <SHORT-NAME>ExampleInterfaceMultiImport</SHORT-NAME>
                       <METHODS>
                         <CLIENT-SERVER-OPERATION UUID="9603467b-03a9-4c53-bac2-6b6f801bed31">
@@ -47,28 +47,28 @@
                     </IMPLEMENTATION-DATA-TYPE>
                   </ELEMENTS>
                   <AR-PACKAGES>
-                      <AR-PACKAGE>
-                           <SHORT-NAME>e5</SHORT-NAME>
-                          <ELEMENTS>
-                            <IMPLEMENTATION-DATA-TYPE UUID="fefaf604-30ce-45a7-946e-27a3d5f32472">
-                              <SHORT-NAME>TestStructInE5</SHORT-NAME>
-                              <CATEGORY>STRUCTURE</CATEGORY>
-                              <SUB-ELEMENTS>
-                                <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="dabbaeb9-3e64-4917-bf9c-b6d34cb4e792">
-                                  <SHORT-NAME>MyUInt32</SHORT-NAME>
-                                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
-                                  <SW-DATA-DEF-PROPS>
-                                    <SW-DATA-DEF-PROPS-VARIANTS>
-                                      <SW-DATA-DEF-PROPS-CONDITIONAL>
-                                        <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
-                                      </SW-DATA-DEF-PROPS-CONDITIONAL>
-                                    </SW-DATA-DEF-PROPS-VARIANTS>
-                                  </SW-DATA-DEF-PROPS>
-                                </IMPLEMENTATION-DATA-TYPE-ELEMENT>
-                              </SUB-ELEMENTS>
-                            </IMPLEMENTATION-DATA-TYPE>
-                          </ELEMENTS>
-                      </AR-PACKAGE>
+                    <AR-PACKAGE>
+                      <SHORT-NAME>e5</SHORT-NAME>
+                      <ELEMENTS>
+                        <IMPLEMENTATION-DATA-TYPE UUID="fefaf604-30ce-45a7-946e-27a3d5f32472">
+                          <SHORT-NAME>TestStructInE5</SHORT-NAME>
+                          <CATEGORY>STRUCTURE</CATEGORY>
+                          <SUB-ELEMENTS>
+                            <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="dabbaeb9-3e64-4917-bf9c-b6d34cb4e792">
+                              <SHORT-NAME>MyUInt32</SHORT-NAME>
+                              <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                              <SW-DATA-DEF-PROPS>
+                                <SW-DATA-DEF-PROPS-VARIANTS>
+                                  <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                    <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
+                                  </SW-DATA-DEF-PROPS-CONDITIONAL>
+                                </SW-DATA-DEF-PROPS-VARIANTS>
+                              </SW-DATA-DEF-PROPS>
+                            </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                          </SUB-ELEMENTS>
+                        </IMPLEMENTATION-DATA-TYPE>
+                      </ELEMENTS>
+                    </AR-PACKAGE>
                   </AR-PACKAGES>
                 </AR-PACKAGE>
               </AR-PACKAGES>
