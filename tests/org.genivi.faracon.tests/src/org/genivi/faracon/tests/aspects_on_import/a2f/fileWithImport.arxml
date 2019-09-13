@@ -28,7 +28,7 @@
               </ELEMENTS>
               <AR-PACKAGES>
                 <AR-PACKAGE UUID="28165420-07df-4cd9-8378-7de4b7f1204c">
-                <SHORT-NAME>d4</SHORT-NAME>
+                  <SHORT-NAME>d4</SHORT-NAME>
                   <ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE UUID="fefaf604-30ce-45a7-946e-27a3d5f32472">
                       <SHORT-NAME>TestStruct</SHORT-NAME>
