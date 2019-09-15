@@ -11,7 +11,7 @@ import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
-import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
+import org.genivi.faracon.ARAResourceSet
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {

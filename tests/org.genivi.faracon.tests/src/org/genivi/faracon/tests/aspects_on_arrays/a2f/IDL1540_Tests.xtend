@@ -49,7 +49,11 @@ class IDL1540_Tests extends ARA2FrancaTestBase {
 		// then
 		assertTrue("Input argument was expected to be an array", resultingArgument.array)
 		assertEquals("Argument was expected to be UInt32", FBasicTypeId.UINT32, resultingArgument.type.predefined)
-
+	}
+	
+	@Test
+	def void testStdTypesVecotrUsage(){
+		transformAndCheck(testPath + "stdVectorTypeUsage.arxml", testPath + "stdVectorTypeUsage.fidl")
 	}
 
 }
