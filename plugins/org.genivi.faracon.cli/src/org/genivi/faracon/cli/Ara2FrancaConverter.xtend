@@ -24,7 +24,7 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 	/**
 	 * The methods loads all ARA files into a single resource Set and resolves all objects
 	 */
-	override loadAllFiles(Collection<String> araFilePaths) {
+	override loadAllSourceFiles(Collection<String> araFilePaths) {
 		val modelContainer = araFilePaths.map [ araFilePath |
 			val normalizedARAFilePath = normalize(araFilePath);
 			getLogger().logInfo("Loading arxml file " + normalizedARAFilePath);
@@ -75,7 +75,7 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 		]
 	}
 
-	override saveAllModels(
+	override saveAllGeneratedModels(
 		Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> ara2FrancaMultiModelContainers) {
 		ara2FrancaMultiModelContainers.forEach [
 			it.value.francaModelContainers.forEach [ francaModelContainer |
@@ -96,9 +96,9 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 		return francaFilePath;
 	}
 
-	override protected getSourceModelName() ''''Adaptive AUTOSAR IDL'''
+	override protected getSourceArtifactName() ''''Adaptive AUTOSAR IDL'''
 
-	override protected getTargetModelName() '''Franca IDL'''
+	override protected getTargetArtifactName() '''Franca IDL'''
 	
 	override createResourceSet() {
 		this.resourceSet = new ARAResourceSet

@@ -11,11 +11,11 @@
               <SHORT-NAME>c3</SHORT-NAME>
               <AR-PACKAGES>
                 <AR-PACKAGE UUID="0">
-                <SHORT-NAME>d4</SHORT-NAME>
+                  <SHORT-NAME>d4</SHORT-NAME>
                   <ELEMENTS>
-	                  <SERVICE-INTERFACE UUID="0">
-	                  <SHORT-NAME>ExampleInterfaceMultiImport</SHORT-NAME>
-	                  <NAMESPACES>
+                    <SERVICE-INTERFACE UUID="0">
+                      <SHORT-NAME>ExampleInterfaceMultiImport</SHORT-NAME>
+                      <NAMESPACES>
                         <SYMBOL-PROPS>
                           <SHORT-NAME>a1</SHORT-NAME>
                           <SYMBOL>a1</SYMBOL>
@@ -33,19 +33,19 @@
                           <SYMBOL>d4</SYMBOL>
                         </SYMBOL-PROPS>
                       </NAMESPACES>
-	                  <METHODS>
-	                    <CLIENT-SERVER-OPERATION UUID="0">
-	                      <SHORT-NAME>testMethod</SHORT-NAME>
-	                      <ARGUMENTS>
-	                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
-	                          <SHORT-NAME>testStructInE5Arg</SHORT-NAME>
-	                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/d4/e5/TestStructInE5</TYPE-TREF>
-	                          <DIRECTION>IN</DIRECTION>
-	                        </ARGUMENT-DATA-PROTOTYPE>
-	                      </ARGUMENTS>
-	                    </CLIENT-SERVER-OPERATION>
-	                  </METHODS>
-	                </SERVICE-INTERFACE>
+                      <METHODS>
+                        <CLIENT-SERVER-OPERATION UUID="0">
+                          <SHORT-NAME>testMethod</SHORT-NAME>
+                          <ARGUMENTS>
+                            <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                              <SHORT-NAME>testStructInE5Arg</SHORT-NAME>
+                              <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/d4/e5/TestStructInE5</TYPE-TREF>
+                              <DIRECTION>IN</DIRECTION>
+                            </ARGUMENT-DATA-PROTOTYPE>
+                          </ARGUMENTS>
+                        </CLIENT-SERVER-OPERATION>
+                      </METHODS>
+                    </SERVICE-INTERFACE>
                     <IMPLEMENTATION-DATA-TYPE UUID="0">
                       <SHORT-NAME>TestStructInD4</SHORT-NAME>
                       <CATEGORY>STRUCTURE</CATEGORY>
@@ -53,13 +53,13 @@
                         <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                           <SHORT-NAME>MyUInt32</SHORT-NAME>
                           <CATEGORY>TYPE_REFERENCE</CATEGORY>
-	                      <SW-DATA-DEF-PROPS>
-	                        <SW-DATA-DEF-PROPS-VARIANTS>
-	                          <SW-DATA-DEF-PROPS-CONDITIONAL>
-	                            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
-	                          </SW-DATA-DEF-PROPS-CONDITIONAL>
-	                        </SW-DATA-DEF-PROPS-VARIANTS>
-	                      </SW-DATA-DEF-PROPS>
+                          <SW-DATA-DEF-PROPS>
+                            <SW-DATA-DEF-PROPS-VARIANTS>
+                              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</IMPLEMENTATION-DATA-TYPE-REF>
+                              </SW-DATA-DEF-PROPS-CONDITIONAL>
+                            </SW-DATA-DEF-PROPS-VARIANTS>
+                          </SW-DATA-DEF-PROPS>
                         </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                       </SUB-ELEMENTS>
                     </IMPLEMENTATION-DATA-TYPE>

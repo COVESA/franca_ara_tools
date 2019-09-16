@@ -26,7 +26,7 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	var Franca2AraConverter franca2AraConverter
 
 	def void transform(String path, String fileBasename) {
-		doTransformTest(path, fileBasename, null, false)
+		transformtionTest(path, fileBasename, null, false)
 	}
 
 	/**
@@ -34,14 +34,14 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	 */
 	@Deprecated
 	def void transformAndCheck(String path, String fileBasename) {
-		doTransformTest(path, fileBasename, null, true)
+		transformtionTest(path, fileBasename, null, true)
 	}
 
 	def void transformAndCheck(String path, String fileBasename, String expectedFilePath) {
-		doTransformTest(path, fileBasename, expectedFilePath, true)
+		transformtionTest(path, fileBasename, expectedFilePath, true)
 	}
 
-	def void doTransformAndCheckIntegrationTest(String path, Collection<String> files,
+	def void transformAndCheckIntegrationTest(String path, Collection<String> files,
 		Collection<String> expectedFilePaths, String outputFolderName) {
 		// given: non-null strings, which are not empty
 		val inputPaths = files.map[path + it].toList
@@ -65,8 +65,7 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		assertAutosarFilesAreEqual(actualAutosarFiles, expectedFilePaths)
 	}
 
-	@SuppressWarnings("restriction")
-	def private void doTransformTest(String path, String fileBasename, String expectedFileName, boolean check) {
+	def private void transformtionTest(String path, String fileBasename, String expectedFileName, boolean check) {
 		// given
 		// load example Franca IDL interface
 		val inputfile = path + fileBasename + ".fidl"

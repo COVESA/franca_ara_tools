@@ -13,7 +13,7 @@ import org.genivi.faracon.preferences.PreferencesConstants
 
 /**
  * Abstract base class for converters in the Faracon project.
- * Ensures that the abstract methods are called correctly from the public method convert
+ * Ensures that the abstract methods are called correctly from the public method convertFiles
  */
 abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends IModelContainer> extends BaseWithLogger {
 
@@ -28,37 +28,37 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 		if (filesToConvert.nullOrEmpty) {
 			return
 		}
-		getLogger().logInfo("Converting " + sourceModelName + " models to " + targetModelName + " models...");
+		getLogger().logInfo("Converting " + sourceArtifactName + " models to " + targetArtifactName + " models...");
 		getLogger().increaseIndentationLevel();
 
 		resourceSet = createResourceSet
-		val modelContainers = filesToConvert.loadAllFiles
+		val modelContainers = filesToConvert.loadAllSourceFiles
 		resolveProxiesAndCheckRemaining
 		val srcToTargetContainer = modelContainers.transform
 		srcToTargetContainer.putAllModelsInOneResourceSet
-		srcToTargetContainer.saveAllModels
+		srcToTargetContainer.saveAllGeneratedModels
 
 		getLogger().decreaseIndentationLevel();
 	}
 
 	def abstract ResourceSet createResourceSet()
 
-	def protected abstract Collection<SRC> loadAllFiles(Collection<String> filesToConvert)
+	def protected abstract Collection<SRC> loadAllSourceFiles(Collection<String> filesToConvert)
 
 	def protected abstract Collection<Pair<SRC, TAR>> transform(Collection<SRC> containers)
 
 	def protected abstract void putAllModelsInOneResourceSet(Collection<Pair<SRC, TAR>> srcToTargetContainer)
 
-	def protected abstract void saveAllModels(Collection<Pair<SRC, TAR>> srcToTargetContainer)
+	def protected abstract void saveAllGeneratedModels(Collection<Pair<SRC, TAR>> srcToTargetContainer)
 
-	def protected abstract String getSourceModelName()
+	def protected abstract String getSourceArtifactName()
 
-	def protected abstract String getTargetModelName()
+	def protected abstract String getTargetArtifactName()
 
 	def protected findSourceModelUri(EObject sourceModel) {
 		val srcModelUri = sourceModel?.eResource()?.getURI()
 		if (srcModelUri === null) {
-			logger.logInfo("Cannot find model URI for " + sourceModelName + " " + sourceModel)
+			logger.logInfo("Cannot find model URI for " + sourceArtifactName + " " + sourceModel)
 			return URI.createFileURI("")
 		}
 		return srcModelUri
@@ -91,10 +91,10 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 				}
 			].join(System.lineSeparator)
 			logger.logError(
-				"Cannot resolve all references in the provided " + sourceModelName + " files. Found following " +
+				"Cannot resolve all references in the provided " + sourceArtifactName + " files. Found following " +
 					proxiesAfterResolution.size + " remaining unresolved objects " + System.lineSeparator +
-					proxiesAfterErrorMsg + System.lineSeparator + "Include the necessary " + sourceModelName +
-					" files containing the missing objects into the sources of " + sourceModelName +
+					proxiesAfterErrorMsg + System.lineSeparator + "Include the necessary " + sourceArtifactName +
+					" files containing the missing objects into the sources of " + sourceArtifactName +
 					" in order to fix this error"
 			)
 		}

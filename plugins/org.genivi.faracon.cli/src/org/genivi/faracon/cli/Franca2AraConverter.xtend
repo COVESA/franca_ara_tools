@@ -19,7 +19,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	@Inject
 	var FrancaPersistenceManager francaLoader
 
-	override protected loadAllFiles(Collection<String> filesToConvert) {
+	override protected loadAllSourceFiles(Collection<String> filesToConvert) {
 		val francaModels = filesToConvert.map [ francaFilePath |
 			// Load an input FrancaIDL model.
 			val normalizedFrancaFilePath = normalize(francaFilePath);
@@ -82,7 +82,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 		return araFilePath
 	}
 
-	override protected saveAllModels(
+	override protected saveAllGeneratedModels(
 		Collection<Pair<FrancaModelContainer, ARAModelContainer>> francaToAutosarModelContainer) {
 		francaToAutosarModelContainer.forEach [
 			val araModelContainer = it.value
@@ -92,9 +92,9 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 		]
 	}
 
-	override protected getSourceModelName() '''Franca IDL'''
+	override protected getSourceArtifactName() '''Franca IDL'''
 
-	override protected getTargetModelName() ''''Adaptive AUTOSAR IDL'''
+	override protected getTargetArtifactName() ''''Adaptive AUTOSAR IDL'''
 
 	override createResourceSet() {
 		return new XtextResourceSet
