@@ -82,7 +82,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 		]
 	}
 
-	def getAraFilePath(URI francaModelUri, ARAModelContainer autosar) {
+	def private getAraFilePath(URI francaModelUri, ARAModelContainer autosar) {
 		val transformedModelUri = francaModelUri.trimFileExtension().appendFileExtension("arxml");
 		var String outputDirectoryPath = getOutputDirPath()
 		val String araFilePath = normalize(outputDirectoryPath + transformedModelUri.lastSegment());
@@ -103,7 +103,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 
 	override protected getTargetArtifactName() ''''Adaptive AUTOSAR IDL'''
 
-	override createResourceSet() {
+	override protected createResourceSet() {
 		return new XtextResourceSet
 	}
 
