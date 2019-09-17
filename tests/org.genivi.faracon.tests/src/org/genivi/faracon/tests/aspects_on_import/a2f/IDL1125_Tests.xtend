@@ -36,8 +36,7 @@ class IDL1125_Tests extends ARA2FrancaTestBase {
 	@Test
 	def void testMultipleInputToMultipleOutFiles() {
 		transformAndCheckIntegrationTest(
-			#[testPath + "fileWithMultiImportPart1.arxml",
-			  testPath + "fileWithMultiImportPart2.arxml"],
+			#[testPath + "fileWithMultiImportPart1.arxml", testPath + "fileWithMultiImportPart2.arxml"],
 			#[testPath + "fileWithMultiImportPart1_a1.b2.c3.fidl",
 			  testPath + "fileWithMultiImportPart2_a1.b2.c3.d4.fidl",
 			  testPath + "fileWithMultiImportPart2_a1.b2.c3.d4.e5.fidl"],
