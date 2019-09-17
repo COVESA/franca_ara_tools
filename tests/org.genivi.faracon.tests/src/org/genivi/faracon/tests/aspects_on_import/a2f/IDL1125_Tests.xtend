@@ -18,17 +18,18 @@ class IDL1125_Tests extends ARA2FrancaTestBase {
 
 	@Test
 	def void testMultipleFilesFromAutosarWithImport() {
-		transformAndCheck(testPath + "fileWithImport.arxml",
-			#[testPath + "fileWithImport_a1.b2.c3.fidl", testPath + "fileWithImport_a1.b2.c3.d4.fidl"])
+		transformAndCheckIntegrationTest(#[testPath + "fileWithImport.arxml"],
+			#[testPath + "fileWithImport_a1.b2.c3.fidl", testPath + "fileWithImport_a1.b2.c3.d4.fidl"],
+			"testMultipleFilesFromAutosarWithImport")
 	}
 
 	@Test
 	def void testMultipleFilesWithMultipleInterfacesAndTypesWithImport() {
-		transformAndCheck(
-			testPath + "fileWithMultiImport.arxml",
-			#[testPath + "fileWithMultiImport_a1.b2.c3.fidl",
-			  testPath + "fileWithMultiImport_a1.b2.c3.d4.fidl",
-			  testPath + "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"]
+		transformAndCheckIntegrationTest(
+			#[testPath + "fileWithMultiImport.arxml"],
+			#[testPath + "fileWithMultiImport_a1.b2.c3.fidl", testPath + "fileWithMultiImport_a1.b2.c3.d4.fidl",
+				testPath + "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"],
+			"testMultipleFilesWithMultipleInterfacesAndTypesWithImport"
 		)
 	}
 
