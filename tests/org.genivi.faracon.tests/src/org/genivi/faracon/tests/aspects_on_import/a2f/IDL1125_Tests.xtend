@@ -43,7 +43,7 @@ class IDL1125_Tests extends ARA2FrancaTestBase {
 			"IDL1125_testMultipleInputToMultipleOutFiles")
 	}
 
-	@Test(expected = AbstractLogger.StopOnErrorException)
+	@Test(expected=AbstractLogger.StopOnErrorException)
 	def void testSingleInputFileToMultipleFrancaFiles() {
 		transformAndCheck(
 			testPath + "fileWithMultiImportPart1.arxml",
