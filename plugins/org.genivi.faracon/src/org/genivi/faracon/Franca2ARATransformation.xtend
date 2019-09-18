@@ -24,6 +24,7 @@ import org.genivi.faracon.util.AutosarAnnotator
 import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import java.util.Set
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -44,6 +45,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	static final String ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE = "OriginalParentInterface"
 	static final String ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE = "ArtificalEventDataStructType"
+
+	def setAllNonPrimitiveElementTypesOfAnonymousArrays (Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
+		araTypeCreator.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays
+	}
 
 	def create fac.createAUTOSAR transform(FModel src) {
 		// Fill all names of the Franca model into a hierarchy of names.

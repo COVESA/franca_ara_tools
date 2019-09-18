@@ -25,6 +25,7 @@ import org.franca.core.framework.IFrancaConnector;
 import org.franca.core.framework.IModelContainer;
 import org.franca.core.framework.TransformationIssue;
 import org.franca.core.franca.FModel;
+import org.franca.core.franca.FType;
 import org.franca.core.utils.IntegerTypeConverter;
 import org.genivi.faracon.logging.BaseWithLogger;
 
@@ -45,6 +46,8 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 	private String fileExtension = "arxml";
 
 	private Set<TransformationIssue> lastTransformationIssues = null;
+	
+	private Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays;
 
 	@Override
 	public IModelContainer loadModel(String filename) {
@@ -75,6 +78,10 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 		return saveARXML(new ARAResourceSet(mc.araStandardTypeDefinitionsModel()), mc.model()/*, mc.getComments()*/, filename);
 	}
 
+	public void setAllNonPrimitiveElementTypesOfAnonymousArrays (Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
+		this.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays;
+	}
+
 	@Override
 	public FrancaModelContainer toFranca(IModelContainer model) {
 		if (! (model instanceof ARAModelContainer)) {
@@ -96,6 +103,7 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 		IntegerTypeConverter.removeRangedIntegers(fmodel, true);
 
 		// do the actual transformation
+		franca2ARATransformation.setAllNonPrimitiveElementTypesOfAnonymousArrays(allNonPrimitiveElementTypesOfAnonymousArrays);
 		AUTOSAR amodel = franca2ARATransformation.transform(fmodel);
 
 		// report issues

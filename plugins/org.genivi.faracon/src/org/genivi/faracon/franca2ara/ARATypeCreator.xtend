@@ -1,13 +1,16 @@
 package org.genivi.faracon.franca2ara
 
+import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import java.util.Map
+import java.util.Set
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.FrancaModelExtensions
+import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FEnumerationType
@@ -27,7 +30,6 @@ import org.genivi.faracon.util.AutosarAnnotator
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
-import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {
@@ -41,8 +43,14 @@ class ARATypeCreator extends Franca2ARABase {
 
 	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
 
+	var Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays
+
 	static final String ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE = "OriginalStructType"
 	static final String ANNOTATION_LABEL_ORIGINAL_UNION_TYPE = "OriginalUnionType"
+
+	def setAllNonPrimitiveElementTypesOfAnonymousArrays (Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
+		this.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays;
+	}
 
 	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
 		if (fTypedElement === null || !fTypedElement.isArray) {
@@ -113,6 +121,24 @@ class ARATypeCreator extends Franca2ARABase {
 		]
 		aCompoundType.subElements.addAll(aAllElements)
 		aCompoundType.ARPackage = fCompoundType.findArPackageForFrancaElement
+		
+		if (allNonPrimitiveElementTypesOfAnonymousArrays.contains(fCompoundType)) {
+			getLogger().logInfo("nonPrimitiveElementTypeOfAnonymousArrays " + fCompoundType.name + " found, added to package " + aCompoundType.ARPackage.shortName + ".")
+			val vectorImplementationDataType = fac.createImplementationDataType
+			vectorImplementationDataType.shortName = fCompoundType.name + "Vector"
+			vectorImplementationDataType.category = "VECTOR"
+			vectorImplementationDataType.subElements += fac.createImplementationDataTypeElement => [
+				shortName = "valueType"
+				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+				it.category = "TYPE_REFERENCE"
+				swDataDefProps = fac.createSwDataDefProps => [
+					swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+						implementationDataType = aCompoundType
+					]
+				]
+			]
+			vectorImplementationDataType.ARPackage = aCompoundType.ARPackage			
+		}
 	}
 
 	static def String getARFullyQualifiedName(FCompoundType fCompoundType) {
@@ -240,29 +266,53 @@ class ARATypeCreator extends Franca2ARABase {
 		it.swDataDefProps = dataDefProps
 	}
 
-	def private ImplementationDataType createArrayTypeForTypedElement(FTypeRef fTypeRef, FTypedElement fTypedElement) {
-		val nameOfArrayType = fTypeRef.nameOfReferencedType + "Vector"
-		if (arrayTypeNameToImplementationDataType.containsKey(nameOfArrayType)) {
-			return arrayTypeNameToImplementationDataType.get(nameOfArrayType)
-		}
-		val vectorImplementationDataType = fac.createImplementationDataType
-		arrayTypeNameToImplementationDataType.put(nameOfArrayType, vectorImplementationDataType)
-		vectorImplementationDataType.shortName = nameOfArrayType
-		vectorImplementationDataType.category = "VECTOR"
-		vectorImplementationDataType.ARPackage = findArPackageForFrancaElement(fTypedElement)
-		vectorImplementationDataType.subElements += fac.createImplementationDataTypeElement => [
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FArrayType fArrayType) {
+		it.shortName = fArrayType.name
+		it.category = "VECTOR"
+		it.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
 			it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 			it.category = "TYPE_REFERENCE"
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = fTypeRef.createDataTypeReference as ImplementationDataType
+					implementationDataType = fArrayType.elementType.createDataTypeReference as ImplementationDataType
 				]
 			]
 		]
 		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
-//		vectorImplementationDataType.createImplementationDataTypeExtension
-		return vectorImplementationDataType
+//		it.createImplementationDataTypeExtension
+		it.ARPackage = findArPackageForFrancaElement(fArrayType)
+	}
+
+	def private ImplementationDataType createArrayTypeForTypedElement(FTypeRef fTypeRef, FTypedElement fTypedElement) {
+/*
+		val nameOfArrayType = fTypeRef.nameOfReferencedType + "Vector"
+		if (arrayTypeNameToImplementationDataType.containsKey(nameOfArrayType)) {
+			return arrayTypeNameToImplementationDataType.get(nameOfArrayType)
+		}
+		if (fTypeRef.refsPrimitiveType) {
+			getBaseTypeVectorForReference(fTypeRef.predefined)			
+		} else {
+			val vectorImplementationDataType = fac.createImplementationDataType
+			arrayTypeNameToImplementationDataType.put(nameOfArrayType, vectorImplementationDataType)
+			vectorImplementationDataType.shortName = nameOfArrayType
+			vectorImplementationDataType.category = "VECTOR"
+			vectorImplementationDataType.ARPackage = findArPackageForFrancaElement(fTypedElement)
+			vectorImplementationDataType.subElements += fac.createImplementationDataTypeElement => [
+				shortName = "valueType"
+				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+				it.category = "TYPE_REFERENCE"
+				swDataDefProps = fac.createSwDataDefProps => [
+					swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+						implementationDataType = fTypeRef.createDataTypeReference as ImplementationDataType
+					]
+				]
+			]
+			// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
+	//		vectorImplementationDataType.createImplementationDataTypeExtension
+			return vectorImplementationDataType
+		}
+*/
 	}
 
 	def private getNameOfReferencedType(FTypeRef fTypeRef) {

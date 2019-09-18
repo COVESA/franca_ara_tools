@@ -7,6 +7,7 @@ import org.eclipse.xtext.resource.XtextResourceSet
 import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.framework.FrancaModelContainer
 import org.franca.core.franca.FModel
+import org.franca.core.franca.FTypedElement
 import org.franca.core.utils.FileHelper
 import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
@@ -46,6 +47,13 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	}
 
 	override protected transform(Collection<FrancaModelContainer> francaModelContainers) {
+		val allNonPrimitiveElementTypesOfAnonymousArrays = francaModelContainers.map [ francaModelContainer |
+			val francaModel = francaModelContainer.model
+			francaModel.eAllContents.filter(FTypedElement).filter[array && type?.derived !== null].map[type?.derived].toList
+		].flatten.toSet
+		allNonPrimitiveElementTypesOfAnonymousArrays.forEach[getLogger().logInfo("allNonPrimitiveElementTypesOfAnonymousArrays: " + name)]
+		araConnector.setAllNonPrimitiveElementTypesOfAnonymousArrays(allNonPrimitiveElementTypesOfAnonymousArrays)
+		
 		val araModelContainer = francaModelContainers.map [ francaModelContainer |
 			val francaModel = francaModelContainer.model
 			val francaModelUri = francaModel.eResource().getURI();
