@@ -10,10 +10,10 @@ import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FModel
+import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
 import org.genivi.faracon.ARAResourceSet
-import org.franca.core.franca.FTypeRef
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {
