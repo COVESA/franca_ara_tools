@@ -3,11 +3,13 @@ package org.genivi.faracon
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
+import java.util.Set
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FBroadcast
+import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
@@ -24,7 +26,6 @@ import org.genivi.faracon.util.AutosarAnnotator
 import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
-import java.util.Set
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -43,11 +44,13 @@ class Franca2ARATransformation extends Franca2ARABase {
 	@Inject
 	NamesHierarchy namesHierarchy
 
+	var Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays
+
 	static final String ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE = "OriginalParentInterface"
 	static final String ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE = "ArtificalEventDataStructType"
 
 	def setAllNonPrimitiveElementTypesOfAnonymousArrays (Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
-		araTypeCreator.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays
+		this.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays
 	}
 
 	def create fac.createAUTOSAR transform(FModel src) {
@@ -63,7 +66,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val elementPackage = src.createPackageHierarchyForElementPackage(it)
 		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
 		
-		src.typeCollections.forEach[it.transform(elementPackage)]
+		src.typeCollections.forEach[it.transform]
 	}
 
 	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
@@ -71,30 +74,36 @@ class Franca2ARATransformation extends Franca2ARABase {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
-		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackage)])
-		fields.addAll(getAllAttributes(src).map[transform(src)])
 		namespaces.addAll(targetPackage.createNamespaceForPackage)
-		methods.addAll(getAllMethods(src).map[transform(src)])
+		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackage)])
+		fields.addAll(getAllAttributes(src).map[it.transform(src)])
+		methods.addAll(getAllMethods(src).map[it.transform(src)])
 		
 		// Ensure that all local type definitions of the interface definition are translated
 		// even if they are not referenced.
-		for (interfaceLocalTypeDefinition : src.types) {
-			interfaceLocalTypeDefinition.getDataTypeForReference
-		}
+		transform(src)
 	}
 	
-	def void transform(FTypeCollection typeCollection, ARPackage arPackage){
-		val types = typeCollection.types.map[dataTypeForReference]
-		if(typeCollection.name.isNullOrEmpty){
-			// types within an annonymous type collections are added to the package directly 
-			arPackage.elements.addAll(types)	
-		}else{
-			// types within a named type collection are added to an own package
-			arPackage.arPackages += fac.createARPackage =>[
-				elements += types
-				shortName = typeCollection.name
-			] 
-		}
+	def void transform(FTypeCollection fTypeCollection){
+		val types = fTypeCollection.types.map[dataTypeForReference]
+		val accordingArPackage = fTypeCollection.accordingArPackage
+
+		// Add the conversions of all Franca types that are defined in this type collection.
+		accordingArPackage.elements.addAll(types)
+
+		// Add the according CompuMethods for all Franca enumeration types of this type collection.
+		accordingArPackage.elements.addAll(
+			fTypeCollection.types.filter(FEnumerationType).map[createCompuMethod]
+		)
+
+		// Add artificial vector type definitions for all types of this type collection
+		// which are used as element type of an anonymous array anywhere in the any Franca input model.
+		accordingArPackage.elements.addAll(
+			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays.contains(it)].map[fType|
+				getLogger().logInfo("nonPrimitiveElementTypeOfAnonymousArrays " + fType.name + " found, added according vector type definiton to package " + accordingArPackage.shortName + ".")
+				createArtificialVectorType(fType)
+			]
+		)		
 	}
 	
 	// Beside the original parent interface check, the parameter 'parentInterface' is important

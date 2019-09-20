@@ -2,19 +2,21 @@ package org.genivi.faracon.franca2ara
 
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
+import autosar40.util.Autosar40Factory
 import java.util.Map
 import java.util.regex.Pattern
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FTypeCollection
 import org.genivi.faracon.Franca2ARABase
-import autosar40.util.Autosar40Factory
 
 @Singleton
 class ARAPackageCreator extends Franca2ARABase {
 
-	val Map<FModel, ARPackage> fModel2Packages = newHashMap()
+	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
+	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
 
 	def ARPackage createPackageHierarchyForElementPackage(FModel fModel, AUTOSAR autosar) {
 		val segments = fModel.name.split(Pattern.quote("."))
@@ -32,8 +34,31 @@ class ARAPackageCreator extends Franca2ARABase {
 			elementPackage = createPackageWithName(fModel.name, null)
 			autosar?.arPackages?.add(elementPackage)
 		}
-		fModel2Packages.put(fModel, elementPackage)
+		
+		// Create AUTOSAR subpackages for all Franca interface definitions with content that has to be transformed into package content.
+		for (interface : fModel.interfaces) {
+			if (!interface.types.nullOrEmpty || !interface.constants.nullOrEmpty) {
+				fTypeCollection2arPackage.put(interface, createPackageWithName(interface.name, elementPackage))
+			}
+		}
+		// Create AUTOSAR subpackages for all named Franca type collections.
+		for (typeCollection : fModel.typeCollections) {
+			if (!typeCollection.name.nullOrEmpty) {
+				fTypeCollection2arPackage.put(typeCollection, createPackageWithName(typeCollection.name, elementPackage))
+			}
+		}
+		
+		fModel2arPackage.put(fModel, elementPackage)
 		return elementPackage
+	}
+
+	def getAccordingArPackage(FTypeCollection fTypeCollection) {
+		val accordingArPackage = fTypeCollection2arPackage.get(fTypeCollection)
+		if (accordingArPackage !== null) {
+			accordingArPackage
+		} else {
+			fModel2arPackage.get(fTypeCollection.eContainer as FModel)
+		}
 	}
 
 	def private createPackageWithName(String name, ARPackage parent) {
@@ -43,20 +68,4 @@ class ARAPackageCreator extends Franca2ARABase {
 		newPackage
 	}
 
-	/** 
-	 * Returns the package for the Franca model element. 
-	 * If it has not been created yet, it creates a dummy hierarchy in order to ensure that the 
-	 * package name is correct.
-	 */
-	def ARPackage findArPackageForFrancaElement(FModelElement fModelElement) {
-		val rootContainer = EcoreUtil.getRootContainer(fModelElement)
-		val foundPackage = fModel2Packages.get(rootContainer)
-		if(foundPackage === null && rootContainer instanceof FModel){
-			//create a dummy package from the FModel
-			val rootFrancaModel = rootContainer as FModel
-			createPackageHierarchyForElementPackage(rootFrancaModel, Autosar40Factory.eINSTANCE.createAUTOSAR)
-			return fModel2Packages.get(rootFrancaModel)
-		}
-		return foundPackage
-	}
 }
