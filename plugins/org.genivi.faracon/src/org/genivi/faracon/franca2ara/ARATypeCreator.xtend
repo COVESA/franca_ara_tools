@@ -24,6 +24,7 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
+import org.genivi.faracon.util.AutosarAnnotator
 
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
@@ -127,7 +128,7 @@ class ARATypeCreator extends Franca2ARABase {
 	def dispatch void checkCompoundType(FStructType type) {
 		if (type.polymorphic) {
 			logger.
-				logError('''Struct type "ï¿½type.nameï¿½" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
+				logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
 		}
 	}
 
@@ -187,7 +188,7 @@ class ARATypeCreator extends Franca2ARABase {
 						val limitText = enumValue.valueFromFConstant
 						if (limitText === null) {
 							logger.
-								logError('''Did not found a constant values for "ï¿½enumerator.value.class.simpleNameï¿½" in enumerator "ï¿½enumerator.nameï¿½" of enumeration "ï¿½fEnumerationType.nameï¿½''')
+								logError('''Did not found a constant values for "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
 						}
 						val arLimit = fac.createLimitValueVariationPoint => [
 							it.intervalType = IntervalTypeEnum.CLOSED
@@ -197,7 +198,7 @@ class ARATypeCreator extends Franca2ARABase {
 						compuScale.upperLimit = arLimit
 					} else {
 						logger.
-							logError('''Only constant values are supported for enums, but found "ï¿½enumerator.value.class.simpleNameï¿½" in enumerator "ï¿½enumerator.nameï¿½" of enumeration "ï¿½fEnumerationType.nameï¿½''')
+							logError('''Only constant values are supported for enums, but found "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
 					}
 				}
 			]
@@ -216,7 +217,8 @@ class ARATypeCreator extends Franca2ARABase {
 		return null
 	}
 
-	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FTypedElement fTypedElement,
+	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(
+		FTypedElement fTypedElement,
 		FCompoundType fParentCompoundType) {
 		it.shortName = fTypedElement.name
 		it.category = "TYPE_REFERENCE"
