@@ -20,9 +20,9 @@ import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
+import org.genivi.faracon.franca2ara.AutosarAnnotator
 import org.genivi.faracon.names.FrancaNamesCollector
 import org.genivi.faracon.names.NamesHierarchy
-import org.genivi.faracon.util.AutosarAnnotator
 
 import static org.franca.core.framework.FrancaHelpers.*
 

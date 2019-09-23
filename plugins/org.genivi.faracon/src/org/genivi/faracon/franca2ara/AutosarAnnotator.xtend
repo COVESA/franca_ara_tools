@@ -1,4 +1,4 @@
-package org.genivi.faracon.util
+package org.genivi.faracon.franca2ara
 
 import autosar40.genericstructure.generaltemplateclasses.documentation.annotation.Annotation
 import autosar40.genericstructure.generaltemplateclasses.documentation.blockelements.DocumentationBlock
@@ -8,7 +8,9 @@ import autosar40.genericstructure.generaltemplateclasses.documentation.textmodel
 import autosar40.genericstructure.generaltemplateclasses.documentation.textmodel.multilanguagedata.MultilanguageLongName
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import org.genivi.faracon.Franca2ARABase
+import javax.inject.Singleton
 
+@Singleton
 class AutosarAnnotator extends Franca2ARABase {
 
 	def addAnnotation(Identifiable objectToAnnotate, String labelText, String annotationText) {

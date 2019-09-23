@@ -1,0 +1,20 @@
+package a1.b2.c3
+
+interface TestInterface{
+	method testMethod{
+		in {
+			TestArStruct arStructIn
+		}
+	}
+}
+
+typeCollection {
+	version {
+		major 2
+		minor 1
+	}
+	
+	struct TestArStruct {
+		UInt32 MyUInt32
+	}
+}
