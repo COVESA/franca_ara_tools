@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/cs/idt">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <AR-PACKAGES>
+                <AR-PACKAGE UUID="0">
+                  <SHORT-NAME>2_5</SHORT-NAME>
+                  <ANNOTATIONS>
+                    <ANNOTATION>
+                      <LABEL>
+                        <L-4>FrancaVersion</L-4>
+                      </LABEL>
+                      <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                      <ANNOTATION-TEXT>
+                        <VERBATIM>
+                          <L-5>FInterfaceImpl 2.5</L-5>
+                        </VERBATIM>
+                      </ANNOTATION-TEXT>
+                    </ANNOTATION>
+                  </ANNOTATIONS>
+                  <ELEMENTS>
+                    <SERVICE-INTERFACE UUID="0">
+                      <SHORT-NAME>TestInterface</SHORT-NAME>
+                      <NAMESPACES>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>a1</SHORT-NAME>
+                          <SYMBOL>a1</SYMBOL>
+                        </SYMBOL-PROPS>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>b2</SHORT-NAME>
+                          <SYMBOL>b2</SYMBOL>
+                        </SYMBOL-PROPS>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>c3</SHORT-NAME>
+                          <SYMBOL>c3</SYMBOL>
+                        </SYMBOL-PROPS>
+                        <SYMBOL-PROPS>
+                          <SHORT-NAME>2_5</SHORT-NAME>
+                          <SYMBOL>2_5</SYMBOL>
+                        </SYMBOL-PROPS>
+                      </NAMESPACES>
+                    </SERVICE-INTERFACE>
+                  </ELEMENTS>
+                </AR-PACKAGE>
+              </AR-PACKAGES>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
