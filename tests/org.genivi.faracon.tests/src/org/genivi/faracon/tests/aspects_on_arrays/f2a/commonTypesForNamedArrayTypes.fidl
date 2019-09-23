@@ -1,0 +1,17 @@
+package x.y.z
+
+typeCollection commonTypes {
+
+	struct CommonArrayElementStructType {
+		String field_a
+		Boolean field_b
+	}
+
+	enumeration CommonArrayElementEnumerationType {
+		E1
+		E2
+		E3
+		E4
+	}
+
+}

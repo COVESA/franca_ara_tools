@@ -1,0 +1,22 @@
+package a1.b2.c3
+
+import model "commonTypesForNamedArrayTypes.fidl"
+
+interface ExampleInterface2 {
+
+	array ComplexNamedArrayType of x.y.z.commonTypes.CommonArrayElementStructType
+
+	struct UserDefinedStructType {
+		ComplexNamedArrayType field_1
+		Boolean field_2
+		ComplexNamedArrayType field_3
+	}
+
+	method methodWithUserDefinedTypeArguments {
+		in {
+			UserDefinedStructType struct_argument
+			ComplexNamedArrayType anonymous_array_argument
+		}
+	}
+	
+}

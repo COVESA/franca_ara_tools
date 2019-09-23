@@ -1,0 +1,20 @@
+package a1.b2.c3
+
+import model "commonTypesForAnonymousArrayTypes.fidl"
+
+interface ExampleInterface2 {
+
+	struct UserDefinedStructType {
+		x.y.z.commonTypes.CommonArrayElementStructType[] field_1
+		Boolean field_2
+		x.y.z.commonTypes.CommonArrayElementStructType[] field_3
+	}
+
+	method methodWithUserDefinedTypeArguments {
+		in {
+			UserDefinedStructType struct_argument
+			x.y.z.commonTypes.CommonArrayElementStructType[] anonymous_array_argument
+		}
+	}
+	
+}

@@ -1,0 +1,20 @@
+package a1.b2.c3
+
+import model "commonTypesForNamedArrayTypes.fidl"
+import model "commonTypes2ForNamedArrayTypes.fidl"
+
+interface ExampleInterface {
+
+	array ComplexNamedArrayType of x.y.CommonArrayElementStructType
+	array ComplexNamedArrayType2 of x.y.z.CommonArrayElementStructType
+	array ComplexNamedArrayType3 of x.y.z.commonTypes.CommonArrayElementStructType
+		
+	method methodWithUserDefinedTypeArguments {
+		in {
+			ComplexNamedArrayType anonymous_array_argument
+			ComplexNamedArrayType2 anonymous_array_argument_2
+			ComplexNamedArrayType3 anonymous_array_argument_3
+		}
+	}
+	
+}

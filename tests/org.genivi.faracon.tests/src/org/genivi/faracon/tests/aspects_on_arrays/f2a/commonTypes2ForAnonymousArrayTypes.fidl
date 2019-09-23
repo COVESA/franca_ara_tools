@@ -1,0 +1,19 @@
+package x.y
+
+typeCollection {
+
+	struct CommonArrayElementStructType {
+		String field_a
+		Boolean field_b
+	}
+
+}
+
+typeCollection z {
+
+	struct CommonArrayElementStructType {
+		String field_a
+		Boolean field_b
+	}
+
+}

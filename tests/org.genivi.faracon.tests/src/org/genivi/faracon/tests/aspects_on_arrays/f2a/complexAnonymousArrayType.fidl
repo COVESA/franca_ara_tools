@@ -1,0 +1,23 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct LocalArrayElementStructType {
+		String field_a
+		Boolean field_b
+	}
+
+	struct UserDefinedStructType {
+		LocalArrayElementStructType[] field_1
+		Boolean field_2
+		LocalArrayElementStructType[] field_3
+	}
+
+	method methodWithUserDefinedTypeArguments {
+		in {
+			UserDefinedStructType struct_argument
+			LocalArrayElementStructType[] anonymous_array_argument
+		}
+	}
+	
+}

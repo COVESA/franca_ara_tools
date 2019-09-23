@@ -1,0 +1,18 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct UserDefinedStructType {
+		UInt32[] field_1
+		Boolean field_2
+		UInt32[] field_3
+	}
+
+	method methodWithUserDefinedTypeArguments {
+		in {
+			UserDefinedStructType struct_argument
+			UInt32[] anonymous_array_argument
+		}
+	}
+	
+}

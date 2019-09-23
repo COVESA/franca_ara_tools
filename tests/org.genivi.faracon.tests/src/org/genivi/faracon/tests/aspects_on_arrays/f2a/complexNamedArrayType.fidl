@@ -1,0 +1,25 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct LocalArrayElementStructType {
+		String field_a
+		Boolean field_b
+	}
+
+	array ComplexNamedArrayType of LocalArrayElementStructType
+
+	struct UserDefinedStructType {
+		ComplexNamedArrayType field_1
+		Boolean field_2
+		ComplexNamedArrayType field_3
+	}
+
+	method methodWithUserDefinedTypeArguments {
+		in {
+			UserDefinedStructType struct_argument
+			ComplexNamedArrayType named_array_argument
+		}
+	}
+	
+}

@@ -1,0 +1,20 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	array SimpleNamedArrayType of UInt32
+		
+	struct UserDefinedStructType {
+		SimpleNamedArrayType field_1
+		Boolean field_2
+		SimpleNamedArrayType field_3
+	}
+
+	method methodWithUserDefinedTypeArguments {
+		in {
+			UserDefinedStructType struct_argument
+			SimpleNamedArrayType named_array_argument
+		}
+	}
+	
+}

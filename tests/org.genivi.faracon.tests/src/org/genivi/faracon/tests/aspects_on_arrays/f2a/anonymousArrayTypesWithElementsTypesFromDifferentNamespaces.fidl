@@ -1,0 +1,16 @@
+package a1.b2.c3
+
+import model "commonTypesForAnonymousArrayTypes.fidl"
+import model "commonTypes2ForAnonymousArrayTypes.fidl"
+
+interface ExampleInterface {
+
+	method methodWithUserDefinedTypeArguments {
+		in {
+			x.y.CommonArrayElementStructType[] anonymous_array_argument
+			x.y.z.CommonArrayElementStructType[] anonymous_array_argument_2
+			x.y.z.commonTypes.CommonArrayElementEnumerationType[] anonymous_array_argument_3
+		}
+	}
+	
+}
