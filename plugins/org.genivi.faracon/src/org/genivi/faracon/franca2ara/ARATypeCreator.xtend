@@ -24,7 +24,6 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
-import org.genivi.faracon.util.AutosarAnnotator
 
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
