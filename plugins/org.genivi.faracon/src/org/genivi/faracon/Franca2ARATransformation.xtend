@@ -79,8 +79,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
-		namespaces.addAll(targetPackage.createNamespaceForPackage)
-		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackage)])
+
+		val targetPackageWithVersion = src.createPackageForVersion(targetPackage)
+		targetPackageWithVersion.elements += it
+
+		namespaces.addAll(targetPackageWithVersion.createNamespaceForPackage)
+		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackageWithVersion)])
 		fields.addAll(getAllAttributes(src).map[it.transform(src)])
 		methods.addAll(getAllMethods(src).map[it.transform(src)])
 		
@@ -93,23 +97,25 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val types = fTypeCollection.types.map[dataTypeForReference]
 		val accordingArPackage = fTypeCollection.accordingArPackage
 
+        val parentPackage = typeCollection.createPackageForVersion(accordingArPackage)
+
 		// Add the conversions of all Franca types that are defined in this type collection.
-		accordingArPackage?.elements?.addAll(types)
+		parentPackage?.elements?.addAll(types)
 
 		// Add the according CompuMethods for all Franca enumeration types of this type collection.
-		accordingArPackage?.elements?.addAll(
+		parentPackage?.elements?.addAll(
 			fTypeCollection.types.filter(FEnumerationType).map[createCompuMethod]
 		)
 
 		// Add artificial vector type definitions for all types of this type collection
 		// which are used as element type of an anonymous array anywhere in the any Franca input model.
-		accordingArPackage?.elements?.addAll(
+		parentPackage?.elements?.addAll(
 			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays?.contains(it)].map[fType|
 				createArtificialVectorType(fType)
 			]
 		)		
 	}
-	
+
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As methods are copied to derived interfaces multiple copies of them are needed.
