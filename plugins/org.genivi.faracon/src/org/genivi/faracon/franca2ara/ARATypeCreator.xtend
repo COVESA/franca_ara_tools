@@ -41,6 +41,8 @@ class ARATypeCreator extends Franca2ARABase {
 	@Inject
 	var extension AutosarAnnotator
 
+	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
+
 	static final String ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE = "OriginalStructType"
 	static final String ANNOTATION_LABEL_ORIGINAL_UNION_TYPE = "OriginalUnionType"
 
@@ -77,7 +79,7 @@ class ARATypeCreator extends Franca2ARABase {
 //	}
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
 		getLogger.
-			logWarning('''Cannot create AutosarDatatype because the Franca type "ï¿½type.eClass.nameï¿½" is not yet supported''')
+			logWarning('''Cannot create AutosarDatatype because the Franca type "?type.eClass.name?" is not yet supported''')
 		return null
 	}
 
@@ -127,7 +129,7 @@ class ARATypeCreator extends Franca2ARABase {
 	def dispatch void checkCompoundType(FStructType type) {
 		if (type.polymorphic) {
 			logger.
-				logError('''Struct type "ï¿½type.nameï¿½" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
+				logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
 		}
 	}
 
@@ -172,7 +174,7 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 	
 
-	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
+	def private create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
 		shortName = fEnumerationType.name + "_CompuMethod"
 		it.category = "TEXTTABLE"
 		val allEnumerators = FrancaModelExtensions.getInheritationSet(fEnumerationType).map[it as FEnumerationType].map [
@@ -187,7 +189,7 @@ class ARATypeCreator extends Franca2ARABase {
 						val limitText = enumValue.valueFromFConstant
 						if (limitText === null) {
 							logger.
-								logError('''Did not found a constant values for "ï¿½enumerator.value.class.simpleNameï¿½" in enumerator "ï¿½enumerator.nameï¿½" of enumeration "ï¿½fEnumerationType.nameï¿½''')
+								logError('''Did not found a constant values for "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
 						}
 						val arLimit = fac.createLimitValueVariationPoint => [
 							it.intervalType = IntervalTypeEnum.CLOSED
@@ -197,7 +199,7 @@ class ARATypeCreator extends Franca2ARABase {
 						compuScale.upperLimit = arLimit
 					} else {
 						logger.
-							logError('''Only constant values are supported for enums, but found "ï¿½enumerator.value.class.simpleNameï¿½" in enumerator "ï¿½enumerator.nameï¿½" of enumeration "ï¿½fEnumerationType.nameï¿½''')
+							logError('''Only constant values are supported for enums, but found "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
 					}
 				}
 			]
