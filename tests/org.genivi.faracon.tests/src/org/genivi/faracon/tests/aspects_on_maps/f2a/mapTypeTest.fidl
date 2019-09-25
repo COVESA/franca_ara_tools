@@ -1,0 +1,14 @@
+package a1.b2.c3
+
+typeCollection {
+	
+	map simpleMap { UInt16 to UInt32}
+	
+	
+	map structMap {TestStruct to UInt32}
+
+	struct TestStruct {
+		Int32 testMember
+	}
+	
+}
