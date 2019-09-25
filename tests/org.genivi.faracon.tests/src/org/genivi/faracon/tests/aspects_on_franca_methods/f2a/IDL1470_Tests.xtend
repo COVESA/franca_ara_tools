@@ -321,7 +321,12 @@ class IDL1470_Tests extends Franca2ARATestBase {
 		val FInterface fInterface = francaFac.createFInterface => [
 			name = MODEL_ELEMENT_NAME
 		]
-		val ARPackage arPackage = araFac.createARPackage
+		val FModel fModel = francaFac.createFModel => [
+			name = "a1.b2.c3"
+			interfaces += fInterface
+		]
+		val AUTOSAR autosar = araFac.createAUTOSAR
+		val ARPackage arPackage = araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
 		val ServiceInterface serviceInterface = franca2ARATransformation.transform(fInterface, arPackage)
 		checkNamesEquality(fInterface, serviceInterface)
 	}

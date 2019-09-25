@@ -24,7 +24,8 @@ class IDL1800_Tests extends ARA2FrancaTestBase {
 	@Test
 	def void predefinedBasicTypeStructFields() {
 		transformAndCheck(testPath + "predefinedBasicTypeStructFields.arxml",
-			testPath + "predefinedBasicTypeStructFields.fidl");
+			#[testPath + "predefinedBasicTypeStructFields_a1.b2.c3.fidl",
+			  testPath + "predefinedBasicTypeStructFields_a1.b2.c3.ExampleInterface.fidl"]);
 	}
 
 }

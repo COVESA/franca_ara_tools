@@ -26,8 +26,9 @@ class IDL1125_Tests extends ARA2FrancaTestBase {
 	def void testMultipleFilesWithMultipleInterfacesAndTypesWithImport() {
 		transformAndCheck(
 			testPath + "fileWithMultiImport.arxml",
-			#[testPath + "fileWithMultiImport_a1.b2.c3.fidl", testPath + "fileWithMultiImport_a1.b2.c3.d4.fidl",
-				testPath + "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"]
+			#[testPath + "fileWithMultiImport_a1.b2.c3.fidl",
+			  testPath + "fileWithMultiImport_a1.b2.c3.d4.fidl",
+			  testPath + "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"]
 		)
 	}
 
