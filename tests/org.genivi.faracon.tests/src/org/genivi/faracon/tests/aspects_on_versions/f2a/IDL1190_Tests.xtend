@@ -1,4 +1,4 @@
-package org.genivi.faracon.tests.aspects_on_versions
+package org.genivi.faracon.tests.aspects_on_versions.f2a
 
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import org.eclipse.xtext.testing.InjectWith
