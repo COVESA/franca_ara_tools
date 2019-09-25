@@ -27,6 +27,7 @@ import org.genivi.faracon.names.NamesHierarchy
 import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -37,10 +38,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 	var extension ARATypeCreator araTypeCreator
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
+    @Inject
+	var extension ARANamespaceCreator
 	@Inject
 	var extension AutosarAnnotator
 	@Inject
-	var extension ARANamespaceCreator
+	var extension AutosarSpecialDataGroupCreator
 
 	@Inject
 	NamesHierarchy namesHierarchy
@@ -77,6 +80,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
+		it.addSdgForFrancaElement(src)
 
 		val interfacePackage = src.accordingInterfacePackage
 		it.ARPackage = interfacePackage
@@ -110,6 +114,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 				createArtificialVectorType(fType)
 			]
 		)
+       	accordingArPackage?.addSdgForFrancaElement(typeCollection)
 	}
 
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
@@ -118,6 +123,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createClientServerOperation transform(FMethod src, FInterface parentInterface) {
 		shortName = src.name
+		
+		it.addSdgForFrancaElement(src)
 
 		// The flag that indicates a fire&forget method is an optional member in AUTOSAR models.
 		// It can have the values {true, false, undefined}. We encode non-fire&forget methods with 'undefined'.
@@ -158,6 +165,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createArgumentDataPrototype transform(FArgument arg, boolean isIn, FInterface parentInterface) {
 		shortName = arg.name
+		it.addSdgForFrancaElement(arg)
 		// category = xxx
 		type = createDataTypeReference(arg.type, arg)
 		direction = if(isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
@@ -169,6 +177,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createField transform(FAttribute src, FInterface parentInterface) {
 		shortName = src.name
+		it.addSdgForFrancaElement(src)
 		type = src.type.createDataTypeReference(src)
 		hasGetter = !src.noRead
 		hasNotifier = !src.noSubscriptions
@@ -193,7 +202,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface,
 		ARPackage interfaceArPackage) {
 		shortName = src.name
-
+		
+		it.addSdgForFrancaElement(src)
 		type = if (src?.outArgs.length == 1) {
 			src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
 		} else {

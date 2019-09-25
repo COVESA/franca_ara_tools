@@ -38,6 +38,8 @@ class ARATypeCreator extends Franca2ARABase {
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
 	var extension AutosarAnnotator
+	@Inject
+	var extension AutosarSpecialDataGroupCreator
 
 	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
 
@@ -62,6 +64,7 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def AutosarDataType getDataTypeForReference(FType type) {
 		val autosarType = type.createDataTypeForReference
+		autosarType.addSdgForFrancaElement(type)
 		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
 //		autosarType.createImplementationDataTypeExtension
 		return autosarType

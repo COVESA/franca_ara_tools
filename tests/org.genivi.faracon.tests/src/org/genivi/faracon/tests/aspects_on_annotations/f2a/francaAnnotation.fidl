@@ -1,0 +1,19 @@
+package a1.b2.c3
+
+<**
+		@author : My Author
+	**>
+interface TestInterface{
+	<**
+	@experimental : test experimental comment 
+	**>
+	method testMethod{
+		in{
+			<**
+			@description : parameter description
+			@author : parameter author 
+			**>		
+			UInt32 myUInt32
+		}
+	}
+}
