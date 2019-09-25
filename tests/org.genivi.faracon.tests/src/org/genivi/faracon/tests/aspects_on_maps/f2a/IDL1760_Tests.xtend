@@ -17,12 +17,12 @@ class IDL1760_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void testMapTypeTransformation() {
-		transformAndCheck(correspondingAutosar2FrancaTestPath, "mapTypeTest", testPath + "mapTypeTest.arxml")
+		transformAndCheck(testPath, "mapTypeTest", testPath + "mapTypeTest.arxml")
 	}
 
 	@Test
 	def void testMapTypeUsageTransformation() {
-		transformAndCheck(correspondingAutosar2FrancaTestPath, "mapTypeUsage", testPath + "mapTypeUsage.arxml")
+		transformAndCheck(testPath, "mapTypeUsage", testPath + "mapTypeUsage.arxml")
 	}
 
 }
