@@ -8,6 +8,7 @@ import org.franca.core.franca.FModel
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
 import static org.junit.Assert.fail
+import static org.junit.Assert.assertNotNull
 
 /**
  * Assertion helper for the faracon test, which contains all general 
@@ -71,5 +72,10 @@ class FaraconAssertHelper {
 			element?.class, classInstance.isInstance(element))
 		return classInstance.cast(element)
 
+	}
+	
+	def static <T> T assertNotNull(T object){
+		assertNotNull("The object was expected to be not null", object)
+		return object
 	}
 }

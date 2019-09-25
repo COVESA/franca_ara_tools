@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://autosar.org/schema/r4.0 http://autosar.org/schema/r4.0/autosar40/cs/idt">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <SERVICE-INTERFACE UUID="0">
+                  <SHORT-NAME>TestInterface</SHORT-NAME>
+                  <ADMIN-DATA>
+                    <SDGS>
+                      <SDG GID="FARACON">
+                        <SDG-CAPTION>
+                          <DESC>
+                            <L-2>author</L-2>
+                          </DESC>
+                        </SDG-CAPTION>
+                        <SD>My Author</SD>
+                      </SDG>
+                    </SDGS>
+                  </ADMIN-DATA>
+                  <NAMESPACES>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>a1</SHORT-NAME>
+                      <SYMBOL>a1</SYMBOL>
+                    </SYMBOL-PROPS>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>b2</SHORT-NAME>
+                      <SYMBOL>b2</SYMBOL>
+                    </SYMBOL-PROPS>
+                    <SYMBOL-PROPS>
+                      <SHORT-NAME>c3</SHORT-NAME>
+                      <SYMBOL>c3</SYMBOL>
+                    </SYMBOL-PROPS>
+                  </NAMESPACES>
+                  <METHODS>
+                    <CLIENT-SERVER-OPERATION UUID="0">
+                      <SHORT-NAME>testMethod</SHORT-NAME>
+                      <ADMIN-DATA>
+                        <SDGS>
+                          <SDG GID="FARACON">
+                            <SDG-CAPTION>
+                              <DESC>
+                                <L-2>experimental</L-2>
+                              </DESC>
+                            </SDG-CAPTION>
+                            <SD>test experimental comment</SD>
+                          </SDG>
+                        </SDGS>
+                      </ADMIN-DATA>
+                      <ARGUMENTS>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                          <SHORT-NAME>myUInt32</SHORT-NAME>
+                          <ADMIN-DATA>
+                            <SDGS>
+                              <SDG GID="FARACON">
+                                <SDG-CAPTION>
+                                  <DESC>
+                                    <L-2>description</L-2>
+                                  </DESC>
+                                </SDG-CAPTION>
+                                <SD>parameter description</SD>
+                              </SDG>
+                              <SDG GID="FARACON">
+                                <SDG-CAPTION>
+                                  <DESC>
+                                    <L-2>author</L-2>
+                                  </DESC>
+                                </SDG-CAPTION>
+                                <SD>parameter author</SD>
+                              </SDG>
+                            </SDGS>
+                          </ADMIN-DATA>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32</TYPE-TREF>
+                          <DIRECTION>IN</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                      </ARGUMENTS>
+                    </CLIENT-SERVER-OPERATION>
+                  </METHODS>
+                </SERVICE-INTERFACE>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

@@ -5,7 +5,6 @@ import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FModelElement
-import org.genivi.faracon.ara2franca.FrancaImportCreator
 import org.genivi.faracon.ara2franca.FrancaTypeCreator
 import org.genivi.faracon.tests.util.ARA2FrancaTestBase
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
@@ -15,7 +14,6 @@ import org.junit.runner.RunWith
 import static org.junit.Assert.assertNull
 
 import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
-import static extension org.junit.Assert.assertNotNull
 
 /**
  * Test mapping of Autosar-Elements to Franca-Elements
