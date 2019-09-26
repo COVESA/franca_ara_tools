@@ -30,7 +30,7 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 	var extension ARATypeCreator
 
 	@After
-	def void afterTest(){
+	def void afterTest() {
 		logger.enableContinueOnErrors(false)
 	}
 
@@ -78,7 +78,11 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 
 		// then: expect vector type usage
 		assertEquals("ByteVectorType was expected for the Franca Type ByteBuffer", "ByteVectorType", araType.shortName)
+	}
 
+	@Test
+	def void testFrancaBasicTypesInStruct() {
+		transformAndCheck(testPath, "francaBasicTypes", testPath + "francaBasicTypes.arxml")
 	}
 
 	private def AutosarDataType testFrancaByteBufferTransformation() {
