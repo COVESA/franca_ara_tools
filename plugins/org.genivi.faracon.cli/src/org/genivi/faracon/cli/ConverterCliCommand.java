@@ -110,7 +110,7 @@ public class ConverterCliCommand extends CommandlineTool {
 	}
 
 	public void convertARAFiles(Collection<String> araFiles) {
-		ara2FrancaConverter.convertFiles(araFiles);;
+		ara2FrancaConverter.convertFiles(araFiles);
 	}
 	
 	public void convertFrancaFiles(Collection<String> fidlFiles) {
