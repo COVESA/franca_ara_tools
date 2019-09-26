@@ -1,5 +1,6 @@
 package org.genivi.faracon
 
+import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
@@ -53,7 +54,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		this.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays
 	}
 
-	def create fac.createAUTOSAR transform(FModel src) {
+	def AUTOSAR transform(FModel src) {
 		// Fill all names of the Franca model into a hierarchy of names.
 		namesHierarchy.clear();
 		val FrancaNamesCollector francaNamesCollector = new FrancaNamesCollector
@@ -63,10 +64,14 @@ class Franca2ARATransformation extends Franca2ARABase {
 		createPrimitiveTypesPackage(null)
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
 		// arPackages.add(createPrimitiveTypesPackage)
-		val elementPackage = src.createPackageHierarchyForElementPackage(it)
+
+		val AUTOSAR aModel = src.createAutosarModelSkeleton
+		val elementPackage = src.accordingArPackage
 		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
 		
 		src.typeCollections.forEach[it.transform]
+
+		aModel
 	}
 
 	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
@@ -89,17 +94,17 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val accordingArPackage = fTypeCollection.accordingArPackage
 
 		// Add the conversions of all Franca types that are defined in this type collection.
-		accordingArPackage.elements.addAll(types)
+		accordingArPackage?.elements?.addAll(types)
 
 		// Add the according CompuMethods for all Franca enumeration types of this type collection.
-		accordingArPackage.elements.addAll(
+		accordingArPackage?.elements?.addAll(
 			fTypeCollection.types.filter(FEnumerationType).map[createCompuMethod]
 		)
 
 		// Add artificial vector type definitions for all types of this type collection
 		// which are used as element type of an anonymous array anywhere in the any Franca input model.
-		accordingArPackage.elements.addAll(
-			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays.contains(it)].map[fType|
+		accordingArPackage?.elements?.addAll(
+			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays?.contains(it)].map[fType|
 				getLogger().logInfo("nonPrimitiveElementTypeOfAnonymousArrays " + fType.name + " found, added according vector type definiton to package " + accordingArPackage.shortName + ".")
 				createArtificialVectorType(fType)
 			]

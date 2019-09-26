@@ -2,15 +2,15 @@ package org.genivi.faracon.franca2ara
 
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
-import autosar40.util.Autosar40Factory
 import java.util.Map
 import java.util.regex.Pattern
 import javax.inject.Singleton
-import org.eclipse.emf.ecore.util.EcoreUtil
+import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FModel
-import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FTypeCollection
 import org.genivi.faracon.Franca2ARABase
+
+import static extension org.franca.core.FrancaModelExtensions.*
 
 @Singleton
 class ARAPackageCreator extends Franca2ARABase {
@@ -18,47 +18,77 @@ class ARAPackageCreator extends Franca2ARABase {
 	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
 	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
 
+	def create fac.createAUTOSAR createAutosarModelSkeleton(FModel fModel) {
+		arPackages.add(fModel.createPackageHierarchy)
+	}
+
 	def ARPackage createPackageHierarchyForElementPackage(FModel fModel, AUTOSAR autosar) {
+		autosar?.arPackages?.add(fModel.createPackageHierarchy)
+		fModel.accordingArPackage
+	}
+
+	def create fac.createARPackage createPackageHierarchy(FModel fModel) {
 		val segments = fModel.name.split(Pattern.quote("."))
-		var ARPackage elementPackage = null
+		var ARPackage currentPackage = it
 		if (!segments.nullOrEmpty) {
-			var ARPackage currentParentPackage = null
-			for (segment : segments) {
-				elementPackage = createPackageWithName(segment, currentParentPackage)
-				if (currentParentPackage === null) {
-					autosar?.arPackages?.add(elementPackage)
-				}
-				currentParentPackage = elementPackage
+			currentPackage.shortName = segments.get(0)
+			var ARPackage currentParentPackage = currentPackage
+			for (segment : segments.drop(1)) {
+				currentPackage = createPackageWithName(segment, currentParentPackage)
+				currentParentPackage = currentPackage
 			}
 		} else {
-			elementPackage = createPackageWithName(fModel.name, null)
-			autosar?.arPackages?.add(elementPackage)
+			currentPackage.shortName = fModel.name
 		}
 		
 		// Create AUTOSAR subpackages for all Franca interface definitions with content that has to be transformed into package content.
 		for (interface : fModel.interfaces) {
 			if (!interface.types.nullOrEmpty || !interface.constants.nullOrEmpty) {
-				fTypeCollection2arPackage.put(interface, createPackageWithName(interface.name, elementPackage))
+				fTypeCollection2arPackage.put(interface, createPackageWithName(interface.name, currentPackage))
 			}
 		}
 		// Create AUTOSAR subpackages for all named Franca type collections.
 		for (typeCollection : fModel.typeCollections) {
-			if (!typeCollection.name.nullOrEmpty) {
-				fTypeCollection2arPackage.put(typeCollection, createPackageWithName(typeCollection.name, elementPackage))
+			if (typeCollection.name.nullOrEmpty) {
+				fTypeCollection2arPackage.put(typeCollection, currentPackage)
+			} else {
+				fTypeCollection2arPackage.put(typeCollection, createPackageWithName(typeCollection.name, currentPackage))
 			}
 		}
 		
-		fModel2arPackage.put(fModel, elementPackage)
-		return elementPackage
+		fModel2arPackage.put(fModel, currentPackage)
+	}
+
+	def getAccordingArPackage(FModel fModel) {
+		fModel2arPackage.get(fModel)
+	}
+
+	def createAccordingArPackage(FModel fModel) {
+		val accordingArPackage = fModel2arPackage.get(fModel)
+		if (accordingArPackage === null) {
+			createAutosarModelSkeleton(fModel)
+			fModel2arPackage.get(fModel)
+		} else {
+			accordingArPackage
+		}
 	}
 
 	def getAccordingArPackage(FTypeCollection fTypeCollection) {
+		fTypeCollection2arPackage.get(fTypeCollection)
+	}
+
+	def createAccordingArPackage(FTypeCollection fTypeCollection) {
 		val accordingArPackage = fTypeCollection2arPackage.get(fTypeCollection)
-		if (accordingArPackage !== null) {
-			accordingArPackage
+		if (accordingArPackage === null) {
+			createAutosarModelSkeleton(fTypeCollection.model)
+			fTypeCollection2arPackage.get(fTypeCollection)
 		} else {
-			fModel2arPackage.get(fTypeCollection.eContainer as FModel)
+			accordingArPackage
 		}
+	}
+
+	def createAccordingArPackage(EObject obj) {
+		createAccordingArPackage(obj.typeCollection)
 	}
 
 	def private createPackageWithName(String name, ARPackage parent) {

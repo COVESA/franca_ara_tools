@@ -35,6 +35,8 @@ class ARATypeCreator extends Franca2ARABase {
 	@Inject
 	var extension ARAPrimitveTypesCreator
 	@Inject
+	var extension ARAPackageCreator araPackageCreator
+	@Inject
 	var extension AutosarAnnotator
 
 	static final String ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE = "OriginalStructType"
@@ -107,6 +109,7 @@ class ARATypeCreator extends Franca2ARABase {
 			newElement
 		]
 		aCompoundType.subElements.addAll(aAllElements)
+		aCompoundType.ARPackage = fCompoundType.createAccordingArPackage
 	}
 
 	static def String getARFullyQualifiedName(FCompoundType fCompoundType) {
@@ -145,6 +148,7 @@ class ARATypeCreator extends Franca2ARABase {
 			// implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
 			]
 		]
+		it.ARPackage = fEnumerationType.createAccordingArPackage
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
@@ -168,6 +172,7 @@ class ARATypeCreator extends Franca2ARABase {
 				]
 			]
 		]
+		it.ARPackage = fMapType.createAccordingArPackage
 	}
 
 	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
@@ -205,6 +210,7 @@ class ARATypeCreator extends Franca2ARABase {
 				it.compuScales.addAll(compuScalesForEnum)
 			]
 		]
+		it.ARPackage = fEnumerationType.createAccordingArPackage
 	}
 
 	def private dispatch AutosarDataType createDataTypeForReference(FIntegerInterval type) {
@@ -243,6 +249,7 @@ class ARATypeCreator extends Franca2ARABase {
 				]
 			]
 		]
+		it.ARPackage = fArrayType.createAccordingArPackage
 		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
 //		it.createImplementationDataTypeExtension
 	}
@@ -260,6 +267,7 @@ class ARATypeCreator extends Franca2ARABase {
 				]
 			]
 		]
+		ARPackage = fType.createAccordingArPackage
 	}
 
 	def private ImplementationDataType createAnonymousArrayTypeReference(FTypeRef fTypeRef) {
