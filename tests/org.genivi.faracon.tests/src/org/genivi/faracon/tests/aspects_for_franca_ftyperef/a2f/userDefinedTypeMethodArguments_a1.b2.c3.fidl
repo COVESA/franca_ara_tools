@@ -1,0 +1,10 @@
+package a1.b2.c3
+
+import model "userDefinedTypeMethodArguments_a1.b2.c3.ExampleInterface.fidl" import model "userDefinedTypeMethodArguments_a1.b2.c3.ExampleInterface.fidl" interface ExampleInterface {
+	method methodWithUserDefinedTypeArguments {
+		in {
+			a1.b2.c3.ExampleInterface.UserDefinedStructType struct_argument
+			a1.b2.c3.ExampleInterface.UserDefinedEnumType enum_argument
+		}
+	}
+}

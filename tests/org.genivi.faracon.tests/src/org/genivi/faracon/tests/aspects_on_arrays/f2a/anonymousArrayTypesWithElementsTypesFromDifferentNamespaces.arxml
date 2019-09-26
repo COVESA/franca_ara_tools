@@ -32,17 +32,17 @@
                       <ARGUMENTS>
                         <ARGUMENT-DATA-PROTOTYPE UUID="0">
                           <SHORT-NAME>anonymous_array_argument</SHORT-NAME>
-                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">CommonArrayElementStructTypeVector</TYPE-TREF>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/x/y/CommonArrayElementStructTypeVector</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
                         </ARGUMENT-DATA-PROTOTYPE>
                         <ARGUMENT-DATA-PROTOTYPE UUID="0">
                           <SHORT-NAME>anonymous_array_argument_2</SHORT-NAME>
-                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">CommonArrayElementStructTypeVector</TYPE-TREF>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/x/y/z/CommonArrayElementStructTypeVector</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
                         </ARGUMENT-DATA-PROTOTYPE>
                         <ARGUMENT-DATA-PROTOTYPE UUID="0">
                           <SHORT-NAME>anonymous_array_argument_3</SHORT-NAME>
-                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">CommonArrayElementEnumerationTypeVector</TYPE-TREF>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/x/y/z/commonTypes/CommonArrayElementEnumerationTypeVector</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
                         </ARGUMENT-DATA-PROTOTYPE>
                       </ARGUMENTS>

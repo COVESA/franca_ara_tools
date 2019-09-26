@@ -78,6 +78,10 @@ class ARAPackageCreator extends Franca2ARABase {
 	}
 
 	def createAccordingArPackage(FTypeCollection fTypeCollection) {
+		// This check is only needed when an incomplete Franca model is converted to AUTOSAR.
+		// We do this in some unit tests.
+		if (fTypeCollection === null) return null
+
 		val accordingArPackage = fTypeCollection2arPackage.get(fTypeCollection)
 		if (accordingArPackage === null) {
 			createAutosarModelSkeleton(fTypeCollection.model)

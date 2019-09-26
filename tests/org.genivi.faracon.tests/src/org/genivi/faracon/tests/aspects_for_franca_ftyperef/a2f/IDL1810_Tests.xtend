@@ -18,13 +18,14 @@ class IDL1810_Tests extends ARA2FrancaTestBase {
 	@Test
 	def void userDefinedTypeMethodArguments() {
 		transformAndCheck(testPath + "userDefinedTypeMethodArguments.arxml",
-			testPath + "userDefinedTypeMethodArguments.fidl");
+			#[testPath + "userDefinedTypeMethodArguments_a1.b2.c3.fidl",
+			  testPath + "userDefinedTypeMethodArguments_a1.b2.c3.ExampleInterface.fidl"]);
 	}
 
 	@Test
 	def void userDefinedTypeStructFields() {
 		transformAndCheck(testPath + "userDefinedTypeStructFields.arxml",
-			testPath + "userDefinedTypeStructFields.fidl");
+			testPath + "userDefinedTypeStructFields_a1.b2.c3.fidl");
 	}
 
 }

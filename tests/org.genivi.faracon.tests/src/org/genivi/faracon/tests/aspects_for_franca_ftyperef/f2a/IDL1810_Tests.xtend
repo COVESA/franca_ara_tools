@@ -15,17 +15,14 @@ import org.junit.runner.RunWith
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1810_Tests extends Franca2ARATestBase {
 
-	static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_for_franca_ftyperef/f2a/"
-	static final String EXPECTED_AUTOSAR_MODELS = "src/org/genivi/faracon/tests/aspects_for_franca_ftyperef/a2f/"
-
 	@Test
 	def void userDefinedTypeMethodArguments() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "userDefinedTypeMethodArguments", EXPECTED_AUTOSAR_MODELS + "userDefinedTypeMethodArguments.arxml");
+		transformAndCheck(testPath, "userDefinedTypeMethodArguments", correspondingAutosar2FrancaTestPath + "userDefinedTypeMethodArguments.arxml");
 	}
 
 	@Test
 	def void userDefinedTypeStructFields() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "userDefinedTypeStructFields", EXPECTED_AUTOSAR_MODELS + "userDefinedTypeStructFields.arxml");
+		transformAndCheck(testPath, "userDefinedTypeStructFields", testPath + "userDefinedTypeStructFields.arxml");
 	}
 
 }
