@@ -1,6 +1,5 @@
 package org.genivi.faracon.franca2ara
 
-import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import java.util.Map
 import java.util.regex.Pattern
@@ -13,7 +12,7 @@ import org.genivi.faracon.Franca2ARABase
 import static extension org.franca.core.FrancaModelExtensions.*
 
 @Singleton
-class ARAPackageCreator extends Franca2ARABase {
+class ARAModelSkeletonCreator extends Franca2ARABase {
 
 	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
 	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
@@ -22,12 +21,7 @@ class ARAPackageCreator extends Franca2ARABase {
 		arPackages.add(fModel.createPackageHierarchy)
 	}
 
-	def ARPackage createPackageHierarchyForElementPackage(FModel fModel, AUTOSAR autosar) {
-		autosar?.arPackages?.add(fModel.createPackageHierarchy)
-		fModel.accordingArPackage
-	}
-
-	def create fac.createARPackage createPackageHierarchy(FModel fModel) {
+	def protected create fac.createARPackage createPackageHierarchy(FModel fModel) {
 		val segments = fModel.name.split(Pattern.quote("."))
 		var ARPackage currentPackage = it
 		if (!segments.nullOrEmpty) {

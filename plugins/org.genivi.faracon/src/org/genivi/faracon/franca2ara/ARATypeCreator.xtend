@@ -35,7 +35,7 @@ class ARATypeCreator extends Franca2ARABase {
 	@Inject
 	var extension ARAPrimitveTypesCreator
 	@Inject
-	var extension ARAPackageCreator araPackageCreator
+	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
 	var extension AutosarAnnotator
 

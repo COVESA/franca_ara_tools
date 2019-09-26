@@ -33,7 +33,7 @@ import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARATransformation
-import org.genivi.faracon.franca2ara.ARAPackageCreator
+import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.logging.AbstractLogger
@@ -95,7 +95,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	var ARAPrimitveTypesCreator araPrimitveTypesCreator
 
 	@Inject
-	var ARAPackageCreator araPackageCreator
+	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	
 	@Before
 	def void beforeTest(){
@@ -164,8 +164,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 				types += fStructType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		createAutosarModelSkeleton(fModel)
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fStructType)
 		for(subElement : (autosarDataType as ImplementationDataType).subElements) {
 			checkAbstractBaseClasses(fField, subElement)
@@ -206,8 +205,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 				types += fStructType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fStructType)
 		checkAbstractBaseClasses(fStructType, autosarDataType)
 	}
@@ -221,8 +219,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 				types += fUnionType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fUnionType)
 		checkAbstractBaseClasses(fUnionType, autosarDataType)
 	}
@@ -236,8 +233,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 				types += fEnumerationType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fEnumerationType)
 		checkAbstractBaseClasses(fEnumerationType, autosarDataType)
 	}
@@ -268,8 +264,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 				types += fMapType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fMapType)
 		checkAbstractBaseClasses(fMapType, autosarDataType)
 	}
@@ -287,8 +282,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 				types += fTypeDef
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		//TODO: Transform typedef type (transformation is not implemented yet) and check abstract base classes.
 		//val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fTypeDef)
 		//checkAbstractBaseClasses(fTypeDef, autosarDataType)

@@ -16,8 +16,8 @@ import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeCollection
+import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
-import org.genivi.faracon.franca2ara.ARAPackageCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.names.FrancaNamesCollector
@@ -36,7 +36,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	@Inject
 	var extension ARATypeCreator araTypeCreator
 	@Inject
-	var extension ARAPackageCreator araPackageCreator
+	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
 	var extension ARANamespaceCreator
 	@Inject
@@ -105,7 +105,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// which are used as element type of an anonymous array anywhere in the any Franca input model.
 		accordingArPackage?.elements?.addAll(
 			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays?.contains(it)].map[fType|
-				getLogger().logInfo("nonPrimitiveElementTypeOfAnonymousArrays " + fType.name + " found, added according vector type definiton to package " + accordingArPackage.shortName + ".")
 				createArtificialVectorType(fType)
 			]
 		)		

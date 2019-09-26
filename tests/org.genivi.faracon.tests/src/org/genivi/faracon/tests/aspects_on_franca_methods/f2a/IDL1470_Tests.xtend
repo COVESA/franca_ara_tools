@@ -2,7 +2,6 @@ package org.genivi.faracon.tests.aspects_on_franca_methods.f2a
 
 import autosar40.adaptiveplatform.applicationdesign.portinterface.Field
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
-import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Referrable
@@ -33,7 +32,7 @@ import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARATransformation
-import org.genivi.faracon.franca2ara.ARAPackageCreator
+import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.logging.AbstractLogger
@@ -41,6 +40,7 @@ import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Test
 import org.junit.runner.RunWith
+
 import static org.junit.Assert.assertTrue
 
 /**
@@ -95,7 +95,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 	var ARAPrimitveTypesCreator araPrimitveTypesCreator
 
 	@Inject
-	var ARAPackageCreator araPackageCreator
+	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 
 	@Test
 	def void broadcastConversion() {
@@ -164,8 +164,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 				types += fStructType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fStructType)
 		for(subElement : (autosarDataType as ImplementationDataType).subElements) {
 			checkNamesEquality(fField, subElement)
@@ -211,8 +210,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 				types += fStructType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fStructType)
 		checkNamesEquality(fStructType, autosarDataType)
 	}
@@ -228,8 +226,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 				types += fUnionType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fUnionType)
 		checkNamesEquality(fUnionType, autosarDataType)
 	}
@@ -245,8 +242,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 				types += fEnumerationType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fEnumerationType)
 		checkNamesEquality(fEnumerationType, autosarDataType)
 	}
@@ -279,8 +275,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 				types += fMapType
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fMapType)
 		checkNamesEquality(fMapType, autosarDataType)
 	}
@@ -299,8 +294,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 				types += fTypeDef
 			]
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
 		//TODO: Transform typedef type (transformation is not implemented yet) and check abstract base classes.
 		//val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fTypeDef)
 		//checkNamesEquality(fTypeDef, autosarDataType)
@@ -325,8 +319,8 @@ class IDL1470_Tests extends Franca2ARATestBase {
 			name = "a1.b2.c3"
 			interfaces += fInterface
 		]
-		val AUTOSAR autosar = araFac.createAUTOSAR
-		val ARPackage arPackage = araPackageCreator.createPackageHierarchyForElementPackage(fModel, autosar)
+		fModel.createAutosarModelSkeleton
+		val ARPackage arPackage = fModel.accordingArPackage
 		val ServiceInterface serviceInterface = franca2ARATransformation.transform(fInterface, arPackage)
 		checkNamesEquality(fInterface, serviceInterface)
 	}

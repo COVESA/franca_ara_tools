@@ -51,7 +51,6 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 			val francaModel = francaModelContainer.model
 			francaModel.eAllContents.filter(FTypedElement).filter[array && type?.derived !== null].map[type?.derived].toList
 		].flatten.toSet
-		allNonPrimitiveElementTypesOfAnonymousArrays.forEach[getLogger().logInfo("allNonPrimitiveElementTypesOfAnonymousArrays: " + name)]
 		araConnector.setAllNonPrimitiveElementTypesOfAnonymousArrays(allNonPrimitiveElementTypesOfAnonymousArrays)
 		
 		val araModelContainer = francaModelContainers.map [ francaModelContainer |
