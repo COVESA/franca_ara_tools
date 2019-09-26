@@ -56,9 +56,9 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 	
 	def create fac.createFInterface transform(ServiceInterface src) {
 		if (!src.namespaces.isNullOrEmpty && !namespaceMathchesHierarchy(src)) {
-			logger.logError('''Namespaces are not supported by Franca. Franca only uses the package hierarchy to identify namespaces. «
-			»Namespaces can only be transformed from Autosar to Franca if they the namespace matches the package hierarchy namespace.«
-			»The following Autosar namespaces defined for the interface "«src.shortName»" can not be transformed: "«src.namespaces.map[shortName].join(", ")»"''')
+			logger.logError('''Namespaces are not supported by Franca. Franca only uses the package hierarchy to identify namespaces. Â«
+			Â»Namespaces can only be transformed from Autosar to Franca if they the namespace matches the package hierarchy namespace.Â«
+			Â»The following Autosar namespaces defined for the interface "Â«src.shortNameÂ»" can not be transformed: "Â«src.namespaces.map[shortName].join(", ")Â»"''')
 		}
 		name = src.shortName
 		broadcasts.addAll(src.events.map[transform])
@@ -89,8 +89,8 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 		name = src.shortName
 		if(!src.possibleApErrors.nullOrEmpty || !src.possibleApErrorSets.nullOrEmpty){
 			val errorsMsg = (src.possibleApErrors + src.possibleApErrorSets).map[it?.shortName].join(", ")
-			logger.logError('''The client server operation "«src.shortName»" cannot be transformed to Franca.«
-			»Reason: The client server operation contains ap errors, which are not supported. Errors are: "«errorsMsg»".''')
+			logger.logError('''The client server operation "Â«src.shortNameÂ»" cannot be transformed to Franca.Â«
+			Â»Reason: The client server operation contains ap errors, which are not supported. Errors are: "Â«errorsMsgÂ»".''')
 		} 
 		if (src.fireAndForget !== null) {
 			fireAndForget = src.fireAndForget
@@ -99,7 +99,7 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 		outArgs.addAll(src.arguments.filter[direction == ArgumentDirectionEnum.OUT].map[transform])
 		val inOutArguments = src.arguments.filter[direction == ArgumentDirectionEnum.INOUT]
 		if (!inOutArguments.nullOrEmpty) {
-			val errorMsg = '''The following in-out arguments cannot be transformed to franca as franca does not support in-out arguments: "«inOutArguments.map[it.shortName].join(", ")»"'''
+			val errorMsg = '''The following in-out arguments cannot be transformed to franca as franca does not support in-out arguments: "Â«inOutArguments.map[it.shortName].join(", ")Â»"'''
 			logger.logError(errorMsg)
 		}
 	}
@@ -110,7 +110,7 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 			type = createFTypeRefAndImport(src.type as ImplementationDataType, it)
 		} else {
 			logger.
-				logError('''Cannot create type for franca argument "«name»" because the Autosar argument has no type''')
+				logError('''Cannot create type for franca argument "Â«nameÂ»" because the Autosar argument has no type''')
 			logger.logInfo("Using UINT32 as the default type in order to be able to continue")
 			type = createDefaultTypeRef
 		}
