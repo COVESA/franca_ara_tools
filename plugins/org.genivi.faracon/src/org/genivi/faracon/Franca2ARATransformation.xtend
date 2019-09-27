@@ -50,7 +50,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	static final String ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE = "OriginalParentInterface"
 	static final String ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE = "ArtificalEventDataStructType"
 
-	def setAllNonPrimitiveElementTypesOfAnonymousArrays (Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
+	def setAllNonPrimitiveElementTypesOfAnonymousArrays(Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
 		this.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays
 	}
 
@@ -64,35 +64,34 @@ class Franca2ARATransformation extends Franca2ARABase {
 		createPrimitiveTypesPackage(null)
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
 		// arPackages.add(createPrimitiveTypesPackage)
-
 		val AUTOSAR aModel = src.createAutosarModelSkeleton
-		val elementPackage = src.accordingArPackage
-		elementPackage.elements.addAll(src.interfaces.map[transform(elementPackage)])
-		
+		src.interfaces.forEach[transform()]
+
 		src.typeCollections.forEach[it.transform]
 
 		aModel
 	}
 
-	def create fac.createServiceInterface transform(FInterface src, ARPackage targetPackage) {
+	def create fac.createServiceInterface transform(FInterface src) {
 		if (!src.managedInterfaces.empty) {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
 
-		targetPackage.elements += it
+		val interfacePackage = src.accordingInterfacePackage
+		it.ARPackage = interfacePackage
 
-		namespaces.addAll(targetPackage.createNamespaceForPackage)
-		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackage)])
+		namespaces.addAll(interfacePackage.createNamespaceForPackage)
+		events.addAll(getAllBroadcasts(src).map[it.transform(src, interfacePackage)])
 		fields.addAll(getAllAttributes(src).map[it.transform(src)])
 		methods.addAll(getAllMethods(src).map[it.transform(src)])
-		
+
 		// Ensure that all local type definitions of the interface definition are translated
 		// even if they are not referenced.
-		transform(src)
+		transform(src as FTypeCollection)
 	}
-	
-	def void transform(FTypeCollection fTypeCollection){
+
+	def void transform(FTypeCollection fTypeCollection) {
 		val types = fTypeCollection.types.map[dataTypeForReference]
 		val accordingArPackage = fTypeCollection.accordingArPackage
 
@@ -107,10 +106,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// Add artificial vector type definitions for all types of this type collection
 		// which are used as element type of an anonymous array anywhere in the any Franca input model.
 		accordingArPackage?.elements?.addAll(
-			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays?.contains(it)].map[fType|
+			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays?.contains(it)].map [ fType |
 				createArtificialVectorType(fType)
 			]
-		)		
+		)
 	}
 
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
@@ -135,10 +134,11 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// because it is not compatible with the method errors mechanism of AUTOSAR,
 		// at least in the serialization format of the method reply messages.
 		if (src.errors !== null || src.errorEnum !== null) {
-			getLogger.logError("The error enumeration of the method '" + src.name + "' in the namespace '" + src.model.name + '.' + src.interface
-				+ "' cannot be translated into an AUTOSAR representation. "
-				+ "At least the SOME/IP serialization formats would be incompatible. "
-				+ "Implement your method error reporting based on user defined types instead!")
+			getLogger.logError(
+				"The error enumeration of the method '" + src.name + "' in the namespace '" + src.model.name + '.' +
+					src.interface + "' cannot be translated into an AUTOSAR representation. " +
+					"At least the SOME/IP serialization formats would be incompatible. " +
+					"Implement your method error reporting based on user defined types instead!")
 		}
 
 		// If the method is not a direct member of the current interface definition but is inherited from
