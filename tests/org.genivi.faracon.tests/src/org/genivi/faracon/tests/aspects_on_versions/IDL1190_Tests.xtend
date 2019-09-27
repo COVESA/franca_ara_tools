@@ -37,15 +37,19 @@ class IDL1190_Tests extends Franca2ARATestBase {
 				]
 			]
 		]
-		val parentPackage = createARPackage => [it.shortName = "TestParentPackage"]
+		val fModel = createFModel =>[
+			it.name = "testModel"
+			typeCollections += typeCollection
+		]
 
 		// when
-		typeCollection.transform(parentPackage)
+		val autosar = fModel.transform
 
 		// then
-		assertTrue("No elements in parent package expected, but found " + parentPackage.elements,
-			parentPackage.elements.isEmpty)
-		val elementPackage = parentPackage.arPackages.assertOneElement
+		val arPackage = autosar.arPackages.assertOneElement.assertName("testModel")
+		assertTrue("No elements in parent package expected, but found " + arPackage.elements,
+			arPackage.elements.isEmpty)
+		val elementPackage = arPackage.arPackages.assertOneElement
 		elementPackage.assertName("2_1")
 		val implementationDataType = elementPackage.elements.assertOneElement.assertIsInstanceOf(ImplementationDataType)
 		implementationDataType.assertName("MyStruct")
