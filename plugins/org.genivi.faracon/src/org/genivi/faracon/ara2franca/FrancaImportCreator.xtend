@@ -27,6 +27,13 @@ class FrancaImportCreator extends ARA2FrancaBase {
 		
 	}
 	
+	/**
+	 * Creates an import for a given model.
+	 * 
+	 * As this is a create method each import will created only once per model.
+	 * To ensure that we need the first parameter (model) together with the other two parameters and cannot use
+	 * the current model within the method (even if it would be visible). 
+	 */
 	def private create createImport createAndAddImportTo(FModel model, String packageNameToImport, ImplementationDataType src){
 		val autosarModelUri = src?.eResource?.URI
 		if(autosarModelUri === null){
