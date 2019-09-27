@@ -130,7 +130,7 @@ class ARATypeCreator extends Franca2ARABase {
 	def dispatch void checkCompoundType(FStructType type) {
 		if (type.polymorphic) {
 			logger.
-				logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
+				logError('''Struct type "Â«type.nameÂ»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
 		}
 	}
 
@@ -190,7 +190,7 @@ class ARATypeCreator extends Franca2ARABase {
 						val limitText = enumValue.valueFromFConstant
 						if (limitText === null) {
 							logger.
-								logError('''Did not found a constant values for "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
+								logError('''Did not found a constant values for "Â«enumerator.value.class.simpleNameÂ»" in enumerator "Â«enumerator.nameÂ»" of enumeration "Â«fEnumerationType.nameÂ»"''')
 						}
 						val arLimit = fac.createLimitValueVariationPoint => [
 							it.intervalType = IntervalTypeEnum.CLOSED
@@ -200,7 +200,7 @@ class ARATypeCreator extends Franca2ARABase {
 						compuScale.upperLimit = arLimit
 					} else {
 						logger.
-							logError('''Only constant values are supported for enums, but found "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
+							logError('''Only constant values are supported for enums, but found "Â«enumerator.value.class.simpleNameÂ»" in enumerator "Â«enumerator.nameÂ»" of enumeration "Â«fEnumerationType.nameÂ»"''')
 					}
 				}
 			]
