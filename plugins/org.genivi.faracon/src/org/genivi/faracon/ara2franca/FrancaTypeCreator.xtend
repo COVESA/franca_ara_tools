@@ -3,7 +3,6 @@ package org.genivi.faracon.ara2franca
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
-import java.util.Collection
 import java.util.Optional
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -206,7 +205,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		if (autosarShortName == "ByteArray" || autosarShortName == "ByteVectorType") {
 			fTypeRef.predefined = FBasicTypeId.UINT8
 			if(parentTypedElement === null){
-				logger.logError('''The simple type «autosarShortName» cannot be used within because no Franca Typed parent has been created for the element «src»''')
+				logger.logError('''The simple type ï¿½autosarShortNameï¿½ cannot be used within because no Franca Typed parent has been created for the element ï¿½srcï¿½''')
 			}else{
 				parentTypedElement.array = true	
 			}
