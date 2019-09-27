@@ -320,8 +320,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 			interfaces += fInterface
 		]
 		fModel.createAutosarModelSkeleton
-		val ARPackage arPackage = fModel.accordingArPackage
-		val ServiceInterface serviceInterface = franca2ARATransformation.transform(fInterface, arPackage)
+		val ServiceInterface serviceInterface = franca2ARATransformation.transform(fInterface)
 		checkNamesEquality(fInterface, serviceInterface)
 	}
 

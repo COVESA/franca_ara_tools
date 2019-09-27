@@ -1,19 +1,11 @@
 package org.genivi.faracon.tests.aspects_for_franca_ftyperef.f2a
 
-import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
-import autosar40.swcomponent.datatype.dataprototypes.VariableDataPrototype
-import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
-import org.franca.core.franca.FBroadcast
-import org.franca.core.franca.FInterface
-import org.genivi.faracon.Franca2ARATransformation
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Test
 import org.junit.runner.RunWith
-
-import static org.junit.Assert.assertNotNull
 
 /**
  * Test cases for testing the translation of instances of the Franca metaclass 'FTypeRef'

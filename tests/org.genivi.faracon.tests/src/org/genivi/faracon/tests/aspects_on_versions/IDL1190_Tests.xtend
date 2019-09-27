@@ -50,7 +50,7 @@ class IDL1190_Tests extends Franca2ARATestBase {
 		assertTrue("No elements in parent package expected, but found " + arPackage.elements,
 			arPackage.elements.isEmpty)
 		val elementPackage = arPackage.arPackages.assertOneElement
-		elementPackage.assertName("2_1")
+		elementPackage.assertName("v_2_1")
 		val implementationDataType = elementPackage.elements.assertOneElement.assertIsInstanceOf(ImplementationDataType)
 		implementationDataType.assertName("MyStruct")
 	}

@@ -6,6 +6,8 @@ import java.util.regex.Pattern
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.EObject
+import org.eclipse.emf.ecore.util.EcoreUtil
+import org.franca.core.franca.FInterface
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FTypeCollection
 import org.genivi.faracon.Franca2ARABase
@@ -25,7 +27,7 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		arPackages.add(fModel.createPackageHierarchy)
 	}
 
-	def protected create fac.createARPackage createPackageHierarchy(FModel fModel) {
+	def private create fac.createARPackage createPackageHierarchy(FModel fModel) {
 		val segments = fModel.name.split(Pattern.quote("."))
 		var ARPackage currentPackage = it
 		if (!segments.nullOrEmpty) {
@@ -79,6 +81,18 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		fTypeCollection2arPackage.get(fTypeCollection)
 	}
 
+	def getAccordingInterfacePackage(FInterface fInterface) {
+		val rootContainer = EcoreUtil.getRootContainer(fInterface)
+		if (!(rootContainer instanceof FModel)) {
+			logger.logError("Interface " + fInterface.name + " needs to be contained in an FModel")
+		}
+		val fModel = rootContainer as FModel
+		//ensure that the hierarchy for the interface has been created  
+		fModel.createAutosarModelSkeleton
+		val fModelPackage = fModel.accordingArPackage
+		return fInterface.createPackageForVersion(fModelPackage)
+	}
+
 	def createAccordingArPackage(FTypeCollection fTypeCollection) {
 		// This check is only needed when an incomplete Franca model is converted to AUTOSAR.
 		// We do this in some unit tests.
@@ -112,24 +126,27 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 	def ARPackage createPackageForVersion(FTypeCollection fTypeCollection, ARPackage parentPackage) {
 		val fVersion = fTypeCollection?.version
 		if (fVersion !== null && (fVersion.major !== null || fVersion.minor !== null )) {
-			return fTypeCollection.createInternalPackageForVersion(parentPackage)
+			if (fVersion.major === null || fVersion.minor === null) {
+				logger.logError(
+					"The version of " + fTypeCollection.class.simpleName +
+						" is wrong. Major and minor version need to be set, but found: " + fVersion)
+			}
+			val majorPart = if(fVersion.major === null) "_1" else String.valueOf(fVersion.major)
+			val minorPart = if(fVersion.minor === null) "_1" else String.valueOf(fVersion.minor)
+			val packageName = "v_" + majorPart + "_" + minorPart
+			val versionPackage = createPackageForVersion(packageName, parentPackage, fTypeCollection)
+			return versionPackage
 		}
 		return parentPackage
 	}
 
-	def private create fac.createARPackage createInternalPackageForVersion(FTypeCollection fTypeCollection,
-		ARPackage parentPackage) {
-		val fVersion = fTypeCollection.version
-		if (fVersion.major === null || fVersion.minor === null) {
-			logger.logError(
-				"The version of " + fTypeCollection.class.simpleName +
-					" is wrong. Major and minor version need to be set, but found: " + fVersion)
-		}
-		val majorPart = if(fVersion.major === null) "_1" else String.valueOf(fVersion.major)
-		val minorPart = if(fVersion.minor === null) "_1" else String.valueOf(fVersion.minor)
-		it.shortName = "v_" + majorPart + "_" + minorPart
-		it.addAnnotation("FrancaVersion", fTypeCollection.class.simpleName + " " + majorPart + "." + minorPart)
+	def private create fac.createARPackage createPackageForVersion(String name, ARPackage parentPackage,
+		FTypeCollection fTypeCollection) {
+		it.shortName = name
 		parentPackage.arPackages += it
+		val typeCollectionNameString = if(fTypeCollection.name.isNullOrEmpty) "" else fTypeCollection.name + " "
+		val classNameString = if( fTypeCollection instanceof FInterface) FInterface.simpleName else FTypeCollection.simpleName 
+		it.addAnnotation("FrancaVersion", classNameString+ ": " + typeCollectionNameString + name)
 	}
 
 }

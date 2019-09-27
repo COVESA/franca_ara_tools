@@ -11,7 +11,7 @@
               <SHORT-NAME>c3</SHORT-NAME>
               <AR-PACKAGES>
                 <AR-PACKAGE UUID="0">
-                  <SHORT-NAME>2_5</SHORT-NAME>
+                  <SHORT-NAME>v_2_5</SHORT-NAME>
                   <ANNOTATIONS>
                     <ANNOTATION>
                       <LABEL>
@@ -20,7 +20,7 @@
                       <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
                       <ANNOTATION-TEXT>
                         <VERBATIM>
-                          <L-5>FInterfaceImpl 2.5</L-5>
+                          <L-5>FInterface: TestInterface v_2_5</L-5>
                         </VERBATIM>
                       </ANNOTATION-TEXT>
                     </ANNOTATION>
@@ -42,8 +42,8 @@
                           <SYMBOL>c3</SYMBOL>
                         </SYMBOL-PROPS>
                         <SYMBOL-PROPS>
-                          <SHORT-NAME>2_5</SHORT-NAME>
-                          <SYMBOL>2_5</SYMBOL>
+                          <SHORT-NAME>v_2_5</SHORT-NAME>
+                          <SYMBOL>v_2_5</SYMBOL>
                         </SYMBOL-PROPS>
                       </NAMESPACES>
                     </SERVICE-INTERFACE>

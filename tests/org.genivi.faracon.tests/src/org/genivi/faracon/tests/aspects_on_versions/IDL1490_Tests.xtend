@@ -27,16 +27,20 @@ class IDL1490_Tests extends Franca2ARATestBase {
 			version = createFVersion => [major = 2 minor = 5]
 			it.name = "TestInterface"
 		]
-		val parentPackage = createARPackage => [it.shortName = "TestParentPackage"]
+		val fModel = createFModel => [
+			it.name = "TestModel"
+			it.interfaces += fInterface
+		]
 
 		// when
-		fInterface.transform(parentPackage)
+		val autosar = fModel.transform
 
 		// then
-		assertTrue("No elements in parent package expected, but found " + parentPackage.elements,
-			parentPackage.elements.isEmpty)
-		val elementPackage = parentPackage.arPackages.assertOneElement
-		elementPackage.assertName("2_5")
+		val arPackage = autosar.arPackages.assertOneElement.assertName("TestModel")
+		assertTrue("No elements in parent package expected, but found " + arPackage.elements,
+			arPackage.elements.isEmpty)
+		val elementPackage = arPackage.arPackages.assertOneElement
+		elementPackage.assertName("v_2_5")
 		val serviceInterface = elementPackage.elements.assertOneElement.assertIsInstanceOf(ServiceInterface)
 		serviceInterface.assertName("TestInterface")
 	}

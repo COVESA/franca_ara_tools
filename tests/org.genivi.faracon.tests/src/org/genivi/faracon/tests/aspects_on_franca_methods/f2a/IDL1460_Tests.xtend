@@ -299,8 +299,12 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	@Test
 	def void interfaceConversion() {
 		val FInterface fInterface = francaFac.createFInterface
-		val ARPackage arPackage = araFac.createARPackage
-		val ServiceInterface serviceInterface = franca2ARATransformation.transform(fInterface, arPackage)
+		createFModel => [
+			//create fModel and add the interface to it as interfaces need to be contained in an FModel
+			it.interfaces += fInterface
+			it.name = "Test"
+		]
+		val ServiceInterface serviceInterface = franca2ARATransformation.transform(fInterface)
 		checkAbstractBaseClasses(fInterface, serviceInterface)
 	}
 

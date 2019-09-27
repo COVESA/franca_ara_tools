@@ -32,7 +32,7 @@
                       <ARGUMENTS>
                         <ARGUMENT-DATA-PROTOTYPE UUID="0">
                           <SHORT-NAME>arStructIn</SHORT-NAME>
-                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/2_1/TestArStruct</TYPE-TREF>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/v_2_1/TestArStruct</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
                         </ARGUMENT-DATA-PROTOTYPE>
                       </ARGUMENTS>
@@ -42,7 +42,7 @@
               </ELEMENTS>
               <AR-PACKAGES>
                 <AR-PACKAGE UUID="0">
-                  <SHORT-NAME>2_1</SHORT-NAME>
+                  <SHORT-NAME>v_2_1</SHORT-NAME>
                   <ANNOTATIONS>
                     <ANNOTATION>
                       <LABEL>
@@ -51,7 +51,7 @@
                       <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
                       <ANNOTATION-TEXT>
                         <VERBATIM>
-                          <L-5>FTypeCollectionImpl 2.1</L-5>
+                          <L-5>FTypeCollection: v_2_1</L-5>
                         </VERBATIM>
                       </ANNOTATION-TEXT>
                     </ANNOTATION>
