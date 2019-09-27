@@ -74,10 +74,9 @@ class ARATypeCreator extends Franca2ARABase {
 //		it.namespaces.addAll(autosarType.createNamespaceForElement)
 //		autosarType.ARPackage.elements.add(it)
 //	}
-
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
 		getLogger.
-			logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
+			logWarning('''Cannot create AutosarDatatype because the Franca type "Â«type.eClass.nameÂ»" is not yet supported''')
 		return null
 	}
 
@@ -99,13 +98,12 @@ class ARATypeCreator extends Franca2ARABase {
 		fCompoundType.checkCompoundType
 		aCompoundType.shortName = fCompoundType.name
 		aCompoundType.category = category
-		val fAllElements = FrancaModelExtensions.getAllElements(fCompoundType).map [it as FField]
+		val fAllElements = FrancaModelExtensions.getAllElements(fCompoundType).map[it as FField]
 		val aAllElements = fAllElements.map [
 			val newElement = it.createImplementationDataTypeElement(fCompoundType)
 			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
 			if (originalCompoundType !== fCompoundType) {
-				newElement.addAnnotation(annotationLabelText,
-					originalCompoundType.getARFullyQualifiedName)
+				newElement.addAnnotation(annotationLabelText, originalCompoundType.getARFullyQualifiedName)
 			}
 			newElement
 		]
@@ -116,9 +114,8 @@ class ARATypeCreator extends Franca2ARABase {
 	static def String getARFullyQualifiedName(FCompoundType fCompoundType) {
 		val FModel model = fCompoundType.getModel
 		val FTypeCollection typeCollection = fCompoundType.getTypeCollection;
-		(if(!model?.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "")
-			+ (if(!typeCollection?.name.nullOrEmpty) "/" + typeCollection?.name else "")
-			+ "/" + fCompoundType?.name
+		(if(!model?.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "") +
+			(if(!typeCollection?.name.nullOrEmpty) "/" + typeCollection?.name else "") + "/" + fCompoundType?.name
 	}
 
 	def dispatch void checkCompoundType(FCompoundType type) {
@@ -129,7 +126,7 @@ class ARATypeCreator extends Franca2ARABase {
 	def dispatch void checkCompoundType(FStructType type) {
 		if (type.polymorphic) {
 			logger.
-				logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
+				logError('''Struct type "Â«type.nameÂ»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
 		}
 	}
 
@@ -191,7 +188,7 @@ class ARATypeCreator extends Franca2ARABase {
 						val limitText = enumValue.valueFromFConstant
 						if (limitText === null) {
 							logger.
-								logError('''Did not found a constant values for "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
+								logError('''Did not found a constant values for "Â«enumerator.value.class.simpleNameÂ»" in enumerator "Â«enumerator.nameÂ»" of enumeration "Â«fEnumerationType.nameÂ»''')
 						}
 						val arLimit = fac.createLimitValueVariationPoint => [
 							it.intervalType = IntervalTypeEnum.CLOSED
@@ -201,7 +198,7 @@ class ARATypeCreator extends Franca2ARABase {
 						compuScale.upperLimit = arLimit
 					} else {
 						logger.
-							logError('''Only constant values are supported for enums, but found "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
+							logError('''Only constant values are supported for enums, but found "Â«enumerator.value.class.simpleNameÂ»" in enumerator "Â«enumerator.nameÂ»" of enumeration "Â«fEnumerationType.nameÂ»''')
 					}
 				}
 			]
@@ -220,8 +217,7 @@ class ARATypeCreator extends Franca2ARABase {
 		return null
 	}
 
-	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(
-		FTypedElement fTypedElement,
+	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FTypedElement fTypedElement,
 		FCompoundType fParentCompoundType) {
 		it.shortName = fTypedElement.name
 		it.category = "TYPE_REFERENCE"
@@ -251,7 +247,7 @@ class ARATypeCreator extends Franca2ARABase {
 			]
 		]
 		it.ARPackage = fArrayType.createAccordingArPackage
-		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
+	// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
 //		it.createImplementationDataTypeExtension
 	}
 
@@ -273,7 +269,7 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def private ImplementationDataType createAnonymousArrayTypeReference(FTypeRef fTypeRef) {
 		if (fTypeRef.refsPrimitiveType) {
-			getBaseTypeVectorForReference(fTypeRef.predefined)			
+			getBaseTypeVectorForReference(fTypeRef.predefined)
 		} else {
 			createArtificialVectorType(fTypeRef.derived)
 		}
