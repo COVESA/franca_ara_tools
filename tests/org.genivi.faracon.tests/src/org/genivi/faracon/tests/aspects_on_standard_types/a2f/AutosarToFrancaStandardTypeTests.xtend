@@ -30,7 +30,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	def void testUnitAutosarStdTypesMethodApErrors() {
 		// given 
 		val autosarStdTypes = stdImplementationTypes
-		val autosarStdTypesContaiment = autosarStdTypes.map [ stdType |
+		val autosarStdTypesContainment = autosarStdTypes.map [ stdType |
 			createArgumentDataPrototype => [
 				it.shortName = "TestArgument"
 				it.type = stdType
@@ -38,7 +38,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 		]
 
 		// when 
-		val francaPrimitivesUsages = autosarStdTypesContaiment.map [
+		val francaPrimitivesUsages = autosarStdTypesContainment.map [
 			it.transform
 		].toList
 
