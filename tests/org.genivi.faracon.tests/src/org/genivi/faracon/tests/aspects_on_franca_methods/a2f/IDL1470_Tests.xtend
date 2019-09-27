@@ -60,7 +60,7 @@ class IDL1470_Tests extends ARA2FrancaTestBase {
 				francaInterface.assertName(MODEL_ELEMENT_NAME)
 			} else {
 				// we do not expecte any model elements to be created, but the code not to crash 
-				assertEquals('''No element was expected to be created for elememnt "«result.key»" but created the following elements "«result.value.eContents.join(", ")»".''',
+				assertEquals('''No element was expected to be created for elememnt "Â«result.keyÂ»" but created the following elements "Â«result.value.eContents.join(", ")Â»".''',
 					0, result.value.eContents.size )
 			}
 		]

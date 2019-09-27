@@ -40,7 +40,7 @@ abstract class AbstractTransformationAction implements IObjectActionDelegate {
 			return file.absolutePath
 		]
 		if(filePaths.isEmpty){
-			logger.logError('''No files with extension «fileExtension» selected. No transformation will be executed!''')
+			logger.logError('''No files with extension Â«fileExtensionÂ» selected. No transformation will be executed!''')
 		}
 		return filePaths.toSet
 	}

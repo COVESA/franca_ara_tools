@@ -30,7 +30,7 @@ class FrancaEnumCreator extends ARA2FrancaBase {
 			}
 		} else {
 			getLogger.
-				logError('''No Enumerators found for type "«src.shortName»". The Franca enumeration cannot be created correctly as it will not have any enumerators.''')
+				logError('''No Enumerators found for type "Â«src.shortNameÂ»". The Franca enumeration cannot be created correctly as it will not have any enumerators.''')
 		}
 	}
 
@@ -38,22 +38,22 @@ class FrancaEnumCreator extends ARA2FrancaBase {
 		val firstPropertyWithCompuMethod = getFirstPropertyWithTexttableCompuMethod(enumerationTypeDef.swDataDefProps)
 		val errorMsg = "Cannot create enumerator. Reason: "
 		if (firstPropertyWithCompuMethod === null) {
-			getLogger.logError('''no property is defined for "«enumerationTypeDef»".''')
+			getLogger.logError('''no property is defined for Â«enumerationTypeDefÂ»".''')
 			return null
 		}
 		val compuMethod = firstPropertyWithCompuMethod.compuMethod
 		if (compuMethod === null) {
-			getLogger.logError('''«errorMsg»no CompuMethod is defined for ""«firstPropertyWithCompuMethod»".''')
+			getLogger.logError('''Â«errorMsgÂ» no CompuMethod is defined for ""Â«firstPropertyWithCompuMethodÂ»".''')
 			return null
 		}
 		val compu = compuMethod.compuInternalToPhys
 		if (compu === null) {
-			getLogger.logError('''«errorMsg»no compuInternalToPhys is defined for "«compu»"''')
+			getLogger.logError('''Â«errorMsgÂ» no compuInternalToPhys is defined for "Â«compuÂ»"''')
 			return null
 		}
 		val compuScales = compu.compuContent as CompuScales
 		if (compuScales === null) {
-			getLogger.logError('''«errorMsg»no CompuScales is defined for CompuMethod "«compu»".''')
+			getLogger.logError('''Â«errorMsgÂ»no CompuScales is defined for CompuMethod "Â«compuÂ»".''')
 			return null
 		}
 		val enumerators = compuScales.compuScales
@@ -69,7 +69,7 @@ class FrancaEnumCreator extends ARA2FrancaBase {
 			it.compuMethod !== null && Objects.equals(it.compuMethod.category, "TEXTTABLE")
 		]
 		if (firstPropertyWithTexttableCompuMethod === null) {
-			logger.logError('''No TEXTTABLE compu method found for "«swDataDefProps»" ''')
+			logger.logError('''No TEXTTABLE compu method found for "Â«swDataDefPropsÂ»" ''')
 			return null
 		}
 		return firstPropertyWithTexttableCompuMethod
@@ -77,45 +77,45 @@ class FrancaEnumCreator extends ARA2FrancaBase {
 
 	def private FExpression createValueFromCompuScale(CompuScale scale, FEnumerator fEnum, ImplementationDataType src) {
 		if (scale.lowerLimit !== null && scale.upperLimit !== null) {
-			val warningMsg = '''Cannot create lower limit and upper limit for Franca enumeration "«fEnum.name»" from Autosar ImplementationDataType "«src.shortName»". '''
+			val warningMsg = '''Cannot create lower limit and upper limit for Franca enumeration "Â«fEnum.nameÂ»" from Autosar ImplementationDataType "Â«src.shortNameÂ»". '''
 			val lowerLimitValue = getLimit(scale.lowerLimit, warningMsg)
 			val uppperLimitValue = getLimit(scale.upperLimit, warningMsg)
 			if (scale.lowerLimit.intervalType == IntervalTypeEnum.CLOSED &&
 				scale.upperLimit.intervalType == IntervalTypeEnum.CLOSED) {
 				if (lowerLimitValue !== null && lowerLimitValue == uppperLimitValue) {
-					try{
+					try {
 						val intValue = NumberUtils.createInteger(lowerLimitValue)
 						val bigIntVal = BigInteger.valueOf(intValue)
 						val fInteger = createFIntegerConstant
 						fInteger.^val = bigIntVal
 						return fInteger
-					}catch(NumberFormatException e){
+					} catch (NumberFormatException e) {
 						logger.logWarning(warningMsg +
-							'''Reason: numbers are supported (no expressions). The value, however, is "«lowerLimitValue»". Creating a Franca String value instead.''')
+							'''Reason: numbers are supported (no expressions). The value, however, is "Â«lowerLimitValueÂ»". Creating a Franca String value instead.''')
 						val stringConstant = createFStringConstant
 						stringConstant.^val = lowerLimitValue
 						return stringConstant
 					}
 				} else {
 					logger.logWarning(warningMsg +
-						'''Reason: only support values where upper limit and lower limit are equal. Lower limit has value "«lowerLimitValue»". Upper limit has value "«uppperLimitValue»"''')
+						'''Reason: only support values where upper limit and lower limit are equal. Lower limit has value "Â«lowerLimitValueÂ»". Upper limit has value "Â«uppperLimitValueÂ»"''')
 				}
 			} else {
 				logger.logWarning(warningMsg +
-					'''Reason: only CLOSED interval types are supported. «»Lower limit has interval type "«scale.lowerLimit.intervalType»". Upper limit has interval type "«scale.upperLimit.intervalType»". ''')
+					'''Reason: only CLOSED interval types are supported. Lower limit has interval type "Â«scale.lowerLimit.intervalTypeÂ»". Upper limit has interval type "Â«scale.upperLimit.intervalTypeÂ»". ''')
 			}
 		}
 		return null
 	}
-	
+
 	def getLimit(LimitValueVariationPoint valuePoint, String warningMsg) {
 		val retVal = valuePoint?.getMixed()?.get(0)?.getValue()?.toString
-		if(retVal.nullOrEmpty){
+		if (retVal.nullOrEmpty) {
 			logger.logWarning(warningMsg + "Reason: Could not found value that can be used as limit.")
 		}
 		return retVal
 	}
-	
+
 	def protected getFirstProperty(SwDataDefProps swDataDefProps) {
 		val firstProperty = getSwDataDefPropsVariants(swDataDefProps)?.get(0)
 		return firstProperty
@@ -127,7 +127,7 @@ class FrancaEnumCreator extends ARA2FrancaBase {
 			return null
 		}
 		if (swDataDefProps.swDataDefPropsVariants.nullOrEmpty) {
-			getLogger.logError('''«errorMsg»No variant is defined for «swDataDefProps».''')
+			getLogger.logError('''Â«errorMsgÂ» No variant is defined for Â«swDataDefPropsÂ».''')
 			return null
 		}
 		return swDataDefProps.swDataDefPropsVariants

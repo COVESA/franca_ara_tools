@@ -41,20 +41,20 @@ class FaraconAssertHelper {
 		val actualContents = actualEObject.eContents
 		val expectedContents = expectedEObject.eContents
 		if (actualContents.size != expectedContents.size) {
-			return '''The number of contents of the actual EObject "«actualEObject»" differ from the contents in the expected EObject "«expectedEObject»". 
-			Actual is «actualContents.size», expected was «expectedContents.size»
-			Actual content is: «actualContents.map[toString].join(System.lineSeparator)»
+			return '''The number of contents of the actual EObject "Â«actualEObjectÂ»" differ from the contents in the expected EObject Â«expectedEObjectÂ»". 
+			Actual is Â«actualContents.sizeÂ», expected was Â«expectedContents.sizeÂ»
+			Actual content is: Â«actualContents.map[toString].join(System.lineSeparator)Â»
 			
-			Expected content was «expectedContents.map[toString].join(System.lineSeparator)»'''
+			Expected content was Â«expectedContents.map[toString].join(System.lineSeparator)Â»'''
 		}
 		for (var i = 0; i < actualContents.size; i++) {
 			val currentActual = actualContents.get(i)
 			val currentExpected = expectedContents.get(i)
 			if (!EcoreUtil.equals(currentActual, currentExpected)) {
-				return '''The actual EObject "«currentActual»" does not equal the expected EObject "«currentExpected»".«System.lineSeparator»	Reason: «findFirstDifference(currentActual, currentExpected)»'''
+				return '''The actual EObject "Â«currentActualÂ»" does not equal the expected EObject "Â«currentExpectedÂ»".Â«System.lineSeparatorÂ»  Reason: Â«findFirstDifference(currentActual, currentExpected)Â»'''
 			}
 		}
-		return '''The actual EObject "«actualEObject»" does not equal the expected EObject "«expectedEObject»".«System.lineSeparator»'''
+		return '''The actual EObject "Â«actualEObjectÂ»" does not equal the expected EObject "Â«expectedEObjectÂ»".Â«System.lineSeparatorÂ»'''
 	}
 
 	def static <T> T assertOneElement(Collection<T> elements) {

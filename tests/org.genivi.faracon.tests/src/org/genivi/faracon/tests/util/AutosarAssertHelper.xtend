@@ -47,7 +47,7 @@ class AutosarAssertHelper {
 		if (!actualContent.equals(expectedContent)) {
 			val actualContentStr = actualContent.join(System.lineSeparator)
 			val expectedContentStr = expectedContent.join(System.lineSeparator)
-			fail('''Actual file: "«actualFileName»" does not equal expected file "«expectedFileName»"«System.lineSeparator»Actual content is: «actualContentStr»«System.lineSeparator + System.lineSeparator»Expected content was: «expectedContentStr»''')
+			fail('''Actual file: "Â«actualFileNameÂ»" does not equal expected file "Â«expectedFileNameÂ»"Â«System.lineSeparatorÂ»Actual content is: Â«actualContentStrÂ»Â«actualContentStr + System.lineSeparatorÂ»Expected content was: Â«expectedContentStrÂ»''')
 		}
 	}
 

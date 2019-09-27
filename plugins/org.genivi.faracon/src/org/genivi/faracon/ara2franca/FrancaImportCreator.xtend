@@ -16,7 +16,7 @@ class FrancaImportCreator extends ARA2FrancaBase {
 	
 	def createImportIfNecessary(ImplementationDataType src){
 		if(currentModel === null){
-			logger.logError('''Cannot create import for type "«src?.shortName»". Reason: internal error: no franca model is set to be crated''')
+			logger.logError('''Cannot create import for type "Â«src?.shortNameÂ»". Reason: internal error: no franca model is set to be crated''')
 			return
 		}
 		val datatypePackage = src?.ARPackage?.packageNamespace
@@ -37,8 +37,8 @@ class FrancaImportCreator extends ARA2FrancaBase {
 	def private create createImport createAndAddImportTo(FModel model, String packageNameToImport, ImplementationDataType src){
 		val autosarModelUri = src?.eResource?.URI
 		if(autosarModelUri === null){
-			logger.logError('''Cannot create an import from model "«model?.name»" to package "«packageNameToImport
-			»". Reason: Source file for implementation data type "«src»" cannot be found.''')
+			logger.logError('''Cannot create an import from model "Â«model?.nameÂ»" to package "Â«packageNameToImport
+			Â»". Reason: Source file for implementation data type "Â«srcÂ»" cannot be found.''')
 			return 
 		}
 		val francaFileToImport = Ara2FrancaUtil.calculateFrancaFileNameFromAutosarUri(autosarModelUri, packageNameToImport) 
