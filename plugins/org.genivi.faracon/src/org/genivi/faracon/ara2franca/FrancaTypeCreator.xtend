@@ -42,11 +42,11 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			return transformArray(src)
 		} else if (src.category == "ARRAY") {
 			logger.
-				logWarning('''Category ARRAY used in «ImplementationDataType.simpleName» «src.shortName» is not fully supported yet. Using the same logic as for category "VECTOR"''')
+				logWarning('''Category ARRAY used in ï¿½ImplementationDataType.simpleNameï¿½ ï¿½src.shortNameï¿½ is not fully supported yet. Using the same logic as for category "VECTOR"''')
 			return transformArray(src)
 		} else {
 			getLogger.
-				logWarning('''Cannot create Franca type for "«src.shortName»" because AutosarDatatypes of category "«src.category»" are not yet supported''')
+				logWarning('''Cannot create Franca type for "ï¿½src.shortNameï¿½" because AutosarDatatypes of category "ï¿½src.categoryï¿½" are not yet supported''')
 			return null
 		}
 	}
@@ -90,7 +90,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 					fCompoundType.elements.add(field)
 				} else {
 					getLogger.
-						logError('''No type for the AUTOSAR sub-element "«subElement?.shortName»" in implementation data type "«aCompoundType?.shortName»" found. Cannot create a matching franca element.''')
+						logError('''No type for the AUTOSAR sub-element "ï¿½subElement?.shortNameï¿½" in implementation data type "ï¿½aCompoundType?.shortNameï¿½" found. Cannot create a matching franca element.''')
 				}
 			}
 		}
@@ -103,7 +103,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		val keySubElement = src.subElements.get(0)
 		if (!keySubElement.shortName.nullOrEmpty) {
-			it.addFrancaAnnotation("Key " + ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, keySubElement.shortName)
+			it.addExperimentalFrancaAnnotation("Key " + ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, keySubElement.shortName)
 		}
 		val araKeyType = keySubElement.getTypeRefTargetType
 		if (araKeyType !== null) {
@@ -114,7 +114,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		val valueSubElement = src.subElements.get(1)
 		if (!valueSubElement.shortName.nullOrEmpty) {
-			it.addFrancaAnnotation("Value " + ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, valueSubElement.shortName)
+			it.addExperimentalFrancaAnnotation("Value " + ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, valueSubElement.shortName)
 		}
 		val araValueType = valueSubElement.getTypeRefTargetType
 		if (araValueType !== null) {
@@ -132,13 +132,13 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		val firstSubElement = src.subElements.get(0)
 		if (!firstSubElement.shortName.nullOrEmpty) {
-			it.addFrancaAnnotation(ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, firstSubElement.shortName)
+			it.addExperimentalFrancaAnnotation(ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, firstSubElement.shortName)
 		}
 
 		val fixedArraySize = firstSubElement.arraySize?.mixedText
 		if (firstSubElement.arraySizeSemantics == ArraySizeSemanticsEnum.FIXED_SIZE && fixedArraySize !== null) {
 			logger.
-				logWarning('''The type "«src.shortName»" has array semantic «firstSubElement.arraySizeSemantics». Only experimental support for fixed size arrays is supported.''')
+				logWarning('''The type "ï¿½src.shortNameï¿½" has array semantic ï¿½firstSubElement.arraySizeSemanticsï¿½. Only experimental support for fixed size arrays is supported.''')
 			it.addExperimentalArraySizeAnnotation(fixedArraySize)
 		}
 		val araElementType = firstSubElement.typeRefTargetType
@@ -147,7 +147,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			elementType = createFTypeRefAndImport(araElementType, null)
 		} else {
 			getLogger.
-				logError('''No Franca array created for Autosar type "«src.shortName»", because no property with value type has been defined."''')
+				logError('''No Franca array created for Autosar type "ï¿½src.shortNameï¿½", because no property with value type has been defined."''')
 		}
 	}
 
@@ -156,7 +156,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		if (dataTypeSubElements.size !== count) {
 			// we expect exactly one sub element, otherwise, we consider that as an error
 			logger.
-				logError('''Found «dataTypeSubElements.size» sub elements for «ImplementationDataType.simpleName» «src.shortName». Only «count» sub elements are allowed for «src.category».«consequence» ''')
+				logError('''Found ï¿½dataTypeSubElements.sizeï¿½ sub elements for ï¿½ImplementationDataType.simpleNameï¿½ ï¿½src.shortNameï¿½. Only ï¿½countï¿½ sub elements are allowed for ï¿½src.categoryï¿½.ï¿½consequenceï¿½ ''')
 			return false
 		}
 		return true
@@ -165,13 +165,13 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	def private getTypeRefTargetType(ImplementationDataTypeElement typeRef) {
 		if (typeRef.category != "TYPE_REFERENCE") {
 			getLogger.
-				logError('''The category of the type reference in the sub element "«typeRef.shortName»" needs to be "TYPE_REFERENCE", but was «typeRef.category»''')
+				logError('''The category of the type reference in the sub element "ï¿½typeRef.shortNameï¿½" needs to be "TYPE_REFERENCE", but was ï¿½typeRef.categoryï¿½''')
 			return null
 		}
 		val firstProperty = getFirstProperty(typeRef.swDataDefProps)
 		if (firstProperty === null) {
 			getLogger.
-				logError('''No property found for the type reference "«typeRef»". Cannot transform the type reference to Franca.''')
+				logError('''No property found for the type reference "ï¿½typeRefï¿½". Cannot transform the type reference to Franca.''')
 			return null
 		}
 		val typeRefTargetType = firstProperty.implementationDataType as ImplementationDataType
