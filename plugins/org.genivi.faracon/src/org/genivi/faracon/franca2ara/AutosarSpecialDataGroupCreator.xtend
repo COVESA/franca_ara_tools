@@ -10,7 +10,7 @@ import org.genivi.faracon.Franca2ARABase
 @Singleton
 class AutosarSpecialDataGroupCreator extends Franca2ARABase {
 
-	val FARACON_SDG_GID = "FARACON"
+	val FARACON_SDG_GID = "faracon"
 
 	def void addSdgForFrancaElement(Identifiable identifiable, FModelElement fModelElement){
 		val annotationBlock = fModelElement?.comment

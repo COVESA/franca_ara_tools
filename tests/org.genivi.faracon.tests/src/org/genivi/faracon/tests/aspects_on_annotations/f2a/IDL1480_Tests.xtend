@@ -24,24 +24,27 @@ class IDL1480_Tests extends Franca2ARATestBase {
 	def void testUnitFrancaAnnotation() {
 		// given
 		val testInterfaceName = "TestInterface"
-		val fInterface = createFInterface =>[
+		val fInterface = createFInterface => [
 			it.name = testInterfaceName
-			it.comment = createFAnnotationBlock =>[
-				it.elements += createFAnnotation =>[
+			it.comment = createFAnnotationBlock => [
+				it.elements += createFAnnotation => [
 					it.type = FAnnotationType.AUTHOR
 					it.comment = "Test comment"
 				]
-			] 
+			]
 		]
-		val parentPackage = createARPackage => [it.shortName = "TestParentPackage"] 
-		
+		createFModel => [
+			it.name = "TestModel"
+			it.interfaces += fInterface
+		]
+
 		// when
-		val serviceInterface = fInterface.transform(parentPackage)
+		val serviceInterface = fInterface.transform()
 
 		// then
 		serviceInterface.assertName(testInterfaceName)
 		val createdSdg = serviceInterface.adminData.assertNotNull.sdgs.assertOneElement
-		assertEquals("Wrong id for the following sdg created " + createdSdg, "FARACON", createdSdg.gid)
+		assertEquals("Wrong id for the following sdg created " + createdSdg, "faracon", createdSdg.gid)
 		val l2 = createdSdg.sdgCaption.assertNotNull.desc.assertNotNull.l2s.assertOneElement
 		assertEquals("The annotation has the wrong type", "author", l2.mixedText)
 		val sd = createdSdg.sdgContentsType.assertNotNull.sds.assertOneElement
@@ -49,7 +52,7 @@ class IDL1480_Tests extends Franca2ARATestBase {
 	}
 
 	@Test
-	def void testTypeCollectionUsageWithVersion() {
+	def void testFrancaAnnotationToSdg() {
 		transformAndCheck(testPath, "francaAnnotation", testPath + "francaAnnotation.arxml")
 	}
 

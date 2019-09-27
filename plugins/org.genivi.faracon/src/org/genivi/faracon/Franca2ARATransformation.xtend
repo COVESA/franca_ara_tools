@@ -21,13 +21,13 @@ import org.genivi.faracon.franca2ara.ARANamespaceCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.franca2ara.AutosarAnnotator
+import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
 import org.genivi.faracon.names.FrancaNamesCollector
 import org.genivi.faracon.names.NamesHierarchy
 
 import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
-import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -114,7 +114,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 				createArtificialVectorType(fType)
 			]
 		)
-       	accordingArPackage?.addSdgForFrancaElement(typeCollection)
+		if(!(fTypeCollection instanceof FInterface)){
+			// in case the type collection is actually an interface the sdgs have been added already to the interface
+			accordingArPackage?.addSdgForFrancaElement(fTypeCollection)
+		}
 	}
 
 	// Beside the original parent interface check, the parameter 'parentInterface' is important

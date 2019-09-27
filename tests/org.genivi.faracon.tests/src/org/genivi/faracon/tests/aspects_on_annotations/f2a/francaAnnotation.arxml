@@ -14,7 +14,7 @@
                   <SHORT-NAME>TestInterface</SHORT-NAME>
                   <ADMIN-DATA>
                     <SDGS>
-                      <SDG GID="FARACON">
+                      <SDG GID="faracon">
                         <SDG-CAPTION>
                           <DESC>
                             <L-2>author</L-2>
@@ -43,7 +43,7 @@
                       <SHORT-NAME>testMethod</SHORT-NAME>
                       <ADMIN-DATA>
                         <SDGS>
-                          <SDG GID="FARACON">
+                          <SDG GID="faracon">
                             <SDG-CAPTION>
                               <DESC>
                                 <L-2>experimental</L-2>
@@ -58,7 +58,7 @@
                           <SHORT-NAME>myUInt32</SHORT-NAME>
                           <ADMIN-DATA>
                             <SDGS>
-                              <SDG GID="FARACON">
+                              <SDG GID="faracon">
                                 <SDG-CAPTION>
                                   <DESC>
                                     <L-2>description</L-2>
@@ -66,7 +66,7 @@
                                 </SDG-CAPTION>
                                 <SD>parameter description</SD>
                               </SDG>
-                              <SDG GID="FARACON">
+                              <SDG GID="faracon">
                                 <SDG-CAPTION>
                                   <DESC>
                                     <L-2>author</L-2>
