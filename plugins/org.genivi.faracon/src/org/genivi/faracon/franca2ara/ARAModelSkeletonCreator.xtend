@@ -3,6 +3,7 @@ package org.genivi.faracon.franca2ara
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import java.util.Map
 import java.util.regex.Pattern
+import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FModel
@@ -13,6 +14,9 @@ import static extension org.franca.core.FrancaModelExtensions.*
 
 @Singleton
 class ARAModelSkeletonCreator extends Franca2ARABase {
+
+	@Inject
+	var extension AutosarAnnotator
 
 	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
 	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
@@ -34,22 +38,26 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		} else {
 			currentPackage.shortName = fModel.name
 		}
-		
+
 		// Create AUTOSAR subpackages for all Franca interface definitions with content that has to be transformed into package content.
 		for (interface : fModel.interfaces) {
 			if (!interface.types.nullOrEmpty || !interface.constants.nullOrEmpty) {
-				fTypeCollection2arPackage.put(interface, createPackageWithName(interface.name, currentPackage))
+				val interfacePackage = createPackageWithName(interface.name, currentPackage)
+				val packageWithVersion = interface.createPackageForVersion(interfacePackage)
+				fTypeCollection2arPackage.put(interface, packageWithVersion)
 			}
 		}
 		// Create AUTOSAR subpackages for all named Franca type collections.
 		for (typeCollection : fModel.typeCollections) {
 			if (typeCollection.name.nullOrEmpty) {
-				fTypeCollection2arPackage.put(typeCollection, currentPackage)
+				fTypeCollection2arPackage.put(typeCollection, typeCollection.createPackageForVersion(currentPackage))
 			} else {
-				fTypeCollection2arPackage.put(typeCollection, createPackageWithName(typeCollection.name, currentPackage))
+				val typeCollectionPackage = createPackageWithName(typeCollection.name, currentPackage)
+				val packageWithVersion = interface.createPackageForVersion(typeCollectionPackage)
+				fTypeCollection2arPackage.put(typeCollection, packageWithVersion)
 			}
 		}
-		
+
 		fModel2arPackage.put(fModel, currentPackage)
 	}
 
@@ -74,7 +82,7 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 	def createAccordingArPackage(FTypeCollection fTypeCollection) {
 		// This check is only needed when an incomplete Franca model is converted to AUTOSAR.
 		// We do this in some unit tests.
-		if (fTypeCollection === null) return null
+		if(fTypeCollection === null) return null
 
 		val accordingArPackage = fTypeCollection2arPackage.get(fTypeCollection)
 		if (accordingArPackage === null) {
@@ -94,6 +102,34 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		newPackage.shortName = name
 		parent?.arPackages?.add(newPackage)
 		newPackage
+	}
+
+	/**
+	 * Creates a package for an FTypeCollection or an FInterface if the FTypeCollection or FInterface
+	 * has a version attached.
+	 * If no version is attached the provided parent package is returend.
+	 */
+	def ARPackage createPackageForVersion(FTypeCollection fTypeCollection, ARPackage parentPackage) {
+		val fVersion = fTypeCollection?.version
+		if (fVersion !== null && (fVersion.major !== null || fVersion.minor !== null )) {
+			return fTypeCollection.createInternalPackageForVersion(parentPackage)
+		}
+		return parentPackage
+	}
+
+	def private create fac.createARPackage createInternalPackageForVersion(FTypeCollection fTypeCollection,
+		ARPackage parentPackage) {
+		val fVersion = fTypeCollection.version
+		if (fVersion.major === null || fVersion.minor === null) {
+			logger.logError(
+				"The version of " + fTypeCollection.class.simpleName +
+					" is wrong. Major and minor version need to be set, but found: " + fVersion)
+		}
+		val majorPart = if(fVersion.major === null) "_1" else String.valueOf(fVersion.major)
+		val minorPart = if(fVersion.minor === null) "_1" else String.valueOf(fVersion.minor)
+		it.shortName = "v_" + majorPart + "_" + minorPart
+		it.addAnnotation("FrancaVersion", fTypeCollection.class.simpleName + " " + majorPart + "." + minorPart)
+		parentPackage.arPackages += it
 	}
 
 }

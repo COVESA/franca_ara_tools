@@ -38,9 +38,9 @@ class Franca2ARATransformation extends Franca2ARABase {
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
-	var extension ARANamespaceCreator
-	@Inject
 	var extension AutosarAnnotator
+	@Inject
+	var extension ARANamespaceCreator
 
 	@Inject
 	NamesHierarchy namesHierarchy
@@ -80,11 +80,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 		}
 		shortName = src.name
 
-		val targetPackageWithVersion = src.createPackageForVersion(targetPackage)
-		targetPackageWithVersion.elements += it
+		targetPackage.elements += it
 
-		namespaces.addAll(targetPackageWithVersion.createNamespaceForPackage)
-		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackageWithVersion)])
+		namespaces.addAll(targetPackage.createNamespaceForPackage)
+		events.addAll(getAllBroadcasts(src).map[it.transform(src, targetPackage)])
 		fields.addAll(getAllAttributes(src).map[it.transform(src)])
 		methods.addAll(getAllMethods(src).map[it.transform(src)])
 		
@@ -97,19 +96,17 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val types = fTypeCollection.types.map[dataTypeForReference]
 		val accordingArPackage = fTypeCollection.accordingArPackage
 
-        val parentPackage = typeCollection.createPackageForVersion(accordingArPackage)
-
 		// Add the conversions of all Franca types that are defined in this type collection.
-		parentPackage?.elements?.addAll(types)
+		accordingArPackage?.elements?.addAll(types)
 
 		// Add the according CompuMethods for all Franca enumeration types of this type collection.
-		parentPackage?.elements?.addAll(
+		accordingArPackage?.elements?.addAll(
 			fTypeCollection.types.filter(FEnumerationType).map[createCompuMethod]
 		)
 
 		// Add artificial vector type definitions for all types of this type collection
 		// which are used as element type of an anonymous array anywhere in the any Franca input model.
-		parentPackage?.elements?.addAll(
+		accordingArPackage?.elements?.addAll(
 			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays?.contains(it)].map[fType|
 				createArtificialVectorType(fType)
 			]

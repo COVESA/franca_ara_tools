@@ -127,7 +127,7 @@ class ARATypeCreator extends Franca2ARABase {
 	def dispatch void checkCompoundType(FStructType type) {
 		if (type.polymorphic) {
 			logger.
-				logError('''Struct type "«type.name»" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
+				logError('''Struct type "ï¿½type.nameï¿½" is polymorphic. This cannot be transformed to Autosar (IDL1670).''')
 		}
 	}
 
@@ -172,7 +172,7 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 	
 
-	def private create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
+	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
 		shortName = fEnumerationType.name + "_CompuMethod"
 		it.category = "TEXTTABLE"
 		val allEnumerators = FrancaModelExtensions.getInheritationSet(fEnumerationType).map[it as FEnumerationType].map [
@@ -187,7 +187,7 @@ class ARATypeCreator extends Franca2ARABase {
 						val limitText = enumValue.valueFromFConstant
 						if (limitText === null) {
 							logger.
-								logError('''Did not found a constant values for "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
+								logError('''Did not found a constant values for "ï¿½enumerator.value.class.simpleNameï¿½" in enumerator "ï¿½enumerator.nameï¿½" of enumeration "ï¿½fEnumerationType.nameï¿½''')
 						}
 						val arLimit = fac.createLimitValueVariationPoint => [
 							it.intervalType = IntervalTypeEnum.CLOSED
@@ -197,7 +197,7 @@ class ARATypeCreator extends Franca2ARABase {
 						compuScale.upperLimit = arLimit
 					} else {
 						logger.
-							logError('''Only constant values are supported for enums, but found "«enumerator.value.class.simpleName»" in enumerator "«enumerator.name»" of enumeration "«fEnumerationType.name»''')
+							logError('''Only constant values are supported for enums, but found "ï¿½enumerator.value.class.simpleNameï¿½" in enumerator "ï¿½enumerator.nameï¿½" of enumeration "ï¿½fEnumerationType.nameï¿½''')
 					}
 				}
 			]
