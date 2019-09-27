@@ -3,7 +3,6 @@ package org.genivi.faracon.ara2franca
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
-import java.util.Collection
 import java.util.Optional
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -136,10 +135,10 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			it.addFrancaAnnotation(ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, firstSubElement.shortName)
 		}
 
-		if (firstSubElement.arraySizeSemantics == ArraySizeSemanticsEnum.FIXED_SIZE) {
+		val fixedArraySize = firstSubElement.arraySize?.mixedText
+		if (firstSubElement.arraySizeSemantics == ArraySizeSemanticsEnum.FIXED_SIZE && fixedArraySize !== null) {
 			logger.
 				logWarning('''The type "«src.shortName»" has array semantic «firstSubElement.arraySizeSemantics». Only experimental support for fixed size arrays is supported.''')
-			val fixedArraySize = firstSubElement.arraySize?.mixedText
 			it.addExperimentalArraySizeAnnotation(fixedArraySize)
 		}
 		val araElementType = firstSubElement.typeRefTargetType
