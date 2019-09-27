@@ -9,10 +9,10 @@ import org.genivi.faracon.ARA2FrancaBase
 @Singleton
 class FrancaAnnotationCreator extends ARA2FrancaBase {
 
-	def void addFrancaAnnotation(FModelElement fModelElement, String annotationLabel, String annotationText) {
+	def void addExperimentalFrancaAnnotation(FModelElement fModelElement, String annotationLabel, String annotationText) {
 		val francaAnnotation = createFAnnotation => [
-			type = FAnnotationType.SOURCE_ALIAS
-			comment = "Faracon: " + annotationLabel + ": " + annotationText
+			type = FAnnotationType.EXPERIMENTAL
+			comment = "[faracon] " + annotationLabel + " = " + annotationText
 		]
 		fModelElement.ensureFAnnotationBlock.elements.add(francaAnnotation)
 	}
@@ -20,7 +20,7 @@ class FrancaAnnotationCreator extends ARA2FrancaBase {
 	def void addExperimentalArraySizeAnnotation(FArrayType fArrayType, String arraySize) {
 		val francaAnnotation = createFAnnotation => [
 			type = FAnnotationType.EXPERIMENTAL
-			comment = "Faracon: " + "fixed array size = " + arraySize
+			comment = "[faracon] " + "fixed array size = " + arraySize
 		]
 		fArrayType.ensureFAnnotationBlock.elements.add(francaAnnotation)
 

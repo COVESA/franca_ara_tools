@@ -2,13 +2,13 @@ package a1.b2.c3
 
 typeCollection {
 	<**
-		@experimental : Faracon: fixed array size = 21
+		@experimental : [faracon] fixed array size = 21
 	**>
 	array simpleArray of UInt16
 
 	<**
-		@source-alias : Faracon: OriginalSubElementName: valueType
-		@experimental : Faracon: fixed array size = 42
+		@experimental : [faracon] OriginalSubElementName = valueType
+		@experimental : [faracon] fixed array size = 42
 	**>
 	array structArray of TestStruct
 

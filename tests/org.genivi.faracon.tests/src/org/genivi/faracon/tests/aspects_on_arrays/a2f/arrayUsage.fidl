@@ -5,7 +5,7 @@ typeCollection {
 	array simpleArray of UInt16
 
 	<**
-		@source-alias : Faracon: OriginalSubElementName: valueType
+		@experimental : [faracon] OriginalSubElementName = valueType
 	**>
 	array structArray of TestStruct
 
