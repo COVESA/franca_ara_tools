@@ -1,0 +1,20 @@
+package a1.b2.c3
+
+typeCollection {
+	typedef TestTypeDef is UInt16
+	typedef StructTypedef is TestStruct
+
+	struct TestStruct {
+		UInt32 testMember
+	}
+}
+
+interface ExampleInterface{
+	method testMethod {
+		in {
+			TestTypeDef typeDefIn
+			StructTypedef structTypedefIn
+		}
+	}
+}
+

@@ -67,13 +67,11 @@ class IDL1580_Tests extends ARA2FrancaTestBase {
 		val fTypdef = result.assertIsInstanceOf(FTypeDef)
 		fTypdef.assertName(testTypedefName)
 		fTypdef.actualType.assertFTypeRef(false, FBasicTypeId.UINT16)
-
 	}
 
 	@Test
 	def void testTypeDefTransformation() {
-		transformAndCheck(testPath + "typeDefUsage.arxml",
-			testPath + "typeDefUsage.fidl")
+		transformAndCheck(testPath + "typeDefUsage.arxml", testPath + "typeDefUsage.fidl")
 	}
 
 }
