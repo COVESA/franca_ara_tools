@@ -9,6 +9,7 @@ import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FModel
+import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
@@ -45,6 +46,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			logger.
 				logWarning('''Category ARRAY used in «ImplementationDataType.simpleName» "«src.shortName»" is not fully supported yet. Using the same logic as for category "VECTOR"''')
 			return transformArray(src)
+		} else if (src.category == "TYPE_REF") {
+			return transformTypedef(src)
 		} else {
 			getLogger.
 				logWarning('''Cannot create Franca type for "«src.shortName»" because AutosarDatatypes of category "«src.category»" are not yet supported''')
@@ -115,7 +118,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		val valueSubElement = src.subElements.get(1)
 		if (!valueSubElement.shortName.nullOrEmpty) {
-			it.addExperimentalFrancaAnnotation("Value " + ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, valueSubElement.shortName)
+			it.addExperimentalFrancaAnnotation("Value " + ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION,
+				valueSubElement.shortName)
 		}
 		val araValueType = valueSubElement.getTypeRefTargetType
 		if (araValueType !== null) {
@@ -132,9 +136,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			return
 		}
 		val firstSubElement = src.subElements.get(0)
-		if (!firstSubElement.shortName.nullOrEmpty) {
-			it.addExperimentalFrancaAnnotation(ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION, firstSubElement.shortName)
-		}
+		addAnnotationForSubElementName(firstSubElement, it)
 
 		val fixedArraySize = firstSubElement.arraySize?.mixedText
 		if (firstSubElement.arraySizeSemantics == ArraySizeSemanticsEnum.FIXED_SIZE && fixedArraySize !== null) {
@@ -149,6 +151,32 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		} else {
 			getLogger.
 				logError('''No Franca array created for Autosar type "«src.shortName»", because no property with value type has been defined."''')
+		}
+	}
+
+	def private create fac.createFTypeDef transformTypedef(ImplementationDataType src) {
+		name = src.shortName
+		if (!src.checkSubElements(1, "No actual type for the Franca typedef \"" + name + "\" can be created.")) {
+			return
+		}
+		val actualTypeSubElement = src.subElements.get(0)
+		actualTypeSubElement.addAnnotationForSubElementName(it)
+
+		val araElementType = actualTypeSubElement.typeRefTargetType
+		if (araElementType !== null) {
+			actualType = araElementType.createFTypeRefAndImport(null)
+		} else {
+			logger.
+				logError('''No Franca target type for typedef "«name»" could be created, because the first autosar subelement of «ImplementationDataType.simpleName
+				» "«name»" has no type reference.''')
+		}
+	}
+
+	private def void addAnnotationForSubElementName(ImplementationDataTypeElement firstSubElement,
+		FModelElement fModelElement) {
+		if (!firstSubElement.shortName.nullOrEmpty) {
+			fModelElement.addExperimentalFrancaAnnotation(ORIGINAL_SUB_ELEMENT_NAME_ANNOTATION,
+				firstSubElement.shortName)
 		}
 	}
 
@@ -200,14 +228,16 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		typeRef
 	}
 
-	def void setPrimitveTypeBasedOnName(FTypeRef fTypeRef, ImplementationDataType src, FTypedElement parentTypedElement) {
+	def void setPrimitveTypeBasedOnName(FTypeRef fTypeRef, ImplementationDataType src,
+		FTypedElement parentTypedElement) {
 		val autosarShortName = src.shortName
 		if (autosarShortName == "ByteArray" || autosarShortName == "ByteVectorType") {
 			fTypeRef.predefined = FBasicTypeId.UINT8
-			if(parentTypedElement === null){
-				logger.logError('''The simple type "«autosarShortName»" cannot be used within because no Franca Typed parent has been created for the element "«src»"''')
-			}else{
-				parentTypedElement.array = true	
+			if (parentTypedElement === null) {
+				logger.
+					logError('''The simple type "«autosarShortName»" cannot be used within because no Franca Typed parent has been created for the element "«src»"''')
+			} else {
+				parentTypedElement.array = true
 			}
 		} else {
 			fTypeRef.predefined = FBasicTypeId.getByName(src.shortName)

@@ -1,0 +1,29 @@
+package a1.b2.c3
+
+typeCollection {
+	<**
+		@experimental : [faracon] OriginalSubElementName = testTypeDefSubElement
+	
+	**>
+	typedef TestTypeDef is UInt16
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = testStructTypeDefSubElement
+	
+	**>
+	typedef StructTypedef is TestStruct
+
+	struct TestStruct {
+		UInt32 testMember
+	}
+}
+
+interface ExampleInterface{
+	method testMethod {
+		in {
+			TestTypeDef typeDefIn
+			StructTypedef structTypedefIn
+		}
+	}
+}
+

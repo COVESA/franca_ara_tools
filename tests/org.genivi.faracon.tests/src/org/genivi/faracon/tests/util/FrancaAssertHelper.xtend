@@ -21,8 +21,9 @@ class FrancaAssertHelper {
 		assertEquals("Wrong namespace created for franca model " + francaModel, expectedNamesapce, francaModel.name)
 	}
 
-	def static void assertName(FModelElement namedElement, String expectedName) {
+	def static FModelElement assertName(FModelElement namedElement, String expectedName) {
 		assertEquals("Wrong name created for the franca model element " + namedElement, expectedName, namedElement.name)
+		return namedElement
 	}
 
 	def static <T> T assertType(FType fType, Class<T> expectedType, String expectedName) {
