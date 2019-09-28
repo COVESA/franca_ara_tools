@@ -20,6 +20,7 @@ import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeCollection
+import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
@@ -80,7 +81,7 @@ class ARATypeCreator extends Franca2ARABase {
 //	}
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
 		getLogger.
-			logWarning('''Cannot create AutosarDatatype because the Franca type "?type.eClass.name?" is not yet supported''')
+			logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null
 	}
 
@@ -160,9 +161,8 @@ class ARATypeCreator extends Franca2ARABase {
 		it.subElements += createTypeRefImplementationDataTypeElement("valueType", fMapType.valueType)
 		it.ARPackage = fMapType.createAccordingArPackage
 	}
-	
-	
-	def private createTypeRefImplementationDataTypeElement(String elementShortName, FTypeRef referencedType){
+
+	def private createTypeRefImplementationDataTypeElement(String elementShortName, FTypeRef referencedType) {
 		fac.createImplementationDataTypeElement => [
 			shortName = elementShortName
 			category = "TYPE_REFERENCE"
@@ -173,7 +173,6 @@ class ARATypeCreator extends Franca2ARABase {
 			]
 		]
 	}
-	
 
 	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
 		shortName = fEnumerationType.name + "_CompuMethod"
@@ -219,8 +218,7 @@ class ARATypeCreator extends Franca2ARABase {
 		return null
 	}
 
-	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(
-		FTypedElement fTypedElement,
+	def create fac.createImplementationDataTypeElement createImplementationDataTypeElement(FTypedElement fTypedElement,
 		FCompoundType fParentCompoundType) {
 		it.shortName = fTypedElement.name
 		it.category = "TYPE_REFERENCE"
@@ -252,6 +250,20 @@ class ARATypeCreator extends Franca2ARABase {
 		it.ARPackage = fArrayType.createAccordingArPackage
 	// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
 //		it.createImplementationDataTypeExtension
+	}
+
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FTypeDef fTypeDef) {
+		it.shortName = fTypeDef.name
+		it.category = "TYPE_REF"
+		it.subElements += fac.createImplementationDataTypeElement => [
+			shortName = "valueType"
+			it.category = "TYPE_REFERENCE"
+			swDataDefProps = fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					implementationDataType = fTypeDef.actualType.createDataTypeReference as ImplementationDataType
+				]
+			]
+		]
 	}
 
 	def create fac.createImplementationDataType createArtificialVectorType(FType fType) {
