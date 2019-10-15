@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="Franca ARA Converter" uid="org.genivi.faracon.cli.product" id="org.genivi.faracon.cli.product" application="org.genivi.faracon.console.application" version="0.7.0" useFeatures="true" includeLaunchers="true">
+<product name="Franca ARA Converter" uid="org.genivi.faracon.cli.product" id="org.genivi.faracon.cli.product" application="org.genivi.faracon.console.application" version="0.9.0" useFeatures="true" includeLaunchers="true">
 
 
    <configIni use="default">
