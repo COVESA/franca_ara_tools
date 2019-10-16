@@ -5,7 +5,7 @@ interface ExampleInterface {
 	struct UserDefinedStructType {
 		UInt32[] field_1
 		Boolean field_2
-		UInt32[] field_3
+		ByteBuffer[] field_3
 	}
 
 	method methodWithUserDefinedTypeArguments {

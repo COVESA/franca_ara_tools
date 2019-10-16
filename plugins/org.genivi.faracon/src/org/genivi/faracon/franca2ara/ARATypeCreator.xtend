@@ -29,6 +29,7 @@ import org.genivi.faracon.Franca2ARABase
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
+import static extension org.genivi.faracon.util.FrancaUtil.*
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {
@@ -49,15 +50,15 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
 		if (fTypedElement === null || !fTypedElement.isArray) {
-			fTypeRef.createDataTypeReference
+			fTypeRef.createDataTypeReference(fTypedElement.name, fTypedElement.francaNamespaceName)
 		} else {
 			fTypeRef.createAnonymousArrayTypeReference
 		}
 	}
 
-	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef) {
+	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
 		if (fTypeRef.refsPrimitiveType) {
-			getBaseTypeForReference(fTypeRef.predefined)
+			getBaseTypeForReference(fTypeRef.predefined, typedElementName, namespaceName)
 		} else {
 			return getDataTypeForReference(fTypeRef.derived)
 		}
@@ -157,18 +158,18 @@ class ARATypeCreator extends Franca2ARABase {
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
 		it.shortName = fMapType.name
 		it.category = "ASSOCIATIVE_MAP"
-		it.subElements += createTypeRefImplementationDataTypeElement("keyType", fMapType.keyType)
-		it.subElements += createTypeRefImplementationDataTypeElement("valueType", fMapType.valueType)
+		it.subElements += createTypeRefImplementationDataTypeElement("keyType", fMapType.francaNamespaceName, fMapType.keyType)
+		it.subElements += createTypeRefImplementationDataTypeElement("valueType", fMapType.francaNamespaceName, fMapType.valueType)
 		it.ARPackage = fMapType.createAccordingArPackage
 	}
 
-	def private createTypeRefImplementationDataTypeElement(String elementShortName, FTypeRef referencedType) {
+	def private createTypeRefImplementationDataTypeElement(String elementShortName, String namespaceName, FTypeRef referencedType) {
 		fac.createImplementationDataTypeElement => [
 			shortName = elementShortName
 			category = "TYPE_REFERENCE"
 			it.swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = referencedType.createDataTypeReference as ImplementationDataType
+					implementationDataType = referencedType.createDataTypeReference(elementShortName, namespaceName) as ImplementationDataType
 				]
 			]
 		]
@@ -243,7 +244,7 @@ class ARATypeCreator extends Franca2ARABase {
 			it.category = "TYPE_REFERENCE"
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = fArrayType.elementType.createDataTypeReference as ImplementationDataType
+					implementationDataType = fArrayType.elementType.createDataTypeReference(fArrayType.name, fArrayType.francaNamespaceName) as ImplementationDataType
 				]
 			]
 		]
@@ -260,7 +261,7 @@ class ARATypeCreator extends Franca2ARABase {
 			it.category = "TYPE_REFERENCE"
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = fTypeDef.actualType.createDataTypeReference as ImplementationDataType
+					implementationDataType = fTypeDef.actualType.createDataTypeReference(fTypeDef.name, fTypeDef.francaNamespaceName) as ImplementationDataType
 				]
 			]
 		]
