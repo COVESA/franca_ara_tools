@@ -38,7 +38,7 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 	def void testFrancaBaseTypes() {
 		// given: all primitve types except byte buffer
 		val francaBasicTypeUsages = FBasicTypeId.VALUES.filter [
-			it !== FBasicTypeId.UNDEFINED && it != FBasicTypeId.BYTE_BUFFER
+			it !== FBasicTypeId.UNDEFINED
 		].map [ basicType |
 			createFAttribute => [
 				it.type = createFTypeRef => [
@@ -54,46 +54,19 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 
 		// then
 		val francaTypesMap = francaBasicTypeUsages.map[it.type].toMap[it.predefined.getName]
-		assertEquals("Differnt number for franca and ara types found", francaTypesMap.size, araTypes.size)
+		assertEquals("Different number for Franca and ARA types found", francaTypesMap.size, araTypes.size)
 		araTypes.forEach [
-			assertTrue("No franca type found for Autosar type " + shortName, francaTypesMap.containsKey(shortName))
+			assertTrue("No Franca type found for AUTOSAR type " + shortName, francaTypesMap.containsKey(shortName))
 			val francaType = francaTypesMap.get(shortName)
-			assertEquals("Franca type and Autosar type need to have equal name", francaType.predefined.getName,
+			assertEquals("Franca type and AUTOSAR type need to have equal name", francaType.predefined.getName,
 				shortName)
 
 		]
 	}
 
-	@Test(expected=AbstractLogger.StopOnErrorException)
-	def void testFrancaByteBuffer() {
-		testFrancaByteBufferTransformation()
-	// then: expect the error
-	}
-
-	@Test
-	def void testFrancaByteBufferContinueOnError() {
-		logger.enableContinueOnErrors(true)
-
-		val araType = testFrancaByteBufferTransformation
-
-		// then: expect vector type usage
-		assertEquals("ByteVectorType was expected for the Franca Type ByteBuffer", "ByteVectorType", araType.shortName)
-	}
-
 	@Test
 	def void testFrancaBasicTypesInStruct() {
 		transformAndCheck(testPath, "francaBasicTypes", testPath + "francaBasicTypes.arxml")
-	}
-
-	private def AutosarDataType testFrancaByteBufferTransformation() {
-		val francaByteBufferUsage = createFAttribute => [
-			it.type = createFTypeRef => [
-				it.predefined = FBasicTypeId.BYTE_BUFFER
-			]
-		]
-
-		// when 
-		return francaByteBufferUsage.type.createDataTypeReference(francaByteBufferUsage)
 	}
 
 }

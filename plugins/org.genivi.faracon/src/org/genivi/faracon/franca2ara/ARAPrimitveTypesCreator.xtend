@@ -32,14 +32,13 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 		return topLevelPackage
 	}
 
-	def getBaseTypeForReference(FBasicTypeId fBasicTypeId) {
+	def getBaseTypeForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
 		createPrimitiveTypesPackage(null)
 		if(!this.nameToType.containsKey(fBasicTypeId.getName)){
 			getLogger.logError("Can not find an AUTOSAR simple type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
 		if(fBasicTypeId == FBasicTypeId.BYTE_BUFFER){
-			logger.logError('''Cannot convert Franca ByteBuffer to an Autosar simple type.''')
-			return this.nameToType.get("ByteVectorType")
+			logger.logWarning('''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffer '«typedElementName»' in '«namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
 		}
 		this.nameToType.get(fBasicTypeId.getName)
 	}
