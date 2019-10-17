@@ -52,7 +52,7 @@ class ARATypeCreator extends Franca2ARABase {
 		if (fTypedElement === null || !fTypedElement.isArray) {
 			fTypeRef.createDataTypeReference(fTypedElement.name, fTypedElement.francaNamespaceName)
 		} else {
-			fTypeRef.createAnonymousArrayTypeReference
+			fTypeRef.createAnonymousArrayTypeReference(fTypedElement.name, fTypedElement.francaNamespaceName)
 		}
 	}
 
@@ -283,9 +283,9 @@ class ARATypeCreator extends Franca2ARABase {
 		ARPackage = fType.createAccordingArPackage
 	}
 
-	def private ImplementationDataType createAnonymousArrayTypeReference(FTypeRef fTypeRef) {
+	def private ImplementationDataType createAnonymousArrayTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
 		if (fTypeRef.refsPrimitiveType) {
-			getBaseTypeVectorForReference(fTypeRef.predefined)
+			getBaseTypeVectorForReference(fTypeRef.predefined, typedElementName, namespaceName)
 		} else {
 			createArtificialVectorType(fTypeRef.derived)
 		}
