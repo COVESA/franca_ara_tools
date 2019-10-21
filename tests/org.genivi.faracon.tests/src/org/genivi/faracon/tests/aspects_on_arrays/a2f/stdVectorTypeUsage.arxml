@@ -21,6 +21,21 @@
                           <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32Vector</TYPE-TREF>
                           <DIRECTION>IN</DIRECTION>
                         </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                          <SHORT-NAME>byteArrayArrayIn</SHORT-NAME>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/ByteArrayVector</TYPE-TREF>
+                          <DIRECTION>IN</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                          <SHORT-NAME>byteBufferArrayIn</SHORT-NAME>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/ByteBufferVector</TYPE-TREF>
+                          <DIRECTION>IN</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
+                        <ARGUMENT-DATA-PROTOTYPE UUID="0">
+                          <SHORT-NAME>byteVectorTypeArrayIn</SHORT-NAME>
+                          <TYPE-TREF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/ByteVectorTypeVector</TYPE-TREF>
+                          <DIRECTION>IN</DIRECTION>
+                        </ARGUMENT-DATA-PROTOTYPE>
                       </ARGUMENTS>
                     </CLIENT-SERVER-OPERATION>
                   </METHODS>
