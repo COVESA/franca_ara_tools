@@ -2,10 +2,10 @@ package org.genivi.faracon.util
 
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Referrable
 import java.util.Collection
-import autosar40.genericstructure.generaltemplateclasses.arpackage.PackageableElement
-import java.util.concurrent.AbstractExecutorService
 import java.util.Objects
+import org.eclipse.emf.ecore.EObject
 
 class AutosarUtil {
 	private new() {
@@ -56,4 +56,21 @@ class AutosarUtil {
 		return hierarchy.join(".")	
 	} 
 	
+	static def String getARANamespaceName(EObject element) {
+		var currentElement = element.eContainer
+		var partialNamespaceName = ""
+		while (currentElement !== null) {
+			if (currentElement instanceof Referrable) {
+				if (!currentElement.shortName.nullOrEmpty) {
+					if (!partialNamespaceName.empty) {
+						partialNamespaceName = "." + partialNamespaceName
+					}
+					partialNamespaceName = currentElement.shortName + partialNamespaceName
+				}
+			}
+			currentElement = currentElement.eContainer
+		}
+		partialNamespaceName
+	}
+
 }

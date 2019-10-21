@@ -14,16 +14,21 @@ class FrancaUtil {
 		while (currentElement !== null && !(currentElement instanceof FModel)) {
 			if (currentElement instanceof FModelElement) {
 				if (!currentElement.name.nullOrEmpty) {
-					partialNamespaceName += "." + currentElement.name
+					if (!partialNamespaceName.empty) {
+						partialNamespaceName = "." + partialNamespaceName
+					}
+					partialNamespaceName = currentElement.name + partialNamespaceName
 				}
 			}
 			currentElement = currentElement.eContainer
 		}
 		if (currentElement !== null) {
-			(currentElement as FModel).name + partialNamespaceName
-		} else {
-			partialNamespaceName
+			if (!partialNamespaceName.empty) {
+				partialNamespaceName = "." + partialNamespaceName
+			}
+			partialNamespaceName = (currentElement as FModel).name + partialNamespaceName
 		}
+		partialNamespaceName
 	}
 
 }

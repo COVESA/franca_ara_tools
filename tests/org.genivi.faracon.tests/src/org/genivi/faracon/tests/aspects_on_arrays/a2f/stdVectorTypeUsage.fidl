@@ -5,6 +5,9 @@ interface TestInterface{
 	method testMethod{
 		in{
 			UInt32[] simpleArrayIn
+			ByteBuffer[] byteArrayArrayIn
+			ByteBuffer[] byteBufferArrayIn
+			ByteBuffer[] byteVectorTypeArrayIn
 		}
 	}
 	

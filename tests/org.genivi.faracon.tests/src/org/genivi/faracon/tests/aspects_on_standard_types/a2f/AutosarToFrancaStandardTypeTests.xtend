@@ -32,7 +32,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 		val autosarStdTypes = stdImplementationTypes
 		val autosarStdTypesContainment = autosarStdTypes.map [ stdType |
 			createArgumentDataPrototype => [
-				it.shortName = "TestArgument"
+				it.shortName = stdType.shortName.toFirstLower + "TestArgument"
 				it.type = stdType
 			]
 		]
@@ -51,9 +51,9 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 		]
 		autosarStdTypes.forEach [
 			val autosarName = it.shortName
-			if (autosarName == "ByteVectorType" || autosarName == "ByteArray") {
+			if (autosarName == "ByteVectorType" || autosarName == "ByteBuffer" || autosarName == "ByteArray") {
 				assertTrue("No franca type created for autosar type with name " + autosarName,
-					francaPrimitivesMap.containsKey(true + FBasicTypeId.UINT8.getName))
+					francaPrimitivesMap.containsKey(false + FBasicTypeId.BYTE_BUFFER.getName))
 			} else {
 				assertTrue("No franca type created for autosar type with name " + autosarName + " created types are " +
 					francaPrimitivesMap.values, francaPrimitivesMap.containsKey(false + autosarName))
@@ -81,6 +81,11 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 		val stdImplementationDataTypes = stdTypesResource.contents.get(0).eAllContents.filter(ImplementationDataType)
 		assertFalse("Assertion error: No stdTypes found ", stdImplementationDataTypes.empty)
 		return stdImplementationDataTypes.toList
+	}
+
+	@Test
+	def void testFrancaBasicTypesInStruct() {
+		transformAndCheck(testPath + "francaBasicTypes.arxml", testPath + "francaBasicTypes_a1.b2.c3.fidl")
 	}
 
 }
