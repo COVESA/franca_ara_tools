@@ -214,19 +214,16 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	// to create multiple type ref objects that point to the same type object!
 	def createFTypeRefAndImport(ImplementationDataType src, Identifiable aParentTypedElement, FTypedElement fParentTypedElement) {
 		val typeRef = fac.createFTypeRef
-		if (isPrimitiveType(src)) {
-			if (src.isStdType) {
-				typeRef.setPrimitveTypeBasedOnName(src.shortName, false, aParentTypedElement, fParentTypedElement)
-			} else {
-				val nonVectorName = src.shortName.replace("Vector", "")
-//				val nonVectorName = src.shortName.substring(0, src.shortName.length - "Vector".length)
-				typeRef.setPrimitveTypeBasedOnName(nonVectorName, true, aParentTypedElement, fParentTypedElement)
-				if (fParentTypedElement !== null) {
-					fParentTypedElement.array = true
-				}
+		if (src?.isStdType) {
+			typeRef.setPrimitveTypeBasedOnName(src.shortName, false, aParentTypedElement, fParentTypedElement)
+		} else if (src?.isStdVectorType) {
+			val nonVectorName = src.shortName.substring(0, src.shortName.length - "Vector".length)
+			typeRef.setPrimitveTypeBasedOnName(nonVectorName, true, aParentTypedElement, fParentTypedElement)
+			if (fParentTypedElement !== null) {
+				fParentTypedElement.array = true
 			}
 		} else {
-			src.createImportIfNecessary()
+			src?.createImportIfNecessary()
 			typeRef.derived = transform(src)
 		}
 		typeRef
@@ -247,41 +244,32 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	/**
 	 * A type is a primitive type if it is contained in the standard type definitions model.
 	 */
-	def isPrimitiveType(ImplementationDataType src) {
-		if (src.araResourceSet.present) {
-			return src.isStdTypeOrStdVector
-		}
-		// This is a fall back way to identify prmitive types if the implementation type has no resource 
-		val isByteArray = src?.shortName == "ByteArray" && src?.category == "VECTOR"
-		val isByteBuffer = src?.shortName == "ByteBuffer" && src?.category == "VECTOR"
-		val isByteVectorType = src?.shortName == "ByteVectorType" && src?.category == "VECTOR"
-		return isByteVectorType || isByteBuffer || isByteArray || src?.category == "VALUE" || src?.category == "STRING"
-	}
-
-	def private isStdTypeOrStdVector(ImplementationDataType src) {
-		return src.isStdType || src.isStdVectorType
-	}
-
 	def private isStdType(ImplementationDataType src) {
 		val araResourceSet = src.araResourceSet
-		if (!araResourceSet.present) {
-			return false
+		if (araResourceSet.present) {
+			val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
+			val stdResource = araStdTypeModel?.standardTypeDefinitionsModel?.eResource
+			val srcResource = src.eResource
+			return srcResource !== null && srcResource == stdResource
+		} else {
+			// This is a fall back way to identify prmitive types if the implementation type has no resource 
+			val isByteArray = src?.shortName == "ByteArray" && src?.category == "VECTOR"
+			val isByteBuffer = src?.shortName == "ByteBuffer" && src?.category == "VECTOR"
+			val isByteVectorType = src?.shortName == "ByteVectorType" && src?.category == "VECTOR"
+			return isByteVectorType || isByteBuffer || isByteArray || src?.category == "VALUE" || src?.category == "STRING"
 		}
-		val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
-		val stdResource = araStdTypeModel?.standardTypeDefinitionsModel?.eResource
-		val srcResource = src.eResource
-		return srcResource !== null && srcResource == stdResource
 	}
 
 	def private isStdVectorType(ImplementationDataType src) {
 		val araResourceSet = src.araResourceSet
-		if (!araResourceSet.present) {
-			return false
+		if (araResourceSet.present) {
+			val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
+			val stdVectorResource = araStdTypeModel?.standardVectorTypeDefinitionsModel?.eResource
+			val srcResource = src.eResource
+			return srcResource !== null && srcResource == stdVectorResource
+		} else {
+			return src?.shortName.length > "Vector".length && src?.shortName.substring(src?.shortName.length - "Vector".length) == "Vector" && src?.category == "VECTOR"
 		}
-		val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
-		val stdVectorResource = araStdTypeModel?.standardVectorTypeDefinitionsModel?.eResource
-		val srcResource = src.eResource
-		return srcResource !== null && srcResource == stdVectorResource
 	}
 
 	def private Optional<ARAResourceSet> getAraResourceSet(ImplementationDataType src) {
