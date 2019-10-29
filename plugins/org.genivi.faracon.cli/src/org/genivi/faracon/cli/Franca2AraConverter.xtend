@@ -1,6 +1,7 @@
 package org.genivi.faracon.cli
 
 import autosar40.autosartoplevelstructure.AUTOSAR
+import java.nio.file.Paths
 import java.util.Collection
 import javax.inject.Inject
 import org.eclipse.emf.common.util.URI
@@ -14,6 +15,7 @@ import org.franca.core.utils.FileHelper
 import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
+import org.genivi.faracon.InputFile
 
 import static org.genivi.faracon.cli.ConverterHelper.*
 
@@ -25,10 +27,10 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	
 	var ARAResourceSet targetResourceSet
 
-	override protected loadAllSourceFiles(Collection<String> filesToConvert) {
+	override protected loadAllSourceFiles(Collection<InputFile> filesToConvert) {
 		val francaModels = filesToConvert.map [ francaFilePath |
 			// Load an input FrancaIDL model.
-			val normalizedFrancaFilePath = normalize(francaFilePath);
+			val normalizedFrancaFilePath = francaFilePath.absolutePath
 			getLogger().logInfo("Loading FrancaIDL file " + normalizedFrancaFilePath);
 			var FModel francaModel;
 			try {
@@ -80,31 +82,37 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 		targetResourceSet = new ARAResourceSet
 		francaToAutosarModelContainer.forEach [
 			val arModel = it.value
-			val francaUri = it.key.model.findSourceModelUri
-			val araFilePath = getAraFilePath(francaUri, arModel)
-			val resource = targetResourceSet.createResource(FileHelper.createURI(araFilePath))
-			resource.contents.add(arModel.model)
+			val francaModelUri = it.key.model.findSourceModelUri
+			if (francaModelUri !== null) {
+				val araFilePath = getAraFilePath(francaModelUri, arModel)
+				val resource = targetResourceSet.createResource(FileHelper.createURI(araFilePath))
+				resource.contents.add(arModel.model)
+			}
 		]
 	}
 	
-	def private getAraFilePath(URI francaModelUri, ARAModelContainer autosar) {
-		val transformedModelUri = francaModelUri.trimFileExtension().appendFileExtension("arxml");
-		var String outputDirectoryPath = getOutputDirPath()
-		val String araFilePath = normalize(outputDirectoryPath + transformedModelUri.lastSegment());
-		return araFilePath
-	}
-
 	override protected saveAllGeneratedModels(
 		Collection<Pair<FrancaModelContainer, ARAModelContainer>> francaToAutosarModelContainer) {
 		francaToAutosarModelContainer.forEach [
 			val araModelContainer = it.value
 			val francaModelUri = it.key.model.findSourceModelUri
-			val autosarFilePath = getAraFilePath(francaModelUri, araModelContainer)
-			araConnector.saveModel(araModelContainer, autosarFilePath);
+			if (francaModelUri !== null) {
+				val autosarFilePath = getAraFilePath(francaModelUri, araModelContainer)
+				araConnector.saveModel(araModelContainer, autosarFilePath);
+			}
 		]
 		saveAutosarStdTypes	
 	}
 	
+	def private getAraFilePath(URI francaModelUri, ARAModelContainer autosar) {
+		val inputFilePath = francaModelUri.toFileString
+		val basePathLength = inputFilesToBasePathLengthsMap.get(inputFilePath)
+		URI.createFileURI(Paths.get(normalize(outputDirPath), inputFilePath.substring(basePathLength)).toString)
+			.trimFileExtension
+			.appendFileExtension("arxml")
+			.toFileString
+	}
+
 	def private saveAutosarStdTypes(){
 		val araStandardTypeDefinitionsModel = targetResourceSet.araStandardTypeDefinitionsModel
 		val stdTypes = EcoreUtil.copy(araStandardTypeDefinitionsModel.standardTypeDefinitionsModel)
@@ -117,6 +125,8 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
  		val filePath = normalize(outputDirPath + fileName)
  		araConnector.saveARXML(targetResourceSet, autosar, filePath)
  	}
+
+	override protected getInputFileExtension() '''fidl'''
 
 	override protected getSourceArtifactName() '''Franca IDL'''
 
