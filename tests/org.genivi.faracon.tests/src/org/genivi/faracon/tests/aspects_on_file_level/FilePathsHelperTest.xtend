@@ -12,27 +12,27 @@ class FilePathsHelperTest {
 	@Test
 	def void testFilePathHelperWithSingleFidlFile() {
 		val path = "src/org/genivi/faracon/tests/aspects_on_structs/a2f/multipleStructTest.fidl"
-		executeFilePathHelperTest(#[path], #[path])
+		executeFilePathHelperTest(#[path], #["/multipleStructTest.fidl"])
 	}
 
 	@Test
 	def void testFilePathHelperWithDirectory() {
 		val path = "src/org/genivi/faracon/tests/aspects_on_franca_methods/a2f/"
 		executeFilePathHelperTest(#[path],
-			#[path + "broadcastArgumentExpected.fidl", path + "multipleMethodInputArgumentsExpected.fidl",
-				path + "inOutExpected.fidl", path + "multipleMethodReturnValuesExpected.fidl"])
+			#["/broadcastArgumentExpected.fidl", "/multipleMethodInputArgumentsExpected.fidl", "/inOutExpected.fidl",
+				"/multipleMethodReturnValuesExpected.fidl"])
 	}
 
 	@Test
 	def void testFilePathHelperRecursievly() {
 		val path = "src/org/genivi/faracon/tests/aspects_on_franca_methods/"
 		executeFilePathHelperTest(#[path],
-			#[path + "a2f/broadcastArgumentExpected.fidl", path + "a2f/multipleMethodInputArgumentsExpected.fidl",
-				path + "a2f/inOutExpected.fidl", path + "a2f/multipleMethodReturnValuesExpected.fidl",
-				path + "f2a/arrayMethodInputArgument.fidl", path + "f2a/broadcastArgument.fidl",
-				path + "f2a/fireAndForgetMethod.fidl", path + "f2a/methodWithInAndOutArguments.fidl",
-				path + "f2a/multipleMethodInputArguments.fidl", path + "f2a/multipleMethodReturnValues.fidl",
-				path + "f2a/oneMethodInputArgument.fidl", path + "f2a/oneMethodReturnValue.fidl"])
+			#["/a2f/broadcastArgumentExpected.fidl", "/a2f/multipleMethodInputArgumentsExpected.fidl",
+				"/a2f/inOutExpected.fidl", "/a2f/multipleMethodReturnValuesExpected.fidl",
+				"/f2a/arrayMethodInputArgument.fidl", "/f2a/broadcastArgument.fidl", "/f2a/fireAndForgetMethod.fidl",
+				"/f2a/methodWithInAndOutArguments.fidl", "/f2a/multipleMethodInputArguments.fidl",
+				"/f2a/multipleMethodReturnValues.fidl", "/f2a/oneMethodInputArgument.fidl",
+				"/f2a/oneMethodReturnValue.fidl"])
 	}
 
 	@Test
@@ -41,24 +41,39 @@ class FilePathsHelperTest {
 		val childPath = "src/org/genivi/faracon/tests/aspects_on_franca_methods/a2f"
 		val childFile = "src/org/genivi/faracon/tests/aspects_on_franca_methods/a2f/broadcastArgumentExpected.fidl"
 		executeFilePathHelperTest(#[childFile, childPath, path],
-			#[path + "a2f/broadcastArgumentExpected.fidl", path + "a2f/multipleMethodInputArgumentsExpected.fidl",
-				path + "a2f/inOutExpected.fidl", path + "a2f/multipleMethodReturnValuesExpected.fidl",
-				path + "f2a/arrayMethodInputArgument.fidl", path + "f2a/broadcastArgument.fidl",
-				path + "f2a/fireAndForgetMethod.fidl", path + "f2a/methodWithInAndOutArguments.fidl",
-				path + "f2a/multipleMethodInputArguments.fidl", path + "f2a/multipleMethodReturnValues.fidl",
-				path + "f2a/oneMethodInputArgument.fidl", path + "f2a/oneMethodReturnValue.fidl"])
+			#["/a2f/broadcastArgumentExpected.fidl", "/broadcastArgumentExpected.fidl",
+				"/a2f/multipleMethodInputArgumentsExpected.fidl", "/a2f/inOutExpected.fidl",
+				"/a2f/multipleMethodReturnValuesExpected.fidl", "/f2a/arrayMethodInputArgument.fidl",
+				"/f2a/broadcastArgument.fidl", "/f2a/fireAndForgetMethod.fidl", "/f2a/methodWithInAndOutArguments.fidl",
+				"/f2a/multipleMethodInputArguments.fidl", "/f2a/multipleMethodReturnValues.fidl",
+				"/f2a/oneMethodInputArgument.fidl", "/f2a/oneMethodReturnValue.fidl", "/inOutExpected.fidl",
+				"/multipleMethodInputArgumentsExpected.fidl", "/multipleMethodReturnValuesExpected.fidl"])
+	}
+
+	@Test
+	def void testIdentivalFilePathAsInput() {
+		val path = "src/org/genivi/faracon/tests/aspects_on_franca_methods/"
+		val identicalPath = "src/org/genivi/faracon/tests/aspects_on_franca_methods/"
+		executeFilePathHelperTest(#[path, identicalPath],
+			#["/a2f/broadcastArgumentExpected.fidl", "/a2f/multipleMethodInputArgumentsExpected.fidl",
+				"/a2f/inOutExpected.fidl", "/a2f/multipleMethodReturnValuesExpected.fidl",
+				"/f2a/arrayMethodInputArgument.fidl", "/f2a/broadcastArgument.fidl", "/f2a/fireAndForgetMethod.fidl",
+				"/f2a/methodWithInAndOutArguments.fidl", "/f2a/multipleMethodInputArguments.fidl",
+				"/f2a/multipleMethodReturnValues.fidl", "/f2a/oneMethodInputArgument.fidl",
+				"/f2a/oneMethodReturnValue.fidl"])
 	}
 
 	def private void executeFilePathHelperTest(String[] paths, Collection<String> expectedResult) {
 		// given: the path
 		// when
-		var foundFilePaths = FilePathsHelper.findFiles(paths, "fidl")
+		val foundFilePaths = FilePathsHelper.findInputFiles(paths, "fidl")
 
+		var relativeFilePaths = foundFilePaths.map[it.absolutePath.substring(it.basePathLength)]
 		// replace platform separator with "/" in order to ensure that the assert works on all platforms
-		foundFilePaths = foundFilePaths.map[it.replaceAll(Pattern.quote(File.separator), "/")].toList
+		relativeFilePaths = relativeFilePaths.map[it.replaceAll(Pattern.quote(File.separator), "/")].toList
 
 		// then
-		assertEquals("Found wrong file paths", expectedResult.sortBy[it], foundFilePaths.sortBy[it])
+		assertEquals("Found wrong file paths", expectedResult.sortBy[it], relativeFilePaths.sortBy[it])
 
 	}
 }

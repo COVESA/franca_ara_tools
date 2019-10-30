@@ -109,7 +109,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 			loader.loadModel(it);
 		].toList
 		val actualFrancaModelsPath = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
-		val actualFrancaFilePaths = FilePathsHelper.findFiles(#[actualFrancaModelsPath], "fidl")
+		val actualFrancaFilePaths = findFiles(actualFrancaModelsPath, "fidl")
 		val actualFrancaModels = actualFrancaFilePaths.map[
 			loader.loadModel(it)
 		].toList
