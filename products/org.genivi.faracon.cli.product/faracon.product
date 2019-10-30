@@ -3,26 +3,29 @@
 
 <product name="Franca ARA Converter" uid="org.genivi.faracon.cli.product" id="org.genivi.faracon.cli.product" application="org.genivi.faracon.console.application" version="0.9.0" useFeatures="true" includeLaunchers="true">
 
-
    <configIni use="default">
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dosgi.requiredJavaVersion=1.8 -Xms512m -Xmx2048m
+      <vmArgs>-Dosgi.requiredJavaVersion=1.8 -Xms512m
       </vmArgs>
-      <vmArgsMac>-XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
+      <vmArgsLin>-Xmx2048m
+      </vmArgsLin>
+      <vmArgsMac>-Xmx2048m -XstartOnFirstThread -Dorg.eclipse.swt.internal.carbon.smallFonts
       </vmArgsMac>
+      <vmArgsWin>
+         <argsX86>-Xmx2000m</argsX86>
+         <argsX86_64>-Xmx2048m</argsX86_64>
+      </vmArgsWin>
    </launcherArgs>
 
    <windowImages/>
-
 
    <launcher name="faracon">
       <win useIco="false">
          <bmp/>
       </win>
    </launcher>
-
 
    <vm>
       <linux include="false">org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8</linux>
