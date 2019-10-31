@@ -1,20 +1,20 @@
 package org.genivi.faracon.tests.aspects_on_standard_types.f2a
 
-import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import javax.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.franca2ara.ARATypeCreator
-import org.genivi.faracon.logging.AbstractLogger
+import org.genivi.faracon.preferences.Preferences
+import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
-import org.junit.After
 
 /**
  * Covers tests for standard types.
@@ -32,6 +32,7 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 	@After
 	def void afterTest() {
 		logger.enableContinueOnErrors(false)
+		Preferences.instance.resetPreferences
 	}
 
 	@Test
@@ -69,4 +70,23 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 		transformAndCheck(testPath, "francaBasicTypes", testPath + "francaBasicTypes.arxml")
 	}
 
+
+	@Test
+	def void testCustomizedFrancaBasicTypesInStruct() {
+		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		transformAndCheck(testPath, "francaBasicTypes", testPath + "francaBasicTypesCustomized.arxml")
+	}
+	
+	@Test
+	def void testFrancaBasicVectorTypesInStruct() {
+		transformAndCheck(testPath, "francaBasicVectorTypes", testPath + "francaBasicVectorTypes.arxml")
+	}
+
+
+	@Test
+	def void testCustomizedFrancaVectorBasicTypesInStruct() {
+		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		transformAndCheck(testPath, "francaBasicVectorTypes", testPath + "francaBasicVectorTypesCustomized.arxml")
+	}
+	
 }

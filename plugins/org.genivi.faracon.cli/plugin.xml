@@ -101,6 +101,15 @@
                   required="false"
                   shortName="ca">
             </option>
+            <option
+                  argCount="1"
+                  description="Specify path to customized ARA standard types file."
+                  hasOptionalArg="false"
+                  id="org.genivi.faracon.cli.option.araStandardTypesFile"
+                  longName="path-to-std-types-file"
+                  required="false"
+                  shortName="s">
+            </option>
          </options>
       </command>
    </extension>

@@ -39,6 +39,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	@After
 	def void afterTest() {
 		ara2FrancaTransformation.logger.enableContinueOnErrors(false)
+		Preferences.instance.resetPreferences
 	}
 
 	def void transformAndCheck(String sourceFilePath, String expectedFilePath) {

@@ -57,6 +57,10 @@ public class Preferences {
 		throw new UnknownPreferenceException("Unknown preference " + preferencename);
 	}
 	
+	public boolean hasPreference(String preferenceName) {
+		return preferences.containsKey(preferenceName);
+	}
+	
 	public void setPreference(String name, String value) {
 	    if(preferences != null) {
 	    	preferences.put(name, value);

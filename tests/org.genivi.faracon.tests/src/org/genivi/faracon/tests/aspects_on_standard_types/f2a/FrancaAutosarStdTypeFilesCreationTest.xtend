@@ -10,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static extension org.junit.Assert.assertNotNull
+import org.junit.After
 
 /**
  * Tests whether the autosar std-types are created during test-execution 
@@ -19,8 +20,23 @@ import static extension org.junit.Assert.assertNotNull
 @InjectWith(FaraconTestsInjectorProvider)
 class FrancaAutosarStdTypeFilesCreationTest extends Franca2ARATestBase {
 	
+	@After
+	def void afterTest(){
+		Preferences.instance.resetPreferences
+	}
+	
 	@Test
 	def void testAutosarStdFilesCreation(){
+		testStdFileCreation()
+	}
+	
+	@Test
+	def void testCustomizedAutosarStdFilesCreation(){
+		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		testStdFileCreation()
+	}
+	
+	private def void testStdFileCreation() {
 		//given
 		val inputFolder = "src/org/genivi/faracon/tests/aspects_on_interface_level/f2a/" 
 		val inputFile = "oneMethod.fidl"
