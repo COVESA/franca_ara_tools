@@ -2,9 +2,11 @@ package org.genivi.faracon.tests
 
 import autosar40.util.Autosar40Factory
 import javax.inject.Inject
+import org.eclipse.emf.ecore.xml.namespace.XMLNamespacePackage
 import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.franca.FrancaFactory
 import org.genivi.faracon.ARAConnector
+import org.junit.BeforeClass
 import org.genivi.faracon.cli.FilePathsHelper
 
 /**
@@ -12,7 +14,15 @@ import org.genivi.faracon.cli.FilePathsHelper
  * It contains common members and methods, which are needed for the tests. 
  */
 abstract class FaraconTestBase {
-	
+		
+	/**
+	 * This is just a workaround to solve strange test errors during the Maven build on the CI server.
+	 */
+	@BeforeClass
+	def static beforeClass(){
+		val x = XMLNamespacePackage.eINSTANCE
+	}
+
 	@Inject
 	protected FrancaPersistenceManager loader
 
