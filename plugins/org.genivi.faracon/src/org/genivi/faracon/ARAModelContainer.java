@@ -8,6 +8,8 @@
 package org.genivi.faracon;
 
 import org.franca.core.framework.IModelContainer;
+import org.genivi.faracon.stdtypes.AraStandardTypeDefinitionsModel;
+
 import autosar40.autosartoplevelstructure.AUTOSAR;
 
 public class ARAModelContainer implements IModelContainer {
