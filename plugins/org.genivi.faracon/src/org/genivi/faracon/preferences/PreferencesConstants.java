@@ -15,6 +15,7 @@ public interface PreferencesConstants
 	public static final String P_ENUMPREFIX       		= "enumprefix";
 	public static final String P_USEPROJECTSETTINGS 	= "useProjectSettings";
     public static final String P_ENABLE_CORE_VALIDATOR 	= "enableCoreValidator";
+    public static final String P_ARA_STD_TYPES_PATH     = "araStdTypesPath";
 
 	// preference values
     public static final String DEFAULT_OUTPUT     = "";

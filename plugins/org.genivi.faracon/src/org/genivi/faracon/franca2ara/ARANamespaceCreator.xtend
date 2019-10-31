@@ -5,6 +5,7 @@ import autosar40.genericstructure.generaltemplateclasses.arpackage.PackageableEl
 import autosar40.swcomponent.components.SymbolProps
 import java.util.Collection
 import org.genivi.faracon.Franca2ARABase
+import org.genivi.faracon.util.AutosarUtil
 
 class ARANamespaceCreator extends Franca2ARABase {
 	
@@ -13,7 +14,7 @@ class ARANamespaceCreator extends Franca2ARABase {
 	}
 	
 	def Collection<SymbolProps> createNamespaceForPackage(ARPackage arPackage){
-		val symbolProps = collectPackageHierarchy(arPackage).map[createSymbolProps].toList
+		val symbolProps = AutosarUtil.collectPackageHierarchy(arPackage).map[createSymbolProps].toList
 		return symbolProps
 	}
 	
@@ -22,17 +23,6 @@ class ARANamespaceCreator extends Franca2ARABase {
 			it.shortName = arPackage.shortName
 			it.symbol = arPackage.shortName
 		]
-	}
-	
-	def private Collection<ARPackage> collectPackageHierarchy(ARPackage arPackage){
-		val parentContainer = arPackage.eContainer
-		if(parentContainer instanceof ARPackage){
-			val arPackages = collectPackageHierarchy(parentContainer)
-			arPackages.add(arPackage)
-			return arPackages
-		}else{
-			return newArrayList(arPackage)
-		}
 	}
 	
 }

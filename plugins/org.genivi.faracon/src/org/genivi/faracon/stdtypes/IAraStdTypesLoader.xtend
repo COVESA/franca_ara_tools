@@ -1,7 +1,7 @@
 package org.genivi.faracon.stdtypes
 
-import org.eclipse.emf.ecore.resource.ResourceSet
+import org.genivi.faracon.ARAResourceSet
 
 interface IAraStdTypesLoader {
-	def AraStandardTypes loadStdTypes(ResourceSet resourceSet)
+	def AraStandardTypes loadStdTypes(ARAResourceSet resourceSet)
 }

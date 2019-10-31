@@ -73,4 +73,15 @@ class AutosarUtil {
 		partialNamespaceName
 	}
 
+	def static Collection<ARPackage> collectPackageHierarchy(ARPackage arPackage){
+		val parentContainer = arPackage.eContainer
+		if(parentContainer instanceof ARPackage){
+			val arPackages = collectPackageHierarchy(parentContainer)
+			arPackages.add(arPackage)
+			return arPackages
+		}else{
+			return newArrayList(arPackage)
+		}
+	}
+
 }

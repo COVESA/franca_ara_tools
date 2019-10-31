@@ -84,6 +84,10 @@ public class ConverterCliCommand extends CommandlineTool {
 		if (parsedArguments.hasOption("d")) {
 			setOutputDirectoryPath(parsedArguments.getOptionValue("d"));
 		}
+		
+		if(parsedArguments.hasOption("s")) {
+			setStdTypesPath(parsedArguments.getOptionValue("s"));
+		}
 
 		// A file path, that points to a file, that contains the license text.
 		// -L --license license text in generated files
@@ -124,6 +128,12 @@ public class ConverterCliCommand extends CommandlineTool {
 		String normalizedOutputDirectoryPath = ConverterHelper.normalize(outputDirectoryPath);
 		getLogger().logInfo("Output directory path: " + normalizedOutputDirectoryPath);
 		preferences.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, normalizedOutputDirectoryPath);
+	}
+	
+	public void setStdTypesPath(String stdTypesPath) {
+		String normalizedStdTypesPath = ConverterHelper.normalize(stdTypesPath);
+		getLogger().logInfo("Using ara standard types path " + normalizedStdTypesPath);
+		preferences.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, normalizedStdTypesPath);
 	}
 
 	public void setLogLevel(String optionValue) {

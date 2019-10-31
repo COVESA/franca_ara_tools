@@ -2,17 +2,18 @@ package org.genivi.faracon.stdtypes
 
 import autosar40.autosartoplevelstructure.AUTOSAR
 import java.io.IOException
+import java.net.URL
 import java.util.Collections
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.resource.Resource
 import org.eclipse.emf.ecore.resource.ResourceSet
-import java.net.URL
+import org.genivi.faracon.ARAResourceSet
 
 class AraStdTypesFromPluginLoader implements IAraStdTypesLoader {
 	val static String PATH_TO_STD_ARXML_FILE = "stdtypes.arxml";
 	val static String PATH_TO_STD_VECTOR_ARXML_FILE = "stdtypes_vectors.arxml";
 
-	override loadStdTypes(ResourceSet resourceSet) {
+	override loadStdTypes(ARAResourceSet resourceSet) {
 		val standardTypeDefinitionsModel = loadARAModelFromPluginResource(PATH_TO_STD_ARXML_FILE, resourceSet);
 		val standardVectorTypeDefinitionsModel = loadARAModelFromPluginResource(PATH_TO_STD_VECTOR_ARXML_FILE,
 			resourceSet);
