@@ -7,6 +7,7 @@ import org.franca.core.dsl.FrancaPersistenceManager
 import org.franca.core.franca.FrancaFactory
 import org.genivi.faracon.ARAConnector
 import org.junit.BeforeClass
+import org.genivi.faracon.cli.FilePathsHelper
 
 /**
  * This is the abstract base class for all tests in the Faracon tool.
@@ -54,5 +55,10 @@ abstract class FaraconTestBase {
 	 */
 	def protected getTestPath() {
 		return "src/" + (this.class.package.name + ".").replace(".", "/")
+	}
+	
+	def protected findFiles(String inputFilePath, String fileExtension){
+		val inputFiles = FilePathsHelper.findInputFiles(#[inputFilePath], fileExtension)
+		inputFiles.map[it.absolutePath].toSet
 	}
 }

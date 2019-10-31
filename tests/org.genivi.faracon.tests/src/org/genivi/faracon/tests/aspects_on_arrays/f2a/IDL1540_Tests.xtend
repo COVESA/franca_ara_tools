@@ -18,7 +18,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 	@Test
 	def void simpleNamedArrayType() {
 		transformAndCheckIntegrationTest(testPath,
-			#["simpleNamedArrayType"],
+			#["simpleNamedArrayType.fidl"],
 			#[testPath + "simpleNamedArrayType.arxml"],
 			"simpleNamedArrayType")
 	}
@@ -26,7 +26,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 	@Test
 	def void complexNamedArrayType() {
 		transformAndCheckIntegrationTest(testPath,
-			#["complexNamedArrayType"],
+			#["complexNamedArrayType.fidl"],
 			#[testPath + "complexNamedArrayType.arxml"],
 			"complexNamedArrayType")
 	}
@@ -34,8 +34,8 @@ class IDL1540_Tests extends Franca2ARATestBase {
 	@Test
 	def void namedArrayTypesWithImport() {
 		transformAndCheckIntegrationTest(testPath,
-			#["namedArrayTypesWithImport",
-			  "commonTypesForNamedArrayTypes"],
+			#["namedArrayTypesWithImport.fidl",
+			  "commonTypesForNamedArrayTypes.fidl"],
 			#[testPath + "namedArrayTypesWithImport.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml"],
 			"namedArrayTypesWithImport")
@@ -44,9 +44,9 @@ class IDL1540_Tests extends Franca2ARATestBase {
 	@Test
 	def void multipleNamedArrayTypesUsingTheSameElementType() {
 		transformAndCheckIntegrationTest(testPath,
-			#["namedArrayTypesWithImport",
-			  "furtherNamedArrayTypeWithImport",
-			  "commonTypesForNamedArrayTypes"],
+			#["namedArrayTypesWithImport.fidl",
+			  "furtherNamedArrayTypeWithImport.fidl",
+			  "commonTypesForNamedArrayTypes.fidl"],
 			#[testPath + "namedArrayTypesWithImport.arxml",
 			  testPath + "furtherNamedArrayTypeWithImport.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml"],
@@ -56,9 +56,9 @@ class IDL1540_Tests extends Franca2ARATestBase {
 	@Test
 	def void namedArrayTypesWithElementsTypesFromDifferentNamespaces() {
 		transformAndCheckIntegrationTest(testPath,
-			#["namedArrayTypesWithElementsTypesFromDifferentNamespaces",
-			  "commonTypesForNamedArrayTypes",
-			  "commonTypes2ForNamedArrayTypes"],
+			#["namedArrayTypesWithElementsTypesFromDifferentNamespaces.fidl",
+			  "commonTypesForNamedArrayTypes.fidl",
+			  "commonTypes2ForNamedArrayTypes.fidl"],
 			#[testPath + "namedArrayTypesWithElementsTypesFromDifferentNamespaces.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml",
 			  testPath + "commonTypes2ForNamedArrayTypes.arxml"],

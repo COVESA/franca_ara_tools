@@ -1,10 +1,12 @@
 package org.genivi.faracon.cli;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.eclipse.core.runtime.Platform;
+import org.genivi.faracon.InputFile;
 import org.genivi.faracon.console.CommandlineTool;
 import org.genivi.faracon.preferences.Preferences;
 import org.genivi.faracon.preferences.PreferencesConstants;
@@ -91,10 +93,8 @@ public class ConverterCliCommand extends CommandlineTool {
 
 		getLogger().decreaseIndentationLevel();
 
-		Collection<String> fidlFiles = FilePathsHelper.findFiles(francaFilePaths, "fidl");
-		Collection<String> araFiles = FilePathsHelper.findFiles(araFilePaths, "arxml");
-
 		if(checkArXmlFilesOnly) {
+			Collection<InputFile> araFiles = FilePathsHelper.findInputFiles(araFilePaths, "arxml");
 			setContinueOnErrors(true);
 			int foundRemainingProxies = ara2FrancaConverter.loadFilesAndCheckProxies(araFiles);
 			getLogger().logInfo("Found " + foundRemainingProxies + " unresolved objects in input files.");
@@ -102,8 +102,12 @@ public class ConverterCliCommand extends CommandlineTool {
 		}
 		
 		// Invoke the converters.
-		this.convertARAFiles(araFiles);
-		this.convertFrancaFiles(fidlFiles);
+		if (araFilePaths != null) {
+			this.convertARAFiles(Arrays.asList(araFilePaths));
+		}
+		if (francaFilePaths != null) {
+			this.convertFrancaFiles(Arrays.asList(francaFilePaths));
+		}
 
 		return 0;
 	}
