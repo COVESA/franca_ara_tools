@@ -5,6 +5,7 @@ import org.eclipse.sphinx.emf.ecore.proxymanagement.IProxyResolverService;
 import org.eclipse.sphinx.emf.metamodel.IMetaModelDescriptor;
 import org.eclipse.sphinx.emf.metamodel.MetaModelDescriptorRegistry;
 import org.eclipse.sphinx.emf.resource.ExtendedResourceSetImpl;
+import org.genivi.faracon.stdtypes.AraStandardTypeDefinitionsModel;
 
 import autosar40.util.Autosar40Package;
 import autosar40.util.Autosar40ReleaseDescriptor;
