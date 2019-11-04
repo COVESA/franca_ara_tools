@@ -6,11 +6,13 @@ import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 
+import static org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
+
 import static extension org.junit.Assert.assertNotNull
-import org.junit.After
 
 /**
  * Tests whether the autosar std-types are created during test-execution 
@@ -32,7 +34,7 @@ class FrancaAutosarStdTypeFilesCreationTest extends Franca2ARATestBase {
 	
 	@Test
 	def void testCustomizedAutosarStdFilesCreation(){
-		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		setUseCustomizedAutosarStdTypes
 		testStdFileCreation()
 	}
 	

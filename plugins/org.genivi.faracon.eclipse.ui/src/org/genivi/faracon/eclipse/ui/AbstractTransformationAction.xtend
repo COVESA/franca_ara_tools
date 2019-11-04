@@ -90,6 +90,8 @@ abstract class AbstractTransformationAction implements IObjectActionDelegate {
 		converter.logLevel = preferences.get(P_LOGOUTPUT, LOGLEVEL_VERBOSE)
 		converter.outputDirectoryPath = preferences.get(P_OUTPUT_DIRECTORY_PATH, "./output")
 		converter.warningsAsErrors = Boolean.parseBoolean(preferences.get(P_WARNINGS_AS_ERRORS, "false"))
+		val useStdTypes = Boolean.parseBoolean(preferences.get(P_USE_CUSTOM_ARA_STD_TYPES, "false"))
+		converter.setStdTypesUsage(useStdTypes, preferences.get(P_ARA_CUSTOM_STD_TYPES_PATH, ""))
 	}
 
 	override void selectionChanged(IAction action, ISelection selection) {

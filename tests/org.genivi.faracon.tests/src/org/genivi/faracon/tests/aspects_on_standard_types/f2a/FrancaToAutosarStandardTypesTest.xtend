@@ -15,6 +15,7 @@ import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
+import static extension org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
 
 /**
  * Covers tests for standard types.
@@ -73,7 +74,7 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 
 	@Test
 	def void testCustomizedFrancaBasicTypesInStruct() {
-		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		setUseCustomizedAutosarStdTypes
 		transformAndCheck(testPath, "francaBasicTypes", testPath + "francaBasicTypesCustomized.arxml")
 	}
 	
@@ -85,7 +86,7 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 
 	@Test
 	def void testCustomizedFrancaVectorBasicTypesInStruct() {
-		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		setUseCustomizedAutosarStdTypes
 		transformAndCheck(testPath, "francaBasicVectorTypes", testPath + "francaBasicVectorTypesCustomized.arxml")
 	}
 	

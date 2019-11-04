@@ -16,7 +16,7 @@ import org.junit.runner.RunWith
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
-
+import static extension org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
 /**
  * Covers tests for standard types.
  * It covers the following IDLs:
@@ -35,7 +35,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	
 	@Test
 	def void testUnitCustomizedAutosarStdTypes(){
-		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		setUseCustomizedAutosarStdTypes
 		testStdTypes("customizedAutosarStdTypes.arxml")
 	}
 	
@@ -46,7 +46,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	
 	@Test
 	def void testCustomizedStdTypesInStruct() {
-		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		setUseCustomizedAutosarStdTypes
 		transformAndCheck(testPath + "francaBasicTypesCustomized.arxml", testPath + "francaBasicTypes_a1.b2.c3.fidl")
 	}
 	
@@ -57,7 +57,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	
 	@Test
 	def void testCustomizedVectorStdTypesInStruct() {
-		Preferences.instance.setPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+		setUseCustomizedAutosarStdTypes
 		transformAndCheck(testPath + "francaBasicVectorTypesCustomized.arxml", testPath + "francaBasicVectorTypes_a1.b2.c3.fidl")
 	}
 	
