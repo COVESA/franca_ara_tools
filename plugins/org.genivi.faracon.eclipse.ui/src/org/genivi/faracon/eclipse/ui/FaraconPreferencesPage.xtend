@@ -10,6 +10,7 @@ import org.eclipse.ui.IWorkbench
 import org.eclipse.ui.IWorkbenchPreferencePage
 import org.eclipse.ui.preferences.ScopedPreferenceStore
 import static extension org.genivi.faracon.preferences.PreferencesConstants.*
+import org.eclipse.jface.preference.FileFieldEditor
 
 class FaraconPreferencesPage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage{
 
@@ -39,6 +40,14 @@ class FaraconPreferencesPage extends FieldEditorPreferencePage implements IWorkb
 		val logLevelRadioGroup = new RadioGroupFieldEditor(P_LOGOUTPUT, "Logger setting", 1, possibleLogLevels,
 			fieldEditorParent, useGroup)
 		addField(logLevelRadioGroup)
+		
+		
+		
+		
+		addField(new BooleanFieldEditor(P_USE_CUSTOM_ARA_STD_TYPES, "Use Autosar standard types", fieldEditorParent))
+		val stdFilePath = new FileFieldEditor(P_ARA_CUSTOM_STD_TYPES_PATH, "Path to Autosar standard types", fieldEditorParent)
+		stdFilePath.filterPath =  project?.location?.toFile
+		addField(stdFilePath)
 	}
 	
 	def static getInstancePreferences(){

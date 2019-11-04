@@ -11,15 +11,16 @@ class AraStandardTypeDefinitionsModel {
 	var AraStandardTypes araStandardTypes
 
 	var IAraStdTypesLoader araStdTypesLoader
-	
-	new(){
-		if(Preferences.instance.hasPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH)){
+
+	new() {
+		val preferences = Preferences.instance
+		if (preferences.useStdTypes) {
 			// use user specified std types lib
-			val stdTypesPath = Preferences.instance.getPreference(PreferencesConstants.P_ARA_STD_TYPES_PATH, "")
-			araStdTypesLoader = new AraStdTypesFromFileLoader(stdTypesPath)			
-		}else{
+			val stdTypesPath = preferences.getPreference(PreferencesConstants.P_ARA_CUSTOM_STD_TYPES_PATH, "")
+			araStdTypesLoader = new AraStdTypesFromFileLoader(stdTypesPath)
+		} else {
 			// use stdtypes from plugin
-			araStdTypesLoader = new AraStdTypesFromPluginLoader	
+			araStdTypesLoader = new AraStdTypesFromPluginLoader
 		}
 	}
 
@@ -33,6 +34,14 @@ class AraStandardTypeDefinitionsModel {
 
 	def getStandardVectorTypeDefinitionsModel() {
 		return araStandardTypes.standardVectorTypeDefinitionsModel
+	}
+	
+	 def private useStdTypes(Preferences preferences){
+		if(preferences.hasPreference(PreferencesConstants.P_USE_CUSTOM_ARA_STD_TYPES)){
+		    val useStdTypes = preferences.getPreference(PreferencesConstants.P_USE_CUSTOM_ARA_STD_TYPES, "false")
+			return Boolean.parseBoolean(useStdTypes)
+		}
+		return false
 	}
 
 }
