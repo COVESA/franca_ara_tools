@@ -54,6 +54,9 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 		return modelContainer
 	}
 
+	override protected loadAllDeploymentSourceFiles(Collection<InputFile> deploymentInputFilePaths) {
+	}
+
 	override protected Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> transform(
 		Collection<ARAModelContainer> containers) {
 		containers.map [ araModelContainer |
@@ -111,6 +114,8 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 	}
 
 	override protected getInputFileExtension() '''arxml'''
+
+	override protected getDeploymentInputFileExtension() { null } 
 
 	override protected getSourceArtifactName() ''''Adaptive AUTOSAR IDL'''
 
