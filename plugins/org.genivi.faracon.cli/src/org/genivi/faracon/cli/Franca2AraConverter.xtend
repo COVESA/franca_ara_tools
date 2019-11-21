@@ -12,10 +12,19 @@ import org.franca.core.framework.FrancaModelContainer
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FTypedElement
 import org.franca.core.utils.FileHelper
+import org.franca.deploymodel.core.FDModelExtender
+import org.franca.deploymodel.core.FDeployedInterface
+import org.franca.deploymodel.core.FDeployedTypeCollection
+import org.franca.deploymodel.dsl.FDModelHelper
+//import org.franca.deploymodel.dsl.FDeployPersistenceManager
+import org.franca.deploymodel.dsl.fDeploy.FDInterface
+import org.franca.deploymodel.dsl.fDeploy.FDModel
+import org.franca.deploymodel.dsl.fDeploy.FDTypes
 import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.InputFile
+import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 
 import static org.genivi.faracon.cli.ConverterHelper.*
 
@@ -24,6 +33,10 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	var ARAConnector araConnector
 	@Inject
 	var FrancaPersistenceManager francaLoader
+//	@Inject
+//	var FDeployPersistenceManager francaDeploymentLoader
+	@Inject
+	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 	
 	var ARAResourceSet targetResourceSet
 
@@ -34,7 +47,6 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 			getLogger().logInfo("Loading FrancaIDL file " + normalizedFrancaFilePath);
 			var FModel francaModel;
 			try {
-
 				francaModel = francaLoader.loadModel(normalizedFrancaFilePath);
 				if (francaModel === null) {
 					getLogger().logError("File " + normalizedFrancaFilePath + " could not be loaded!");
@@ -53,6 +65,45 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 		return francaModels.map [new FrancaModelContainer(it)].toList
 	}
 
+	override protected loadAllDeploymentSourceFiles(Collection<InputFile> deploymentInputFilePaths) {
+		val francaDeploymentModels = deploymentInputFilePaths.map [ deploymentInputFilePath |
+			// Load an input Franca deployment model.
+			val normalizedFrancaDeploymentFilePath = deploymentInputFilePath.absolutePath
+			getLogger().logInfo("Loading Franca deployment file " + normalizedFrancaDeploymentFilePath);
+			var FDModel francaDeploymentModel;
+			try {
+				francaDeploymentModel = FDModelHelper::instance.loadModel(normalizedFrancaDeploymentFilePath);
+//				francaDeploymentModel = francaDeploymentLoader.loadModel(normalizedFrancaDeploymentFilePath);
+				if (francaDeploymentModel === null) {
+					getLogger().logError("File " + normalizedFrancaDeploymentFilePath + " could not be loaded!");
+					return null
+				}
+				return francaDeploymentModel
+			} catch (Exception e) {
+				getLogger().logError("File " + normalizedFrancaDeploymentFilePath + " could not be loaded!");
+				return null
+			}
+		].filterNull.toList
+		// add all created franca models to the resource set of the converter
+		francaDeploymentModels.forEach [
+			resourceSet.resources.add(it.eResource)
+		]
+
+		// Register the deployment sections for interface types and type collections.
+		someipFrancaDeploymentData.clear
+		francaDeploymentModels.forEach [
+			val FDModelExtender fdmodelExt = new FDModelExtender(it)
+			for(FDInterface fdInterface : fdmodelExt.FDInterfaces) {
+				val FDeployedInterface deployedInterface = new FDeployedInterface(fdInterface)
+				someipFrancaDeploymentData.registerInterfaceDeployment(fdInterface.target, deployedInterface)
+			}
+			for(FDTypes fdTypes : fdmodelExt.FDTypesList) {
+				val FDeployedTypeCollection deployedTypeCollection = new FDeployedTypeCollection(fdTypes)
+				someipFrancaDeploymentData.registerTypeCollectionDeployment(fdTypes.target, deployedTypeCollection)
+			}
+		]
+	}
+
 	override protected transform(Collection<FrancaModelContainer> francaModelContainers) {
 		val allNonPrimitiveElementTypesOfAnonymousArrays = francaModelContainers.map [ francaModelContainer |
 			val francaModel = francaModelContainer.model
@@ -67,7 +118,6 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 				getLogger().logWarning("The FrancaIDL file " + francaModelUri?.toString +
 					" does not have the file extension \"fidl\".");
 			}
-			getLogger().decreaseIndentationLevel();
 
 			// Transform the FrancaIDL model to an arxml model.
 			getLogger().logInfo("Converting FrancaIDL file " + francaModelUri?.toString)
@@ -128,9 +178,11 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 
 	override protected getInputFileExtension() '''fidl'''
 
+	override protected getDeploymentInputFileExtension() '''fdepl'''
+
 	override protected getSourceArtifactName() '''Franca IDL'''
 
-	override protected getTargetArtifactName() ''''Adaptive AUTOSAR IDL'''
+	override protected getTargetArtifactName() '''Adaptive AUTOSAR IDL'''
 
 	override protected createResourceSet() {
 		return new XtextResourceSet

@@ -24,6 +24,7 @@ import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
+import org.genivi.commonapi.someip.Deployment
 import org.genivi.faracon.Franca2ARABase
 
 import static extension org.franca.core.FrancaModelExtensions.*
@@ -42,6 +43,9 @@ class ARATypeCreator extends Franca2ARABase {
 	var extension AutosarAnnotator
 	@Inject
 	var extension AutosarSpecialDataGroupCreator
+
+	@Inject
+	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 
 	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
 
@@ -236,11 +240,61 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FArrayType fArrayType) {
+		// Request deployment data for the given array data type.
+		var boolean isFixedSizedArrayVar = false
+		var int arraySizeVar
+		val fTypeCollection = fArrayType.typeCollection
+		if (fTypeCollection !== null) {
+			val Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fTypeCollection)
+			if (typeCollectionPropertyAccessor !== null) {
+				val someIpArrayLengthWidth = typeCollectionPropertyAccessor.getSomeIpArrayLengthWidth(fArrayType)
+				if (someIpArrayLengthWidth !== null) {
+					if (someIpArrayLengthWidth == 0) {
+						isFixedSizedArrayVar = true
+					}
+				}
+				val someIpArrayMaxLength = typeCollectionPropertyAccessor.getSomeIpArrayMaxLength(fArrayType)
+				if (someIpArrayMaxLength !== null) {
+					arraySizeVar = someIpArrayMaxLength
+				}
+			}
+		}
+		val fInterface = fArrayType.interface
+		if (fInterface !== null) {
+			val Deployment.InterfacePropertyAccessor interfacePropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fInterface)
+			if (interfacePropertyAccessor !== null) {
+				val someIpArrayLengthWidth = interfacePropertyAccessor.getSomeIpArrayLengthWidth(fArrayType)
+				if (someIpArrayLengthWidth !== null) {
+					if (someIpArrayLengthWidth == 0) {
+						isFixedSizedArrayVar = true
+					}
+				}
+				val someIpArrayMaxLength = interfacePropertyAccessor.getSomeIpArrayMaxLength(fArrayType)
+				if (someIpArrayMaxLength !== null) {
+					arraySizeVar = someIpArrayMaxLength
+				}
+			}
+		}
+		val boolean isFixedSizedArray = isFixedSizedArrayVar
+		val int arraySize = arraySizeVar
+
+		// Generate AUTOSAR representation of the given array data type.
 		it.shortName = fArrayType.name
-		it.category = "VECTOR"
+		if (isFixedSizedArray) {
+			it.category = "ARRAY"
+		} else {
+			it.category = "VECTOR"
+		}
 		it.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
-			it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+			if (isFixedSizedArray) {
+				it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
+				it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
+					it.mixedText = arraySize.toString
+				]
+			} else {
+				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+			}
 			it.category = "TYPE_REFERENCE"
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [

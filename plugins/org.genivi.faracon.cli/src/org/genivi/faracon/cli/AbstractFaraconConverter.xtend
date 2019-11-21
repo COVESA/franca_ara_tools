@@ -38,6 +38,7 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 		if (inputPaths.nullOrEmpty) {
 			return
 		}
+
 		val inputFiles = FilePathsHelper.findInputFiles(inputPaths, inputFileExtension)
 		if (inputFiles.nullOrEmpty) {
 			return
@@ -47,21 +48,37 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 			inputFilesToBasePathLengthsMap.put(inputFile.absolutePath, inputFile.basePathLength)
 		}
 
-		getLogger().logInfo("Converting " + sourceArtifactName + " models to " + targetArtifactName + " models...");
+		getLogger().logInfo("Loading " + sourceArtifactName + " model input files...");
 		getLogger().increaseIndentationLevel();
 
 		resourceSet = createResourceSet
+
 		val modelContainers = inputFiles.loadAllSourceFiles
-		resolveProxiesAndCheckRemaining
-		convertModelContainersAndSaveResults(modelContainers)
+
+		if (hasSeparateDeploymentInputFiles) {
+			val deploymentInputFiles = FilePathsHelper.findInputFiles(inputPaths, deploymentInputFileExtension)
+			deploymentInputFiles.loadAllDeploymentSourceFiles
+		}
 
 		getLogger().decreaseIndentationLevel();
+
+		resolveProxiesAndCheckRemaining
+		convertModelContainersAndSaveResults(modelContainers)
 	}
 
 	def convertModelContainersAndSaveResults(Collection<SRC> modelContainers) {
+		getLogger().logInfo("Converting " + sourceArtifactName + " models to " + targetArtifactName + " models...");
+		getLogger().increaseIndentationLevel();
 		val srcToTargetContainer = modelContainers.transform
+		getLogger().decreaseIndentationLevel();
+
 		srcToTargetContainer.putAllModelsInOneResourceSet
+
+		getLogger().logInfo("Saving " + targetArtifactName + " model output files...");
+		getLogger().increaseIndentationLevel();
 		srcToTargetContainer.saveAllGeneratedModels
+		getLogger().decreaseIndentationLevel();
+
 		return srcToTargetContainer.map[it.value]
 	}
 	
@@ -75,6 +92,8 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 
 	def protected abstract Collection<SRC> loadAllSourceFiles(Collection<InputFile> filesToConvert)
 
+	def protected abstract void loadAllDeploymentSourceFiles(Collection<InputFile> deploymentInputFilePaths)
+
 	def protected abstract Collection<Pair<SRC, TAR>> transform(Collection<SRC> containers)
 
 	def protected abstract void putAllModelsInOneResourceSet(Collection<Pair<SRC, TAR>> srcToTargetContainer)
@@ -82,6 +101,12 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 	def protected abstract void saveAllGeneratedModels(Collection<Pair<SRC, TAR>> srcToTargetContainer)
 
 	def protected abstract String getInputFileExtension()
+
+	def protected abstract String getDeploymentInputFileExtension()
+
+	def protected hasSeparateDeploymentInputFiles() {
+		!deploymentInputFileExtension.nullOrEmpty
+	}
 
 	def protected abstract String getSourceArtifactName()
 
