@@ -2,10 +2,13 @@ package org.genivi.faracon.tests.aspects_on_arrays.f2a
 
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
+import org.franca.core.franca.FrancaPackage
+import org.franca.deploymodel.dsl.fDeploy.FDeployPackage
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.eclipse.emf.ecore.EPackage
 
 /**
  * Tests the transformation of named array types from Franca to AUTOSAR.
@@ -63,6 +66,28 @@ class IDL1540_Tests extends Franca2ARATestBase {
 			  testPath + "commonTypesForNamedArrayTypes.arxml",
 			  testPath + "commonTypes2ForNamedArrayTypes.arxml"],
 			"namedArrayTypesWithElementsTypesFromDifferentNamespaces")
+	}
+
+	@Test
+	def void namedFixedSizedArrayTypeInTypeCollection() {
+		transformAndCheckIntegrationTest(testPath,
+			#["namedFixedSizedArrayTypeInTypeCollection.fidl",
+			  "namedFixedSizedArrayTypeInTypeCollection.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "namedFixedSizedArrayTypeInTypeCollection.arxml"],
+			"namedFixedSizedArrayTypeInTypeCollection")
+	}
+
+	@Test
+	def void namedFixedSizedArrayTypeInInterface() {
+		transformAndCheckIntegrationTest(testPath,
+			#["namedFixedSizedArrayTypeInInterface.fidl",
+			  "namedFixedSizedArrayTypeInInterface.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "namedFixedSizedArrayTypeInInterface.arxml"],
+			"namedFixedSizedArrayTypeInInterface")
 	}
 
 }
