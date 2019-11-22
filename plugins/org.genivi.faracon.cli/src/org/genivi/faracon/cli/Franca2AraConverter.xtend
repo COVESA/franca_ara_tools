@@ -15,8 +15,8 @@ import org.franca.core.utils.FileHelper
 import org.franca.deploymodel.core.FDModelExtender
 import org.franca.deploymodel.core.FDeployedInterface
 import org.franca.deploymodel.core.FDeployedTypeCollection
-import org.franca.deploymodel.dsl.FDModelHelper
-//import org.franca.deploymodel.dsl.FDeployPersistenceManager
+import org.franca.deploymodel.dsl.FDeployPersistenceManager
+import org.franca.deploymodel.dsl.FDeployStandaloneSetup
 import org.franca.deploymodel.dsl.fDeploy.FDInterface
 import org.franca.deploymodel.dsl.fDeploy.FDModel
 import org.franca.deploymodel.dsl.fDeploy.FDTypes
@@ -33,8 +33,8 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	var ARAConnector araConnector
 	@Inject
 	var FrancaPersistenceManager francaLoader
-//	@Inject
-//	var FDeployPersistenceManager francaDeploymentLoader
+	@Inject
+	var FDeployPersistenceManager francaDeploymentLoader
 	@Inject
 	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 	
@@ -66,14 +66,14 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	}
 
 	override protected loadAllDeploymentSourceFiles(Collection<InputFile> deploymentInputFilePaths) {
+		FDeployStandaloneSetup.doSetup
 		val francaDeploymentModels = deploymentInputFilePaths.map [ deploymentInputFilePath |
 			// Load an input Franca deployment model.
 			val normalizedFrancaDeploymentFilePath = deploymentInputFilePath.absolutePath
 			getLogger().logInfo("Loading Franca deployment file " + normalizedFrancaDeploymentFilePath);
 			var FDModel francaDeploymentModel;
 			try {
-				francaDeploymentModel = FDModelHelper::instance.loadModel(normalizedFrancaDeploymentFilePath);
-//				francaDeploymentModel = francaDeploymentLoader.loadModel(normalizedFrancaDeploymentFilePath);
+				francaDeploymentModel = francaDeploymentLoader.loadModel(normalizedFrancaDeploymentFilePath);
 				if (francaDeploymentModel === null) {
 					getLogger().logError("File " + normalizedFrancaDeploymentFilePath + " could not be loaded!");
 					return null

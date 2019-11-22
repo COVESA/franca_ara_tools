@@ -18,7 +18,6 @@ public class ConverterCliModule extends CompoundModule {
 		this.loggerInstance = loggerInstance;
 		add(new ARAConnectorModule());
 		add(new FrancaIDLRuntimeModule());
-//		add(new FDeployRuntimeModule());
 	}
 
 	@Override
