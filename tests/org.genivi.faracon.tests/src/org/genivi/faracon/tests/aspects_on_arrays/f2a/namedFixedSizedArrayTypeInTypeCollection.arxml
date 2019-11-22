@@ -70,7 +70,7 @@
                   <CATEGORY>STRUCTURE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                      <SHORT-NAME>FixedSizedArray</SHORT-NAME>
+                      <SHORT-NAME>fixedSizedArray</SHORT-NAME>
                       <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SW-DATA-DEF-PROPS>
                         <SW-DATA-DEF-PROPS-VARIANTS>

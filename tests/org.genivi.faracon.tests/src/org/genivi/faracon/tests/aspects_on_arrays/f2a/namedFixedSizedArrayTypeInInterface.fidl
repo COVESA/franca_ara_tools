@@ -2,7 +2,7 @@ package a1.b2.c3
 
 interface ExampleInterface {
 	struct TestStruct {
-		FixedSizedArray FixedSizedArray
+		FixedSizedArray fixedSizedArray
 		ExplicitlyDynamicallySizedArray explicitlyDynamicallySizedArray
 		ImplicitlyDynamicallySizedArray implicitlyDynamicallySizedArray
 	}
