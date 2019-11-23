@@ -105,6 +105,7 @@ public abstract class AbstractLogger implements ILogger {
 			logErrorImpl(errorMessage);
 		}
 		if (!isContinueOnErrors) {
+			indentationLevel = 0;
 			throw new StopOnErrorException();
 		}
 	}

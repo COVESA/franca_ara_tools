@@ -24,6 +24,7 @@ import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.InputFile
+import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 
 import static org.genivi.faracon.cli.ConverterHelper.*
@@ -33,6 +34,8 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	var ARAConnector araConnector
 	@Inject
 	var FrancaPersistenceManager francaLoader
+	@Inject
+	var ARAPrimitveTypesCreator araPrimitveTypesCreator
 	@Inject
 	var FDeployPersistenceManager francaDeploymentLoader
 	@Inject
@@ -110,7 +113,9 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 			francaModel.eAllContents.filter(FTypedElement).filter[array && type?.derived !== null].map[type?.derived].toList
 		].flatten.toSet
 		araConnector.setAllNonPrimitiveElementTypesOfAnonymousArrays(allNonPrimitiveElementTypesOfAnonymousArrays)
-		
+
+		araPrimitveTypesCreator.clearPrimitiveTypesAnonymousArrays
+
 		val araModelContainer = francaModelContainers.map [ francaModelContainer |
 			val francaModel = francaModelContainer.model
 			val francaModelUri = francaModel.eResource().getURI();
@@ -139,6 +144,13 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 				resource.contents.add(arModel.model)
 			}
 		]
+
+		// Add a resource for the AUTOSAR model with the anonymous fixed sized arrays of primitive types if any.
+		val primitiveTypesAnonymousArraysModel = araPrimitveTypesCreator.primitiveTypesAnonymousArraysModel
+		if (primitiveTypesAnonymousArraysModel !== null) {
+			val resource = targetResourceSet.createResource(FileHelper.createURI(primitiveTypesAnonymousArraysModelFilePath))
+			resource.contents.add(primitiveTypesAnonymousArraysModel)
+		}
 	}
 	
 	override protected saveAllGeneratedModels(
@@ -151,7 +163,15 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 				araConnector.saveModel(araModelContainer, autosarFilePath);
 			}
 		]
+
 		saveAutosarStdTypes	
+
+		// Save a file with the AUTOSAR model with the anonymous fixed sized arrays of primitive types if any.
+		val primitiveTypesAnonymousArraysModel = araPrimitveTypesCreator.primitiveTypesAnonymousArraysModel
+		if (primitiveTypesAnonymousArraysModel !== null) {
+			var primitiveTypesAnonymousArraysModelContainer = new ARAModelContainer(primitiveTypesAnonymousArraysModel, null)
+			araConnector.saveModel(primitiveTypesAnonymousArraysModelContainer, primitiveTypesAnonymousArraysModelFilePath);
+		}
 	}
 	
 	def private getAraFilePath(URI francaModelUri, ARAModelContainer autosar) {
@@ -161,6 +181,10 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 			.trimFileExtension
 			.appendFileExtension("arxml")
 			.toFileString
+	}
+
+	def private getPrimitiveTypesAnonymousArraysModelFilePath() {
+		normalize(outputDirPath + "stdtypes_arrays.arxml")
 	}
 
 	def private saveAutosarStdTypes(){

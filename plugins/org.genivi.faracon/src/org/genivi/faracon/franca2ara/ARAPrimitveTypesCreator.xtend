@@ -3,7 +3,7 @@ package org.genivi.faracon.franca2ara
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
-import java.util.HashMap
+import java.util.Map
 import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.ARAResourceSet
@@ -12,14 +12,20 @@ import org.genivi.faracon.Franca2ARABase
 @Singleton
 class ARAPrimitveTypesCreator extends Franca2ARABase {
 
-	val nameToType = new HashMap<String, ImplementationDataType>()
-	val nameToVectorType = new HashMap<String, ImplementationDataType>()
+	var Map<String, ImplementationDataType> nameToType = null
+	var Map<String, ImplementationDataType> nameToVectorType = null
 	
-	def ARPackage createPrimitiveTypesPackage(ARAResourceSet araResourceSet) {
+	def createPrimitiveTypesPackage(ARAResourceSet araResourceSet) {
+		if (nameToType !== null) {
+			return
+		}
+
+		nameToType = newHashMap
+		nameToVectorType = newHashMap
+
 		val ARAResourceSet araResourceSetLocal = 
 			if (araResourceSet === null) new ARAResourceSet() else araResourceSet
 		val AUTOSAR primitiveTypesModel = araResourceSetLocal.araStandardTypeDefinitionsModel.standardTypeDefinitionsModel
-		val topLevelPackage = primitiveTypesModel.arPackages.get(0)
 		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
 			nameToType.put(it.shortName,it)
 		]
@@ -28,8 +34,6 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 		primitiveTypesVectorsModel.eAllContents.filter(ImplementationDataType).forEach[
 			nameToVectorType.put(it.shortName,it)
 		]
-
-		return topLevelPackage
 	}
 
 	def getBaseTypeForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
@@ -60,6 +64,38 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 	def isPrimitiveType(ImplementationDataType implementationDataType) {
 		val lookupImplementationDataType = nameToType.get(implementationDataType.shortName)
 		return lookupImplementationDataType !== null && lookupImplementationDataType === implementationDataType
+	}
+
+
+	var AUTOSAR primitiveTypesAnonymousArraysModel
+	var ARPackage primitiveTypesAnonymousArraysMainPackage
+
+	def clearPrimitiveTypesAnonymousArrays() {
+		primitiveTypesAnonymousArraysModel = null
+		primitiveTypesAnonymousArraysMainPackage = null
+	}
+
+	def createPrimitiveTypesAnonymousArraysModel() {
+		primitiveTypesAnonymousArraysMainPackage = fac.createARPackage => [
+			shortName = "stdtypes"
+		]
+		primitiveTypesAnonymousArraysModel = fac.createAUTOSAR => [
+			arPackages += fac.createARPackage => [
+				shortName = "ara"
+				arPackages += primitiveTypesAnonymousArraysMainPackage
+			]
+		]
+	}
+
+	def getPrimitiveTypesAnonymousArraysModel() {
+		primitiveTypesAnonymousArraysModel
+	}
+	
+	def getOrCreatePrimitiveTypesAnonymousArraysMainPackage() {
+		if (primitiveTypesAnonymousArraysMainPackage === null) {
+			createPrimitiveTypesAnonymousArraysModel
+		}
+		primitiveTypesAnonymousArraysMainPackage
 	}
 
 }
