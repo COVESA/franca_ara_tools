@@ -64,4 +64,50 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			"anonymousArrayTypesWithElementsTypesFromDifferentNamespaces")
 	}
 
+	@Test
+	def void simpleAnonymousFixedSizedArrayTypeInInterface() {
+		transformAndCheckIntegrationTest(testPath,
+			#["simpleAnonymousFixedSizedArrayTypeInInterface.fidl",
+			  "simpleAnonymousFixedSizedArrayTypeInInterface.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "simpleAnonymousFixedSizedArrayTypeInInterface.arxml",
+			  testPath + "stdtypes_arrays.arxml"],
+			"simpleAnonymousFixedSizedArrayTypeInInterface")
+	}
+
+	@Test
+	def void simpleAnonymousFixedSizedArrayTypeInTypeCollection() {
+		transformAndCheckIntegrationTest(testPath,
+			#["simpleAnonymousFixedSizedArrayTypeInTypeCollection.fidl",
+			  "simpleAnonymousFixedSizedArrayTypeInTypeCollection.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "simpleAnonymousFixedSizedArrayTypeInTypeCollection.arxml",
+			  testPath + "stdtypes_arrays.arxml"],
+			"simpleAnonymousFixedSizedArrayTypeInTypeCollection")
+	}
+
+	@Test
+	def void complexAnonymousFixedSizedArrayTypeInInterface() {
+		transformAndCheckIntegrationTest(testPath,
+			#["complexAnonymousFixedSizedArrayTypeInInterface.fidl",
+			  "complexAnonymousFixedSizedArrayTypeInInterface.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "complexAnonymousFixedSizedArrayTypeInInterface.arxml"],
+			"complexAnonymousFixedSizedArrayTypeInInterface")
+	}
+
+	@Test
+	def void complexAnonymousFixedSizedArrayTypeInTypeCollection() {
+		transformAndCheckIntegrationTest(testPath,
+			#["complexAnonymousFixedSizedArrayTypeInTypeCollection.fidl",
+			  "complexAnonymousFixedSizedArrayTypeInTypeCollection.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "complexAnonymousFixedSizedArrayTypeInTypeCollection.arxml"],
+			"complexAnonymousFixedSizedArrayTypeInTypeCollection")
+	}
+
 }

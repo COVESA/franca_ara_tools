@@ -1,0 +1,60 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	method testMethod {
+		in {
+			ArrayElementStructType[] fixedSizedArray_10_Elements_inParam
+			ArrayElementStructType[] fixedSizedArray_20_Elements_inParam
+			ArrayElementStructType[] explicitlyDynamicallySizedArray_inParam
+			ArrayElementStructType[] implicitlyDynamicallySizedArray_inParam
+			ArrayElementStructType nonArray_inParam
+		}
+		out {
+			ArrayElementStructType[] fixedSizedArray_10_Elements_outParam
+			ArrayElementStructType[] fixedSizedArray_20_Elements_outParam
+			ArrayElementStructType[] explicitlyDynamicallySizedArray_outParam
+			ArrayElementStructType[] implicitlyDynamicallySizedArray_outParam
+			ArrayElementStructType nonArray_outParam
+		}
+	}
+
+	attribute ArrayElementStructType[] attribute_fixedSizedArray_10_Elements
+	attribute ArrayElementStructType[] attribute_fixedSizedArray_20_Elements
+	attribute ArrayElementStructType[] attribute_explicitlyDynamicallySizedArray
+	attribute ArrayElementStructType[] attribute_implicitlyDynamicallySizedArray
+	attribute ArrayElementStructType attribute_nonArray
+
+	struct TestStruct {
+		ArrayElementStructType[] fixedSizedArray_10_Elements
+		ArrayElementStructType[] fixedSizedArray_20_Elements
+		ArrayElementStructType[] explicitlyDynamicallySizedArray
+		ArrayElementStructType[] implicitlyDynamicallySizedArray
+		ArrayElementStructType nonArrayStructField
+	}
+
+	union TestUnion_FixedSizedArray_10_Elements {
+		ArrayElementStructType[] fixedSizedArray_10_Elements
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	union TestUnion_FixedSizedArray_20_Elements {
+		ArrayElementStructType[] fixedSizedArray_20_Elements
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	union TestUnion_ExplicitlyDynamicallySizedArray {
+		ArrayElementStructType[] explicitlyDynamicallySizedArray
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	union TestUnion_ImplicitlyDynamicallySizedArray {
+		ArrayElementStructType[] implicitlyDynamicallySizedArray
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	struct ArrayElementStructType {
+		String field_a
+		Boolean field_b
+	}
+}

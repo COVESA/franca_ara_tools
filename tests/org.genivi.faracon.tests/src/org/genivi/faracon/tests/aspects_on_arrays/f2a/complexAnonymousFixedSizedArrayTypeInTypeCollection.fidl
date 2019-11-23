@@ -1,0 +1,36 @@
+package a1.b2.c3
+
+typeCollection {
+	struct TestStruct {
+		ArrayElementStructType[] fixedSizedArray_10_Elements
+		ArrayElementStructType[] fixedSizedArray_20_Elements
+		ArrayElementStructType[] explicitlyDynamicallySizedArray
+		ArrayElementStructType[] implicitlyDynamicallySizedArray
+		ArrayElementStructType nonArrayStructField
+	}
+
+	union TestUnion_FixedSizedArray_10_Elements {
+		ArrayElementStructType[] fixedSizedArray_10_Elements
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	union TestUnion_FixedSizedArray_20_Elements {
+		ArrayElementStructType[] fixedSizedArray_20_Elements
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	union TestUnion_ExplicitlyDynamicallySizedArray {
+		ArrayElementStructType[] explicitlyDynamicallySizedArray
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	union TestUnion_ImplicitlyDynamicallySizedArray {
+		ArrayElementStructType[] implicitlyDynamicallySizedArray
+		ArrayElementStructType nonArrayUnionField
+	}
+
+	struct ArrayElementStructType {
+		String field_a
+		Boolean field_b
+	}
+}

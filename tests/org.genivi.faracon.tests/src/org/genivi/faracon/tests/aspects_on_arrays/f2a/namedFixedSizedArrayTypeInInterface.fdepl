@@ -13,6 +13,7 @@ define org.genivi.commonapi.someip.deployment for interface a1.b2.c3.ExampleInte
 
 	array ExplicitlyDynamicallySizedArray {
 		SomeIpArrayLengthWidth = 4
+		SomeIpArrayMaxLength = 99
 	}
 
 }

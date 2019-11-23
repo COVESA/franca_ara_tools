@@ -12,6 +12,7 @@ define org.genivi.commonapi.someip.deployment for typeCollection a1.b2.c3 {
 
 	array ExplicitlyDynamicallySizedArray {
 		SomeIpArrayLengthWidth = 4
+		SomeIpArrayMaxLength = 99
 	}
 
 }
