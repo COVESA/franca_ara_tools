@@ -1,0 +1,31 @@
+package a1.b2.c3
+
+typeCollection {
+	struct TestStruct {
+		UInt8[] fixedSizedArray_10_Elements
+		UInt8[] fixedSizedArray_20_Elements
+		UInt8[] explicitlyDynamicallySizedArray
+		UInt8[] implicitlyDynamicallySizedArray
+		UInt8 nonArrayStructField
+	}
+
+	union TestUnion_FixedSizedArray_10_Elements {
+		UInt8[] fixedSizedArray_10_Elements
+		UInt8 nonArrayUnionField
+	}
+
+	union TestUnion_FixedSizedArray_20_Elements {
+		UInt8[] fixedSizedArray_20_Elements
+		UInt8 nonArrayUnionField
+	}
+
+	union TestUnion_ExplicitlyDynamicallySizedArray {
+		UInt8[] explicitlyDynamicallySizedArray
+		UInt8 nonArrayUnionField
+	}
+
+	union TestUnion_ImplicitlyDynamicallySizedArray {
+		UInt8[] implicitlyDynamicallySizedArray
+		UInt8 nonArrayUnionField
+	}
+}

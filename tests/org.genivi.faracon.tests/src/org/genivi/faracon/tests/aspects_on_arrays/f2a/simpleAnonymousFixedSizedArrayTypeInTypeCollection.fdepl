@@ -1,0 +1,60 @@
+import "CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "simpleAnonymousFixedSizedArrayTypeInTypeCollection.fidl"
+
+define org.genivi.commonapi.someip.deployment for typeCollection a1.b2.c3 {
+
+	struct TestStruct {
+		fixedSizedArray_10_Elements {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 10
+		}
+		fixedSizedArray_20_Elements {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 20
+		}
+		explicitlyDynamicallySizedArray {
+			SomeIpStructArrayLengthWidth = 4
+			SomeIpStructArrayMaxLength = 99
+		}
+		nonArrayStructField {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 99
+		}
+	}
+
+	union TestUnion_FixedSizedArray_10_Elements {
+		fixedSizedArray_10_Elements {
+			SomeIpUnionArrayLengthWidth = 0
+			SomeIpUnionArrayMaxLength = 10
+		}
+		nonArrayUnionField {
+			SomeIpUnionArrayLengthWidth = 0
+			SomeIpUnionArrayMaxLength = 99
+		}
+	}
+
+	union TestUnion_FixedSizedArray_20_Elements {
+		fixedSizedArray_20_Elements {
+			SomeIpUnionArrayLengthWidth = 0
+			SomeIpUnionArrayMaxLength = 20
+		}
+		nonArrayUnionField {
+			SomeIpUnionArrayLengthWidth = 0
+			SomeIpUnionArrayMaxLength = 99
+		}
+	}
+
+	union TestUnion_ExplicitlyDynamicallySizedArray {
+		explicitlyDynamicallySizedArray {
+			SomeIpUnionArrayLengthWidth = 4
+			SomeIpUnionArrayMaxLength = 99
+		}
+		nonArrayUnionField {
+			SomeIpUnionArrayLengthWidth = 0
+			SomeIpUnionArrayMaxLength = 99
+		}
+	}
+
+}
