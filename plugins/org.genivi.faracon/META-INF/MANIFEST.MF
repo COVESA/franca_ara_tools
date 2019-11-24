@@ -18,7 +18,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.sphinx.emf;bundle-version="0.11.0",
  org.artop.aal.autosar447;bundle-version="4.12.0";visibility:=reexport,
  org.artop.eel.serialization;bundle-version="1.1.0",
- org.apache.commons.lang;bundle-version="2.6.0"
+ org.apache.commons.lang;bundle-version="2.6.0",
+ org.genivi.commonapi.someip;visibility:=reexport,
+ org.genivi.commonapi.core;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.genivi.faracon,
@@ -29,8 +31,6 @@ Export-Package: org.genivi.faracon,
  org.genivi.faracon.preferences,
  org.genivi.faracon.stdtypes,
  org.genivi.faracon.util,
- org.genivi.faracon.validator,
- org.genivi.commonapi.core,
- org.genivi.commonapi.someip
+ org.genivi.faracon.validator
 Import-Package: org.apache.log4j
 Automatic-Module-Name: org.genivi.faracon

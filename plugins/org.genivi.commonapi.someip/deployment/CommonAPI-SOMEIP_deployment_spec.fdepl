@@ -12,8 +12,7 @@
  * SOME/IP protocol and refers to the component model deployment concept.
  */
 
-import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI_deployment_spec.fdepl"
-//import "platform:/plugin/org.genivi.commonapi.core/deployment/CommonAPI_deployment_spec.fdepl"
+import "platform:/plugin/org.genivi.commonapi.core/deployment/CommonAPI_deployment_spec.fdepl"
 
 specification org.genivi.commonapi.someip.deployment extends org.genivi.commonapi.core.deployment {
 
