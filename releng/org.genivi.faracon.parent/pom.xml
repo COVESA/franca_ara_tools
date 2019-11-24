@@ -42,6 +42,9 @@
 	<modules>
 		<!-- target platform -->
 		<module>../org.genivi.faracon.target</module>
+		<!-- partial redundant copies of CommonAPI modules -->
+		<module>../../plugins/org.genivi.commonapi.core</module>
+		<module>../../plugins/org.genivi.commonapi.someip</module>
 		<!-- actual code modules -->
 		<module>../../plugins/org.genivi.faracon</module>
 		<module>../../plugins/org.genivi.faracon.console</module>
