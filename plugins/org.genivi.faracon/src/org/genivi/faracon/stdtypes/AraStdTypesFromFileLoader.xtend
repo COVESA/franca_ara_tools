@@ -16,78 +16,78 @@ import org.eclipse.emf.common.util.URI
 
 @FinalFieldsConstructor
 class AraStdTypesFromFileLoader implements IAraStdTypesLoader {
-	
+
 	val extension Autosar40Factory autosar40Factory = Autosar40Factory.eINSTANCE 
-	
-	val String filePath
-	
+
+	val String customAraStdTypesPath
+
 	@Data
-	private static class PackageHierarchyImplementationDataType{
-		val List<String> packageHierarchy
+	private static class ImplementationDataTypeWithPackagePath {
+		val List<String> packagePath
 		val ImplementationDataType implementationDataType
 	}
-	
+
 	override loadStdTypes(ARAResourceSet resourceSet) {
 		val araConnector = new ARAConnector
-		val autosarModel = araConnector.loadModel(resourceSet, filePath) as ARAModelContainer
+		val autosarModel = araConnector.loadModel(resourceSet, customAraStdTypesPath) as ARAModelContainer
 		val stdTypes = autosarModel.model
 		val stdVectorTypes = stdTypes.createStdVectorTypes
 		
 		// add std vector types to resource
 		val stdTypesUri = stdTypes.eResource.URI
 		val fileExtension = stdTypesUri.fileExtension
-		val stdVectorUri = stdTypes.eResource.URI.trimFileExtension.toFileString + "Vector." + fileExtension 
-		val resource = resourceSet.createResource(URI.createFileURI(stdVectorUri))
+		val stdVectorTypesUri = stdTypesUri.trimFileExtension.toFileString + "Vector." + fileExtension 
+		val resource = resourceSet.createResource(URI.createFileURI(stdVectorTypesUri))
 		resource.contents.add(stdVectorTypes)
 		
 		return new AraStandardTypes(stdTypes, stdVectorTypes)
 	}
-	
-	def private AUTOSAR createStdVectorTypes(AUTOSAR autosar){
-		val vectorTypesWithHierarchy = autosar.eAllContents.filter(ImplementationDataType).map[createVectorTypeForStdType]
+
+	def private AUTOSAR createStdVectorTypes(AUTOSAR autosar) {
+		val vectorTypesWithPackagePaths = autosar.eAllContents.filter(ImplementationDataType).map[createVectorTypeForStdType]
 		val stdVectorModel = createAUTOSAR
-		vectorTypesWithHierarchy.forEach[
-			val arPackage = stdVectorModel.ensureTypesPackageHierarchy(it.packageHierarchy)
+		vectorTypesWithPackagePaths.forEach[
+			val arPackage = stdVectorModel.ensurePackagesExistence(it.packagePath)
 			arPackage.elements += it.implementationDataType
 		]
 		return stdVectorModel
 	}
-	
-	def private ARPackage ensureTypesPackageHierarchy(AUTOSAR autosar, List<String> packageHierarchy){
-		var currentPackage = createTopLevelPackage(autosar, packageHierarchy.head)
-		for(packageName : packageHierarchy.tail){
+
+	def private ARPackage ensurePackagesExistence(AUTOSAR autosar, List<String> packagePath) {
+		var currentPackage = createTopLevelPackage(autosar, packagePath.head)
+		for(packageName : packagePath.tail) {
 			currentPackage = currentPackage.createArPackageInPackage(packageName)
 		}
 		return currentPackage
 	}
-	
-	def private create createARPackage createTopLevelPackage(AUTOSAR autosar, String packageName){
+
+	def private create createARPackage createTopLevelPackage(AUTOSAR autosar, String packageName) {
 		it.shortName = packageName
 		autosar.arPackages += it
 	}
-	
-	def private create createARPackage createArPackageInPackage(ARPackage arPackage, String packageName){
+
+	def private create createARPackage createArPackageInPackage(ARPackage parentPackage, String packageName) {
 		it.shortName = packageName
-		arPackage.arPackages += it
+		parentPackage.arPackages += it
 	}
-	
-	private def PackageHierarchyImplementationDataType createVectorTypeForStdType(ImplementationDataType stdType) {
-		val vectorType = createImplementationDataType =>[
+
+	private def ImplementationDataTypeWithPackagePath createVectorTypeForStdType(ImplementationDataType stdType) {
+		val vectorType = createImplementationDataType => [
 			it.shortName = stdType.shortName + "Vector"
 			it.category = "VECTOR"
-			it.subElements += createImplementationDataTypeElement =>[
+			it.subElements += createImplementationDataTypeElement => [
 				it.shortName = stdType.shortName + "Ref"
 				it.category = "TYPE_REFERENCE"
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
-				it.swDataDefProps = createSwDataDefProps =>[
-					it.swDataDefPropsVariants += createSwDataDefPropsConditional =>[
+				it.swDataDefProps = createSwDataDefProps => [
+					it.swDataDefPropsVariants += createSwDataDefPropsConditional => [
 						it.implementationDataType = stdType
 					]
 				] 
 			]
 		]
-		val packageHierarcy = AutosarUtil.collectPackageHierarchy(stdType.ARPackage).map[it.shortName].toList
-		return new PackageHierarchyImplementationDataType(packageHierarcy, vectorType)
+		val packagePath = AutosarUtil.collectPackageHierarchy(stdType.ARPackage).map[it.shortName].toList
+		return new ImplementationDataTypeWithPackagePath(packagePath, vectorType)
 	}
-	
+
 }

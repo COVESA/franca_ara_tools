@@ -34,7 +34,7 @@ class FrancaAutosarStdTypeFilesCreationTest extends Franca2ARATestBase {
 	
 	@Test
 	def void testCustomizedAutosarStdFilesCreation(){
-		setUseCustomizedAutosarStdTypes
+		useCustomizedAutosarStdTypes
 		testStdFileCreation()
 	}
 	
