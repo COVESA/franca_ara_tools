@@ -14,10 +14,10 @@ class AraStandardTypeDefinitionsModel {
 
 	new() {
 		val preferences = Preferences.instance
-		if (preferences.useStdTypes) {
+		if (preferences.customAraStdTypesUsed) {
 			// use user specified std types lib
-			val stdTypesPath = preferences.getPreference(PreferencesConstants.P_ARA_CUSTOM_STD_TYPES_PATH, "")
-			araStdTypesLoader = new AraStdTypesFromFileLoader(stdTypesPath)
+			val customAraStdTypesPath = preferences.getPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH, "")
+			araStdTypesLoader = new AraStdTypesFromFileLoader(customAraStdTypesPath)
 		} else {
 			// use stdtypes from plugin
 			araStdTypesLoader = new AraStdTypesFromPluginLoader
@@ -35,11 +35,11 @@ class AraStandardTypeDefinitionsModel {
 	def getStandardVectorTypeDefinitionsModel() {
 		return araStandardTypes.standardVectorTypeDefinitionsModel
 	}
-	
-	 def private useStdTypes(Preferences preferences){
-		if(preferences.hasPreference(PreferencesConstants.P_USE_CUSTOM_ARA_STD_TYPES)){
-		    val useStdTypes = preferences.getPreference(PreferencesConstants.P_USE_CUSTOM_ARA_STD_TYPES, "false")
-			return Boolean.parseBoolean(useStdTypes)
+
+	 def private customAraStdTypesUsed(Preferences preferences) {
+		if(preferences.hasPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED)){
+			val customAraStdTypesUsed = preferences.getPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED, "false")
+			return Boolean.parseBoolean(customAraStdTypesUsed)
 		}
 		return false
 	}

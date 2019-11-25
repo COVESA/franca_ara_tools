@@ -35,7 +35,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	
 	@Test
 	def void testUnitCustomizedAutosarStdTypes(){
-		setUseCustomizedAutosarStdTypes
+		useCustomizedAutosarStdTypes
 		testStdTypes("customizedAutosarStdTypes.arxml")
 	}
 	
@@ -46,7 +46,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	
 	@Test
 	def void testCustomizedStdTypesInStruct() {
-		setUseCustomizedAutosarStdTypes
+		useCustomizedAutosarStdTypes
 		transformAndCheck(testPath + "francaBasicTypesCustomized.arxml", testPath + "francaBasicTypes_a1.b2.c3.fidl")
 	}
 	
@@ -57,7 +57,7 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	
 	@Test
 	def void testCustomizedVectorStdTypesInStruct() {
-		setUseCustomizedAutosarStdTypes
+		useCustomizedAutosarStdTypes
 		transformAndCheck(testPath + "francaBasicVectorTypesCustomized.arxml", testPath + "francaBasicVectorTypes_a1.b2.c3.fidl")
 	}
 	

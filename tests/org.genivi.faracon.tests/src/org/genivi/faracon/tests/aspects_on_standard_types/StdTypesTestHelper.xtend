@@ -4,25 +4,24 @@ import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
 
 class StdTypesTestHelper {
-	private new(){
+	private new() {
 	}
-	
-	
-	def static useDefaultStdTypes(){
-		setStdTypeUsage(false, "")
+
+	def static useDefaultAutosarStdTypes() {
+		setAraStdTypesPreferences(false, "")
 	}
-	
-	def static setUseStdTypes(String fileName){
-		setStdTypeUsage(true, fileName)
+
+	def static useCustomizedAutosarStdTypes(String fileName) {
+		setAraStdTypesPreferences(true, fileName)
 	}
-	
-	def static setUseCustomizedAutosarStdTypes(){
-		setUseStdTypes("src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
+
+	def static useCustomizedAutosarStdTypes() {
+		useCustomizedAutosarStdTypes("src/org/genivi/faracon/tests/aspects_on_standard_types/customizedAutosarStdTypes.arxml")
 	}
-	
-	def private static setStdTypeUsage(boolean useStdFiles, String fileName){
+
+	def private static setAraStdTypesPreferences(boolean customAraStdTypesUsed, String customAraStdTypesPath) {
 		val preferences = Preferences.instance
-		preferences.setPreference(PreferencesConstants.P_USE_CUSTOM_ARA_STD_TYPES, useStdFiles.toString)
-		preferences.setPreference(PreferencesConstants.P_ARA_CUSTOM_STD_TYPES_PATH, fileName)
+		preferences.setPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED, customAraStdTypesUsed.toString)
+		preferences.setPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH, customAraStdTypesPath)
 	}
 }

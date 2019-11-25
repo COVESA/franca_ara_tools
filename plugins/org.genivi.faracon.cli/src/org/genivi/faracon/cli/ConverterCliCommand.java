@@ -86,9 +86,9 @@ public class ConverterCliCommand extends CommandlineTool {
 		}
 		
 		if(parsedArguments.hasOption("s")) {
-			setStdTypesUsage(true, parsedArguments.getOptionValue("s"));
+			setAraStdTypesPreferences(true, parsedArguments.getOptionValue("s"));
 		}else {
-			setStdTypesUsage(false, "");
+			setAraStdTypesPreferences(false, "");
 		}
 
 		// A file path, that points to a file, that contains the license text.
@@ -132,11 +132,11 @@ public class ConverterCliCommand extends CommandlineTool {
 		preferences.setPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, normalizedOutputDirectoryPath);
 	}
 	
-	public void setStdTypesUsage(boolean useStdTypes, String stdTypesPath) {
-		String normalizedStdTypesPath = ConverterHelper.normalize(stdTypesPath);
-		getLogger().logInfo("Using ara standard types path " + normalizedStdTypesPath);
-		preferences.setPreference(PreferencesConstants.P_USE_CUSTOM_ARA_STD_TYPES, String.valueOf(useStdTypes));
-		preferences.setPreference(PreferencesConstants.P_ARA_CUSTOM_STD_TYPES_PATH, normalizedStdTypesPath);
+	public void setAraStdTypesPreferences(boolean customAraStdTypesUsed, String customAraStdTypesPath) {
+		String normalizedCustomAraStdTypesPath = ConverterHelper.normalize(customAraStdTypesPath);
+		getLogger().logInfo("Using ARA standard types path " + normalizedCustomAraStdTypesPath);
+		preferences.setPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED, String.valueOf(customAraStdTypesUsed));
+		preferences.setPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH, normalizedCustomAraStdTypesPath);
 	}
 	
 	public void setLogLevel(String optionValue) {
