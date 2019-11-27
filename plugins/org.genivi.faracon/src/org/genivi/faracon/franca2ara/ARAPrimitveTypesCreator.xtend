@@ -8,36 +8,42 @@ import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.Franca2ARABase
+import org.genivi.faracon.preferences.Preferences
 
 @Singleton
 class ARAPrimitveTypesCreator extends Franca2ARABase {
 
 	var Map<String, ImplementationDataType> nameToType = null
 	var Map<String, ImplementationDataType> nameToVectorType = null
-	
-	def createPrimitiveTypesPackage(ARAResourceSet araResourceSet) {
-		if (nameToType !== null) {
-			return
-		}
 
+	new() {
+		Preferences.instance.registerARAPrimitveTypesCreator(this)
+	}
+
+	def loadPrimitiveTypes() {
+		if (nameToType === null) {
+			explicitlyLoadPrimitiveTypes
+		}
+	}
+
+	def explicitlyLoadPrimitiveTypes() {
 		nameToType = newHashMap
 		nameToVectorType = newHashMap
 
-		val ARAResourceSet araResourceSetLocal = 
-			if (araResourceSet === null) new ARAResourceSet() else araResourceSet
-		val AUTOSAR primitiveTypesModel = araResourceSetLocal.araStandardTypeDefinitionsModel.standardTypeDefinitionsModel
+		val ARAResourceSet araResourceSet = new ARAResourceSet()
+		val AUTOSAR primitiveTypesModel = araResourceSet.araStandardTypeDefinitionsModel.standardTypeDefinitionsModel
 		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
 			nameToType.put(it.shortName,it)
 		]
 
-		val AUTOSAR primitiveTypesVectorsModel = araResourceSetLocal.araStandardTypeDefinitionsModel.standardVectorTypeDefinitionsModel
+		val AUTOSAR primitiveTypesVectorsModel = araResourceSet.araStandardTypeDefinitionsModel.standardVectorTypeDefinitionsModel
 		primitiveTypesVectorsModel.eAllContents.filter(ImplementationDataType).forEach[
 			nameToVectorType.put(it.shortName,it)
 		]
 	}
 
 	def getBaseTypeForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
-		createPrimitiveTypesPackage(null)
+		loadPrimitiveTypes
 		if(!this.nameToType.containsKey(fBasicTypeId.getName)){
 			getLogger.logError("Can not find an AUTOSAR simple type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
@@ -48,7 +54,7 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 	}
 
 	def getBaseTypeVectorForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
-		createPrimitiveTypesPackage(null)
+		loadPrimitiveTypes
 		val basicTypeVectorName = fBasicTypeId.getName + "Vector"
 		if(!this.nameToVectorType.containsKey(basicTypeVectorName)){
 			getLogger.logError("Can not find an AUTOSAR vector type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
@@ -59,8 +65,6 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 		this.nameToVectorType.get(basicTypeVectorName)
 	}
 
-	// TODO: This predicate function does not work properly with the current implementation
-	//       because the primitive types library is loaded twice.
 	def isPrimitiveType(ImplementationDataType implementationDataType) {
 		val lookupImplementationDataType = nameToType.get(implementationDataType.shortName)
 		return lookupImplementationDataType !== null && lookupImplementationDataType === implementationDataType
