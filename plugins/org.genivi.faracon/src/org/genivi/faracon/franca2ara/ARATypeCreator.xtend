@@ -10,9 +10,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.util.EcoreUtil
 import org.franca.core.FrancaModelExtensions
-import org.franca.core.franca.FArgument
 import org.franca.core.franca.FArrayType
-import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FConstant
 import org.franca.core.franca.FEnumerationType
@@ -27,7 +25,6 @@ import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
-import org.genivi.commonapi.someip.Deployment
 import org.genivi.faracon.Franca2ARABase
 
 import static extension org.franca.core.FrancaModelExtensions.*
@@ -43,12 +40,11 @@ class ARATypeCreator extends Franca2ARABase {
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
+	var extension DeploymentDataHelper
+	@Inject
 	var extension AutosarAnnotator
 	@Inject
 	var extension AutosarSpecialDataGroupCreator
-
-	@Inject
-	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 
 	val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
 
@@ -242,46 +238,10 @@ class ARATypeCreator extends Franca2ARABase {
 		it.swDataDefProps = dataDefProps
 	}
 
+	// Generate AUTOSAR representation of the given array data type.
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FArrayType fArrayType) {
-		// Request deployment data for the given array data type.
-		var boolean isFixedSizedArrayVar = false
-		var int arraySizeVar
-		val fTypeCollection = fArrayType.typeCollection
-		if (fTypeCollection !== null) {
-			val Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fTypeCollection)
-			if (typeCollectionPropertyAccessor !== null) {
-				val someIpArrayLengthWidth = typeCollectionPropertyAccessor.getSomeIpArrayLengthWidth(fArrayType)
-				if (someIpArrayLengthWidth !== null) {
-					if (someIpArrayLengthWidth == 0) {
-						isFixedSizedArrayVar = true
-					}
-				}
-				val someIpArrayMaxLength = typeCollectionPropertyAccessor.getSomeIpArrayMaxLength(fArrayType)
-				if (someIpArrayMaxLength !== null) {
-					arraySizeVar = someIpArrayMaxLength
-				}
-			}
-		}
-		val fInterface = fArrayType.interface
-		if (fInterface !== null) {
-			val Deployment.InterfacePropertyAccessor interfacePropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fInterface)
-			if (interfacePropertyAccessor !== null) {
-				val someIpArrayLengthWidth = interfacePropertyAccessor.getSomeIpArrayLengthWidth(fArrayType)
-				if (someIpArrayLengthWidth !== null) {
-					if (someIpArrayLengthWidth == 0) {
-						isFixedSizedArrayVar = true
-					}
-				}
-				val someIpArrayMaxLength = interfacePropertyAccessor.getSomeIpArrayMaxLength(fArrayType)
-				if (someIpArrayMaxLength !== null) {
-					arraySizeVar = someIpArrayMaxLength
-				}
-			}
-		}
-		val boolean isFixedSizedArray = isFixedSizedArrayVar
-		val int arraySize = arraySizeVar
-
-		// Generate AUTOSAR representation of the given array data type.
+		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
+		val int arraySize = fArrayType.getArraySize
 		it.shortName = fArrayType.name
 		if (isFixedSizedArray) {
 			it.category = "ARRAY"
@@ -367,44 +327,10 @@ class ARATypeCreator extends Franca2ARABase {
 		ARPackage = aPackage
 	}
 
+	// Create an artificial array or vector type if necessary.
 	def private ImplementationDataType createAnonymousArrayTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement, String namespaceName) {
-		// Request array deployment data for the given typed element.
-		var boolean isFixedSizedArray = false
-		var int arraySize
-		val fTypeCollection = fTypedElement.typeCollection
-		if (fTypeCollection !== null) {
-			val Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fTypeCollection)
-			if (typeCollectionPropertyAccessor !== null) {
-				val someIpArrayLengthWidth = typeCollectionPropertyAccessor.getArrayLengthWidth(fTypedElement)
-				if (someIpArrayLengthWidth !== null) {
-					if (someIpArrayLengthWidth == 0) {
-						isFixedSizedArray = true
-					}
-				}
-				val someIpArrayMaxLength = typeCollectionPropertyAccessor.getArrayMaxLength(fTypedElement)
-				if (someIpArrayMaxLength !== null) {
-					arraySize = someIpArrayMaxLength
-				}
-			}
-		}
-		val fInterface = fTypedElement.interface
-		if (fInterface !== null) {
-			val Deployment.InterfacePropertyAccessor interfacePropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fInterface)
-			if (interfacePropertyAccessor !== null) {
-				val someIpArrayLengthWidth = interfacePropertyAccessor.getArrayLengthWidth(fTypedElement)
-				if (someIpArrayLengthWidth !== null) {
-					if (someIpArrayLengthWidth == 0) {
-						isFixedSizedArray = true
-					}
-				}
-				val someIpArrayMaxLength = interfacePropertyAccessor.getArrayMaxLength(fTypedElement)
-				if (someIpArrayMaxLength !== null) {
-					arraySize = someIpArrayMaxLength
-				}
-			}
-		}
-
-		// Create an artificial array or vector type if necessary.
+		val boolean isFixedSizedArray = fTypedElement.isFixedSizedArray
+		val int arraySize = fTypedElement.getArraySize
 		if (fTypeRef.refsPrimitiveType) {
 			if (isFixedSizedArray) {
 				val aElementType = getBaseTypeForReference(fTypeRef.predefined, fTypedElement.name, namespaceName)
@@ -418,58 +344,6 @@ class ARATypeCreator extends Franca2ARABase {
 			} else {
 				createArtificialVectorType(fTypeRef.derived)
 			}
-		}
-	}
-
-	dispatch def getArrayLengthWidth(Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			typeCollectionPropertyAccessor.getSomeIpStructArrayLengthWidth(fField)
-		} else {
-			typeCollectionPropertyAccessor.getSomeIpUnionArrayLengthWidth(fField)
-		}
-	}
-
-	dispatch def getArrayLengthWidth(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			interfacePropertyAccessor.getSomeIpStructArrayLengthWidth(fField)
-		} else {
-			interfacePropertyAccessor.getSomeIpUnionArrayLengthWidth(fField)
-		}
-	}
-	dispatch def getArrayLengthWidth(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FArgument fArgument) {
-		interfacePropertyAccessor.getSomeIpArgArrayLengthWidth(fArgument)
-	}
-	dispatch def getArrayLengthWidth(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FAttribute fAttribute) {
-		interfacePropertyAccessor.getSomeIpAttrArrayLengthWidth(fAttribute)
-	}
-
-	dispatch def getArrayMaxLength(Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			typeCollectionPropertyAccessor.getSomeIpStructArrayMaxLength(fField)
-		} else {
-			typeCollectionPropertyAccessor.getSomeIpUnionArrayMaxLength(fField)
-		}
-	}
-
-	dispatch def getArrayMaxLength(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			interfacePropertyAccessor.getSomeIpStructArrayMaxLength(fField)
-		} else {
-			interfacePropertyAccessor.getSomeIpUnionArrayMaxLength(fField)
-		}
-	}
-	dispatch def getArrayMaxLength(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FArgument fArgument) {
-		interfacePropertyAccessor.getSomeIpArgArrayMaxLength(fArgument)
-	}
-	dispatch def getArrayMaxLength(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FAttribute fAttribute) {
-		interfacePropertyAccessor.getSomeIpAttrArrayMaxLength(fAttribute)
-	}
-
-	def private getNameOfReferencedType(FTypeRef fTypeRef) {
-		if (fTypeRef.refsPrimitiveType) {
-			fTypeRef.predefined.getName
-		} else {
-			fTypeRef.derived.name
 		}
 	}
 
