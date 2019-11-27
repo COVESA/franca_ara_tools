@@ -13,7 +13,7 @@ abstract class AbstractFranca2AraUnionTest extends Franca2ARATestBase{
 
 	@Before
 	def void beforeTest(){
-		primitiveTypes.createPrimitiveTypesPackage(null)
+		primitiveTypes.loadPrimitiveTypes
 	}
 	
 	protected def FUnionType createFUnion(String unionName, String subElementName, FUnionType baseUnion) {

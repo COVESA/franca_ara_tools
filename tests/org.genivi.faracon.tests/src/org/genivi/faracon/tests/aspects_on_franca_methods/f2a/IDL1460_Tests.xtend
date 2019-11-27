@@ -99,7 +99,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	
 	@Before
 	def void beforeTest(){
-		araPrimitveTypesCreator.createPrimitiveTypesPackage(null)
+		araPrimitveTypesCreator.loadPrimitiveTypes
 		logger.enableContinueOnErrors(false)
 	}
 	
