@@ -26,6 +26,8 @@ import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.InputFile
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
+import org.genivi.faracon.preferences.Preferences
+import org.genivi.faracon.stdtypes.AraStandardTypeDefinitionsModel
 
 import static org.genivi.faracon.cli.ConverterHelper.*
 
@@ -184,20 +186,25 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	}
 
 	def private getPrimitiveTypesAnonymousArraysModelFilePath() {
-		normalize(outputDirPath + "stdtypes_arrays.arxml")
+		val stdTypesUri = targetResourceSet.araStandardTypeDefinitionsModel.standardTypeDefinitionsModel.eResource.URI
+		val fileExtension = stdTypesUri.fileExtension
+		val stdArrayTypesFilename = stdTypesUri.trimFileExtension.lastSegment + "_arrays." + fileExtension 
+		normalize(outputDirPath + stdArrayTypesFilename)
 	}
 
 	def private saveAutosarStdTypes(){
 		val araStandardTypeDefinitionsModel = targetResourceSet.araStandardTypeDefinitionsModel
-		val stdTypes = EcoreUtil.copy(araStandardTypeDefinitionsModel.standardTypeDefinitionsModel)
-		val stdVectorTypes = EcoreUtil.copy(araStandardTypeDefinitionsModel.standardVectorTypeDefinitionsModel)
-		stdTypes.saveStdTypesFile("stdtypes.arxml")
-		stdVectorTypes.saveStdTypesFile("stdtypes_vector.arxml")
+		if (!AraStandardTypeDefinitionsModel.customAraStdTypesUsed(Preferences.instance)) {
+			araStandardTypeDefinitionsModel.standardTypeDefinitionsModel.saveStdTypesFile
+		}
+		araStandardTypeDefinitionsModel.standardVectorTypeDefinitionsModel.saveStdTypesFile
 	}
 
- 	def private saveStdTypesFile(AUTOSAR autosar, String fileName){
+ 	def private saveStdTypesFile(AUTOSAR aModel){
+		val copiedModel = EcoreUtil.copy(aModel)
+		val fileName = aModel.eResource.URI.lastSegment
  		val filePath = normalize(outputDirPath + fileName)
- 		araConnector.saveARXML(targetResourceSet, autosar, filePath)
+ 		araConnector.saveARXML(targetResourceSet, copiedModel, filePath)
  	}
 
 	override protected getInputFileExtension() '''fidl'''

@@ -3,27 +3,27 @@ package org.genivi.faracon.stdtypes
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
-import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.util.Autosar40Factory
-import java.util.List
+import java.util.Collection
+import org.eclipse.emf.common.util.URI
 import org.eclipse.xtend.lib.annotations.Data
 import org.eclipse.xtend.lib.annotations.FinalFieldsConstructor
 import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.util.AutosarUtil
-import org.eclipse.emf.common.util.URI
 
 @FinalFieldsConstructor
 class AraStdTypesFromFileLoader implements IAraStdTypesLoader {
 
 	val extension Autosar40Factory autosar40Factory = Autosar40Factory.eINSTANCE 
+	val extension AutosarUtil = new AutosarUtil
 
 	val String customAraStdTypesPath
 
 	@Data
 	private static class ImplementationDataTypeWithPackagePath {
-		val List<String> packagePath
+		val Collection<String> packagePath
 		val ImplementationDataType implementationDataType
 	}
 
@@ -36,7 +36,7 @@ class AraStdTypesFromFileLoader implements IAraStdTypesLoader {
 		// add std vector types to resource
 		val stdTypesUri = stdTypes.eResource.URI
 		val fileExtension = stdTypesUri.fileExtension
-		val stdVectorTypesUri = stdTypesUri.trimFileExtension.toFileString + "Vector." + fileExtension 
+		val stdVectorTypesUri = stdTypesUri.trimFileExtension.toFileString + "_vectors." + fileExtension 
 		val resource = resourceSet.createResource(URI.createFileURI(stdVectorTypesUri))
 		resource.contents.add(stdVectorTypes)
 		
@@ -51,24 +51,6 @@ class AraStdTypesFromFileLoader implements IAraStdTypesLoader {
 			arPackage.elements += it.implementationDataType
 		]
 		return stdVectorModel
-	}
-
-	def private ARPackage ensurePackagesExistence(AUTOSAR autosar, List<String> packagePath) {
-		var currentPackage = createTopLevelPackage(autosar, packagePath.head)
-		for(packageName : packagePath.tail) {
-			currentPackage = currentPackage.createArPackageInPackage(packageName)
-		}
-		return currentPackage
-	}
-
-	def private create createARPackage createTopLevelPackage(AUTOSAR autosar, String packageName) {
-		it.shortName = packageName
-		autosar.arPackages += it
-	}
-
-	def private create createARPackage createArPackageInPackage(ARPackage parentPackage, String packageName) {
-		it.shortName = packageName
-		parentPackage.arPackages += it
 	}
 
 	private def ImplementationDataTypeWithPackagePath createVectorTypeForStdType(ImplementationDataType stdType) {
@@ -86,7 +68,7 @@ class AraStdTypesFromFileLoader implements IAraStdTypesLoader {
 				] 
 			]
 		]
-		val packagePath = AutosarUtil.collectPackageHierarchy(stdType.ARPackage).map[it.shortName].toList
+		val packagePath = AutosarUtil.collectPackagePath(stdType.ARPackage)
 		return new ImplementationDataTypeWithPackagePath(packagePath, vectorType)
 	}
 

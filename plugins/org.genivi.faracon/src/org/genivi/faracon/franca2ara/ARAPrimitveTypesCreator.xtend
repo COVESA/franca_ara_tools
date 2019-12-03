@@ -3,15 +3,20 @@ package org.genivi.faracon.franca2ara
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
+import com.google.inject.Inject
 import java.util.Map
 import javax.inject.Singleton
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.preferences.Preferences
+import org.genivi.faracon.util.AutosarUtil
 
 @Singleton
 class ARAPrimitveTypesCreator extends Franca2ARABase {
+
+	@Inject
+	var extension AutosarUtil
 
 	var Map<String, ImplementationDataType> nameToType = null
 	var Map<String, ImplementationDataType> nameToVectorType = null
@@ -80,15 +85,12 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 	}
 
 	def createPrimitiveTypesAnonymousArraysModel() {
-		primitiveTypesAnonymousArraysMainPackage = fac.createARPackage => [
-			shortName = "stdtypes"
-		]
-		primitiveTypesAnonymousArraysModel = fac.createAUTOSAR => [
-			arPackages += fac.createARPackage => [
-				shortName = "ara"
-				arPackages += primitiveTypesAnonymousArraysMainPackage
-			]
-		]
+		primitiveTypesAnonymousArraysModel = fac.createAUTOSAR
+		if (nameToType !== null) {
+			val packagePath = AutosarUtil.collectPackagePath(nameToType.values.head.ARPackage)
+			primitiveTypesAnonymousArraysMainPackage =
+				primitiveTypesAnonymousArraysModel.ensurePackagesExistence(packagePath)
+		}
 	}
 
 	def getPrimitiveTypesAnonymousArraysModel() {

@@ -68,7 +68,7 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	protected def Collection<String> findArxmlFilesStdFiles(String autosarModelPaths, boolean ignoreStdFiles) {
 		val arxmlFiles = findFiles(autosarModelPaths, "arxml")
 		if(ignoreStdFiles){
-			return arxmlFiles.filter[!it.endsWith("stdtypes.arxml") && !it.endsWith("stdtypes_vector.arxml")].toList	
+			return arxmlFiles.filter[!it.endsWith("stdtypes.arxml") && !it.endsWith("stdtypes_vectors.arxml")].toList	
 		}
 		return arxmlFiles
 	}

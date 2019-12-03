@@ -36,23 +36,19 @@ class AraStandardTypeDefinitionsModel {
 		return araStandardTypes.standardVectorTypeDefinitionsModel
 	}
 
-	 def private customAraStdTypesUsed(Preferences preferences) {
+	 def static customAraStdTypesUsed(Preferences preferences) {
 		if (!preferences.hasPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED)) {
 			return false
 		}
-	 	
 		if (!Boolean.parseBoolean(preferences.getPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED, "false"))) {
 			return false
 		}
-	 	
 		if (!preferences.hasPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH)) {
 			return false
 		}
-	 	
 	 	if (preferences.getPreference(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH, "").nullOrEmpty) {
 	 		return false
 	 	}
-
 		return true
 	}
 
