@@ -1,0 +1,67 @@
+import "CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "francaBasicVectorTypes.fidl"
+
+define org.genivi.commonapi.someip.deployment for typeCollection a1.b2.c3 {
+
+	struct BasicTypesStruct {
+		booleanTest {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 78
+		}
+		doubleTest {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 9
+		}
+		floatTest {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 73
+		}
+		int16Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 16
+		}
+		int32Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 95
+		}
+		int64Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 94
+		}
+		int8Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 27
+		}
+		integerTest {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 53
+		}
+		stringTest {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 41
+		}
+		uInt16Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 90
+		}
+		uInt32Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 115
+		}
+		uInt64Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 698
+		}
+		uint8Test {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 6
+		}
+		byteBufferTest {
+			SomeIpStructArrayLengthWidth = 0
+			SomeIpStructArrayMaxLength = 88
+		}
+	}
+
+}

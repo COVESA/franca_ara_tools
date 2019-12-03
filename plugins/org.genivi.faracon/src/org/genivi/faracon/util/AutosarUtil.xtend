@@ -1,15 +1,15 @@
 package org.genivi.faracon.util
 
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
+import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Referrable
+import autosar40.util.Autosar40Factory
 import java.util.Collection
 import java.util.Objects
 import org.eclipse.emf.ecore.EObject
 
 class AutosarUtil {
-	private new() {
-	}
 
 	def static String getPackageNamespace(ARPackage arPackage) {
 		val namespace = arPackage?.shortName
@@ -73,15 +73,40 @@ class AutosarUtil {
 		partialNamespaceName
 	}
 
-	def static Collection<ARPackage> collectPackageHierarchy(ARPackage arPackage){
+	def static Collection<ARPackage> collectPackageHierarchy(ARPackage arPackage) {
 		val parentContainer = arPackage.eContainer
 		if(parentContainer instanceof ARPackage){
 			val arPackages = collectPackageHierarchy(parentContainer)
 			arPackages.add(arPackage)
 			return arPackages
-		}else{
+		} else {
 			return newArrayList(arPackage)
 		}
+	}
+
+	def static Collection<String> collectPackagePath(ARPackage arPackage) {
+		collectPackageHierarchy(arPackage).map[it.shortName].toList
+	}
+
+
+	val extension Autosar40Factory autosar40Factory = Autosar40Factory.eINSTANCE 
+
+	def ARPackage ensurePackagesExistence(AUTOSAR autosar, Collection<String> packagePath) {
+		var currentPackage = createTopLevelPackage(autosar, packagePath.head)
+		for(packageName : packagePath.tail) {
+			currentPackage = currentPackage.createArPackageInPackage(packageName)
+		}
+		return currentPackage
+	}
+
+	def private create autosar40Factory.createARPackage createTopLevelPackage(AUTOSAR autosar, String packageName) {
+		it.shortName = packageName
+		autosar.arPackages += it
+	}
+
+	def private create autosar40Factory.createARPackage createArPackageInPackage(ARPackage parentPackage, String packageName) {
+		it.shortName = packageName
+		parentPackage.arPackages += it
 	}
 
 }

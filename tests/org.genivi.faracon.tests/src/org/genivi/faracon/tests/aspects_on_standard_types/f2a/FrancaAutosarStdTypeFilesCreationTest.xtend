@@ -13,6 +13,7 @@ import org.junit.runner.RunWith
 import static org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
 
 import static extension org.junit.Assert.assertNotNull
+import static extension org.junit.Assert.assertNull
 
 /**
  * Tests whether the autosar std-types are created during test-execution 
@@ -23,38 +24,46 @@ import static extension org.junit.Assert.assertNotNull
 class FrancaAutosarStdTypeFilesCreationTest extends Franca2ARATestBase {
 	
 	@After
-	def void afterTest(){
+	def void afterTest() {
 		Preferences.instance.resetPreferences
 	}
 	
 	@Test
-	def void testAutosarStdFilesCreation(){
-		testStdFileCreation()
+	def void testAutosarStdFilesCreation() {
+		testStdFileCreation("testAutosarStdFilesCreation", true, "stdtypes_vectors.arxml")
 	}
 	
 	@Test
-	def void testCustomizedAutosarStdFilesCreation(){
+	def void testCustomizedAutosarStdFilesCreation() {
 		useCustomizedAutosarStdTypes
-		testStdFileCreation()
+		testStdFileCreation("testCustomizedAutosarStdFilesCreation", false, "customizedAutosarStdTypes_vectors.arxml")
 	}
 	
-	private def void testStdFileCreation() {
+	private def void testStdFileCreation(String outputDirName, boolean stdTypesExpected, String stdVectorTypesFileName) {
 		//given
-		val inputFolder = "src/org/genivi/faracon/tests/aspects_on_interface_level/f2a/" 
-		val inputFile = "oneMethod.fidl"
-		val expectedOutputFile = "src/org/genivi/faracon/tests/aspects_on_interface_level/a2f/oneMethod.arxml"
-		val outputFolderName = "testAutosarStdFilesCreation"
+		val inputDirPath = "src/org/genivi/faracon/tests/aspects_on_standard_types/f2a/" 
+		val inputFileName = "emptyFile.fidl"
+		val expectedOutputFilePath = inputDirPath + "emptyFile.arxml"
+		val expectedStdVectorTypesFilePath = inputDirPath + stdVectorTypesFileName
 		
 		//when 
-		this.transformAndCheckIntegrationTest(inputFolder, #[inputFile], #[expectedOutputFile], outputFolderName)
+		transformAndCheckIntegrationTest(inputDirPath,
+			#[inputFileName],
+			stdVectorTypesFileName == "stdtypes_vectors.arxml" ?
+				#[expectedOutputFilePath] : #[expectedOutputFilePath, expectedStdVectorTypesFilePath],
+			outputDirName)
 		
 		//then: after a transformation the std type files must be in the output folder
-		val outputFolder = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
-		val arxmlFiles = findArxmlFilesStdFiles(outputFolder, false)
+		val outputDirPath = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
+		val arxmlFiles = findArxmlFilesStdFiles(outputDirPath, false)
 		val stdTypes = arxmlFiles.findFirst[it.endsWith("stdtypes.arxml")]
-		stdTypes.assertNotNull()
-		val stdVectorTypes = arxmlFiles.findFirst[it.endsWith("stdtypes_vector.arxml")]
-		stdVectorTypes.assertNotNull()
+		if (stdTypesExpected) {
+			stdTypes.assertNotNull
+		} else {
+			stdTypes.assertNull
+		}
+		val stdVectorTypes = arxmlFiles.findFirst[it.endsWith(stdVectorTypesFileName)]
+		stdVectorTypes.assertNotNull
 	}
 	
 }

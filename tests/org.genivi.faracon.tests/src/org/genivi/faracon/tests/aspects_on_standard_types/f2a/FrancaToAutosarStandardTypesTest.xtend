@@ -83,11 +83,22 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 		transformAndCheck(testPath, "francaBasicVectorTypes", testPath + "francaBasicVectorTypes.arxml")
 	}
 
-
 	@Test
 	def void testCustomizedFrancaVectorBasicTypesInStruct() {
 		useCustomizedAutosarStdTypes
 		transformAndCheck(testPath, "francaBasicVectorTypes", testPath + "francaBasicVectorTypesCustomized.arxml")
 	}
-	
+
+	@Test
+	def void testCustomizedFrancaAnonymousFixedSizedArrayBasicTypesInStruct() {
+		useCustomizedAutosarStdTypes
+		transformAndCheckIntegrationTest(testPath,
+			#["francaBasicVectorTypes.fidl",
+			  "francaBasicVectorTypes.fdepl"],
+			#[testPath + "francaBasicFixedSizedArrayTypesCustomized.arxml",
+			  testPath + "customizedAutosarStdTypes_vectors.arxml",
+			  testPath + "customizedAutosarStdTypes_arrays.arxml"],
+			"customizedFrancaAnonymousFixedSizedArrayBasicTypesInStruct")
+	}
+
 }
