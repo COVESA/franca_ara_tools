@@ -16,6 +16,7 @@ import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeCollection
+import org.genivi.faracon.franca2ara.ARAConstantsCreator
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
@@ -36,6 +37,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	var extension ARAPrimitveTypesCreator aRAPrimitveTypesCreator
 	@Inject
 	var extension ARATypeCreator araTypeCreator
+	@Inject
+	var extension ARAConstantsCreator araConstantsCreator
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
     @Inject
@@ -96,10 +99,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	def void transform(FTypeCollection fTypeCollection) {
 		val types = fTypeCollection.types.map[dataTypeForReference]
+		val constants = fTypeCollection.constants.map[transform]
 		val accordingArPackage = fTypeCollection.accordingArPackage
 
 		// Add the conversions of all Franca types that are defined in this type collection.
 		accordingArPackage?.elements?.addAll(types)
+		accordingArPackage?.elements?.addAll(constants)
 
 		// Add the according CompuMethods for all Franca enumeration types of this type collection.
 		accordingArPackage?.elements?.addAll(

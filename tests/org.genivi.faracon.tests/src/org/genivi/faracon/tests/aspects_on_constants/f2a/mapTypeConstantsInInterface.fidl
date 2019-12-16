@@ -1,0 +1,38 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct StructA {
+		UInt64 x
+		String y
+	}
+
+	struct StructB {
+		Boolean x
+		ByteBuffer y
+	}
+
+	map SimpleMap {Int16 to Double}
+	const SimpleMap simpleMapTest = [23 => 3.14d, 763 => 52.2225d, -987 => 0.12345d]
+	const SimpleMap emptySimpleMapTest = []
+
+	map ComplexMap {StructA to StructB}
+	const ComplexMap complexMapTest = [{x : 575, y : "fhj"} => {x : true, y : [1, 2, 3]}, {x : 123, y : "abc"} => {x : false, y : [5]}]
+	const ComplexMap emptyComplexMapTest = []
+
+	struct SurroundingStruct {
+		SimpleMap s
+		ComplexMap c
+	}
+	const SurroundingStruct mapsInStructTest = {
+		s : [23 => 3.14d, 763 => 52.2225d, -987 => 0.12345d],
+		c : [{x : 575, y : "fhj"} => {x : true, y : [1, 2, 3]}, {x : 123, y : "abc"} => {x : false, y : [5]}]
+	}
+
+	const SimpleMap [] simpleMapsArrayTest = [
+		[23 => 3.14d, 763 => 52.2225d],
+		[],
+		[-987 => 0.12345d]
+	]
+
+}
