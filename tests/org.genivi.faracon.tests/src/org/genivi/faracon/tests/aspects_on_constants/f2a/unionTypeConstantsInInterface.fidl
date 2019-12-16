@@ -1,0 +1,31 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	union ExampleUnion {
+		UInt64 a
+		String b
+		Double[] c
+	}
+	const ExampleUnion unionTest_a = {a : 8555555468}
+	const ExampleUnion unionTest_b = {b : "vjgcj"}
+	const ExampleUnion unionTest_c = {c : [1.2345d, 0.008d, 197.888d]}
+
+	union NestedUnion {
+		ExampleUnion x
+		ByteBuffer y
+	}
+	const NestedUnion nestedUnionTest_x_a = {
+		x : {a : 111}
+	}
+	const NestedUnion nestedUnionTest_x_b = {
+		x : {b : "aaa"}
+	}
+	const NestedUnion nestedUnionTest_x_c = {
+		x : {c : [1.0d, 0.1d, 0.01d, 0.001d]}
+	}
+	const NestedUnion nestedUnionTest_y = {
+		y : [1, 2, 4, 8, 16, 32, 64, 128]
+	}
+
+}

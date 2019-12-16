@@ -17,17 +17,14 @@ import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FMapType
-import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
-import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
 
-import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
@@ -112,19 +109,12 @@ class ARATypeCreator extends Franca2ARABase {
 			val newElement = it.createImplementationDataTypeElement(fCompoundType)
 			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
 			if (originalCompoundType !== fCompoundType) {
-				newElement.addAnnotation(annotationLabelText, originalCompoundType.getARFullyQualifiedName)
+				newElement.addAnnotation(annotationLabelText, originalCompoundType.ARFullyQualifiedName)
 			}
 			newElement
 		]
 		aCompoundType.subElements.addAll(aAllElements)
 		aCompoundType.ARPackage = fCompoundType.createAccordingArPackage
-	}
-
-	static def String getARFullyQualifiedName(FCompoundType fCompoundType) {
-		val FModel model = fCompoundType.getModel
-		val FTypeCollection typeCollection = fCompoundType.getTypeCollection;
-		(if(!model?.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "") +
-			(if(!typeCollection?.name.nullOrEmpty) "/" + typeCollection?.name else "") + "/" + fCompoundType?.name
 	}
 
 	def dispatch void checkCompoundType(FCompoundType type) {

@@ -1,0 +1,23 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct ExampleStruct {
+		UInt64 a
+		String b
+		Double[] c
+	}
+	const ExampleStruct structTest = {a : 8555555468, b : "vjgcj", c : [1.2345d, 0.008d, 197.888d]}
+
+	struct NestedStruct {
+		ExampleStruct x
+		ByteBuffer y
+		ExampleStruct z
+	}
+	const NestedStruct nestedStructTest = {
+		x : {a : 111, b : "aaa", c : [1.0d, 0.1d, 0.01d, 0.001d]},
+		y : [1, 2, 4, 8, 16, 32, 64, 128],
+		z : {a : 333, b : "ccc", c : [1234.5789d]}
+	}
+
+}

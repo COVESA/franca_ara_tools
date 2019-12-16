@@ -1,0 +1,24 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	array NamedFloatArray of Float
+	const NamedFloatArray namedFloatArrayTest = [1.2345f, 0.008f, 197.888f]
+	const NamedFloatArray emptyNamedFloatArrayTest = []
+	const Float[] anonymousFloatArrayTest = [0.1f, 0.2f, 0.3f, 0.4f, 0.5f]
+
+	array NamedArrayOfFloatArrays of NamedFloatArray
+	const NamedArrayOfFloatArrays namedArrayOfFloatArraysTest = [[1.1f, 1.2f], [2.1f], [3.1f, 3.2f, 3.3f]]
+	const NamedArrayOfFloatArrays namedArrayOfEmptyFloatArraysTest = [[], [], [], []]
+	const NamedFloatArray[] anonymousArrayOfFloatArraysTest = [[12.34f, 56.78f, 98.76f], [123.456f, 9.99f]]
+
+	struct ArrayElement {
+		UInt64 a
+		String b
+	}
+	array NamedStructArray of ArrayElement
+	const NamedStructArray namedStructArrayTest = [{a : 111, b : "aaa"}, {a : 222, b : "bbb"}]
+	const NamedStructArray emptyNamedStructArrayTest = []
+	const ArrayElement[] anonymousStructArrayTest = [{a : 36, b : "7izv"}, {a : 95, b : ""}, {a : 96, b : "kb"}]
+
+}

@@ -1,0 +1,28 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	const Integer integerTest = 576576
+	const Int8 int8Test = 54
+	const UInt8 uint8Test = 200
+	const Int16 int16Test = -30000
+	const UInt16 uint16Test = 61234
+	const Int32 int32Test = -2000000000
+	const UInt32 uint32Test = 4000000000
+	const Int64 int64Test = -8111222333444555666
+	const UInt64 uint64Test = 16111222333444555666
+	const Boolean booleanTrueTest = true
+	const Boolean booleanFalseTest = false
+	const String stringTest = "string value"
+	const String emptyStringTest = ""
+	const Float floatTest = 1.2345f
+	const Double doubleTest = 3.1415d
+
+	const ByteBuffer byteBufferTest = [11,22,33]
+
+	typedef IndirectInt32 is Int32
+	typedef DoubleIndirectInt32 is IndirectInt32
+	const IndirectInt32 indirectInt32Test = 5423556
+	const DoubleIndirectInt32 doubleIndirectInt32Test = 18839
+
+}
