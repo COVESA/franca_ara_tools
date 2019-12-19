@@ -1,0 +1,26 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	enumeration ExampleEnumeration {
+		X,
+		Y,
+		Z
+	}
+
+	struct ExampleStruct {
+		ExampleEnumeration e
+	}
+
+	const ExampleEnumeration enumerationTest = ExampleEnumeration.X
+
+	const ExampleStruct enumerationInStructTest = {e : ExampleEnumeration.Y}
+
+	const ExampleEnumeration [] enumerationArrayTest = [
+		ExampleEnumeration.Z,
+		ExampleEnumeration.X,
+		ExampleEnumeration.X,
+		ExampleEnumeration.Y
+	]
+
+}

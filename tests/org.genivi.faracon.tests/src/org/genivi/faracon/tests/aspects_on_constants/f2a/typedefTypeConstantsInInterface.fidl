@@ -1,0 +1,57 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	// Typedefs refering to a primitive type.
+
+	typedef UInt8Typedef is UInt8
+	typedef DoubleUInt8Typedef is UInt8Typedef
+	typedef TripleUInt8Typedef is DoubleUInt8Typedef
+
+	const UInt8Typedef uint8TypedefTest = 56
+	const DoubleUInt8Typedef doubleUInt8Typedef = 127
+	const TripleUInt8Typedef tripleUInt8Typedef = 13
+
+	// Typedefs refering to a struct type.
+
+	struct ExampleStruct {
+		UInt8Typedef a
+		DoubleUInt8Typedef b
+		TripleUInt8Typedef[] c
+	}
+	typedef StructTypedef is ExampleStruct
+	typedef DoubleStructTypedef is StructTypedef
+	typedef TripleStructTypedef is DoubleStructTypedef
+
+	const StructTypedef structTypedefTest = {a : 11, b : 22, c : [31, 32, 33]}
+	const DoubleStructTypedef doubleStructTypedefTest = {a : 11, b : 22, c : [31, 32, 33]}
+	const TripleStructTypedef tripleStructTypedefTest = {a : 11, b : 22, c : [31, 32, 33]}
+
+	// Typedefs refering to a nested struct type with typedef based struct type elements.
+
+	struct NestedStruct {
+		StructTypedef x
+		DoubleStructTypedef y
+		TripleStructTypedef z
+	}
+	typedef NestedStructTypedef is NestedStruct
+	typedef DoubleNestedStructTypedef is NestedStructTypedef
+	typedef TripleNestedStructTypedef is DoubleNestedStructTypedef
+
+	const NestedStructTypedef nestedStructTypedefTest = {
+		x : {a : 2, b : 4, c : [8, 16, 32]},
+		y : {a : 3, b : 9, c : [27, 81, 243]},
+		z : {a : 1, b : 2, c : [3, 4, 5]}
+	}
+	const DoubleNestedStructTypedef doubleNestedStructTypedefTest = {
+		x : {a : 2, b : 4, c : [8, 16, 32]},
+		y : {a : 3, b : 9, c : [27, 81, 243]},
+		z : {a : 1, b : 2, c : [3, 4, 5]}
+	}
+	const TripleNestedStructTypedef tripleNestedStructTypedefTest = {
+		x : {a : 2, b : 4, c : [8, 16, 32]},
+		y : {a : 3, b : 9, c : [27, 81, 243]},
+		z : {a : 1, b : 2, c : [3, 4, 5]}
+	}
+
+}

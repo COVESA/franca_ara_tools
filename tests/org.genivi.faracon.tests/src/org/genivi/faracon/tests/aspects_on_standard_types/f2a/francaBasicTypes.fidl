@@ -15,7 +15,7 @@ typeCollection{
 		UInt32 uInt32Test
 		UInt64 uInt64Test
 		UInt8 uint8Test
+		ByteBuffer byteBufferTest
 	}
 	
 }
-

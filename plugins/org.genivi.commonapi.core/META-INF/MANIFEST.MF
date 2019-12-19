@@ -1,0 +1,21 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: GENIVI Common API Core Deployment Specification
+Bundle-SymbolicName: org.genivi.commonapi.core;singleton:=true
+Bundle-Version: 0.9.0.qualifier
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: GENIVI
+Require-Bundle: org.eclipse.core.runtime,
+ com.google.guava,
+ com.google.inject;bundle-version="3.0.0",
+ org.eclipse.xtext,
+ org.eclipse.xtext.xbase.lib,
+ org.franca.core;bundle-version="0.13.0",
+ org.franca.core.dsl;bundle-version="0.13.0",
+ org.franca.deploymodel.dsl;bundle-version="0.13.0",
+ org.apache.commons.lang;bundle-version="2.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: org.genivi.commonapi.core
+Import-Package: org.apache.log4j
+Automatic-Module-Name: org.genivi.commonapi.core

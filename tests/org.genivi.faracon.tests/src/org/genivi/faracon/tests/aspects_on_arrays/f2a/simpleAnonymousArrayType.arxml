@@ -81,7 +81,7 @@
                           <SW-DATA-DEF-PROPS>
                             <SW-DATA-DEF-PROPS-VARIANTS>
                               <SW-DATA-DEF-PROPS-CONDITIONAL>
-                                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt32Vector</IMPLEMENTATION-DATA-TYPE-REF>
+                                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/ByteBufferVector</IMPLEMENTATION-DATA-TYPE-REF>
                               </SW-DATA-DEF-PROPS-CONDITIONAL>
                             </SW-DATA-DEF-PROPS-VARIANTS>
                           </SW-DATA-DEF-PROPS>

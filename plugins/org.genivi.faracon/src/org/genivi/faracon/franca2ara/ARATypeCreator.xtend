@@ -2,6 +2,7 @@ package org.genivi.faracon.franca2ara
 
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
+import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import java.util.Map
@@ -16,19 +17,17 @@ import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FField
 import org.franca.core.franca.FIntegerInterval
 import org.franca.core.franca.FMapType
-import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
-import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
 
-import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
+import static extension org.genivi.faracon.util.FrancaUtil.*
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase {
@@ -37,6 +36,8 @@ class ARATypeCreator extends Franca2ARABase {
 	var extension ARAPrimitveTypesCreator
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
+	@Inject
+	var extension DeploymentDataHelper
 	@Inject
 	var extension AutosarAnnotator
 	@Inject
@@ -49,15 +50,15 @@ class ARATypeCreator extends Franca2ARABase {
 
 	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
 		if (fTypedElement === null || !fTypedElement.isArray) {
-			fTypeRef.createDataTypeReference
+			fTypeRef.createDataTypeReference(fTypedElement.name, fTypedElement.francaNamespaceName)
 		} else {
-			fTypeRef.createAnonymousArrayTypeReference
+			fTypeRef.createAnonymousArrayTypeReference(fTypedElement, fTypedElement.francaNamespaceName)
 		}
 	}
 
-	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef) {
+	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
 		if (fTypeRef.refsPrimitiveType) {
-			getBaseTypeForReference(fTypeRef.predefined)
+			getBaseTypeForReference(fTypeRef.predefined, typedElementName, namespaceName)
 		} else {
 			return getDataTypeForReference(fTypeRef.derived)
 		}
@@ -108,19 +109,12 @@ class ARATypeCreator extends Franca2ARABase {
 			val newElement = it.createImplementationDataTypeElement(fCompoundType)
 			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
 			if (originalCompoundType !== fCompoundType) {
-				newElement.addAnnotation(annotationLabelText, originalCompoundType.getARFullyQualifiedName)
+				newElement.addAnnotation(annotationLabelText, originalCompoundType.ARFullyQualifiedName)
 			}
 			newElement
 		]
 		aCompoundType.subElements.addAll(aAllElements)
 		aCompoundType.ARPackage = fCompoundType.createAccordingArPackage
-	}
-
-	static def String getARFullyQualifiedName(FCompoundType fCompoundType) {
-		val FModel model = fCompoundType.getModel
-		val FTypeCollection typeCollection = fCompoundType.getTypeCollection;
-		(if(!model?.name.nullOrEmpty) "/" + model.name.replace('.', '/') else "") +
-			(if(!typeCollection?.name.nullOrEmpty) "/" + typeCollection?.name else "") + "/" + fCompoundType?.name
 	}
 
 	def dispatch void checkCompoundType(FCompoundType type) {
@@ -157,18 +151,18 @@ class ARATypeCreator extends Franca2ARABase {
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
 		it.shortName = fMapType.name
 		it.category = "ASSOCIATIVE_MAP"
-		it.subElements += createTypeRefImplementationDataTypeElement("keyType", fMapType.keyType)
-		it.subElements += createTypeRefImplementationDataTypeElement("valueType", fMapType.valueType)
+		it.subElements += createTypeRefImplementationDataTypeElement("keyType", fMapType.francaNamespaceName, fMapType.keyType)
+		it.subElements += createTypeRefImplementationDataTypeElement("valueType", fMapType.francaNamespaceName, fMapType.valueType)
 		it.ARPackage = fMapType.createAccordingArPackage
 	}
 
-	def private createTypeRefImplementationDataTypeElement(String elementShortName, FTypeRef referencedType) {
+	def private createTypeRefImplementationDataTypeElement(String elementShortName, String namespaceName, FTypeRef referencedType) {
 		fac.createImplementationDataTypeElement => [
 			shortName = elementShortName
 			category = "TYPE_REFERENCE"
 			it.swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = referencedType.createDataTypeReference as ImplementationDataType
+					implementationDataType = referencedType.createDataTypeReference(elementShortName, namespaceName) as ImplementationDataType
 				]
 			]
 		]
@@ -234,16 +228,30 @@ class ARATypeCreator extends Franca2ARABase {
 		it.swDataDefProps = dataDefProps
 	}
 
+	// Generate AUTOSAR representation of the given array data type.
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FArrayType fArrayType) {
+		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
+		val int arraySize = fArrayType.getArraySize
 		it.shortName = fArrayType.name
-		it.category = "VECTOR"
+		if (isFixedSizedArray) {
+			it.category = "ARRAY"
+		} else {
+			it.category = "VECTOR"
+		}
 		it.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
-			it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+			if (isFixedSizedArray) {
+				it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
+				it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
+					it.mixedText = arraySize.toString
+				]
+			} else {
+				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+			}
 			it.category = "TYPE_REFERENCE"
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = fArrayType.elementType.createDataTypeReference as ImplementationDataType
+					implementationDataType = fArrayType.elementType.createDataTypeReference(fArrayType.name, fArrayType.francaNamespaceName) as ImplementationDataType
 				]
 			]
 		]
@@ -260,7 +268,7 @@ class ARATypeCreator extends Franca2ARABase {
 			it.category = "TYPE_REFERENCE"
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = fTypeDef.actualType.createDataTypeReference as ImplementationDataType
+					implementationDataType = fTypeDef.actualType.createDataTypeReference(fTypeDef.name, fTypeDef.francaNamespaceName) as ImplementationDataType
 				]
 			]
 		]
@@ -282,19 +290,50 @@ class ARATypeCreator extends Franca2ARABase {
 		ARPackage = fType.createAccordingArPackage
 	}
 
-	def private ImplementationDataType createAnonymousArrayTypeReference(FTypeRef fTypeRef) {
-		if (fTypeRef.refsPrimitiveType) {
-			getBaseTypeVectorForReference(fTypeRef.predefined)
-		} else {
-			createArtificialVectorType(fTypeRef.derived)
-		}
+	def createArtificialArrayType(FType fType, int arraySize) {
+		createArtificialArrayType(
+			fType.dataTypeForReference as ImplementationDataType,
+			arraySize,
+			fType.createAccordingArPackage
+		)
 	}
 
-	def private getNameOfReferencedType(FTypeRef fTypeRef) {
+	def create fac.createImplementationDataType createArtificialArrayType(ImplementationDataType aElementType, int arraySize, ARPackage aPackage) {
+		shortName = aElementType.shortName + "Array" + arraySize
+		category = "ARRAY"
+		subElements += fac.createImplementationDataTypeElement => [
+			shortName = "valueType"
+			it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
+			it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
+				it.mixedText = arraySize.toString
+			]
+			it.category = "TYPE_REFERENCE"
+			swDataDefProps = fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					implementationDataType = aElementType
+				]
+			]
+		]
+		ARPackage = aPackage
+	}
+
+	// Create an artificial array or vector type if necessary.
+	def private ImplementationDataType createAnonymousArrayTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement, String namespaceName) {
+		val boolean isFixedSizedArray = fTypedElement.isFixedSizedArray
+		val int arraySize = fTypedElement.getArraySize
 		if (fTypeRef.refsPrimitiveType) {
-			fTypeRef.predefined.getName
+			if (isFixedSizedArray) {
+				val aElementType = getBaseTypeForReference(fTypeRef.predefined, fTypedElement.name, namespaceName)
+				createArtificialArrayType(aElementType, arraySize, getOrCreatePrimitiveTypesAnonymousArraysMainPackage)
+			} else {
+				getBaseTypeVectorForReference(fTypeRef.predefined, fTypedElement.name, namespaceName)
+			}
 		} else {
-			fTypeRef.derived.name
+			if (isFixedSizedArray) {
+				createArtificialArrayType(fTypeRef.derived, arraySize)
+			} else {
+				createArtificialVectorType(fTypeRef.derived)
+			}
 		}
 	}
 

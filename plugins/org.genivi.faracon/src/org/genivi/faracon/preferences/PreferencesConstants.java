@@ -7,14 +7,16 @@ public interface PreferencesConstants
 
 
     // preference keys
-    public static final String P_LICENSE          		= "licenseHeader";
-    public static final String P_OUTPUT_DIRECTORY_PATH	= "outputDirectoryPath";
-	public static final String P_LOGOUTPUT        		= "logOutput";
-	public static final String P_WARNINGS_AS_ERRORS 	= "warningsAsErrors";
-	public static final String P_CONTINUE_ON_ERRORS 	= "continueOnErrors";
-	public static final String P_ENUMPREFIX       		= "enumprefix";
-	public static final String P_USEPROJECTSETTINGS 	= "useProjectSettings";
-    public static final String P_ENABLE_CORE_VALIDATOR 	= "enableCoreValidator";
+    public static final String P_LICENSE                   = "licenseHeader";
+    public static final String P_OUTPUT_DIRECTORY_PATH     = "outputDirectoryPath";
+	public static final String P_LOGOUTPUT                 = "logOutput";
+	public static final String P_WARNINGS_AS_ERRORS        = "warningsAsErrors";
+	public static final String P_CONTINUE_ON_ERRORS        = "continueOnErrors";
+	public static final String P_ENUMPREFIX                = "enumprefix";
+	public static final String P_USEPROJECTSETTINGS        = "useProjectSettings";
+    public static final String P_ENABLE_CORE_VALIDATOR     = "enableCoreValidator";
+    public static final String P_CUSTOM_ARA_STD_TYPES_PATH = "customAraStdTypesPath";
+    public static final String P_CUSTOM_ARA_STD_TYPES_USED = "customAraStdTypesUsed"; 
 
 	// preference values
     public static final String DEFAULT_OUTPUT     = "";

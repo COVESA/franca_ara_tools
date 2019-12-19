@@ -17,7 +17,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 	@Test
 	def void simpleAnonymousArrayType() {
 		transformAndCheckIntegrationTest(testPath,
-			#["simpleAnonymousArrayType"],
+			#["simpleAnonymousArrayType.fidl"],
 			#[testPath + "simpleAnonymousArrayType.arxml"],
 			"simpleAnonymousArrayType")
 	}
@@ -25,7 +25,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 	@Test
 	def void complexAnonymousArrayType() {
 		transformAndCheckIntegrationTest(testPath,
-			#["complexAnonymousArrayType"],
+			#["complexAnonymousArrayType.fidl"],
 			#[testPath + "complexAnonymousArrayType.arxml"],
 			"complexAnonymousArrayType")
 	}
@@ -33,8 +33,8 @@ class IDL1620_Tests extends Franca2ARATestBase {
 	@Test
 	def void anonymousArrayTypesWithImport() {
 		transformAndCheckIntegrationTest(testPath,
-			#["anonymousArrayTypesWithImport",
-			  "commonTypesForAnonymousArrayTypes"],
+			#["anonymousArrayTypesWithImport.fidl",
+			  "commonTypesForAnonymousArrayTypes.fidl"],
 			#[testPath + "anonymousArrayTypesWithImport.arxml",
 			  testPath + "commonTypesForAnonymousArrayTypes.arxml"],
 			"anonymousArrayTypesWithImport")
@@ -43,9 +43,9 @@ class IDL1620_Tests extends Franca2ARATestBase {
 	@Test
 	def void multipleAnonymousArrayTypesUsingTheSameElementType() {
 		transformAndCheckIntegrationTest(testPath,
-			#["anonymousArrayTypesWithImport",
-			  "furtherAnonymousArrayTypeWithImport",
-			  "commonTypesForAnonymousArrayTypes"],
+			#["anonymousArrayTypesWithImport.fidl",
+			  "furtherAnonymousArrayTypeWithImport.fidl",
+			  "commonTypesForAnonymousArrayTypes.fidl"],
 			#[testPath + "anonymousArrayTypesWithImport.arxml",
 			  testPath + "furtherAnonymousArrayTypeWithImport.arxml",
 			  testPath + "commonTypesForAnonymousArrayTypes.arxml"],
@@ -55,13 +55,59 @@ class IDL1620_Tests extends Franca2ARATestBase {
 	@Test
 	def void anonymousArrayTypesWithElementsTypesFromDifferentNamespaces() {
 		transformAndCheckIntegrationTest(testPath,
-			#["anonymousArrayTypesWithElementsTypesFromDifferentNamespaces",
-			  "commonTypesForNamedArrayTypes",
-			  "commonTypes2ForNamedArrayTypes"],
+			#["anonymousArrayTypesWithElementsTypesFromDifferentNamespaces.fidl",
+			  "commonTypesForNamedArrayTypes.fidl",
+			  "commonTypes2ForNamedArrayTypes.fidl"],
 			#[testPath + "anonymousArrayTypesWithElementsTypesFromDifferentNamespaces.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml",
 			  testPath + "commonTypes2ForNamedArrayTypes.arxml"],
 			"anonymousArrayTypesWithElementsTypesFromDifferentNamespaces")
+	}
+
+	@Test
+	def void simpleAnonymousFixedSizedArrayTypeInInterface() {
+		transformAndCheckIntegrationTest(testPath,
+			#["simpleAnonymousFixedSizedArrayTypeInInterface.fidl",
+			  "simpleAnonymousFixedSizedArrayTypeInInterface.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "simpleAnonymousFixedSizedArrayTypeInInterface.arxml",
+			  testPath + "stdtypes_arrays.arxml"],
+			"simpleAnonymousFixedSizedArrayTypeInInterface")
+	}
+
+	@Test
+	def void simpleAnonymousFixedSizedArrayTypeInTypeCollection() {
+		transformAndCheckIntegrationTest(testPath,
+			#["simpleAnonymousFixedSizedArrayTypeInTypeCollection.fidl",
+			  "simpleAnonymousFixedSizedArrayTypeInTypeCollection.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "simpleAnonymousFixedSizedArrayTypeInTypeCollection.arxml",
+			  testPath + "stdtypes_arrays.arxml"],
+			"simpleAnonymousFixedSizedArrayTypeInTypeCollection")
+	}
+
+	@Test
+	def void complexAnonymousFixedSizedArrayTypeInInterface() {
+		transformAndCheckIntegrationTest(testPath,
+			#["complexAnonymousFixedSizedArrayTypeInInterface.fidl",
+			  "complexAnonymousFixedSizedArrayTypeInInterface.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "complexAnonymousFixedSizedArrayTypeInInterface.arxml"],
+			"complexAnonymousFixedSizedArrayTypeInInterface")
+	}
+
+	@Test
+	def void complexAnonymousFixedSizedArrayTypeInTypeCollection() {
+		transformAndCheckIntegrationTest(testPath,
+			#["complexAnonymousFixedSizedArrayTypeInTypeCollection.fidl",
+			  "complexAnonymousFixedSizedArrayTypeInTypeCollection.fdepl",
+			  "CommonAPI_deployment_spec.fdepl",
+			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			#[testPath + "complexAnonymousFixedSizedArrayTypeInTypeCollection.arxml"],
+			"complexAnonymousFixedSizedArrayTypeInTypeCollection")
 	}
 
 }

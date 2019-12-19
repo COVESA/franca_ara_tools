@@ -1,0 +1,236 @@
+/*
+ * Copyright (C) 2015 Bayerische Motoren Werke AG (BMW).
+ *
+ * This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/.
+ * 
+ * Version 1.0
+ *
+ * This is the Franca deployment specification to be used for CommonAPI C++
+ * SOME/IP. It contains all available configuration parameters for the
+ * SOME/IP protocol and refers to the component model deployment concept.
+ */
+
+import "platform:/plugin/org.genivi.commonapi.core/deployment/CommonAPI_deployment_spec.fdepl"
+
+specification org.genivi.commonapi.someip.deployment extends org.genivi.commonapi.core.deployment {
+
+    for instances {
+        SomeIpInstanceID:            Integer                         ;
+
+        SomeIpUnicastAddress:        String                          (default: "");
+        SomeIpReliableUnicastPort:   Integer                         (default: 0);
+        SomeIpUnreliableUnicastPort: Integer                         (default: 0);
+
+        /*
+         * The following three arrays must be used together, meaning the configuration of
+         * multicast address and port for an eventgroup is done by setting
+         *    SomeIpMulticastEventGroup[X] = <eventgroup identifier>
+         *    SomeIpMulticastAddresses[X] = <multicast address for SomeIpMulticastEventGroups[X]>
+         *    SomeIpMulticastPorts[X] = <multicast port for SomeIpMulticastEventGroups[X]>
+         */
+        SomeIpMulticastEventGroups:  Integer[]                       (optional);
+        SomeIpMulticastAddresses:    String[]                        (optional);
+        SomeIpMulticastPorts:        Integer[]                       (optional);
+
+        /*
+         * Define how to retrieve an error message and map it to Franca error parameters
+         */
+        SomeIpDefaultErrorCoding:    {Header}                        (default: Header);
+    }
+
+    for interfaces {
+        SomeIpServiceID:             Integer                         ;
+        SomeIpEventGroups:           Integer[]                       (optional);
+    }
+
+    for attributes {
+        SomeIpGetterID:              Integer                         (optional);
+        SomeIpGetterReliable:        Boolean                         (default: false);
+        SomeIpGetterPriority:        Integer                         (optional);
+
+        SomeIpSetterID:              Integer                         (optional);
+        SomeIpSetterReliable:        Boolean                         (default: false);
+        SomeIpSetterPriority:        Integer                         (optional);
+
+        SomeIpNotifierID:            Integer                         (optional);
+        SomeIpNotifierReliable:      Boolean                         (default: false);
+        SomeIpNotifierPriority:      Integer                         (optional);
+        SomeIpNotifierMulticast:     Boolean                         (default: false);
+
+        /*
+         * The event group is necessary if the attribute is notifiable.
+         */
+        SomeIpEventGroups:           Integer[]                       (optional);
+
+        SomeIpAttributeEndianess:    {le, be}                        (default: be);
+        SomeIpAttributeCRCWidth:     {zero, one, four}               (default: zero);
+    }
+
+    for methods {
+        SomeIpMethodID:              Integer                         ;
+        SomeIpReliable:              Boolean                         (default: false);
+        SomeIpPriority:              Integer                         (optional);
+        
+        /*
+         * define how to retrieve an error message and map it to Franca error parameters
+         */
+        SomeIpErrorCoding:           {Header}                        (default: Header);
+
+        SomeIpMethodEndianess:       {le, be}                        (default: be);
+        SomeIpMethodCRCWidth:        {zero, one, four}               (default: zero);
+    }
+
+    for broadcasts {
+        SomeIpEventID:               Integer                         ;
+        SomeIpReliable:              Boolean                         (default: false);
+        SomeIpPriority:              Integer                         (optional);
+        SomeIpMulticast:             Boolean                         (default: false);
+        SomeIpEventGroups:           Integer[]                       (optional);
+
+        SomeIpBroadcastEndianess:    {le, be}                        (default: be);
+        SomeIpBroadcastCRCWidth:     {zero, one, four}               (default: zero);
+    }
+
+    for arrays {
+        SomeIpArrayMinLength:        Integer                         (default: 0);
+        SomeIpArrayMaxLength:        Integer                         (default: 0);
+        /* 
+         * If SomeIpArrayLengthWidth == 0, the array has SomeIpArrayMaxLength elements.
+         * If SomeIpArrayLengthWidth == 1, 2 or 4 bytes, SomeIpArrayMinLength and
+         * SomeIpArrayMaxLength are ignored.
+         */
+        SomeIpArrayLengthWidth:      Integer                         (default: 4);
+    }
+
+    for unions {
+        /*
+         * The length field of the union contains the size of the biggest element
+         * in the union in bytes;
+         * The SomeIpUnionLengthWidth determines the size of the length field;
+         * allowed values are 0, 1, 2, 4.
+         * 0 means that all types in the union have the same size.
+         */
+        SomeIpUnionLengthWidth:      Integer                         (optional);
+        /*
+         * 2^SomeIpUnionTypeWidth*8 different Types in the union.
+         */
+        SomeIpUnionTypeWidth:        Integer                         (optional);
+        /*
+         * True means length field before type field, false means length field
+         * after type field.
+         */
+        SomeIpUnionDefaultOrder:     Boolean                         (optional);
+        /*
+         * If SomeIpUnionLengthWidth == 0, SomeIpUnionMaxLength must be set to the 
+         * size of the biggest contained type.
+         */
+        SomeIpUnionMaxLength:        Integer                         (optional);
+    }
+
+    for structs {
+        /*
+         * The length field of the struct contains the size of the struct in bytes;
+         * The SomeIpStructLengthWidth determines the size of the length field;
+         * allowed values are 0, 1, 2, 4. 0 means that there is no length field.
+         */
+        SomeIpStructLengthWidth:     Integer                         (default: 0);
+    }
+
+    for enumerations {
+        // Bytes of base type
+        SomeIpEnumWidth:             Integer                         (default: 4);
+        // Bits to serialize/deserialize
+        SomeIpEnumBitWidth:          Integer                         (optional);
+        // Invalid value
+        SomeIpEnumInvalidValue:		 Integer						 (optional);
+    }
+
+    for strings {
+        SomeIpStringLength:          Integer                         (default: 0);
+        /*
+         * If LengthWidth == 0, the length of the string has StringLength bytes.
+         * If LengthWidth == 1, 2 or 4 bytes, SomeIpStringLength is ignored.
+         */
+        SomeIpStringLengthWidth:     Integer                         (default: 4);
+        /*
+         * utf16le LittleEndian, utf16be BigEndian.
+         */
+        SomeIpStringEncoding:        {utf8, utf16le, utf16be}        (default: utf8);
+    }
+
+    for byte_buffers {
+        SomeIpByteBufferMaxLength:   Integer                        (default: 0);    // 0 means unlimited length
+        SomeIpByteBufferMinLength:   Integer                        (default: 0);
+    }
+
+    /*
+     * From here workaround for missing Franca deployment features.
+     */
+    for attributes {
+        SomeIpAttrArrayMinLength:    Integer                         (optional);
+        SomeIpAttrArrayMaxLength:    Integer                         (optional);
+        SomeIpAttrArrayLengthWidth:  Integer                         (optional);
+        SomeIpAttrMapMinLength:      Integer                         (optional);
+        SomeIpAttrMapMaxLength:      Integer                         (optional);
+        SomeIpAttrMapLengthWidth:    Integer                         (optional);
+        SomeIpAttrUnionLengthWidth:  Integer                         (optional);
+        SomeIpAttrUnionTypeWidth:    Integer                         (optional);
+        SomeIpAttrUnionDefaultOrder: Boolean                         (optional);
+        SomeIpAttrUnionMaxLength:    Integer                         (optional);
+        SomeIpAttrStructLengthWidth: Integer                         (optional);
+        SomeIpAttrEnumWidth:         Integer                         (optional);
+        SomeIpAttrEnumBitWidth:      Integer                         (optional);
+        SomeIpAttrIntegerBitWidth:   Integer                         (optional);
+    }
+
+    for arguments {
+        SomeIpArgArrayMinLength:      Integer                         (optional);
+        SomeIpArgArrayMaxLength:      Integer                         (optional);
+        SomeIpArgArrayLengthWidth:    Integer                         (optional);
+        SomeIpArgMapMinLength:        Integer                         (optional);
+        SomeIpArgMapMaxLength:        Integer                         (optional);
+        SomeIpArgMapLengthWidth:      Integer                         (optional);
+        SomeIpArgUnionLengthWidth:    Integer                         (optional);
+        SomeIpArgUnionTypeWidth:      Integer                         (optional);
+        SomeIpArgUnionDefaultOrder:   Boolean                         (optional);
+        SomeIpArgUnionMaxLength:      Integer                         (optional);
+        SomeIpArgStructLengthWidth:   Integer                         (optional);
+        SomeIpArgEnumWidth:           Integer                         (optional);
+        SomeIpArgEnumBitWidth:        Integer                         (optional);
+        SomeIpArgEnumInvalidValue:    Integer                         (optional);
+        SomeIpArgIntegerBitWidth:     Integer                         (optional);
+        SomeIpArgIntegerInvalidValue: Integer                         (optional);
+    }
+
+    for struct_fields {
+        SomeIpStructArrayMinLength:      Integer                       (optional);
+        SomeIpStructArrayMaxLength:      Integer                       (optional);
+        SomeIpStructArrayLengthWidth:    Integer                       (optional);
+        SomeIpStructUnionLengthWidth:    Integer                       (optional);
+        SomeIpStructUnionTypeWidth:      Integer                       (optional);
+        SomeIpStructUnionDefaultOrder:   Boolean                       (optional);
+        SomeIpStructUnionMaxLength:      Integer                       (optional);
+        SomeIpStructStructLengthWidth:   Integer                       (optional);
+        SomeIpStructEnumWidth:           Integer                       (optional);
+        SomeIpStructEnumBitWidth:        Integer                       (optional);
+        SomeIpStructEnumInvalidValue:    Integer                       (optional);
+        SomeIpStructIntegerBitWidth:     Integer                       (optional);
+        SomeIpStructIntegerInvalidValue: Integer                       (optional);
+    }
+
+    for union_fields {
+        SomeIpUnionArrayMinLength:    Integer                        (optional);
+        SomeIpUnionArrayMaxLength:    Integer                        (optional);
+        SomeIpUnionArrayLengthWidth:  Integer                        (optional);
+        SomeIpUnionUnionLengthWidth:  Integer                        (optional);
+        SomeIpUnionUnionTypeWidth:    Integer                        (optional);
+        SomeIpUnionUnionDefaultOrder: Boolean                        (optional);
+        SomeIpUnionUnionMaxLength:    Integer                        (optional);
+        SomeIpUnionStructLengthWidth: Integer                        (optional);
+        SomeIpUnionEnumWidth:         Integer                        (optional);
+        SomeIpUnionEnumBitWidth:      Integer                        (optional);
+        SomeIpUnionIntegerBitWidth:   Integer                        (optional);
+    }
+}

@@ -6,6 +6,8 @@ import org.franca.core.dsl.tests.util.XtextRunner2_Franca
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.ARAResourceSet
+import org.genivi.faracon.preferences.Preferences
+import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.util.ARA2FrancaTestBase
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
@@ -14,7 +16,7 @@ import org.junit.runner.RunWith
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
-
+import static extension org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
 /**
  * Covers tests for standard types.
  * It covers the following IDLs:
@@ -28,20 +30,52 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 	/**Transforms all types in the stdtypes.arxml to franca and ensures that no error occurs */
 	@Test
 	def void testUnitAutosarStdTypesMethodApErrors() {
-		// given 
-		val autosarStdTypes = stdImplementationTypes
+		testStdTypes("stdtypes.arxml")
+	}
+	
+	@Test
+	def void testUnitCustomizedAutosarStdTypes(){
+		useCustomizedAutosarStdTypes
+		testStdTypes("customizedAutosarStdTypes.arxml")
+	}
+	
+	@Test
+	def void testFrancaBasicTypesInStruct() {
+		transformAndCheck(testPath + "francaBasicTypes.arxml", testPath + "francaBasicTypes_a1.b2.c3.fidl")
+	}
+	
+	@Test
+	def void testCustomizedStdTypesInStruct() {
+		useCustomizedAutosarStdTypes
+		transformAndCheck(testPath + "francaBasicTypesCustomized.arxml", testPath + "francaBasicTypes_a1.b2.c3.fidl")
+	}
+	
+	@Test
+	def void testFrancaVectorBasicTypesInStruct() {
+		transformAndCheck(testPath + "francaBasicVectorTypes.arxml", testPath + "francaBasicVectorTypes_a1.b2.c3.fidl")
+	}
+	
+	@Test
+	def void testCustomizedVectorStdTypesInStruct() {
+		useCustomizedAutosarStdTypes
+		transformAndCheck(testPath + "francaBasicVectorTypesCustomized.arxml", testPath + "francaBasicVectorTypes_a1.b2.c3.fidl")
+	}
+	
+	private def void testStdTypes(String stdTypesResourceName) {
+		// given
+		val autosarStdTypes = getStdImplementationTypes(stdTypesResourceName)
 		val autosarStdTypesContainment = autosarStdTypes.map [ stdType |
 			createArgumentDataPrototype => [
-				it.shortName = "TestArgument"
+				it.shortName = stdType.shortName.toFirstLower + "TestArgument"
 				it.type = stdType
 			]
 		]
-
+		
 		// when 
 		val francaPrimitivesUsages = autosarStdTypesContainment.map [
 			it.transform
 		].toList
-
+		
 		// then 
 		assertEquals("Not all primitive types have been transformed correctly", francaPrimitivesUsages.size,
 			autosarStdTypes.size)
@@ -51,9 +85,9 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 		]
 		autosarStdTypes.forEach [
 			val autosarName = it.shortName
-			if (autosarName == "ByteVectorType" || autosarName == "ByteArray") {
+			if (autosarName == "ByteVectorType" || autosarName == "ByteBuffer" || autosarName == "ByteArray") {
 				assertTrue("No franca type created for autosar type with name " + autosarName,
-					francaPrimitivesMap.containsKey(true + FBasicTypeId.UINT8.getName))
+					francaPrimitivesMap.containsKey(false + FBasicTypeId.BYTE_BUFFER.getName))
 			} else {
 				assertTrue("No franca type created for autosar type with name " + autosarName + " created types are " +
 					francaPrimitivesMap.values, francaPrimitivesMap.containsKey(false + autosarName))
@@ -73,11 +107,11 @@ class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
 		}
 	}
 
-	def private getStdImplementationTypes() {
+	def private getStdImplementationTypes(String stdTypesResourceName) {
 		val araResourceSet = new ARAResourceSet
 		val stdTypesResource = araResourceSet.resources.get(0)
 		assertTrue("Assertion error: expected to find std-Types resource, but found resource: " + stdTypesResource.URI,
-			stdTypesResource.URI.toString.contains("stdtypes.arxml"))
+			stdTypesResource.URI.toString.contains(stdTypesResourceName))
 		val stdImplementationDataTypes = stdTypesResource.contents.get(0).eAllContents.filter(ImplementationDataType)
 		assertFalse("Assertion error: No stdTypes found ", stdImplementationDataTypes.empty)
 		return stdImplementationDataTypes.toList

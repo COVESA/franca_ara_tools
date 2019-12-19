@@ -1,0 +1,15 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+	struct TestStruct {
+		FixedSizedArray fixedSizedArray
+		ExplicitlyDynamicallySizedArray explicitlyDynamicallySizedArray
+		ImplicitlyDynamicallySizedArray implicitlyDynamicallySizedArray
+	}
+	
+	array FixedSizedArray of UInt8
+
+	array ExplicitlyDynamicallySizedArray of UInt8
+
+	array ImplicitlyDynamicallySizedArray of UInt8
+}

@@ -39,14 +39,11 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	@After
 	def void afterTest() {
 		ara2FrancaTransformation.logger.enableContinueOnErrors(false)
+		Preferences.instance.resetPreferences
 	}
 
 	def void transformAndCheck(String sourceFilePath, String expectedFilePath) {
 		transformAndCheck(sourceFilePath, Collections.singletonList(expectedFilePath))
-	}
-
-	def void transformAndCheck(String sourceFilePath, String fileBasename, FModel expectedModel) {
-		transformAndCheck(loadARAModel(sourceFilePath + fileBasename + ".arxml"), expectedModel)
 	}
 
 	def void transformAndCheck(AUTOSAR arModel, String expectedFilePath, String expectedFileName) {
@@ -67,6 +64,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 		].toList
 		val araModelContainer = araConnector.loadModel(new ARAResourceSet, sourceFilePath) as ARAModelContainer
 		val arModel = araModelContainer.model
+		ara2FrancaConverter.registerSingleInputFilePath(sourceFilePath)
 		transformAndCheck(arModel, expectedFrancaModels)
 	}
 
@@ -76,6 +74,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	}
 
 	protected def List<FModel> transformToFranca(String arFilePath) {
+		ara2FrancaConverter.registerSingleInputFilePath(arFilePath)
 		transformToFranca(loadARAModel(arFilePath))
 	}
 
@@ -111,7 +110,7 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 			loader.loadModel(it);
 		].toList
 		val actualFrancaModelsPath = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
-		val actualFrancaFilePaths = FilePathsHelper.findFiles(#[actualFrancaModelsPath], "fidl")
+		val actualFrancaFilePaths = findFiles(actualFrancaModelsPath, "fidl")
 		val actualFrancaModels = actualFrancaFilePaths.map[
 			loader.loadModel(it)
 		].toList

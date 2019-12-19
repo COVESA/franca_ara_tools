@@ -18,7 +18,7 @@ class IDL1125_Tests extends Franca2ARATestBase {
 	@Test
 	def void testMultipleFilesFromFrancaWithImport() {
 		transformAndCheckIntegrationTest(correspondingAutosar2FrancaTestPath,
-			#["fileWithImport_a1.b2.c3", "fileWithImport_a1.b2.c3.d4"],
+			#["fileWithImport_a1.b2.c3.fidl", "fileWithImport_a1.b2.c3.d4.fidl"],
 			#[testPath + "fileWithImport_a1.b2.c3.arxml", testPath + "fileWithImport_a1.b2.c3.d4.arxml"],
 			"testMultipleFilesFromFrancaWithImport")
 	}
@@ -26,7 +26,7 @@ class IDL1125_Tests extends Franca2ARATestBase {
 	@Test
 	def void testMultipleFrancaInputFilesWithMultipleInterfacesAndTypesWithImport() {
 		transformAndCheckIntegrationTest(correspondingAutosar2FrancaTestPath,
-			#["fileWithMultiImport_a1.b2.c3", "fileWithMultiImport_a1.b2.c3.d4", "fileWithMultiImport_a1.b2.c3.d4.e5"],
+			#["fileWithMultiImport_a1.b2.c3.fidl", "fileWithMultiImport_a1.b2.c3.d4.fidl", "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"],
 			#[testPath + "fileWithMultiImport_a1.b2.c3.arxml", testPath + "fileWithMultiImport_a1.b2.c3.d4.arxml",
 				testPath + "fileWithMultiImport_a1.b2.c3.d4.e5.arxml"],
 			"testMultipleFrancaInputFilesWithMultipleInterfacesAndTypesWithImport")
@@ -35,7 +35,7 @@ class IDL1125_Tests extends Franca2ARATestBase {
 	@Test
 	def void testIncompleteFrancaInputModels(){
 		transformAndCheckIntegrationTest(correspondingAutosar2FrancaTestPath,
-			#["fileWithImport_a1.b2.c3"],
+			#["fileWithImport_a1.b2.c3.fidl"],
 			#[testPath + "fileWithImport_a1.b2.c3.arxml"],
 			"testIncompleteFrancaInputModels")
 	}

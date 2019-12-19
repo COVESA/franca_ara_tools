@@ -2,8 +2,8 @@ package org.genivi.faracon.cli;
 
 import org.eclipse.xtext.service.CompoundModule;
 import org.franca.core.dsl.FrancaIDLRuntimeModule;
+import org.franca.deploymodel.dsl.FDeployRuntimeModule;
 import org.genivi.faracon.ARAConnectorModule;
-import org.genivi.faracon.logging.AbstractLogger;
 import org.genivi.faracon.logging.ILogger;
 
 import com.google.inject.Binder;

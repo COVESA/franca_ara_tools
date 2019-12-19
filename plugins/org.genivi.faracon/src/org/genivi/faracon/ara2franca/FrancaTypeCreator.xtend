@@ -3,6 +3,7 @@ package org.genivi.faracon.ara2franca
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import java.util.Optional
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -14,6 +15,8 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
 import org.genivi.faracon.ARAResourceSet
+
+import static org.genivi.faracon.util.AutosarUtil.*
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {
@@ -89,7 +92,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 				if (araStructElementType !== null) {
 					val field = fac.createFField => [
 						name = subElement.shortName
-						type = createFTypeRefAndImport(araStructElementType, it)
+						type = createFTypeRefAndImport(araStructElementType, subElement, it)
 					]
 					fCompoundType.elements.add(field)
 				} else {
@@ -111,7 +114,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		val araKeyType = keySubElement.getTypeRefTargetType
 		if (araKeyType !== null) {
-			keyType = createFTypeRefAndImport(araKeyType, null)
+			keyType = createFTypeRefAndImport(araKeyType, src, null)
 		} else {
 			logger.logError(
 				"Cannot create mapping key type for " + ImplementationDataType.simpleName + " " + src.shortName)
@@ -123,7 +126,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		}
 		val araValueType = valueSubElement.getTypeRefTargetType
 		if (araValueType !== null) {
-			valueType = createFTypeRefAndImport(araValueType, null)
+			valueType = createFTypeRefAndImport(araValueType, src, null)
 		} else {
 			logger.logError(
 				"Cannot create mapping value type for " + ImplementationDataType.simpleName + " " + src.shortName)
@@ -147,7 +150,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 		val araElementType = firstSubElement.typeRefTargetType
 
 		if (araElementType !== null) {
-			elementType = createFTypeRefAndImport(araElementType, null)
+			elementType = createFTypeRefAndImport(araElementType, src, null)
 		} else {
 			getLogger.
 				logError('''No Franca array created for Autosar type "«src.shortName»", because no property with value type has been defined."''')
@@ -164,7 +167,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 		val araElementType = actualTypeSubElement.typeRefTargetType
 		if (araElementType !== null) {
-			actualType = araElementType.createFTypeRefAndImport(null)
+			actualType = araElementType.createFTypeRefAndImport(src, null)
 		} else {
 			logger.
 				logError('''No Franca target type for typedef "«name»" could be created, because the first autosar subelement of «ImplementationDataType.simpleName
@@ -209,79 +212,64 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 	// Important: This cannot be realized as a Xtend create function because we need
 	// to create multiple type ref objects that point to the same type object!
-	def createFTypeRefAndImport(ImplementationDataType src, FTypedElement parentTypedElement) {
+	def createFTypeRefAndImport(ImplementationDataType src, Identifiable aParentTypedElement, FTypedElement fParentTypedElement) {
 		val typeRef = fac.createFTypeRef
-		if (isPrimitiveType(src)) {
-			if (src.isStdType) {
-				typeRef.setPrimitveTypeBasedOnName(src, parentTypedElement)
-			} else {
-				val nonVectorName = src.shortName.replace("Vector", "")
-				typeRef.predefined = FBasicTypeId.getByName(nonVectorName)
-				if (parentTypedElement !== null) {
-					parentTypedElement.array = true
-				}
+		if (src?.isStdType) {
+			typeRef.setPrimitveTypeBasedOnName(src.shortName, false, aParentTypedElement, fParentTypedElement)
+		} else if (src?.isStdVectorType) {
+			val nonVectorName = src.shortName.substring(0, src.shortName.length - "Vector".length)
+			typeRef.setPrimitveTypeBasedOnName(nonVectorName, true, aParentTypedElement, fParentTypedElement)
+			if (fParentTypedElement !== null) {
+				fParentTypedElement.array = true
 			}
 		} else {
-			src.createImportIfNecessary()
+			src?.createImportIfNecessary()
 			typeRef.derived = transform(src)
 		}
 		typeRef
 	}
 
-	def void setPrimitveTypeBasedOnName(FTypeRef fTypeRef, ImplementationDataType src,
-		FTypedElement parentTypedElement) {
-		val autosarShortName = src.shortName
-		if (autosarShortName == "ByteArray" || autosarShortName == "ByteVectorType") {
-			fTypeRef.predefined = FBasicTypeId.UINT8
-			if (parentTypedElement === null) {
-				logger.
-					logError('''The simple type "«autosarShortName»" cannot be used within because no Franca Typed parent has been created for the element "«src»"''')
-			} else {
-				parentTypedElement.array = true
-			}
+	def void setPrimitveTypeBasedOnName(FTypeRef fTypeRef, String primitiveTypeName, boolean isArray,
+		Identifiable aParentTypedElement, FTypedElement fParentTypedElement) {
+		val autosarShortName = primitiveTypeName
+		if (autosarShortName == "ByteArray" || autosarShortName == "ByteBuffer" || autosarShortName == "ByteVectorType") {
+			fTypeRef.predefined = FBasicTypeId.BYTE_BUFFER
+			val typedElementName = if (fParentTypedElement !== null && !fParentTypedElement.name.nullOrEmpty) fParentTypedElement.name else ""
+			logger.logWarning('''The CommonAPI and AUTOSAR serialization formats of the Franca «if (isArray) "ByteBuffers in the array" else "ByteBuffer"» '«typedElementName»' in '«getARANamespaceName(aParentTypedElement)»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
 		} else {
-			fTypeRef.predefined = FBasicTypeId.getByName(src.shortName)
+			fTypeRef.predefined = FBasicTypeId.getByName(primitiveTypeName)
 		}
 	}
 
 	/**
 	 * A type is a primitive type if it is contained in the standard type definitions model.
 	 */
-	def isPrimitiveType(ImplementationDataType src) {
-		if (src.araResourceSet.present) {
-			return src.isStdTypeOrStdVector
-		}
-		// This is a fall back way to identify prmitive types if the implementation type has no resource 
-		val isByteArray = src?.shortName == "ByteArray" && src?.category == "VECTOR"
-		val isByteVectorType = src?.shortName == "ByteVectorType" && src?.category == "VECTOR"
-		return isByteVectorType || isByteArray || src?.category == "VALUE" || src?.category == "STRING"
-	}
-
-	def private isStdTypeOrStdVector(ImplementationDataType src) {
-		return src.isStdType || src.isStdVectorType
-
-	}
-
 	def private isStdType(ImplementationDataType src) {
 		val araResourceSet = src.araResourceSet
-		if (!araResourceSet.present) {
-			return false
+		if (araResourceSet.present) {
+			val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
+			val stdResource = araStdTypeModel?.standardTypeDefinitionsModel?.eResource
+			val srcResource = src.eResource
+			return srcResource !== null && srcResource == stdResource
+		} else {
+			// This is a fall back way to identify prmitive types if the implementation type has no resource 
+			val isByteArray = src?.shortName == "ByteArray" && src?.category == "VECTOR"
+			val isByteBuffer = src?.shortName == "ByteBuffer" && src?.category == "VECTOR"
+			val isByteVectorType = src?.shortName == "ByteVectorType" && src?.category == "VECTOR"
+			return isByteVectorType || isByteBuffer || isByteArray || src?.category == "VALUE" || src?.category == "STRING"
 		}
-		val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
-		val stdResource = araStdTypeModel?.standardTypeDefinitionsModel?.eResource
-		val srcResource = src.eResource
-		return srcResource !== null && srcResource == stdResource
 	}
 
 	def private isStdVectorType(ImplementationDataType src) {
 		val araResourceSet = src.araResourceSet
-		if (!araResourceSet.present) {
-			return false
+		if (araResourceSet.present) {
+			val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
+			val stdVectorResource = araStdTypeModel?.standardVectorTypeDefinitionsModel?.eResource
+			val srcResource = src.eResource
+			return srcResource !== null && srcResource == stdVectorResource
+		} else {
+			return src?.shortName.length > "Vector".length && src?.shortName.substring(src?.shortName.length - "Vector".length) == "Vector" && src?.category == "VECTOR"
 		}
-		val araStdTypeModel = araResourceSet.get.araStandardTypeDefinitionsModel
-		val stdVectorResource = araStdTypeModel?.standardVectorTypeDefinitionsModel?.eResource
-		val srcResource = src.eResource
-		return srcResource !== null && srcResource == stdVectorResource
 	}
 
 	def private Optional<ARAResourceSet> getAraResourceSet(ImplementationDataType src) {

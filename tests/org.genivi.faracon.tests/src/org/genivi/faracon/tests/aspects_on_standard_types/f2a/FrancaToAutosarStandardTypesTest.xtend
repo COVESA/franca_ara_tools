@@ -1,20 +1,21 @@
 package org.genivi.faracon.tests.aspects_on_standard_types.f2a
 
-import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import javax.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.franca2ara.ARATypeCreator
-import org.genivi.faracon.logging.AbstractLogger
+import org.genivi.faracon.preferences.Preferences
+import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
+import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
-import org.junit.After
+import static extension org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
 
 /**
  * Covers tests for standard types.
@@ -32,13 +33,14 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 	@After
 	def void afterTest() {
 		logger.enableContinueOnErrors(false)
+		Preferences.instance.resetPreferences
 	}
 
 	@Test
 	def void testFrancaBaseTypes() {
 		// given: all primitve types except byte buffer
 		val francaBasicTypeUsages = FBasicTypeId.VALUES.filter [
-			it !== FBasicTypeId.UNDEFINED && it != FBasicTypeId.BYTE_BUFFER
+			it !== FBasicTypeId.UNDEFINED
 		].map [ basicType |
 			createFAttribute => [
 				it.type = createFTypeRef => [
@@ -54,30 +56,14 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 
 		// then
 		val francaTypesMap = francaBasicTypeUsages.map[it.type].toMap[it.predefined.getName]
-		assertEquals("Differnt number for franca and ara types found", francaTypesMap.size, araTypes.size)
+		assertEquals("Different number for Franca and ARA types found", francaTypesMap.size, araTypes.size)
 		araTypes.forEach [
-			assertTrue("No franca type found for Autosar type " + shortName, francaTypesMap.containsKey(shortName))
+			assertTrue("No Franca type found for AUTOSAR type " + shortName, francaTypesMap.containsKey(shortName))
 			val francaType = francaTypesMap.get(shortName)
-			assertEquals("Franca type and Autosar type need to have equal name", francaType.predefined.getName,
+			assertEquals("Franca type and AUTOSAR type need to have equal name", francaType.predefined.getName,
 				shortName)
 
 		]
-	}
-
-	@Test(expected=AbstractLogger.StopOnErrorException)
-	def void testFrancaByteBuffer() {
-		testFrancaByteBufferTransformation()
-	// then: expect the error
-	}
-
-	@Test
-	def void testFrancaByteBufferContinueOnError() {
-		logger.enableContinueOnErrors(true)
-
-		val araType = testFrancaByteBufferTransformation
-
-		// then: expect vector type usage
-		assertEquals("ByteVectorType was expected for the Franca Type ByteBuffer", "ByteVectorType", araType.shortName)
 	}
 
 	@Test
@@ -85,15 +71,34 @@ class FrancaToAutosarStandardTypesTest extends Franca2ARATestBase {
 		transformAndCheck(testPath, "francaBasicTypes", testPath + "francaBasicTypes.arxml")
 	}
 
-	private def AutosarDataType testFrancaByteBufferTransformation() {
-		val francaByteBufferUsage = createFAttribute => [
-			it.type = createFTypeRef => [
-				it.predefined = FBasicTypeId.BYTE_BUFFER
-			]
-		]
 
-		// when 
-		return francaByteBufferUsage.type.createDataTypeReference(francaByteBufferUsage)
+	@Test
+	def void testCustomizedFrancaBasicTypesInStruct() {
+		useCustomizedAutosarStdTypes
+		transformAndCheck(testPath, "francaBasicTypes", testPath + "francaBasicTypesCustomized.arxml")
+	}
+	
+	@Test
+	def void testFrancaBasicVectorTypesInStruct() {
+		transformAndCheck(testPath, "francaBasicVectorTypes", testPath + "francaBasicVectorTypes.arxml")
+	}
+
+	@Test
+	def void testCustomizedFrancaVectorBasicTypesInStruct() {
+		useCustomizedAutosarStdTypes
+		transformAndCheck(testPath, "francaBasicVectorTypes", testPath + "francaBasicVectorTypesCustomized.arxml")
+	}
+
+	@Test
+	def void testCustomizedFrancaAnonymousFixedSizedArrayBasicTypesInStruct() {
+		useCustomizedAutosarStdTypes
+		transformAndCheckIntegrationTest(testPath,
+			#["francaBasicVectorTypes.fidl",
+			  "francaBasicVectorTypes.fdepl"],
+			#[testPath + "francaBasicFixedSizedArrayTypesCustomized.arxml",
+			  testPath + "customizedAutosarStdTypes_vectors.arxml",
+			  testPath + "customizedAutosarStdTypes_arrays.arxml"],
+			"customizedFrancaAnonymousFixedSizedArrayBasicTypesInStruct")
 	}
 
 }

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0">
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>a1</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>b2</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>c3</SHORT-NAME>
+              <ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE UUID="0">
+                  <SHORT-NAME>ExampleEnumeration</SHORT-NAME>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                  <SW-DATA-DEF-PROPS>
+                    <SW-DATA-DEF-PROPS-VARIANTS>
+                      <SW-DATA-DEF-PROPS-CONDITIONAL>
+                        <COMPU-METHOD-REF DEST="COMPU-METHOD">/a1/b2/c3/ExampleEnumeration_CompuMethod</COMPU-METHOD-REF>
+                      </SW-DATA-DEF-PROPS-CONDITIONAL>
+                    </SW-DATA-DEF-PROPS-VARIANTS>
+                  </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE>
+                <IMPLEMENTATION-DATA-TYPE UUID="0">
+                  <SHORT-NAME>ExampleEnumerationVector</SHORT-NAME>
+                  <CATEGORY>VECTOR</CATEGORY>
+                  <SUB-ELEMENTS>
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                      <SHORT-NAME>valueType</SHORT-NAME>
+                      <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                      <ARRAY-SIZE-SEMANTICS>VARIABLE-SIZE</ARRAY-SIZE-SEMANTICS>
+                      <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                          <SW-DATA-DEF-PROPS-CONDITIONAL>
+                            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/ExampleEnumeration</IMPLEMENTATION-DATA-TYPE-REF>
+                          </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                      </SW-DATA-DEF-PROPS>
+                    </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                  </SUB-ELEMENTS>
+                </IMPLEMENTATION-DATA-TYPE>
+                <COMPU-METHOD UUID="0">
+                  <SHORT-NAME>ExampleEnumeration_CompuMethod</SHORT-NAME>
+                  <CATEGORY>TEXTTABLE</CATEGORY>
+                  <COMPU-INTERNAL-TO-PHYS>
+                    <COMPU-SCALES>
+                      <COMPU-SCALE>
+                        <SYMBOL>X</SYMBOL>
+                      </COMPU-SCALE>
+                      <COMPU-SCALE>
+                        <SYMBOL>Y</SYMBOL>
+                      </COMPU-SCALE>
+                      <COMPU-SCALE>
+                        <SYMBOL>Z</SYMBOL>
+                      </COMPU-SCALE>
+                    </COMPU-SCALES>
+                  </COMPU-INTERNAL-TO-PHYS>
+                </COMPU-METHOD>
+                <IMPLEMENTATION-DATA-TYPE UUID="0">
+                  <SHORT-NAME>ExampleStruct</SHORT-NAME>
+                  <CATEGORY>STRUCTURE</CATEGORY>
+                  <SUB-ELEMENTS>
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                      <SHORT-NAME>e</SHORT-NAME>
+                      <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                      <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                          <SW-DATA-DEF-PROPS-CONDITIONAL>
+                            <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/ExampleEnumeration</IMPLEMENTATION-DATA-TYPE-REF>
+                          </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                      </SW-DATA-DEF-PROPS>
+                    </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                  </SUB-ELEMENTS>
+                </IMPLEMENTATION-DATA-TYPE>
+                <CONSTANT-SPECIFICATION UUID="0">
+                  <SHORT-NAME>enumerationArrayTest</SHORT-NAME>
+                  <ANNOTATIONS>
+                    <ANNOTATION>
+                      <LABEL>
+                        <L-4>OriginalLiteralValueType</L-4>
+                      </LABEL>
+                      <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                      <ANNOTATION-TEXT>
+                        <VERBATIM>
+                          <L-5>array [enumeration ExampleEnumeration, enumeration ExampleEnumeration, enumeration ExampleEnumeration, enumeration ExampleEnumeration]</L-5>
+                        </VERBATIM>
+                      </ANNOTATION-TEXT>
+                    </ANNOTATION>
+                  </ANNOTATIONS>
+                  <VALUE-SPEC>
+                    <ARRAY-VALUE-SPECIFICATION>
+                      <ELEMENTS>
+                        <TEXT-VALUE-SPECIFICATION>
+                          <VALUE>/a1/b2/c3/ExampleEnumeration/Z</VALUE>
+                        </TEXT-VALUE-SPECIFICATION>
+                        <TEXT-VALUE-SPECIFICATION>
+                          <VALUE>/a1/b2/c3/ExampleEnumeration/X</VALUE>
+                        </TEXT-VALUE-SPECIFICATION>
+                        <TEXT-VALUE-SPECIFICATION>
+                          <VALUE>/a1/b2/c3/ExampleEnumeration/X</VALUE>
+                        </TEXT-VALUE-SPECIFICATION>
+                        <TEXT-VALUE-SPECIFICATION>
+                          <VALUE>/a1/b2/c3/ExampleEnumeration/Y</VALUE>
+                        </TEXT-VALUE-SPECIFICATION>
+                      </ELEMENTS>
+                    </ARRAY-VALUE-SPECIFICATION>
+                  </VALUE-SPEC>
+                </CONSTANT-SPECIFICATION>
+                <CONSTANT-SPECIFICATION UUID="0">
+                  <SHORT-NAME>enumerationInStructTest</SHORT-NAME>
+                  <ANNOTATIONS>
+                    <ANNOTATION>
+                      <LABEL>
+                        <L-4>OriginalLiteralValueType</L-4>
+                      </LABEL>
+                      <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                      <ANNOTATION-TEXT>
+                        <VERBATIM>
+                          <L-5>struct {e : enumeration ExampleEnumeration}</L-5>
+                        </VERBATIM>
+                      </ANNOTATION-TEXT>
+                    </ANNOTATION>
+                  </ANNOTATIONS>
+                  <VALUE-SPEC>
+                    <RECORD-VALUE-SPECIFICATION>
+                      <FIELDS>
+                        <TEXT-VALUE-SPECIFICATION>
+                          <VALUE>/a1/b2/c3/ExampleEnumeration/Y</VALUE>
+                        </TEXT-VALUE-SPECIFICATION>
+                      </FIELDS>
+                    </RECORD-VALUE-SPECIFICATION>
+                  </VALUE-SPEC>
+                </CONSTANT-SPECIFICATION>
+                <CONSTANT-SPECIFICATION UUID="0">
+                  <SHORT-NAME>enumerationTest</SHORT-NAME>
+                  <ANNOTATIONS>
+                    <ANNOTATION>
+                      <LABEL>
+                        <L-4>OriginalLiteralValueType</L-4>
+                      </LABEL>
+                      <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                      <ANNOTATION-TEXT>
+                        <VERBATIM>
+                          <L-5>enumeration ExampleEnumeration</L-5>
+                        </VERBATIM>
+                      </ANNOTATION-TEXT>
+                    </ANNOTATION>
+                  </ANNOTATIONS>
+                  <VALUE-SPEC>
+                    <TEXT-VALUE-SPECIFICATION>
+                      <VALUE>/a1/b2/c3/ExampleEnumeration/X</VALUE>
+                    </TEXT-VALUE-SPECIFICATION>
+                  </VALUE-SPEC>
+                </CONSTANT-SPECIFICATION>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

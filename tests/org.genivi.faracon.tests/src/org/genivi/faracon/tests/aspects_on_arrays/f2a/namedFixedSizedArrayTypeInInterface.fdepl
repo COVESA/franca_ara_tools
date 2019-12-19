@@ -1,0 +1,19 @@
+import "CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "namedFixedSizedArrayTypeInInterface.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface a1.b2.c3.ExampleInterface {
+	SomeIpServiceID = 0
+
+	array FixedSizedArray {
+		SomeIpArrayLengthWidth = 0
+		SomeIpArrayMaxLength = 27
+	}
+
+	array ExplicitlyDynamicallySizedArray {
+		SomeIpArrayLengthWidth = 4
+		SomeIpArrayMaxLength = 99
+	}
+
+}

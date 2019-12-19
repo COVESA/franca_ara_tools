@@ -1,5 +1,6 @@
 package org.genivi.faracon.cli
 
+import java.nio.file.Paths
 import java.util.Collection
 import javax.inject.Inject
 import org.eclipse.emf.common.util.URI
@@ -11,6 +12,7 @@ import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.FrancaMultiModelContainer
+import org.genivi.faracon.InputFile
 
 import static org.genivi.faracon.cli.ConverterHelper.*
 
@@ -24,9 +26,9 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 	/**
 	 * The methods loads all ARA files into a single resource Set and resolves all objects
 	 */
-	override protected loadAllSourceFiles(Collection<String> araFilePaths) {
+	override protected loadAllSourceFiles(Collection<InputFile> araFilePaths) {
 		val modelContainer = araFilePaths.map [ araFilePath |
-			val normalizedARAFilePath = normalize(araFilePath);
+			val normalizedARAFilePath = araFilePath.absolutePath
 			getLogger().logInfo("Loading arxml file " + normalizedARAFilePath);
 			getLogger().increaseIndentationLevel();
 			var ARAModelContainer araModelContainer;
@@ -52,6 +54,9 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 		return modelContainer
 	}
 
+	override protected loadAllDeploymentSourceFiles(Collection<InputFile> deploymentInputFilePaths) {
+	}
+
 	override protected Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> transform(
 		Collection<ARAModelContainer> containers) {
 		containers.map [ araModelContainer |
@@ -68,9 +73,11 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 			it.value.francaModelContainers.forEach [ francaModelContainer |
 				// put all Franca models in to one resource set
 				val araModelUri = it.key.model.findSourceModelUri
-				val francaFilePath = getFrancaFilePath(araModelUri, francaModelContainer);
-				val resource = resourceSet.createResource(FileHelper.createURI(francaFilePath));
-				resource.getContents().add(francaModelContainer.model());
+				if (araModelUri !== null) {
+					val francaFilePath = getFrancaFilePath(araModelUri, francaModelContainer);
+					val resource = resourceSet.createResource(FileHelper.createURI(francaFilePath));
+					resource.getContents().add(francaModelContainer.model());
+				}
 			]
 		]
 	}
@@ -81,20 +88,34 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 			it.value.francaModelContainers.forEach [ francaModelContainer |
 				// Store the output FrancaIDL model.
 				val araModelUri = it.key.model.findSourceModelUri
-				val francaFilePath = getFrancaFilePath(araModelUri, francaModelContainer);
-				getLogger().logInfo("Storing FrancaIDL file " + francaFilePath);
-				francaLoader.saveModel(francaModelContainer.model(), francaFilePath);
+				if (araModelUri !== null) {
+					val francaFilePath = getFrancaFilePath(araModelUri, francaModelContainer);
+					getLogger().logInfo("Storing FrancaIDL file " + francaFilePath);
+					francaLoader.saveModel(francaModelContainer.model(), francaFilePath);
+				}
 			]
 		]
 	}
 
 	def private String getFrancaFilePath(URI araModelUri, FrancaModelContainer francaModelContainer) {
-		val transformedModelUri = OutputFileHelper.calculateFrancaOutputUri(araModelUri, francaModelContainer);
-		var String outputDirectoryPath = outputDirPath;
-		val relativeFrancaFilePath = outputDirectoryPath + transformedModelUri.lastSegment()
-		val francaFilePath = normalize(relativeFrancaFilePath);
-		return francaFilePath;
+		val francaModelNamespace = francaModelContainer.model.name
+		var francaFileName = araModelUri.trimFileExtension.lastSegment
+		if (!francaModelNamespace.nullOrEmpty) {
+			francaFileName += "_" + francaModelNamespace
+		}
+		francaFileName += ".fidl"
+
+		val inputFilePath = normalize(araModelUri.toFileString)
+		val basePathLength = inputFilesToBasePathLengthsMap.get(inputFilePath)
+		URI.createFileURI(Paths.get(normalize(outputDirPath), inputFilePath.substring(basePathLength)).toString)
+			.trimSegments(1)
+			.appendSegment(francaFileName)
+			.toFileString
 	}
+
+	override protected getInputFileExtension() '''arxml'''
+
+	override protected getDeploymentInputFileExtension() { null } 
 
 	override protected getSourceArtifactName() ''''Adaptive AUTOSAR IDL'''
 

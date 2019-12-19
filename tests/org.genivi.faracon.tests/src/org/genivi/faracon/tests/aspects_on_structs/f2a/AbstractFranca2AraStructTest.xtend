@@ -13,7 +13,7 @@ abstract class AbstractFranca2AraStructTest extends Franca2ARATestBase{
 
 	@Before
 	def void beforeTest(){
-		primitiveTypes.createPrimitiveTypesPackage(null)
+		primitiveTypes.loadPrimitiveTypes
 	}
 	
 	protected def FStructType createFStruct(String structName, String subElementName, FStructType baseStruct) {

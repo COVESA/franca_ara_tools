@@ -1,0 +1,21 @@
+package a1.b2.c3
+
+typeCollection {
+	struct BasicTypesStruct {
+		Boolean[] booleanTest
+		Double[] doubleTest
+		Float [] floatTest
+		Int16 [] int16Test
+		Int32 [] int32Test
+		Int64 [] int64Test
+		Int8 [] int8Test
+		String [] stringTest
+		UInt16[] uInt16Test
+		UInt32[] uInt32Test
+		UInt64[] uInt64Test
+		UInt8[] uint8Test
+		ByteBuffer[] byteArrayTest
+		ByteBuffer[] byteBufferTest
+		ByteBuffer[] byteVectorTypeTest
+	}
+}
