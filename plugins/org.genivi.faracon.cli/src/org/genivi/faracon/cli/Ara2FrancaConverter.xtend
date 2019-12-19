@@ -13,6 +13,7 @@ import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.FrancaMultiModelContainer
 import org.genivi.faracon.InputFile
+import org.genivi.faracon.ara2franca.FrancaConstantsCreator
 
 import static org.genivi.faracon.cli.ConverterHelper.*
 
@@ -20,6 +21,8 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 
 	@Inject
 	var ARAConnector araConnector
+	@Inject
+	var FrancaConstantsCreator francaConstantsCreator
 	@Inject
 	var FrancaPersistenceManager francaLoader
 
@@ -59,6 +62,7 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 
 	override protected Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> transform(
 		Collection<ARAModelContainer> containers) {
+		francaConstantsCreator.resetArtificialTypesIndices;
 		containers.map [ araModelContainer |
 			getLogger().logInfo("Converting arxml file " + araModelContainer?.model?.eResource?.URI);
 			val francaMultiModelContainer = araConnector.toFranca(araModelContainer) as FrancaMultiModelContainer;
