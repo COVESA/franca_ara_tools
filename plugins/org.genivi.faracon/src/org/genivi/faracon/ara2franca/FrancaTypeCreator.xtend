@@ -11,6 +11,7 @@ import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
@@ -61,6 +62,11 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	def create createFTypeCollection createAnonymousTypeCollectionForModel(FModel model) {
 		// no implementation - the create method ensures that we only create one anonymous type collection per FModel
 		model.typeCollections.add(it)
+	}
+
+	def addTypeToModel(FModel fModel, FType fType) {
+		val fTypeCollection = fModel.createAnonymousTypeCollectionForModel
+		fTypeCollection.types.add(fType)
 	}
 
 	/**

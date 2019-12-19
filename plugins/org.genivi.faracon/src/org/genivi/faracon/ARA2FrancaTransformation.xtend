@@ -3,6 +3,7 @@ package org.genivi.faracon
 import autosar40.adaptiveplatform.applicationdesign.portinterface.Field
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 import autosar40.autosartoplevelstructure.AUTOSAR
+import autosar40.commonstructure.constants.ConstantSpecification
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
@@ -13,6 +14,7 @@ import com.google.inject.Inject
 import java.util.Collection
 import java.util.Set
 import org.franca.core.franca.FModel
+import org.genivi.faracon.ara2franca.FrancaConstantsCreator
 import org.genivi.faracon.ara2franca.FrancaImportCreator
 import org.genivi.faracon.ara2franca.FrancaTypeCreator
 
@@ -24,7 +26,17 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 	var extension FrancaTypeCreator francaTypeCreator
 	@Inject
 	var extension FrancaImportCreator francaImportCreator
-	
+	@Inject
+	var extension FrancaConstantsCreator francaConstantsCreator
+
+
+	def Set<FModel> transform(AUTOSAR src) {
+		val Collection<ARPackage> relevantPackages = newArrayList
+		collectPackagesWithElementsOrLeafPackages(src.arPackages, relevantPackages,
+			newArrayList(ServiceInterface, ImplementationDataType))
+		val fModels = relevantPackages.map[it.transform].toSet
+		return fModels
+	}
 
 	/**
 	 * Transforms the relevant elements of an ArPackage to a Franca Model
@@ -37,23 +49,22 @@ class ARA2FrancaTransformation extends ARA2FrancaBase {
 		val serviceInterfaces = arPackage.elements.filter(ServiceInterface)
 		val francaInterfaces = serviceInterfaces.map[transform]
 		it.interfaces.addAll(francaInterfaces)
-		
+
 		val implementationDataTypes = arPackage.elements.filter(ImplementationDataType)
 		val types = implementationDataTypes.map[transform].filterNull
-		if(!types.isNullOrEmpty){
+		if(!types.isNullOrEmpty) {
 			val typeCollection = createAnonymousTypeCollectionForModel(it)
-			typeCollection.types.addAll(types)	
+			typeCollection.types.addAll(types)
+		}
+
+		val constantSpecifications = arPackage.elements.filter(ConstantSpecification)
+		val constants = constantSpecifications.map[constantSpecification | constantSpecification.transform(it)].filterNull
+		if(!constants.isNullOrEmpty) {
+			val typeCollection = createAnonymousTypeCollectionForModel(it)
+			typeCollection.constants.addAll(constants)
 		}
 	}
-	
-	def Set<FModel> transform(AUTOSAR src) {
-		val Collection<ARPackage> relevantPackages = newArrayList
-		collectPackagesWithElementsOrLeafPackages(src.arPackages, relevantPackages,
-			newArrayList(ServiceInterface, ImplementationDataType))
-		val fModels = relevantPackages.map[it.transform].toSet
-		return fModels
-	}
-	
+
 	def create fac.createFInterface transform(ServiceInterface src) {
 		if (!src.namespaces.isNullOrEmpty && !namespaceMathchesHierarchy(src)) {
 			logger.logError('''Namespaces are not supported by Franca. Franca only uses the package hierarchy to identify namespaces. «

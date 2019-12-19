@@ -2,7 +2,7 @@ package a1.b2.c3
 
 interface ExampleInterface {
 
-	// Typedefs refering to a primitive type.
+	// Typedefs referring to a primitive type.
 
 	typedef UInt8Typedef is UInt8
 	typedef DoubleUInt8Typedef is UInt8Typedef
@@ -12,7 +12,7 @@ interface ExampleInterface {
 	const DoubleUInt8Typedef doubleUInt8Typedef = 127
 	const TripleUInt8Typedef tripleUInt8Typedef = 13
 
-	// Typedefs refering to a struct type.
+	// Typedefs referring to a struct type.
 
 	struct ExampleStruct {
 		UInt8Typedef a
@@ -27,7 +27,7 @@ interface ExampleInterface {
 	const DoubleStructTypedef doubleStructTypedefTest = {a : 11, b : 22, c : [31, 32, 33]}
 	const TripleStructTypedef tripleStructTypedefTest = {a : 11, b : 22, c : [31, 32, 33]}
 
-	// Typedefs refering to a nested struct type with typedef based struct type elements.
+	// Typedefs referring to a nested struct type with typedef based struct type elements.
 
 	struct NestedStruct {
 		StructTypedef x

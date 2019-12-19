@@ -1,0 +1,149 @@
+package a1.b2.c3
+
+typeCollection {
+	const NestedStruct doubleNestedStructTypedefTest = {
+		x : {
+			a : 2.0d,
+			b : 4.0d,
+			c : [ 8.0d, 16.0d, 32.0d ]
+		}
+		,
+		y : {
+			a : 3.0d,
+			b : 9.0d,
+			c : [ 27.0d, 81.0d, 243.0d ]
+		}
+		,
+		z : {
+			a : 1.0d,
+			b : 2.0d,
+			c : [ 3.0d, 4.0d, 5.0d ]
+		}
+	}
+
+	const ExampleStruct doubleStructTypedefTest = {
+		a : 11.0d,
+		b : 22.0d,
+		c : [ 31.0d, 32.0d, 33.0d ]
+	}
+
+	const Double doubleUInt8Typedef = 127.0d
+
+	const NestedStruct nestedStructTypedefTest = {
+		x : {
+			a : 2.0d,
+			b : 4.0d,
+			c : [ 8.0d, 16.0d, 32.0d ]
+		}
+		,
+		y : {
+			a : 3.0d,
+			b : 9.0d,
+			c : [ 27.0d, 81.0d, 243.0d ]
+		}
+		,
+		z : {
+			a : 1.0d,
+			b : 2.0d,
+			c : [ 3.0d, 4.0d, 5.0d ]
+		}
+	}
+
+	const ExampleStruct structTypedefTest = {
+		a : 11.0d,
+		b : 22.0d,
+		c : [ 31.0d, 32.0d, 33.0d ]
+	}
+
+	const NestedStruct tripleNestedStructTypedefTest = {
+		x : {
+			a : 2.0d,
+			b : 4.0d,
+			c : [ 8.0d, 16.0d, 32.0d ]
+		}
+		,
+		y : {
+			a : 3.0d,
+			b : 9.0d,
+			c : [ 27.0d, 81.0d, 243.0d ]
+		}
+		,
+		z : {
+			a : 1.0d,
+			b : 2.0d,
+			c : [ 3.0d, 4.0d, 5.0d ]
+		}
+	}
+
+	const ExampleStruct tripleStructTypedefTest = {
+		a : 11.0d,
+		b : 22.0d,
+		c : [ 31.0d, 32.0d, 33.0d ]
+	}
+
+	const Double tripleUInt8Typedef = 13.0d
+
+	const Double uint8TypedefTest = 56.0d
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef DoubleNestedStructTypedef is NestedStructTypedef
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef DoubleStructTypedef is StructTypedef
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef DoubleUInt8Typedef is UInt8Typedef
+
+	struct ExampleStruct {
+		UInt8Typedef a
+		DoubleUInt8Typedef b
+		TripleUInt8TypedefVector c
+	}
+
+	struct NestedStruct {
+		StructTypedef x
+		DoubleStructTypedef y
+		TripleStructTypedef z
+	}
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef NestedStructTypedef is NestedStruct
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef StructTypedef is ExampleStruct
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef TripleNestedStructTypedef is DoubleNestedStructTypedef
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef TripleStructTypedef is DoubleStructTypedef
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef TripleUInt8Typedef is DoubleUInt8Typedef
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	array TripleUInt8TypedefVector of TripleUInt8Typedef
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	typedef UInt8Typedef is Double
+}
