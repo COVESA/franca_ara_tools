@@ -53,7 +53,7 @@ class IDL1210_Tests extends ARA2FrancaTestBase {
 	def void mapTypeConstantsInTypeCollection() {
 		transformAndCheckIntegrationTest(
 			#[correspondingFranca2AutosarTestPath + "mapTypeConstantsInTypeCollection.arxml"],
-			#[testPath + "mapTypeConstantsInTypeCollection.fidl"],
+			#[testPath + "mapTypeConstantsInTypeCollection_a1.b2.c3.fidl"],
 			"mapTypeConstantsInTypeCollection")
 	}
 
@@ -61,7 +61,8 @@ class IDL1210_Tests extends ARA2FrancaTestBase {
 	def void mapTypeConstantsInInterface() {
 		transformAndCheckIntegrationTest(
 			#[correspondingFranca2AutosarTestPath + "mapTypeConstantsInInterface.arxml"],
-			#[testPath + "mapTypeConstantsInInterface.fidl"],
+			#[testPath + "mapTypeConstantsInInterface_a1.b2.c3.fidl",
+			  testPath + "mapTypeConstantsInInterface_a1.b2.c3.ExampleInterface.fidl"],
 			"mapTypeConstantsInInterface")
 	}
 

@@ -1,13 +1,16 @@
 package org.genivi.faracon.tests.aspects_on_franca_methods.a2f
 
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
+import autosar40.commonstructure.constants.ConstantSpecification
 import autosar40.commonstructure.serviceneeds.ServiceProviderEnum
 import autosar40.genericstructure.generaltemplateclasses.arpackage.PackageableElement
 import autosar40.util.Autosar40Factory
 import org.eclipse.emf.ecore.EClass
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
+import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FInterface
+import org.franca.core.franca.FTypeCollection
 import org.genivi.faracon.tests.util.ARA2FrancaTestBase
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
@@ -17,8 +20,6 @@ import static org.junit.Assert.assertEquals
 
 import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
 import static extension org.genivi.faracon.tests.util.FrancaAssertHelper.*
-import org.franca.core.franca.FTypeCollection
-import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 
 /**
  * Test name transformation of Autosar elements to franca elements 
@@ -30,14 +31,14 @@ class IDL1470_Tests extends ARA2FrancaTestBase {
 	static final String MODEL_ELEMENT_NAME = "ModelElementName"
 
 	/**
-	 * Test all AUTOSAR PackageableElements and check whether the transformation suceeds or not.
-	 * The only PackageableElement, we currently transform is the ServiceInterface, i.e.
-	 * only for the ServiceInterface, we check whether the name of the created Franca interface is the same.
+	 * Test all AUTOSAR PackageableElements and check whether the transformation succeeds or not.
+	 * The only PackageableElements, we currently transform are the ServiceInterface and ConstantSpecification.
+	 * I.e., only for these PackageableElements, we check whether the name of the created conversion result is the same.
 	 * For all other elements, we check that no element has been created and that no error (Exception) occurs.
 	 */
 	@Test
 	def void testTransformationOfPackageableElements() {
-		// given: list of packageable elements eacht contained in a package
+		// given: list of packageable elements each contained in a package
 		val packagesWithPackagableElements = packageableElementInstances.map [ packElement |
 			val arTestPackage = createARPackage => [
 				shortName = "ModelElementPackage"
@@ -51,16 +52,21 @@ class IDL1470_Tests extends ARA2FrancaTestBase {
 			it.key -> ara2FrancaTransformation.transform(it.value)
 		]
 
-		// then: no exception and for service interface, we expect that a FInterface has been created
+		// then: no exception and for a service interface and for a constant specification, we expect some specific conversion result
 		results.assertElements(packagesWithPackagableElements.size)
 		results.forEach [ result |
 			if (result.key instanceof ServiceInterface) {
 				// for service interfaces we expect a Franca Interface
 				val francaInterface = result.value.eContents.assertOneElement.assertIsInstanceOf(FInterface)
 				francaInterface.assertName(MODEL_ELEMENT_NAME)
+			} else if (result.key instanceof ConstantSpecification) {
+				// for an AUTOSAR constant specification we expect a Franca constant definition in a Franca type collection
+				val fTypeCollection = result.value.eContents.assertOneElement.assertIsInstanceOf(FTypeCollection)
+				val fConstantDef = fTypeCollection.constants.assertOneElement.assertIsInstanceOf(FConstantDef)
+				fConstantDef.assertName(MODEL_ELEMENT_NAME)
 			} else {
 				// we do not expecte any model elements to be created, but the code not to crash 
-				assertEquals('''No element was expected to be created for elememnt "«result.key»" but created the following elements "«result.value.eContents.join(", ")»".''',
+				assertEquals('''No element was expected to be created for element "«result.key»" but created the following elements "«result.value.eContents.join(", ")»".''',
 					0, result.value.eContents.size )
 			}
 		]

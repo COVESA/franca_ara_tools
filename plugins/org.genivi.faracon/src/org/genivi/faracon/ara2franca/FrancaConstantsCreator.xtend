@@ -12,6 +12,7 @@ import com.google.inject.Singleton
 import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FInitializerExpression
+import org.franca.core.franca.FMapType
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
@@ -30,17 +31,19 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 
 
 	var nextFreeArrayTypeIndex = 1
+	var nextFreeMapTypeIndex = 1
 	var nextFreeStructTypeIndex = 1
 
 	def resetArtificialTypesIndices() {
 		nextFreeArrayTypeIndex = 1
+		nextFreeMapTypeIndex = 1
 		nextFreeStructTypeIndex = 1
 	}
 
 	def create fac.createFConstantDef transform(ConstantSpecification src, FModel fModel) {
 		it.name = src.shortName
-		it.type = src.valueSpec.getConstantType(it, fModel)
-		it.rhs = src.valueSpec.createInitializerExpressionForFTypedElement(it)
+		it.type = src.valueSpec?.getConstantType(it, fModel)
+		it.rhs = src.valueSpec?.createInitializerExpressionForFTypedElement(it)
 	}
 
 	private def FInitializerExpression createInitializerExpressionForFTypedElement(ValueSpecification aValueSpecification, FTypedElement fTypedElement) {
@@ -73,6 +76,16 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 		it.elements += aArrayValueSpecification.elements.map[element |
 			fac.createFElementInitializer => [
 				it.first = element.createInitializerExpressionForFTypeRef(fArrayType.elementType)
+			]
+		]
+	}
+
+	private dispatch def FInitializerExpression create fac.createFBracketInitializer createInitializerExpressionForFType(ArrayValueSpecification aArrayValueSpecification, FMapType fMapType) {
+		it.elements += aArrayValueSpecification.elements.map[element |
+			fac.createFElementInitializer => [
+				val mapElementValue = element as RecordValueSpecification
+				it.first = mapElementValue.fields.get(0).createInitializerExpressionForFTypeRef(fMapType.keyType)
+				it.second = mapElementValue.fields.get(1).createInitializerExpressionForFTypeRef(fMapType.valueType)
 			]
 		]
 	}
@@ -114,7 +127,26 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 	}
 
 	private dispatch def FTypeRef getConstantType(ArrayValueSpecification aArrayValueSpecification, FTypedElement fTypedElement, FModel fModel) {
-		val firstArrayElementValue = aArrayValueSpecification.elements.head
+		val firstArrayElementValue = aArrayValueSpecification.elements.head		
+
+		if (aArrayValueSpecification.isMapValue) {
+			var fMapType = searchMatchingActualTypeDefinition(aArrayValueSpecification, fModel) as FMapType
+			if (fMapType === null) {
+				val firstMapElementValue = firstArrayElementValue as RecordValueSpecification
+				fMapType = fac.createFMapType => [
+					it.keyType = firstMapElementValue.fields.get(0).getConstantType(null, fModel)
+					it.valueType = firstMapElementValue.fields.get(1).getConstantType(null, fModel)
+					it.name = "ArtificalMap_" + nextFreeMapTypeIndex
+					nextFreeMapTypeIndex++
+				]
+				fModel.addTypeToModel(fMapType)
+			}
+			val _fMapType = fMapType
+			return fac.createFTypeRef => [
+				it.derived = _fMapType
+			]
+		}
+
 		if (fTypedElement !== null) {
 			// Create an anonymous array.
 			fTypedElement.array = true
@@ -173,25 +205,26 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 
 	private def searchMatchingActualTypeDefinition(ValueSpecification aValueSpecification, FModel fModel) {
 		val fMatchingTypeDefinition = searchMatchingTypeDefinition(aValueSpecification, fModel)
-		if (fMatchingTypeDefinition instanceof FTypeDef) {
-			getActualDerived(fMatchingTypeDefinition.actualType)
-		} else {
-			fMatchingTypeDefinition
-		}
+		fMatchingTypeDefinition.actualType
 	}
 
 	private def searchMatchingTypeDefinition(ValueSpecification aValueSpecification, FModel fModel) {
+		val isMapValue = aValueSpecification.isMapValue
 		for (fTypeCollection : fModel.typeCollections) {
 			for (fType : fTypeCollection.types) {
-				if (matchesFType(aValueSpecification, fType)) {
-					return fType
+				if ((fType.actualType instanceof FMapType) == isMapValue) {
+					if (matchesFType(aValueSpecification, fType)) {
+						return fType
+					}
 				}
 			}
 		}
 		for (fInterface : fModel.interfaces) {
 			for (fType : fInterface.types) {
-				if (matchesFType(aValueSpecification, fType)) {
-					return fType
+				if ((fType.actualType instanceof FMapType) == isMapValue) {
+					if (matchesFType(aValueSpecification, fType)) {
+						return fType
+					}
 				}
 			}
 		}
@@ -210,6 +243,17 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 		val firstArrayElementValue = aArrayValueSpecification.elements.head
 		if (firstArrayElementValue !== null) {
 			matchesFTypeRef(firstArrayElementValue, fArrayType.elementType)
+		} else {
+			true
+		}
+	}
+
+	private dispatch def boolean matchesFType(ArrayValueSpecification aArrayValueSpecification, FMapType fMapType) {
+		val firstMapElementValue = aArrayValueSpecification.elements.head as RecordValueSpecification
+		if (firstMapElementValue !== null) {
+			val firstKeyValue = firstMapElementValue.fields.get(0)
+			val firstValueValue = firstMapElementValue.fields.get(1)
+			matchesFTypeRef(firstKeyValue, fMapType.keyType) && matchesFTypeRef(firstValueValue, fMapType.valueType)
 		} else {
 			true
 		}
@@ -260,6 +304,26 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 			}
 		}
 		matchesFTypeRef(aValueSpecification, fTypedElement.type)
+	}
+
+
+	private def isMapValue(ValueSpecification aValueSpecification) {
+		if (aValueSpecification instanceof ArrayValueSpecification) {
+			val firstArrayElementValue = aValueSpecification.elements.head
+			firstArrayElementValue !== null &&
+			firstArrayElementValue instanceof RecordValueSpecification &&
+			(firstArrayElementValue as RecordValueSpecification).fields.size == 2			
+		} else {
+			false
+		}
+	}
+
+	private def getActualType(FType fType) {
+		if (fType instanceof FTypeDef) {
+			getActualDerived(fType.actualType)
+		} else {
+			fType
+		}
 	}
 
 }

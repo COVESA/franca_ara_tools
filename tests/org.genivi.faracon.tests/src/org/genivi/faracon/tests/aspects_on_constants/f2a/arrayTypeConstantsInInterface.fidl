@@ -15,10 +15,11 @@ interface ExampleInterface {
 	struct ArrayElement {
 		UInt64 a
 		String b
+		Boolean c
 	}
 	array NamedStructArray of ArrayElement
-	const NamedStructArray namedStructArrayTest = [{a : 111, b : "aaa"}, {a : 222, b : "bbb"}]
+	const NamedStructArray namedStructArrayTest = [{a : 111, b : "aaa", c : true}, {a : 222, b : "bbb", c : false}]
 	const NamedStructArray emptyNamedStructArrayTest = []
-	const ArrayElement[] anonymousStructArrayTest = [{a : 36, b : "7izv"}, {a : 95, b : ""}, {a : 96, b : "kb"}]
+	const ArrayElement[] anonymousStructArrayTest = [{a : 36, b : "7izv", c : false}, {a : 95, b : "", c : false}, {a : 96, b : "kb", c : true}]
 
 }
