@@ -7,15 +7,18 @@ typeCollection {
 
 	const ArtificalStruct_1 [ ] anonymousStructArrayTest = [ {
 		f_1 : 36.0d,
-		f_2 : "7izv"
+		f_2 : "7izv",
+		f_3 : "false"
 	}
 	, {
 		f_1 : 95.0d,
-		f_2 : ""
+		f_2 : "",
+		f_3 : "false"
 	}
 	, {
 		f_1 : 96.0d,
-		f_2 : "kb"
+		f_2 : "kb",
+		f_3 : "true"
 	}
 	]
 
@@ -31,17 +34,20 @@ typeCollection {
 
 	const ArtificalStruct_1 [ ] namedStructArrayTest = [ {
 		f_1 : 111.0d,
-		f_2 : "aaa"
+		f_2 : "aaa",
+		f_3 : "true"
 	}
 	, {
 		f_1 : 222.0d,
-		f_2 : "bbb"
+		f_2 : "bbb",
+		f_3 : "false"
 	}
 	]
 
 	struct ArrayElement {
 		UInt64 a
 		String b
+		Boolean c
 	}
 
 	<**
@@ -74,5 +80,6 @@ typeCollection {
 	struct ArtificalStruct_1 {
 		Double f_1
 		String f_2
+		String f_3
 	}
 }

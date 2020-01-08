@@ -1,0 +1,101 @@
+package a1.b2.c3
+
+typeCollection {
+	const ArtificalMap_1 complexMapTest = [ {
+		f_1 : 575.0d,
+		f_2 : "fhj"
+	}
+	=> {
+		f_1 : "true",
+		f_2 : [ 1.0d, 2.0d, 3.0d ]
+	}
+	, {
+		f_1 : 123.0d,
+		f_2 : "abc"
+	}
+	=> {
+		f_1 : "false",
+		f_2 : [ 5.0d ]
+	}
+	]
+
+	const UInt8 [ ] emptyComplexMapTest = [ ]
+
+	const UInt8 [ ] emptySimpleMapTest = [ ]
+
+	const ArtificalStruct_3 mapsInStructTest = {
+		f_1 : [ 23.0d => 3.14d, 763.0d => 52.2225d, -987.0d => 0.12345d ],
+		f_2 : [ {
+			f_1 : 575.0d,
+			f_2 : "fhj"
+		}
+		=> {
+			f_1 : "true",
+			f_2 : [ 1.0d, 2.0d, 3.0d ]
+		}
+		, {
+			f_1 : 123.0d,
+			f_2 : "abc"
+		}
+		=> {
+			f_1 : "false",
+			f_2 : [ 5.0d ]
+		}
+		]
+	}
+
+	const ArtificalMap_2 simpleMapTest = [ 23.0d => 3.14d, 763.0d => 52.2225d, -987.0d => 0.12345d ]
+
+	const ArtificalMap_2 [ ] simpleMapsArrayTest = [ [ 23.0d => 3.14d, 763.0d => 52.2225d ], [ ], [ -987.0d => 0.12345d ] ]
+
+	<**
+		@experimental : [faracon] Key OriginalSubElementName = keyType
+		@experimental : [faracon] Value OriginalSubElementName = valueType
+	**>
+	map ComplexMap { StructA to StructB }
+
+	<**
+		@experimental : [faracon] Key OriginalSubElementName = keyType
+		@experimental : [faracon] Value OriginalSubElementName = valueType
+	**>
+	map SimpleMap { Int16 to Double }
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	array SimpleMapVector of SimpleMap
+
+	struct StructA {
+		UInt64 x
+		String y
+	}
+
+	struct StructB {
+		Boolean x
+		ByteBuffer y
+	}
+
+	struct SurroundingStruct {
+		SimpleMap s
+		ComplexMap c
+	}
+
+	struct ArtificalStruct_1 {
+		Double f_1
+		String f_2
+	}
+
+	struct ArtificalStruct_2 {
+		String f_1
+		Double [ ] f_2
+	}
+
+	map ArtificalMap_1 { ArtificalStruct_1 to ArtificalStruct_2 }
+
+	map ArtificalMap_2 { Double to Double }
+
+	struct ArtificalStruct_3 {
+		ArtificalMap_2 f_1
+		ArtificalMap_1 f_2
+	}
+}

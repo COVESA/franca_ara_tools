@@ -58,6 +58,17 @@
                             </SW-DATA-DEF-PROPS-VARIANTS>
                           </SW-DATA-DEF-PROPS>
                         </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                        <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                          <SHORT-NAME>c</SHORT-NAME>
+                          <CATEGORY>TYPE_REFERENCE</CATEGORY>
+                          <SW-DATA-DEF-PROPS>
+                            <SW-DATA-DEF-PROPS-VARIANTS>
+                              <SW-DATA-DEF-PROPS-CONDITIONAL>
+                                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/Boolean</IMPLEMENTATION-DATA-TYPE-REF>
+                              </SW-DATA-DEF-PROPS-CONDITIONAL>
+                            </SW-DATA-DEF-PROPS-VARIANTS>
+                          </SW-DATA-DEF-PROPS>
+                        </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                       </SUB-ELEMENTS>
                     </IMPLEMENTATION-DATA-TYPE>
                     <IMPLEMENTATION-DATA-TYPE UUID="0">
@@ -242,7 +253,7 @@
                           <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
                           <ANNOTATION-TEXT>
                             <VERBATIM>
-                              <L-5>array [struct {a : UInt64, b : String}, struct {a : UInt64, b : String}, struct {a : UInt64, b : String}]</L-5>
+                              <L-5>array [struct {a : UInt64, b : String, c : Boolean}, struct {a : UInt64, b : String, c : Boolean}, struct {a : UInt64, b : String, c : Boolean}]</L-5>
                             </VERBATIM>
                           </ANNOTATION-TEXT>
                         </ANNOTATION>
@@ -258,6 +269,9 @@
                                 <TEXT-VALUE-SPECIFICATION>
                                   <VALUE>7izv</VALUE>
                                 </TEXT-VALUE-SPECIFICATION>
+                                <TEXT-VALUE-SPECIFICATION>
+                                  <VALUE>false</VALUE>
+                                </TEXT-VALUE-SPECIFICATION>
                               </FIELDS>
                             </RECORD-VALUE-SPECIFICATION>
                             <RECORD-VALUE-SPECIFICATION>
@@ -268,6 +282,9 @@
                                 <TEXT-VALUE-SPECIFICATION>
                                   <VALUE></VALUE>
                                 </TEXT-VALUE-SPECIFICATION>
+                                <TEXT-VALUE-SPECIFICATION>
+                                  <VALUE>false</VALUE>
+                                </TEXT-VALUE-SPECIFICATION>
                               </FIELDS>
                             </RECORD-VALUE-SPECIFICATION>
                             <RECORD-VALUE-SPECIFICATION>
@@ -277,6 +294,9 @@
                                 </NUMERICAL-VALUE-SPECIFICATION>
                                 <TEXT-VALUE-SPECIFICATION>
                                   <VALUE>kb</VALUE>
+                                </TEXT-VALUE-SPECIFICATION>
+                                <TEXT-VALUE-SPECIFICATION>
+                                  <VALUE>true</VALUE>
                                 </TEXT-VALUE-SPECIFICATION>
                               </FIELDS>
                             </RECORD-VALUE-SPECIFICATION>
@@ -441,7 +461,7 @@
                           <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
                           <ANNOTATION-TEXT>
                             <VERBATIM>
-                              <L-5>array [struct {a : UInt64, b : String}, struct {a : UInt64, b : String}]</L-5>
+                              <L-5>array [struct {a : UInt64, b : String, c : Boolean}, struct {a : UInt64, b : String, c : Boolean}]</L-5>
                             </VERBATIM>
                           </ANNOTATION-TEXT>
                         </ANNOTATION>
@@ -457,6 +477,9 @@
                                 <TEXT-VALUE-SPECIFICATION>
                                   <VALUE>aaa</VALUE>
                                 </TEXT-VALUE-SPECIFICATION>
+                                <TEXT-VALUE-SPECIFICATION>
+                                  <VALUE>true</VALUE>
+                                </TEXT-VALUE-SPECIFICATION>
                               </FIELDS>
                             </RECORD-VALUE-SPECIFICATION>
                             <RECORD-VALUE-SPECIFICATION>
@@ -466,6 +489,9 @@
                                 </NUMERICAL-VALUE-SPECIFICATION>
                                 <TEXT-VALUE-SPECIFICATION>
                                   <VALUE>bbb</VALUE>
+                                </TEXT-VALUE-SPECIFICATION>
+                                <TEXT-VALUE-SPECIFICATION>
+                                  <VALUE>false</VALUE>
                                 </TEXT-VALUE-SPECIFICATION>
                               </FIELDS>
                             </RECORD-VALUE-SPECIFICATION>
