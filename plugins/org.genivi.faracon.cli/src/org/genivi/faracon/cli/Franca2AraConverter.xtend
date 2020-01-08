@@ -26,6 +26,8 @@ import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.InputFile
 import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
+import org.genivi.faracon.names.FrancaNamesCollector
+import org.genivi.faracon.names.NamesHierarchy
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.stdtypes.AraStandardTypeDefinitionsModel
 
@@ -42,7 +44,9 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	var FDeployPersistenceManager francaDeploymentLoader
 	@Inject
 	var SomeipFrancaDeploymentData someipFrancaDeploymentData
-	
+	@Inject
+	NamesHierarchy namesHierarchy
+
 	var ARAResourceSet targetResourceSet
 
 	override protected loadAllSourceFiles(Collection<InputFile> filesToConvert) {
@@ -110,14 +114,22 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	}
 
 	override protected transform(Collection<FrancaModelContainer> francaModelContainers) {
+		// Initialization.
+		//   Fill all names of the Franca models into a hierarchy of names.
+		namesHierarchy.clear();
+		val FrancaNamesCollector francaNamesCollector = new FrancaNamesCollector
+		for (francaModelContainer : francaModelContainers) {
+			francaNamesCollector.fillNamesHierarchy(francaModelContainer.model, namesHierarchy)
+		}
+		//   Initialization for primitive and non-primitive anonymous arrays.
 		val allNonPrimitiveElementTypesOfAnonymousArrays = francaModelContainers.map [ francaModelContainer |
 			val francaModel = francaModelContainer.model
 			francaModel.eAllContents.filter(FTypedElement).filter[array && type?.derived !== null].map[type?.derived].toList
 		].flatten.toSet
 		araConnector.setAllNonPrimitiveElementTypesOfAnonymousArrays(allNonPrimitiveElementTypesOfAnonymousArrays)
-
 		araPrimitveTypesCreator.clearPrimitiveTypesAnonymousArrays
 
+		// The transformation itself.
 		val araModelContainer = francaModelContainers.map [ francaModelContainer |
 			val francaModel = francaModelContainer.model
 			val francaModelUri = francaModel.eResource().getURI();

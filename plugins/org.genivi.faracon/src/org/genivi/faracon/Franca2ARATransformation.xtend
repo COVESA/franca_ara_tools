@@ -29,6 +29,7 @@ import org.genivi.faracon.names.NamesHierarchy
 import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import static extension org.genivi.faracon.util.FrancaUtil.*
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -54,18 +55,13 @@ class Franca2ARATransformation extends Franca2ARABase {
 	var Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays
 
 	static final String ANNOTATION_LABEL_ORIGINAL_PARENT_INTERFACE = "OriginalParentInterface"
-	static final String ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE = "ArtificalEventDataStructType"
+	static final String ANNOTATION_LABEL_ARTIFICIAL_EVENT_DATA_STRUCT_TYPE = "ArtificialEventDataStructType"
 
 	def setAllNonPrimitiveElementTypesOfAnonymousArrays(Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
 		this.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays
 	}
 
 	def AUTOSAR transform(FModel src) {
-		// Fill all names of the Franca model into a hierarchy of names.
-		namesHierarchy.clear();
-		val FrancaNamesCollector francaNamesCollector = new FrancaNamesCollector
-		francaNamesCollector.fillNamesHierarchy(src, namesHierarchy)
-
 		// Process the conversion.
 		loadPrimitiveTypes
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
@@ -214,24 +210,24 @@ class Franca2ARATransformation extends Franca2ARABase {
 		type = if (src?.outArgs.length == 1) {
 			src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
 		} else {
-			val ImplementationDataType artificalBroadcastStruct = fac.createImplementationDataType
-			artificalBroadcastStruct.shortName = namesHierarchy.createAndInsertUniqueName(
+			val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType
+			artificialBroadcastStruct.shortName = namesHierarchy.createAndInsertUniqueName(
 				parentInterface.francaFullyQualifiedName,
 				src.name.toFirstUpper + "Data",
 				FType
 			)
-			artificalBroadcastStruct.category = "STRUCTURE"
+			artificialBroadcastStruct.category = "STRUCTURE"
 			val typeRefs = src.outArgs.map [
 				it.createImplementationDataTypeElement(null)
 			]
-			artificalBroadcastStruct.subElements.addAll(typeRefs)
-			artificalBroadcastStruct.ARPackage = interfaceArPackage
-			artificalBroadcastStruct.addAnnotation(
-				ANNOTATION_LABEL_ARTIFICAL_EVENT_DATA_STRUCT_TYPE,
+			artificialBroadcastStruct.subElements.addAll(typeRefs)
+			artificialBroadcastStruct.ARPackage = interfaceArPackage
+			artificialBroadcastStruct.addAnnotation(
+				ANNOTATION_LABEL_ARTIFICIAL_EVENT_DATA_STRUCT_TYPE,
 				"Referencing event definition: " + src.getARFullyQualifiedName
 			)
-			interfaceArPackage.elements += artificalBroadcastStruct
-			artificalBroadcastStruct
+			interfaceArPackage.elements += artificialBroadcastStruct
+			artificialBroadcastStruct
 		}
 
 		// If the broadcast is not a direct member of the current interface definition but is inherited from
@@ -265,13 +261,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 
 	static def String getARFullyQualifiedName(FBroadcast broadcast) {
 		(broadcast.eContainer as FInterface).getARFullyQualifiedName + "/" + broadcast.name
-	}
-
-	static def String getFrancaFullyQualifiedName(FInterface ^interface) {
-		val FModel model = ^interface.getModel;
-		val modelPart = if(model !== null && !model.name.nullOrEmpty) model.name + "." else ""
-		val interfacePart = if(interface !== null && !interface.name.nullOrEmpty) interface.name else ""
-		return modelPart + interfacePart
 	}
 
 }

@@ -3,6 +3,7 @@ package org.genivi.faracon.ara2franca
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
+import autosar40.genericstructure.generaltemplateclasses.arpackage.PackageableElement
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import java.util.Optional
 import javax.inject.Inject
@@ -16,8 +17,11 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
 import org.genivi.faracon.ARAResourceSet
+import org.genivi.faracon.names.NamesHierarchy
 
 import static org.genivi.faracon.util.AutosarUtil.*
+
+import static extension org.genivi.faracon.util.FrancaUtil.*
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {
@@ -30,6 +34,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	var extension FrancaImportCreator francaImportCreator
 	@Inject
 	var extension FrancaAnnotationCreator
+	@Inject
+	NamesHierarchy namesHierarchy
 
 	def transform(ImplementationDataType src) {
 		if (src === null) {
@@ -66,6 +72,11 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 
 	def addTypeToModel(FModel fModel, FType fType) {
 		val fTypeCollection = fModel.createAnonymousTypeCollectionForModel
+		fType.name = namesHierarchy.createAndInsertUniqueName(
+			fTypeCollection.francaFullyQualifiedName,
+			fType.name,
+			PackageableElement
+		)
 		fTypeCollection.types.add(fType)
 	}
 

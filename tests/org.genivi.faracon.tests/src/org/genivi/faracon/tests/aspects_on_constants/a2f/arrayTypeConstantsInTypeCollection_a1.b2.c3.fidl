@@ -1,11 +1,11 @@
 package a1.b2.c3
 
 typeCollection {
-	const ArtificalArray_1 [ ] anonymousArrayOfFloatArraysTest = [ [ 12.34d, 56.78d, 98.76d ], [ 123.456d, 9.99d ] ]
+	const ArtificialArray_1 [ ] anonymousArrayOfFloatArraysTest = [ [ 12.34d, 56.78d, 98.76d ], [ 123.456d, 9.99d ] ]
 
 	const Double [ ] anonymousFloatArrayTest = [ 0.1d, 0.2d, 0.3d, 0.4d, 0.5d ]
 
-	const ArtificalStruct_1 [ ] anonymousStructArrayTest = [ {
+	const ArtificialStruct_1 [ ] anonymousStructArrayTest = [ {
 		f_1 : 36.0d,
 		f_2 : "7izv",
 		f_3 : "false"
@@ -28,11 +28,11 @@ typeCollection {
 
 	const ArrayElementVector [ ] namedArrayOfEmptyFloatArraysTest = [ [ ], [ ], [ ], [ ] ]
 
-	const ArtificalArray_1 [ ] namedArrayOfFloatArraysTest = [ [ 1.1d, 1.2d ], [ 2.1d ], [ 3.1d, 3.2d, 3.3d ] ]
+	const ArtificialArray_1 [ ] namedArrayOfFloatArraysTest = [ [ 1.1d, 1.2d ], [ 2.1d ], [ 3.1d, 3.2d, 3.3d ] ]
 
 	const Double [ ] namedFloatArrayTest = [ 1.2345d, 0.008d, 197.888d ]
 
-	const ArtificalStruct_1 [ ] namedStructArrayTest = [ {
+	const ArtificialStruct_1 [ ] namedStructArrayTest = [ {
 		f_1 : 111.0d,
 		f_2 : "aaa",
 		f_3 : "true"
@@ -75,9 +75,9 @@ typeCollection {
 	**>
 	array NamedStructArray of ArrayElement
 
-	array ArtificalArray_1 of Double
+	array ArtificialArray_1 of Double
 
-	struct ArtificalStruct_1 {
+	struct ArtificialStruct_1 {
 		Double f_1
 		String f_2
 		String f_3
