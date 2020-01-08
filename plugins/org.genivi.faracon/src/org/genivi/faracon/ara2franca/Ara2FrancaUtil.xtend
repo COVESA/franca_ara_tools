@@ -1,5 +1,7 @@
 package org.genivi.faracon.ara2franca
 
+import autosar40.genericstructure.generaltemplateclasses.arobject.ARObject
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Referrable
 import org.eclipse.emf.common.util.URI
 import org.franca.core.franca.FModel
 
@@ -22,4 +24,14 @@ class Ara2FrancaUtil {
 		return francaFileName + ".fidl"
 	}
 	
+
+	static def String getARFullyQualifiedName(ARObject arObject) {
+		val ARObject aParent = arObject.eContainer as ARObject
+		val parentARFullyQualifiedName =
+			if (aParent !== null) aParent.ARFullyQualifiedName else ""
+		val unqualifiedName =
+			if (arObject instanceof Referrable) "/" + arObject.shortName else ""
+		parentARFullyQualifiedName + unqualifiedName
+	}
+
 }
