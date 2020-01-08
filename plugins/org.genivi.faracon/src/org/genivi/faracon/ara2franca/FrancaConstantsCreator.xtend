@@ -21,6 +21,7 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
 
+import static extension org.genivi.faracon.ara2franca.Ara2FrancaUtil.*
 import static org.franca.core.framework.FrancaHelpers.*
 
 @Singleton
@@ -42,91 +43,93 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 
 	def create fac.createFConstantDef transform(ConstantSpecification src, FModel fModel) {
 		it.name = src.shortName
-		it.type = src.valueSpec?.getConstantType(it, fModel)
-		it.rhs = src.valueSpec?.createInitializerExpressionForFTypedElement(it)
+		it.type = src.valueSpec?.getConstantType(it, src, fModel)
+		it.rhs = src.valueSpec?.createInitializerExpressionForFTypedElement(it, src)
 	}
 
-	private def FInitializerExpression createInitializerExpressionForFTypedElement(ValueSpecification aValueSpecification, FTypedElement fTypedElement) {
+	private def FInitializerExpression createInitializerExpressionForFTypedElement(ValueSpecification aValueSpecification, FTypedElement fTypedElement, ConstantSpecification aConstantSpecification) {
 		if (fTypedElement.array) {
 			if (aValueSpecification instanceof ArrayValueSpecification) {
 				return fac.createFBracketInitializer => [
 					it.elements += aValueSpecification.elements.map[element |
 						fac.createFElementInitializer => [
-							it.first = element.createInitializerExpressionForFTypeRef(fTypedElement.type)
+							it.first = element.createInitializerExpressionForFTypeRef(fTypedElement.type, aConstantSpecification)
 						]
 					]
 				]
 			}
 		}
-		aValueSpecification.createInitializerExpressionForFTypeRef(fTypedElement.type)
+		aValueSpecification.createInitializerExpressionForFTypeRef(fTypedElement.type, aConstantSpecification)
 	}
 
-	private def FInitializerExpression createInitializerExpressionForFTypeRef(ValueSpecification aValueSpecification, FTypeRef fTypeRef) {
+	private def FInitializerExpression createInitializerExpressionForFTypeRef(ValueSpecification aValueSpecification, FTypeRef fTypeRef, ConstantSpecification aConstantSpecification) {
 		val fActualDerivedType = getActualDerived(fTypeRef)
 		if (fActualDerivedType !== null) {
 			// Handle derived types.
-			createInitializerExpressionForFType(aValueSpecification as CompositeValueSpecification, fActualDerivedType)
+			createInitializerExpressionForFType(aValueSpecification as CompositeValueSpecification, fActualDerivedType, aConstantSpecification)
 		} else {
 			// Handle predefined primitive types.
-			createPrimitiveInitializerExpression(aValueSpecification)
+			createPrimitiveInitializerExpression(aValueSpecification, aConstantSpecification)
 		}
 	}
 
-	private dispatch def FInitializerExpression create fac.createFBracketInitializer createInitializerExpressionForFType(ArrayValueSpecification aArrayValueSpecification, FArrayType fArrayType) {
+	private dispatch def FInitializerExpression create fac.createFBracketInitializer createInitializerExpressionForFType(ArrayValueSpecification aArrayValueSpecification, FArrayType fArrayType, ConstantSpecification aConstantSpecification) {
 		it.elements += aArrayValueSpecification.elements.map[element |
 			fac.createFElementInitializer => [
-				it.first = element.createInitializerExpressionForFTypeRef(fArrayType.elementType)
+				it.first = element.createInitializerExpressionForFTypeRef(fArrayType.elementType, aConstantSpecification)
 			]
 		]
 	}
 
-	private dispatch def FInitializerExpression create fac.createFBracketInitializer createInitializerExpressionForFType(ArrayValueSpecification aArrayValueSpecification, FMapType fMapType) {
+	private dispatch def FInitializerExpression create fac.createFBracketInitializer createInitializerExpressionForFType(ArrayValueSpecification aArrayValueSpecification, FMapType fMapType, ConstantSpecification aConstantSpecification) {
 		it.elements += aArrayValueSpecification.elements.map[element |
 			fac.createFElementInitializer => [
 				val mapElementValue = element as RecordValueSpecification
-				it.first = mapElementValue.fields.get(0).createInitializerExpressionForFTypeRef(fMapType.keyType)
-				it.second = mapElementValue.fields.get(1).createInitializerExpressionForFTypeRef(fMapType.valueType)
+				it.first = mapElementValue.fields.get(0).createInitializerExpressionForFTypeRef(fMapType.keyType, aConstantSpecification)
+				it.second = mapElementValue.fields.get(1).createInitializerExpressionForFTypeRef(fMapType.valueType, aConstantSpecification)
 			]
 		]
 	}
 
-	private dispatch def FInitializerExpression create fac.createFCompoundInitializer createInitializerExpressionForFType(RecordValueSpecification aRecordValueSpecification, FStructType fStructType) {
+	private dispatch def FInitializerExpression create fac.createFCompoundInitializer createInitializerExpressionForFType(RecordValueSpecification aRecordValueSpecification, FStructType fStructType, ConstantSpecification aConstantSpecification) {
 		for (var fieldIndex = 0; fieldIndex < aRecordValueSpecification.fields.size; fieldIndex++) {
 			val _fieldIndex = fieldIndex
 			it.elements += fac.createFFieldInitializer => [
 				val fField = fStructType.elements.get(_fieldIndex)
 				it.element = fField
-				it.value = aRecordValueSpecification.fields.get(_fieldIndex).createInitializerExpressionForFTypedElement(fField)
+				it.value = aRecordValueSpecification.fields.get(_fieldIndex).createInitializerExpressionForFTypedElement(fField, aConstantSpecification)
 			]
 		}
 	}
 
-	private dispatch def FInitializerExpression create fac.createFStringConstant createPrimitiveInitializerExpression(ValueSpecification aValueSpecification) {
+	private dispatch def FInitializerExpression create fac.createFStringConstant createPrimitiveInitializerExpression(ValueSpecification aValueSpecification, ConstantSpecification aConstantSpecification) {
+		getLogger.logWarning('''Cannot properly create an Franca literal for the constant definition «aConstantSpecification.ARFullyQualifiedName» because the AUTOSAR literal metaclass «aValueSpecification.eClass.name» is not yet supported.''')
 		it.^val = "<unknown value>"
 	}
 
-	private dispatch def FInitializerExpression create fac.createFDoubleConstant createPrimitiveInitializerExpression(NumericalValueSpecification aNumericalValueSpecification) {
+	private dispatch def FInitializerExpression create fac.createFDoubleConstant createPrimitiveInitializerExpression(NumericalValueSpecification aNumericalValueSpecification, ConstantSpecification aConstantSpecification) {
 		it.^val = Double.parseDouble(aNumericalValueSpecification.value.mixedText)
 	}
 
-	private dispatch def FInitializerExpression create fac.createFStringConstant createPrimitiveInitializerExpression(TextValueSpecification aTextValueSpecification) {
+	private dispatch def FInitializerExpression create fac.createFStringConstant createPrimitiveInitializerExpression(TextValueSpecification aTextValueSpecification, ConstantSpecification aConstantSpecification) {
 		it.^val = aTextValueSpecification.value
 	}
 
 
-	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(ValueSpecification aValueSpecification, FTypedElement fTypedElement, FModel fModel) {
+	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(ValueSpecification aValueSpecification, FTypedElement fTypedElement, ConstantSpecification aConstantSpecification, FModel fModel) {
+		getLogger.logWarning('''Cannot properly determine the Franca type for the constant definition «aConstantSpecification.ARFullyQualifiedName» because the AUTOSAR literal metaclass «aValueSpecification.eClass.name» is not yet supported.''')
 		it.predefined = FBasicTypeId.UINT8
 	}
 
-	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(NumericalValueSpecification aNumericalValueSpecification, FTypedElement fTypedElement, FModel fModel) {
+	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(NumericalValueSpecification aNumericalValueSpecification, FTypedElement fTypedElement, ConstantSpecification aConstantSpecification, FModel fModel) {
 		it.predefined = FBasicTypeId.DOUBLE
 	}
 
-	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(TextValueSpecification aTextValueSpecification, FTypedElement fTypedElement, FModel fModel) {
+	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(TextValueSpecification aTextValueSpecification, FTypedElement fTypedElement, ConstantSpecification aConstantSpecification, FModel fModel) {
 		it.predefined = FBasicTypeId.STRING
 	}
 
-	private dispatch def FTypeRef getConstantType(ArrayValueSpecification aArrayValueSpecification, FTypedElement fTypedElement, FModel fModel) {
+	private dispatch def FTypeRef getConstantType(ArrayValueSpecification aArrayValueSpecification, FTypedElement fTypedElement, ConstantSpecification aConstantSpecification, FModel fModel) {
 		val firstArrayElementValue = aArrayValueSpecification.elements.head		
 
 		if (aArrayValueSpecification.isMapValue) {
@@ -134,8 +137,8 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 			if (fMapType === null) {
 				val firstMapElementValue = firstArrayElementValue as RecordValueSpecification
 				fMapType = fac.createFMapType => [
-					it.keyType = firstMapElementValue.fields.get(0).getConstantType(null, fModel)
-					it.valueType = firstMapElementValue.fields.get(1).getConstantType(null, fModel)
+					it.keyType = firstMapElementValue.fields.get(0).getConstantType(null, aConstantSpecification, fModel)
+					it.valueType = firstMapElementValue.fields.get(1).getConstantType(null, aConstantSpecification, fModel)
 					it.name = "ArtificalMap_" + nextFreeMapTypeIndex
 					nextFreeMapTypeIndex++
 				]
@@ -151,7 +154,7 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 			// Create an anonymous array.
 			fTypedElement.array = true
 			if (firstArrayElementValue !== null) {
-				firstArrayElementValue.getConstantType(null, fModel)
+				firstArrayElementValue.getConstantType(null, aConstantSpecification, fModel)
 			} else {
 				fac.createFTypeRef => [
 					it.predefined = FBasicTypeId.UINT8
@@ -165,7 +168,7 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 				// create a new definition of an artificial array type.
 				fArrayType = fac.createFArrayType => [
 					it.elementType = if (firstArrayElementValue !== null) {
-						firstArrayElementValue.getConstantType(null, fModel)
+						firstArrayElementValue.getConstantType(null, aConstantSpecification, fModel)
 					} else {
 						fac.createFTypeRef => [
 							it.predefined = FBasicTypeId.UINT8
@@ -183,7 +186,7 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 		}
 	}
 
-	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(RecordValueSpecification aRecordValueSpecification, FTypedElement fTypedElement, FModel fModel) {
+	private dispatch def FTypeRef create fac.createFTypeRef getConstantType(RecordValueSpecification aRecordValueSpecification, FTypedElement fTypedElement, ConstantSpecification aConstantSpecification, FModel fModel) {
 		var fStructType = searchMatchingActualTypeDefinition(aRecordValueSpecification, fModel) as FStructType
 		if (fStructType === null) {
 			fStructType = fac.createFStructType => [
@@ -193,7 +196,7 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 					val _fieldIndex = fieldIndex
 					it.elements += fac.createFField => [
 						it.name = "f_" + (_fieldIndex + 1)
-						it.type = aRecordValueSpecification.fields.get(_fieldIndex).getConstantType(it, fModel)
+						it.type = aRecordValueSpecification.fields.get(_fieldIndex).getConstantType(it, aConstantSpecification, fModel)
 					]
 				}
 			]
