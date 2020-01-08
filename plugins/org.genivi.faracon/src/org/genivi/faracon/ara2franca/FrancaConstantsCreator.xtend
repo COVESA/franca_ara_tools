@@ -21,8 +21,9 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
 
-import static extension org.genivi.faracon.ara2franca.Ara2FrancaUtil.*
 import static org.franca.core.framework.FrancaHelpers.*
+
+import static extension org.genivi.faracon.ara2franca.Ara2FrancaUtil.*
 
 @Singleton
 class FrancaConstantsCreator extends ARA2FrancaBase {
@@ -139,7 +140,7 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 				fMapType = fac.createFMapType => [
 					it.keyType = firstMapElementValue.fields.get(0).getConstantType(null, aConstantSpecification, fModel)
 					it.valueType = firstMapElementValue.fields.get(1).getConstantType(null, aConstantSpecification, fModel)
-					it.name = "ArtificalMap_" + nextFreeMapTypeIndex
+					it.name = "ArtificialMap_" + nextFreeMapTypeIndex
 					nextFreeMapTypeIndex++
 				]
 				fModel.addTypeToModel(fMapType)
@@ -174,7 +175,7 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 							it.predefined = FBasicTypeId.UINT8
 						]
 					}
-					it.name = "ArtificalArray_" + nextFreeArrayTypeIndex
+					it.name = "ArtificialArray_" + nextFreeArrayTypeIndex
 					nextFreeArrayTypeIndex++
 				]
 				fModel.addTypeToModel(fArrayType)
@@ -190,7 +191,7 @@ class FrancaConstantsCreator extends ARA2FrancaBase {
 		var fStructType = searchMatchingActualTypeDefinition(aRecordValueSpecification, fModel) as FStructType
 		if (fStructType === null) {
 			fStructType = fac.createFStructType => [
-				it.name = "ArtificalStruct_" + nextFreeStructTypeIndex
+				it.name = "ArtificialStruct_" + nextFreeStructTypeIndex
 				nextFreeStructTypeIndex++
 				for (var fieldIndex = 0; fieldIndex < aRecordValueSpecification.fields.size; fieldIndex++) {
 					val _fieldIndex = fieldIndex

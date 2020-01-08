@@ -1,7 +1,7 @@
 package a1.b2.c3
 
 typeCollection {
-	const ArtificalStruct_1 nestedStructTest = {
+	const ArtificialStruct_1_ nestedStructTest = {
 		f_1 : {
 			f_1 : 111.0d,
 			f_2 : "aaa",
@@ -16,10 +16,16 @@ typeCollection {
 		}
 	}
 
-	const ArtificalStruct_2 structTest = {
+	const ArtificialStruct_2 structTest = {
 		f_1 : 8.555555468E9d,
 		f_2 : "vjgcj",
 		f_3 : [ 1.2345d, 0.008d, 197.888d ]
+	}
+
+	struct ArtificialStruct_1 {
+		UInt64 a
+		String b
+		Double [ ] c
 	}
 
 	struct ExampleStruct {
@@ -34,15 +40,15 @@ typeCollection {
 		ExampleStruct z
 	}
 
-	struct ArtificalStruct_2 {
+	struct ArtificialStruct_2 {
 		Double f_1
 		String f_2
 		Double [ ] f_3
 	}
 
-	struct ArtificalStruct_1 {
-		ArtificalStruct_2 f_1
+	struct ArtificialStruct_1_ {
+		ArtificialStruct_2 f_1
 		Double [ ] f_2
-		ArtificalStruct_2 f_3
+		ArtificialStruct_2 f_3
 	}
 }

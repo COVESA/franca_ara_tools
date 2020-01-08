@@ -1,32 +1,34 @@
 package org.genivi.faracon.names
 
+import com.google.inject.Singleton
 import java.util.List
 import org.genivi.faracon.logging.BaseWithLogger
 import org.genivi.faracon.logging.ILogger
 
+@Singleton
 class NamesHierarchy extends BaseWithLogger {
 
 	static class NameNode {
 		String name
 		Class<?> metaclass
-		boolean artifical
+		boolean artificial
 		List<NameNode> children
 
-		def NameNode insertName(String nameToInsert, Class<?> metaclassOfElement, boolean isNameOfArtificalElement) {
+		def NameNode insertName(String nameToInsert, Class<?> metaclassOfElement, boolean isNameOfArtificialElement) {
 			if (children === null) {
 				children = newArrayList
 			}
 			val newNameNode = new NameNode => [
 				name = nameToInsert
 				metaclass = metaclassOfElement
-				artifical = isNameOfArtificalElement
+				artificial = isNameOfArtificialElement
 			]
 			children += newNameNode
 			newNameNode
 		}
 		
 		def void dump(ILogger logger) {
-			logger.logInfo(name + " : " + metaclass?.name + (if (artifical) " [artifical]" else ""))
+			logger.logInfo(name + " : " + metaclass?.name + (if (artificial) " [artificial]" else ""))
 			logger.increaseIndentationLevel
 			children?.forEach[dump(logger)]
 			logger.decreaseIndentationLevel
@@ -44,22 +46,22 @@ class NamesHierarchy extends BaseWithLogger {
 		rootNode.dump(logger)
 	}
 
-	def insertFullyQualifiedName(String fullyQualifiedName, Class<?> metaclass, boolean artifical) {
-		insertFullyQualifiedName(fullyQualifiedName.split("\\."), metaclass, artifical)
+	def insertFullyQualifiedName(String fullyQualifiedName, Class<?> metaclass, boolean artificial) {
+		insertFullyQualifiedName(fullyQualifiedName.split("\\."), metaclass, artificial)
 	}
 
-	def insertFullyQualifiedName(String[] fullyQualifiedNameFragments, Class<?> metaclass, boolean artifical) {
+	def insertFullyQualifiedName(String[] fullyQualifiedNameFragments, Class<?> metaclass, boolean artificial) {
 		var NameNode currentNode = rootNode
 		for (name : fullyQualifiedNameFragments) {
 			val NameNode matchingNameNode = currentNode.findMatchingNameNode(name)
 			if (matchingNameNode !== null) {
 				currentNode = matchingNameNode
 			} else {
-				currentNode = currentNode.insertName(name, null, artifical)
+				currentNode = currentNode.insertName(name, null, artificial)
 			}
 		}
 		currentNode.metaclass = metaclass
-		currentNode.artifical = artifical
+		currentNode.artificial = artificial
 	}
 
 	def String createAndInsertUniqueName(String fullyQualifiedNamespaceName, String desiredLocalName, Class<?> metaclass) {
