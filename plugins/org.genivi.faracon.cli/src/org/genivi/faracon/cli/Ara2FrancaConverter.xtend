@@ -13,6 +13,9 @@ import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.FrancaMultiModelContainer
 import org.genivi.faracon.InputFile
+import org.genivi.faracon.ara2franca.FrancaConstantsCreator
+import org.genivi.faracon.names.ARANamesCollector
+import org.genivi.faracon.names.NamesHierarchy
 
 import static org.genivi.faracon.cli.ConverterHelper.*
 
@@ -21,7 +24,11 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 	@Inject
 	var ARAConnector araConnector
 	@Inject
+	var FrancaConstantsCreator francaConstantsCreator
+	@Inject
 	var FrancaPersistenceManager francaLoader
+	@Inject
+	NamesHierarchy namesHierarchy
 
 	/**
 	 * The methods loads all ARA files into a single resource Set and resolves all objects
@@ -59,6 +66,17 @@ class Ara2FrancaConverter extends AbstractFaraconConverter<ARAModelContainer, Fr
 
 	override protected Collection<Pair<ARAModelContainer, FrancaMultiModelContainer>> transform(
 		Collection<ARAModelContainer> containers) {
+		// Initialization.
+		//   Fill all names of the AUTOSAR model into a hierarchy of names.
+		namesHierarchy.clear();
+		val ARANamesCollector araNamesCollector = new ARANamesCollector
+		for (araModelContainer : containers) {
+			araNamesCollector.fillNamesHierarchy(araModelContainer.model, namesHierarchy)
+		}
+		//   Initialize the naming of artificial types for constants.
+		francaConstantsCreator.resetArtificialTypesIndices;
+
+		// The transformation itself.
 		containers.map [ araModelContainer |
 			getLogger().logInfo("Converting arxml file " + araModelContainer?.model?.eResource?.URI);
 			val francaMultiModelContainer = araConnector.toFranca(araModelContainer) as FrancaMultiModelContainer;

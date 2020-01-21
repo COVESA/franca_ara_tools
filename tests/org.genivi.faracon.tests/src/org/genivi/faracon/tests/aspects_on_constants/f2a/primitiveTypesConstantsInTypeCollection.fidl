@@ -20,9 +20,4 @@ typeCollection {
 
 	const ByteBuffer byteBufferTest = [11,22,33]
 
-	typedef IndirectInt32 is Int32
-	typedef DoubleIndirectInt32 is IndirectInt32
-	const IndirectInt32 indirectInt32Test = 5423556
-	const DoubleIndirectInt32 doubleIndirectInt32Test = 18839
-
 }

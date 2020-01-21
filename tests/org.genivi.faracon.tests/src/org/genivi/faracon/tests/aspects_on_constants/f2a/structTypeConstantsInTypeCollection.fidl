@@ -20,4 +20,10 @@ typeCollection {
 		z : {a : 333, b : "ccc", c : [1234.5789d]}
 	}
 
+	struct ArtificialStruct_1 {
+		UInt64 a
+		String b
+		Double [ ] c
+	}
+
 }

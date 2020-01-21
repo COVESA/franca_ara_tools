@@ -57,10 +57,13 @@ class ARATypeCreator extends Franca2ARABase {
 	}
 
 	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
-		if (fTypeRef.refsPrimitiveType) {
+		if (fTypeRef.interval !== null) {
+			logger.logError('''Cannot properly convert '«typedElementName»' in '«namespaceName»' because integer interval types are not supported.''')
+			null
+		} else if (fTypeRef.refsPrimitiveType) {
 			getBaseTypeForReference(fTypeRef.predefined, typedElementName, namespaceName)
 		} else {
-			return getDataTypeForReference(fTypeRef.derived)
+			getDataTypeForReference(fTypeRef.derived)
 		}
 	}
 
@@ -81,8 +84,7 @@ class ARATypeCreator extends Franca2ARABase {
 //		autosarType.ARPackage.elements.add(it)
 //	}
 	def private dispatch AutosarDataType createDataTypeForReference(FType type) {
-		getLogger.
-			logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
+		getLogger.logWarning('''Cannot create AutosarDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null
 	}
 

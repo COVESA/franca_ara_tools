@@ -1,0 +1,54 @@
+package a1.b2.c3.ExampleInterface
+
+typeCollection {
+	const ArtificialStruct_1_ nestedStructTest = {
+		f_1 : {
+			f_1 : 111.0d,
+			f_2 : "aaa",
+			f_3 : [ 1.0d, 0.1d, 0.01d, 0.001d ]
+		}
+		,
+		f_2 : [ 1.0d, 2.0d, 4.0d, 8.0d, 16.0d, 32.0d, 64.0d, 128.0d ],
+		f_3 : {
+			f_1 : 333.0d,
+			f_2 : "ccc",
+			f_3 : [ 1234.5789d ]
+		}
+	}
+
+	const ArtificialStruct_2 structTest = {
+		f_1 : 8.555555468E9d,
+		f_2 : "vjgcj",
+		f_3 : [ 1.2345d, 0.008d, 197.888d ]
+	}
+
+	struct ArtificialStruct_1 {
+		UInt64 a
+		String b
+		Double [ ] c
+	}
+
+	struct ExampleStruct {
+		UInt64 a
+		String b
+		Double [ ] c
+	}
+
+	struct NestedStruct {
+		ExampleStruct x
+		ByteBuffer y
+		ExampleStruct z
+	}
+
+	struct ArtificialStruct_2 {
+		Double f_1
+		String f_2
+		Double [ ] f_3
+	}
+
+	struct ArtificialStruct_1_ {
+		ArtificialStruct_2 f_1
+		Double [ ] f_2
+		ArtificialStruct_2 f_3
+	}
+}

@@ -1,0 +1,35 @@
+package a1.b2.c3.ExampleInterface
+
+typeCollection {
+	const String booleanFalseTest = "false"
+
+	const String booleanTrueTest = "true"
+
+	const Double [ ] byteBufferTest = [ 11.0d, 22.0d, 33.0d ]
+
+	const Double doubleTest = 3.1415d
+
+	const String emptyStringTest = ""
+
+	const Double floatTest = 1.2345d
+
+	const Double int16Test = -30000.0d
+
+	const Double int32Test = -2.0E9d
+
+	const Double int64Test = -8.1112223334445558E18d
+
+	const Double int8Test = 54.0d
+
+	const Double integerTest = 576576.0d
+
+	const String stringTest = "string value"
+
+	const Double uint16Test = 61234.0d
+
+	const Double uint32Test = 4.0E9d
+
+	const Double uint64Test = 1.6111222333444555E19d
+
+	const Double uint8Test = 200.0d
+}

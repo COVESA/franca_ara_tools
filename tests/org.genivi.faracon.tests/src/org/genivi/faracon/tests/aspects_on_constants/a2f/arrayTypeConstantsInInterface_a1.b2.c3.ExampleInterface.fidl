@@ -1,0 +1,85 @@
+package a1.b2.c3.ExampleInterface
+
+typeCollection {
+	const ArtificialArray_1 [ ] anonymousArrayOfFloatArraysTest = [ [ 12.34d, 56.78d, 98.76d ], [ 123.456d, 9.99d ] ]
+
+	const Double [ ] anonymousFloatArrayTest = [ 0.1d, 0.2d, 0.3d, 0.4d, 0.5d ]
+
+	const ArtificialStruct_1 [ ] anonymousStructArrayTest = [ {
+		f_1 : 36.0d,
+		f_2 : "7izv",
+		f_3 : "false"
+	}
+	, {
+		f_1 : 95.0d,
+		f_2 : "",
+		f_3 : "false"
+	}
+	, {
+		f_1 : 96.0d,
+		f_2 : "kb",
+		f_3 : "true"
+	}
+	]
+
+	const UInt8 [ ] emptyNamedFloatArrayTest = [ ]
+
+	const UInt8 [ ] emptyNamedStructArrayTest = [ ]
+
+	const ArrayElementVector [ ] namedArrayOfEmptyFloatArraysTest = [ [ ], [ ], [ ], [ ] ]
+
+	const ArtificialArray_1 [ ] namedArrayOfFloatArraysTest = [ [ 1.1d, 1.2d ], [ 2.1d ], [ 3.1d, 3.2d, 3.3d ] ]
+
+	const Double [ ] namedFloatArrayTest = [ 1.2345d, 0.008d, 197.888d ]
+
+	const ArtificialStruct_1 [ ] namedStructArrayTest = [ {
+		f_1 : 111.0d,
+		f_2 : "aaa",
+		f_3 : "true"
+	}
+	, {
+		f_1 : 222.0d,
+		f_2 : "bbb",
+		f_3 : "false"
+	}
+	]
+
+	struct ArrayElement {
+		UInt64 a
+		String b
+		Boolean c
+	}
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	array ArrayElementVector of ArrayElement
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	array NamedArrayOfFloatArrays of NamedFloatArray
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	array NamedFloatArray of Float
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	array NamedFloatArrayVector of NamedFloatArray
+
+	<**
+		@experimental : [faracon] OriginalSubElementName = valueType
+	**>
+	array NamedStructArray of ArrayElement
+
+	array ArtificialArray_1 of Double
+
+	struct ArtificialStruct_1 {
+		Double f_1
+		String f_2
+		String f_3
+	}
+}

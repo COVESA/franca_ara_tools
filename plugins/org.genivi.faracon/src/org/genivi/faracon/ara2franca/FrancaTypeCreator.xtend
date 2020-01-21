@@ -3,6 +3,7 @@ package org.genivi.faracon.ara2franca
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
+import autosar40.genericstructure.generaltemplateclasses.arpackage.PackageableElement
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import java.util.Optional
 import javax.inject.Inject
@@ -11,12 +12,16 @@ import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.ARA2FrancaBase
 import org.genivi.faracon.ARAResourceSet
+import org.genivi.faracon.names.NamesHierarchy
 
 import static org.genivi.faracon.util.AutosarUtil.*
+
+import static extension org.genivi.faracon.util.FrancaUtil.*
 
 @Singleton
 class FrancaTypeCreator extends ARA2FrancaBase {
@@ -29,6 +34,8 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	var extension FrancaImportCreator francaImportCreator
 	@Inject
 	var extension FrancaAnnotationCreator
+	@Inject
+	NamesHierarchy namesHierarchy
 
 	def transform(ImplementationDataType src) {
 		if (src === null) {
@@ -61,6 +68,16 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 	def create createFTypeCollection createAnonymousTypeCollectionForModel(FModel model) {
 		// no implementation - the create method ensures that we only create one anonymous type collection per FModel
 		model.typeCollections.add(it)
+	}
+
+	def addTypeToModel(FModel fModel, FType fType) {
+		val fTypeCollection = fModel.createAnonymousTypeCollectionForModel
+		fType.name = namesHierarchy.createAndInsertUniqueName(
+			fTypeCollection.francaFullyQualifiedName,
+			fType.name,
+			PackageableElement
+		)
+		fTypeCollection.types.add(fType)
 	}
 
 	/**
@@ -252,7 +269,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			val srcResource = src.eResource
 			return srcResource !== null && srcResource == stdResource
 		} else {
-			// This is a fall back way to identify prmitive types if the implementation type has no resource 
+			// This is a fall back way to identify primitive types if the implementation type has no resource.
 			val isByteArray = src?.shortName == "ByteArray" && src?.category == "VECTOR"
 			val isByteBuffer = src?.shortName == "ByteBuffer" && src?.category == "VECTOR"
 			val isByteVectorType = src?.shortName == "ByteVectorType" && src?.category == "VECTOR"

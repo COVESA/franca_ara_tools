@@ -3,6 +3,9 @@ package org.genivi.faracon.util
 import org.eclipse.emf.ecore.EObject
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
+import org.franca.core.franca.FTypeCollection
+
+import static extension org.franca.core.FrancaModelExtensions.*
 
 class FrancaUtil {
 	private new() {
@@ -29,6 +32,13 @@ class FrancaUtil {
 			partialNamespaceName = (currentElement as FModel).name + partialNamespaceName
 		}
 		partialNamespaceName
+	}
+
+	static def String getFrancaFullyQualifiedName(FTypeCollection fTypeCollection) {
+		val FModel model = fTypeCollection.getModel;
+		val modelPart = if(model !== null && !model.name.nullOrEmpty) model.name + "." else ""
+		val interfacePart = if(fTypeCollection !== null && !fTypeCollection.name.nullOrEmpty) fTypeCollection.name else ""
+		return modelPart + interfacePart
 	}
 
 }

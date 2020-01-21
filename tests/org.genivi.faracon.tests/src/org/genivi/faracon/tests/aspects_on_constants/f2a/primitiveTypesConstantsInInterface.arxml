@@ -32,40 +32,6 @@
                 <AR-PACKAGE UUID="0">
                   <SHORT-NAME>ExampleInterface</SHORT-NAME>
                   <ELEMENTS>
-                    <IMPLEMENTATION-DATA-TYPE UUID="0">
-                      <SHORT-NAME>DoubleIndirectInt32</SHORT-NAME>
-                      <CATEGORY>TYPE_REF</CATEGORY>
-                      <SUB-ELEMENTS>
-                        <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                          <SHORT-NAME>valueType</SHORT-NAME>
-                          <CATEGORY>TYPE_REFERENCE</CATEGORY>
-                          <SW-DATA-DEF-PROPS>
-                            <SW-DATA-DEF-PROPS-VARIANTS>
-                              <SW-DATA-DEF-PROPS-CONDITIONAL>
-                                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/a1/b2/c3/ExampleInterface/IndirectInt32</IMPLEMENTATION-DATA-TYPE-REF>
-                              </SW-DATA-DEF-PROPS-CONDITIONAL>
-                            </SW-DATA-DEF-PROPS-VARIANTS>
-                          </SW-DATA-DEF-PROPS>
-                        </IMPLEMENTATION-DATA-TYPE-ELEMENT>
-                      </SUB-ELEMENTS>
-                    </IMPLEMENTATION-DATA-TYPE>
-                    <IMPLEMENTATION-DATA-TYPE UUID="0">
-                      <SHORT-NAME>IndirectInt32</SHORT-NAME>
-                      <CATEGORY>TYPE_REF</CATEGORY>
-                      <SUB-ELEMENTS>
-                        <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                          <SHORT-NAME>valueType</SHORT-NAME>
-                          <CATEGORY>TYPE_REFERENCE</CATEGORY>
-                          <SW-DATA-DEF-PROPS>
-                            <SW-DATA-DEF-PROPS-VARIANTS>
-                              <SW-DATA-DEF-PROPS-CONDITIONAL>
-                                <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/Int32</IMPLEMENTATION-DATA-TYPE-REF>
-                              </SW-DATA-DEF-PROPS-CONDITIONAL>
-                            </SW-DATA-DEF-PROPS-VARIANTS>
-                          </SW-DATA-DEF-PROPS>
-                        </IMPLEMENTATION-DATA-TYPE-ELEMENT>
-                      </SUB-ELEMENTS>
-                    </IMPLEMENTATION-DATA-TYPE>
                     <CONSTANT-SPECIFICATION UUID="0">
                       <SHORT-NAME>booleanFalseTest</SHORT-NAME>
                       <ANNOTATIONS>
@@ -140,27 +106,6 @@
                       </VALUE-SPEC>
                     </CONSTANT-SPECIFICATION>
                     <CONSTANT-SPECIFICATION UUID="0">
-                      <SHORT-NAME>doubleIndirectInt32Test</SHORT-NAME>
-                      <ANNOTATIONS>
-                        <ANNOTATION>
-                          <LABEL>
-                            <L-4>OriginalLiteralValueType</L-4>
-                          </LABEL>
-                          <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
-                          <ANNOTATION-TEXT>
-                            <VERBATIM>
-                              <L-5>Int32</L-5>
-                            </VERBATIM>
-                          </ANNOTATION-TEXT>
-                        </ANNOTATION>
-                      </ANNOTATIONS>
-                      <VALUE-SPEC>
-                        <NUMERICAL-VALUE-SPECIFICATION>
-                          <VALUE>18839</VALUE>
-                        </NUMERICAL-VALUE-SPECIFICATION>
-                      </VALUE-SPEC>
-                    </CONSTANT-SPECIFICATION>
-                    <CONSTANT-SPECIFICATION UUID="0">
                       <SHORT-NAME>doubleTest</SHORT-NAME>
                       <ANNOTATIONS>
                         <ANNOTATION>
@@ -220,27 +165,6 @@
                       <VALUE-SPEC>
                         <NUMERICAL-VALUE-SPECIFICATION>
                           <VALUE>1.2345</VALUE>
-                        </NUMERICAL-VALUE-SPECIFICATION>
-                      </VALUE-SPEC>
-                    </CONSTANT-SPECIFICATION>
-                    <CONSTANT-SPECIFICATION UUID="0">
-                      <SHORT-NAME>indirectInt32Test</SHORT-NAME>
-                      <ANNOTATIONS>
-                        <ANNOTATION>
-                          <LABEL>
-                            <L-4>OriginalLiteralValueType</L-4>
-                          </LABEL>
-                          <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
-                          <ANNOTATION-TEXT>
-                            <VERBATIM>
-                              <L-5>Int32</L-5>
-                            </VERBATIM>
-                          </ANNOTATION-TEXT>
-                        </ANNOTATION>
-                      </ANNOTATIONS>
-                      <VALUE-SPEC>
-                        <NUMERICAL-VALUE-SPECIFICATION>
-                          <VALUE>5423556</VALUE>
                         </NUMERICAL-VALUE-SPECIFICATION>
                       </VALUE-SPEC>
                     </CONSTANT-SPECIFICATION>
