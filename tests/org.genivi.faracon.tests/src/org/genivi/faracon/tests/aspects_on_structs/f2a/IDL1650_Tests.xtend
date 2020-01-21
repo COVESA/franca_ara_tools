@@ -12,7 +12,8 @@ import static extension org.genivi.faracon.tests.util.AutosarAssertHelper.*
 import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
 
 /**
- * Test cases for testing the conversion of franca structs to autosar
+ * Test cases for testing the conversion of franca structs to autosar.
+ * Also tests IDL1180 and IDL 1200.
  */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)

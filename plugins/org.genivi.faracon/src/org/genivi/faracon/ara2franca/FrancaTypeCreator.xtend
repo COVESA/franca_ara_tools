@@ -269,7 +269,7 @@ class FrancaTypeCreator extends ARA2FrancaBase {
 			val srcResource = src.eResource
 			return srcResource !== null && srcResource == stdResource
 		} else {
-			// This is a fall back way to identify prmitive types if the implementation type has no resource 
+			// This is a fall back way to identify primitive types if the implementation type has no resource.
 			val isByteArray = src?.shortName == "ByteArray" && src?.category == "VECTOR"
 			val isByteBuffer = src?.shortName == "ByteBuffer" && src?.category == "VECTOR"
 			val isByteVectorType = src?.shortName == "ByteVectorType" && src?.category == "VECTOR"

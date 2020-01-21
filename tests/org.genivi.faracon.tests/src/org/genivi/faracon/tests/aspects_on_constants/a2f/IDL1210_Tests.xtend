@@ -9,7 +9,10 @@ import org.junit.runner.RunWith
 
 /**
  * Test transformation of Autosar implementation data type with category 
- * STRUCTURE to franca struct type. 
+ * STRUCTURE to franca struct type.
+ *
+ * Also tests IDL1830, IDL1840, IDL1850, IDL1860, IDL1870, IDL1880, IDL1890, IDL1900, IDL1910, IDL1920, IDL1930, IDL1940, IDL1950, IDL1960.
+ *  IDL2410, IDL2440, IDL2450, IDL2500, and IDL2510.
  */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)

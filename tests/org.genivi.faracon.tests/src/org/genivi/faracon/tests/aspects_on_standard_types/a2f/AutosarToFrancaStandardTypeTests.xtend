@@ -1,22 +1,25 @@
 package org.genivi.faracon.tests.aspects_on_standard_types.a2f
 
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
+import com.google.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.ARAResourceSet
-import org.genivi.faracon.preferences.Preferences
-import org.genivi.faracon.preferences.PreferencesConstants
+import org.genivi.faracon.ara2franca.FrancaTypeCreator
 import org.genivi.faracon.tests.util.ARA2FrancaTestBase
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.junit.Test
 import org.junit.runner.RunWith
 
+import static org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
+import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
+import static extension org.junit.Assert.assertNull
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertFalse
 import static org.junit.Assert.assertTrue
-import static extension org.genivi.faracon.tests.aspects_on_standard_types.StdTypesTestHelper.*
+
 /**
  * Covers tests for standard types.
  * It covers the following IDLs:
@@ -26,6 +29,30 @@ import static extension org.genivi.faracon.tests.aspects_on_standard_types.StdTy
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
 class AutosarToFrancaStandardTypeTests extends ARA2FrancaTestBase {
+
+	@Inject
+	var extension FrancaTypeCreator francaTypeCreator
+
+	/**
+	 * Test the AUTOSAR to Franca conversion of a reference to a locally defined primitive type
+	 * where the AUTOSAR strandard types file "stdtypes.arxml" is not loaded. 
+	 */
+	@Test
+	def void testPrimitiveTypeConversionWithoutStdTypesFileLoaded() {
+		//given
+		val implementationDataType = createImplementationDataType =>[
+			category = "VALUE"
+			shortName = "UInt32"
+		]
+		
+		//when
+		val result = francaTypeCreator.createFTypeRefAndImport(implementationDataType, null, null)
+		
+		//then
+		result.assertNotNull
+		assertNull("The derived element is not null, but " + result.derived, result.derived)
+		result.predefined.assertIsInstanceOf(FBasicTypeId)
+	}
 
 	/**Transforms all types in the stdtypes.arxml to franca and ensures that no error occurs */
 	@Test

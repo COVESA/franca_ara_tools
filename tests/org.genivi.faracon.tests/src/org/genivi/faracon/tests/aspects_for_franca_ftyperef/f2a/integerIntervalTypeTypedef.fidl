@@ -1,0 +1,9 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	typedef IntegerIntervalTypeA is Integer(-57, 123)
+	typedef IntegerIntervalTypeB is Integer(10, 5000000000)
+	typedef IntegerIntervalTypeC is Integer(-25000, 25000)
+
+}

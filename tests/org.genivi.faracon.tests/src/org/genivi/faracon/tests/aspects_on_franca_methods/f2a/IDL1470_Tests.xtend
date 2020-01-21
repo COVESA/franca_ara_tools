@@ -2,9 +2,13 @@ package org.genivi.faracon.tests.aspects_on_franca_methods.f2a
 
 import autosar40.adaptiveplatform.applicationdesign.portinterface.Field
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
+import autosar40.commonstructure.constants.ConstantSpecification
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Referrable
+import autosar40.swcomponent.datatype.computationmethod.CompuMethod
+import autosar40.swcomponent.datatype.computationmethod.CompuScale
+import autosar40.swcomponent.datatype.computationmethod.CompuScales
 import autosar40.swcomponent.datatype.dataprototypes.VariableDataPrototype
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import autosar40.swcomponent.portinterface.ArgumentDataPrototype
@@ -18,6 +22,7 @@ import org.franca.core.franca.FArrayType
 import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FBroadcast
+import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FEnumerator
 import org.franca.core.franca.FField
@@ -32,8 +37,8 @@ import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARATransformation
+import org.genivi.faracon.franca2ara.ARAConstantsCreator
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
-import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.logging.AbstractLogger
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
@@ -55,7 +60,7 @@ import static org.junit.Assert.assertTrue
  *          FTypedElement      {abstract}
  *             FArgument
  *             FAttribute
- *             FConstantDef    {IGNORE (A18)}
+ *             FConstantDef
  *             FDeclaration    {IGNORE (A20)}
  *             FField
  *             FVariable       {IGNORE}
@@ -78,6 +83,7 @@ import static org.junit.Assert.assertTrue
  *  - Metaclasses which are specified to be ignored will never have an according conversion implementation.
  *  - Metaclasses which are specified to cause an error can be tested with tests that expect an exception to be thrown.
  *
+ * Also tests IDL1600, IDL1610, IDL1630, IDL2590, IDL2600, and IDL2610.
  */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
@@ -92,7 +98,7 @@ class IDL1470_Tests extends Franca2ARATestBase {
 	var ARATypeCreator araTypeCreator
 
 	@Inject
-	var ARAPrimitveTypesCreator araPrimitveTypesCreator
+	var ARAConstantsCreator araConstantsCreator
 
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
@@ -115,8 +121,21 @@ class IDL1470_Tests extends Franca2ARATestBase {
 		val FEnumerator fEnumerator = francaFac.createFEnumerator => [
 			name = MODEL_ELEMENT_NAME
 		]
-		//TODO: Transform enumerator (transformation not implemented yet) and check abstract base classes.
-		//checkNamesEquality(fEnumerator, )
+		val FEnumerationType fEnumerationType = francaFac.createFEnumerationType => [
+			enumerators += fEnumerator
+		]
+		val FModel fModel = francaFac.createFModel => [
+			name = "a1.b2.c3"
+			interfaces += francaFac.createFInterface => [
+				types += fEnumerationType
+			]
+		]
+		fModel.createAutosarModelSkeleton
+		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fEnumerationType)
+		val CompuMethod enumCompuMethod = autosarDataType.swDataDefProps.swDataDefPropsVariants.head.compuMethod
+		for(enumeratorCompuScale : (enumCompuMethod.compuInternalToPhys.compuContent as CompuScales).compuScales) {
+			checkNamesEquality(fEnumerator, enumeratorCompuScale)
+		}
 	}
 
 	@Test
@@ -145,6 +164,21 @@ class IDL1470_Tests extends Franca2ARATestBase {
 		]
 		val Field field = franca2ARATransformation.transform(fAttribute, fParentInterface)
 		checkNamesEquality(fAttribute, field)
+	}
+
+	@Test
+	def void constantDefConversion() {
+		val FConstantDef fConstantDef = francaFac.createFConstantDef => [
+			it.name = MODEL_ELEMENT_NAME
+			it.type = francaFac.createFTypeRef => [
+				it.predefined = FBasicTypeId.DOUBLE
+			]
+			it.rhs = francaFac.createFDoubleConstant => [
+				it.^val = 12.456
+			]
+		]
+		val ConstantSpecification constantSpecification = araConstantsCreator.transform(fConstantDef)
+		checkNamesEquality(fConstantDef, constantSpecification)
 	}
 
 	@Test
@@ -189,14 +223,17 @@ class IDL1470_Tests extends Franca2ARATestBase {
 			name = MODEL_ELEMENT_NAME
 			elementType = francaFac.createFTypeRef => [
 				predefined = FBasicTypeId.UINT32
-				interval = francaFac.createFIntegerInterval => [
-					lowerBound = new BigInteger("1")
-					upperBound = new BigInteger("10")
-				]
 			]
 		]
-		//TODO: Transform array type (transformation of named array types is not implemented yet) and check abstract base classes.
-		//checkNamesEquality(fArrayType, )
+		val FModel fModel = francaFac.createFModel => [
+			name = "a1.b2.c3"
+			interfaces += francaFac.createFInterface => [
+				types += fArrayType
+			]
+		]
+		fModel.createAutosarModelSkeleton
+		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fArrayType)
+		checkNamesEquality(fArrayType, autosarDataType)
 	}
 
 	@Test
@@ -295,9 +332,8 @@ class IDL1470_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		//TODO: Transform typedef type (transformation is not implemented yet) and check abstract base classes.
-		//val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fTypeDef)
-		//checkNamesEquality(fTypeDef, autosarDataType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fTypeDef)
+		checkNamesEquality(fTypeDef, autosarDataType)
 	}
 
 	@Test
@@ -305,9 +341,15 @@ class IDL1470_Tests extends Franca2ARATestBase {
 		val FTypeCollection fTypeCollection = francaFac.createFTypeCollection => [
 			name = MODEL_ELEMENT_NAME
 		]
-		val ARPackage arPackage = araFac.createARPackage
-		//TODO: Transform type vollection (transformation is not implemented yet) and check abstract base classes.
-		//checkNamesEquality(fTypeCollection, )
+		// Create a FModel and add the type collection to it as type collections need to be contained in a FModel.
+		val FModel fModel = francaFac.createFModel => [
+			it.name = "a1.b2.c3"
+			it.typeCollections += fTypeCollection
+		]
+		fModel.createAutosarModelSkeleton
+		franca2ARATransformation.transform(fTypeCollection)
+		val accordingArPackage = fTypeCollection.accordingArPackage
+		checkNamesEquality(fTypeCollection, accordingArPackage)
 	}
 
 	@Test
@@ -315,17 +357,21 @@ class IDL1470_Tests extends Franca2ARATestBase {
 		val FInterface fInterface = francaFac.createFInterface => [
 			name = MODEL_ELEMENT_NAME
 		]
-		val FModel fModel = francaFac.createFModel => [
-			name = "a1.b2.c3"
-			interfaces += fInterface
+		// Create a FModel and add the interface to it as interfaces need to be contained in a FModel.
+		createFModel => [
+			it.name = "a1.b2.c3"
+			it.interfaces += fInterface
 		]
-		fModel.createAutosarModelSkeleton
 		val ServiceInterface serviceInterface = franca2ARATransformation.transform(fInterface)
 		checkNamesEquality(fInterface, serviceInterface)
 	}
 
-	def void checkNamesEquality(FModelElement fModelElement, Referrable referrable) {
+	dispatch def void checkNamesEquality(FModelElement fModelElement, Referrable referrable) {
 		assertTrue(fModelElement.name == referrable.shortName && referrable.shortName == MODEL_ELEMENT_NAME)
+	}
+
+	dispatch def void checkNamesEquality(FModelElement fModelElement, CompuScale compuScale) {
+		assertTrue(fModelElement.name == compuScale.symbol && compuScale.symbol == MODEL_ELEMENT_NAME)
 	}
 
 }
