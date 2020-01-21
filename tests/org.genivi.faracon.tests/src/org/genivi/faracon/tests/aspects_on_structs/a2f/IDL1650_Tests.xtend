@@ -18,7 +18,8 @@ import autosar40.genericstructure.generaltemplateclasses.primitivetypes.Argument
 
 /**
  * Test transformation of Autosar implementation data type with category 
- * STRUCTURE to franca struct type. 
+ * STRUCTURE to franca struct type.
+ * Also tests IDL1180 and IDL 1200.
  */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)

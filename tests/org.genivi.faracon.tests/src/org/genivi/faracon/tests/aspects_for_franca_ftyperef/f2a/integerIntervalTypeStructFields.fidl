@@ -1,0 +1,11 @@
+package a1.b2.c3
+
+interface ExampleInterface {
+
+	struct StructWithIntegerIntervalTypeFields {
+		Integer(-57, 123) a
+		Integer(10, 5000000000) b
+		Integer(-25000, 25000) c
+	}
+
+}
