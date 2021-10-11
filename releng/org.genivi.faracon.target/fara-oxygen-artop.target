@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde?>
 <!-- generated with https://github.com/eclipse-cbi/targetplatform-dsl -->
-<target name="FARACON Target Platform - Eclipse 4.7" sequenceNumber="1562837467">
+<target name="FARACON Target Platform - Eclipse 4.7" sequenceNumber="1562837469">
   <locations>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
       <unit id="org.eclipse.sdk.feature.group" version="4.7.2.v20171130-0906"/>
@@ -28,25 +28,25 @@
       <repository location="http://download.eclipse.org/sphinx/releases/0.11.x"/>
     </location>
     <location includeMode="planner" includeAllPlatforms="false" includeSource="true" includeConfigurePhase="false" type="InstallableUnit">
-      <unit id="org.artop.base.sdk.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.sdk.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.core.autosar447.sdk.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.core.metamodel447.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.core.metamodels.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.core.converters.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.core.workspace.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.validation.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.thirdparty.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.validation.constraints.feature.group" version="4.12.0.201904251603"/>
+      <unit id="org.artop.base.sdk.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.sdk.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.core.autosar447.sdk.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.core.metamodel447.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.core.metamodels.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.core.converters.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.core.workspace.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.validation.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.thirdparty.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.validation.constraints.feature.group" version="4.12.1.202102191709"/>
       <unit id="org.artop.eel.sdk.feature.group" version="1.1.0.201706291244"/>
-      <unit id="org.artop.validation322.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.core.viatra.query.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.core.viatra.query40.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.ecuc.accessors.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.ecuc.accessors442.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.ecuc.examples.accessors442.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.ecuc.initializers.feature.group" version="4.12.0.201904251603"/>
-      <unit id="org.artop.ecuc.xtendxpand.feature.group" version="4.12.0.201904251603"/>
+      <unit id="org.artop.validation322.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.core.viatra.query.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.core.viatra.query40.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.ecuc.accessors.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.ecuc.accessors442.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.ecuc.examples.accessors442.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.ecuc.initializers.feature.group" version="4.12.1.202102191709"/>
+      <unit id="org.artop.ecuc.xtendxpand.feature.group" version="4.12.1.202102191709"/>
       <repository id="artop" location="https://www.artop.org/containers/artop-sdk-update-site-4.12"/>
     </location>
   </locations>
