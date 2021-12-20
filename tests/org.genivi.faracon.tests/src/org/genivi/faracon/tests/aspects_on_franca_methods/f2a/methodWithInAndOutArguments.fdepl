@@ -1,0 +1,13 @@
+import "CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+//import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "methodWithInAndOutArguments.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface a1.b2.c3.ExampleInterface {
+	SomeIpServiceID = 4321
+
+	method methodWithInAndOutArguments {
+		SomeIpMethodID = 1234
+	}
+
+}
