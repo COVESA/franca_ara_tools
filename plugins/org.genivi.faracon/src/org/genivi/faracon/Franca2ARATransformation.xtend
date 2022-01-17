@@ -193,6 +193,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		sid.methodDeployments.add(md)
 		md.method = it
 		md.methodId = ipa.getSomeIpMethodID(src) as long
+		md.transportProtocol = ipa.getSomeIpReliable(src) == Boolean.TRUE ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
 	}
 
 	// The parameter 'parentInterface' is important in case of emulation of interface inheritance.
