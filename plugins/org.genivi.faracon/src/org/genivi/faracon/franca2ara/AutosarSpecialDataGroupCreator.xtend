@@ -23,7 +23,9 @@ class AutosarSpecialDataGroupCreator extends Franca2ARABase {
 	}
 
 	def private void addSdgForFrancaAnnotation(Identifiable identifiable, FAnnotation fAnnotation) {
-		identifiable.addSdg(fAnnotation.type?.getName, fAnnotation.comment)
+		if (fAnnotation.getUUIDFromAnnotation===null) {
+			identifiable.addSdg(fAnnotation.type?.getName, fAnnotation.comment)
+		}
 	}
 
 	def private void addSdg(Identifiable identifiable, String sdgType, String sdgValue) {
