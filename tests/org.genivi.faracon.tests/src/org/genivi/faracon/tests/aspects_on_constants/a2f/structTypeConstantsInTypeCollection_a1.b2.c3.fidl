@@ -17,7 +17,7 @@ typeCollection {
 	}
 
 	const ArtificialStruct_2 structTest = {
-		f_1 : 8.555555468E9d,
+		f_1 : 8.555555468e9d,
 		f_2 : "vjgcj",
 		f_3 : [ 1.2345d, 0.008d, 197.888d ]
 	}
