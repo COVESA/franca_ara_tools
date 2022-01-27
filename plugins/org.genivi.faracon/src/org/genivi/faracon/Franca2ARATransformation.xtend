@@ -88,6 +88,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
+		it.initUUID(src) 
 		it.addSdgForFrancaElement(src)
 
 		val interfacePackage = src.accordingInterfacePackage
@@ -276,6 +277,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface,
 		ARPackage interfaceArPackage, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
 		shortName = src.name
+		it.initUUID(src)
 		
 		it.addSdgForFrancaElement(src)
 		
