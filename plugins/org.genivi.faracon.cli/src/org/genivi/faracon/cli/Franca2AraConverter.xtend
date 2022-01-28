@@ -24,7 +24,6 @@ import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.InputFile
-import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 import org.genivi.faracon.names.FrancaNamesCollector
 import org.genivi.faracon.names.NamesHierarchy
@@ -32,6 +31,7 @@ import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.stdtypes.AraStandardTypeDefinitionsModel
 
 import static org.genivi.faracon.cli.ConverterHelper.*
+import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
 
 class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer, ARAModelContainer> {
 	@Inject
@@ -39,7 +39,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	@Inject
 	var FrancaPersistenceManager francaLoader
 	@Inject
-	var ARAPrimitveTypesCreator araPrimitveTypesCreator
+	var ARAPrimitiveTypesCreator araPrimitveTypesCreator
 	@Inject
 	var FDeployPersistenceManager francaDeploymentLoader
 	@Inject

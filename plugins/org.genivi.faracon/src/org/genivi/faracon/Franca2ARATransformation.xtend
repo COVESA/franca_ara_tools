@@ -27,7 +27,6 @@ import org.genivi.commonapi.someip.Deployment.InterfacePropertyAccessor
 import org.genivi.faracon.franca2ara.ARAConstantsCreator
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
-import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.franca2ara.AutosarAnnotator
 import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
@@ -38,12 +37,13 @@ import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
+import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
 
 	@Inject
-	var extension ARAPrimitveTypesCreator aRAPrimitveTypesCreator
+	var extension ARAPrimitiveTypesCreator aRAPrimitveTypesCreator
 	@Inject
 	var extension ARATypeCreator araTypeCreator
 	@Inject
@@ -143,7 +143,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		)
 
 		// Add artificial vector type definitions for all types of this type collection
-		// which are used as element type of an anonymous array anywhere in the any Franca input model.
+		// which are used as element type of an anonymous array anywhere in the Franca input model.
 		accordingArPackage?.elements?.addAll(
 			fTypeCollection.types.filter[allNonPrimitiveElementTypesOfAnonymousArrays?.contains(it)].map [ fType |
 				createArtificialVectorType(fType)
