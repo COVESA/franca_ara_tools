@@ -13,7 +13,7 @@ import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.util.AutosarUtil
 
 @Singleton
-class ARAPrimitveTypesCreator extends Franca2ARABase {
+class ARAPrimitiveTypesCreator extends Franca2ARABase {
 
 	@Inject
 	var extension AutosarUtil
@@ -22,7 +22,7 @@ class ARAPrimitveTypesCreator extends Franca2ARABase {
 	var Map<String, ImplementationDataType> nameToVectorType = null
 
 	new() {
-		Preferences.instance.registerARAPrimitveTypesCreator(this)
+		Preferences.instance.registerARAPrimitiveTypesCreator(this)
 	}
 
 	def loadPrimitiveTypes() {
