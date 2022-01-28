@@ -18,60 +18,60 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 	@Inject
 	var extension AutosarUtil
 
-	var Map<String, ImplementationDataType> nameToType = null
-	var Map<String, ImplementationDataType> nameToVectorType = null
+	var Map<String, ImplementationDataType> nameToImplType = null
+	var Map<String, ImplementationDataType> nameToImplVectorType = null
 
 	new() {
 		Preferences.instance.registerARAPrimitiveTypesCreator(this)
 	}
 
 	def loadPrimitiveTypes() {
-		if (nameToType === null) {
+		if (nameToImplType === null) {
 			explicitlyLoadPrimitiveTypes
 		}
 	}
 
 	def explicitlyLoadPrimitiveTypes() {
-		nameToType = newHashMap
-		nameToVectorType = newHashMap
+		nameToImplType = newHashMap
+		nameToImplVectorType = newHashMap
 
 		val ARAResourceSet araResourceSet = new ARAResourceSet()
 		val AUTOSAR primitiveTypesModel = araResourceSet.araStandardTypeDefinitionsModel.standardTypeDefinitionsModel
 		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
-			nameToType.put(it.shortName,it)
+			nameToImplType.put(it.shortName,it)
 		]
 
 		val AUTOSAR primitiveTypesVectorsModel = araResourceSet.araStandardTypeDefinitionsModel.standardVectorTypeDefinitionsModel
 		primitiveTypesVectorsModel.eAllContents.filter(ImplementationDataType).forEach[
-			nameToVectorType.put(it.shortName,it)
+			nameToImplVectorType.put(it.shortName,it)
 		]
 	}
 
 	def getBaseTypeForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
-		loadPrimitiveTypes
-		if(!this.nameToType.containsKey(fBasicTypeId.getName)){
+		loadPrimitiveTypes		
+		if(!this.nameToImplType.containsKey(fBasicTypeId.getName)){
 			getLogger.logError("Can not find an AUTOSAR simple type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
 		if(fBasicTypeId == FBasicTypeId.BYTE_BUFFER){
 			logger.logWarning('''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffer '«typedElementName»' in '«namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
 		}
-		this.nameToType.get(fBasicTypeId.getName)
+		this.nameToImplType.get(fBasicTypeId.getName)
 	}
 
 	def getBaseTypeVectorForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
 		loadPrimitiveTypes
 		val basicTypeVectorName = fBasicTypeId.getName + "Vector"
-		if(!this.nameToVectorType.containsKey(basicTypeVectorName)){
+		if(!this.nameToImplVectorType.containsKey(basicTypeVectorName)){
 			getLogger.logError("Can not find an AUTOSAR vector type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
 		if(fBasicTypeId == FBasicTypeId.BYTE_BUFFER){
 			logger.logWarning('''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffers in the array '«typedElementName»' in '«namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
 		}
-		this.nameToVectorType.get(basicTypeVectorName)
+		this.nameToImplVectorType.get(basicTypeVectorName)
 	}
 
 	def isPrimitiveType(ImplementationDataType implementationDataType) {
-		val lookupImplementationDataType = nameToType.get(implementationDataType.shortName)
+		val lookupImplementationDataType = nameToImplType.get(implementationDataType.shortName)
 		return lookupImplementationDataType !== null && lookupImplementationDataType === implementationDataType
 	}
 
@@ -86,8 +86,8 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 
 	def createPrimitiveTypesAnonymousArraysModel() {
 		primitiveTypesAnonymousArraysModel = fac.createAUTOSAR
-		if (nameToType !== null) {
-			val packagePath = AutosarUtil.collectPackagePath(nameToType.values.head.ARPackage)
+		if (nameToImplType !== null) {
+			val packagePath = AutosarUtil.collectPackagePath(nameToImplType.values.head.ARPackage)
 			primitiveTypesAnonymousArraysMainPackage =
 				primitiveTypesAnonymousArraysModel.ensurePackagesExistence(packagePath)
 		}
