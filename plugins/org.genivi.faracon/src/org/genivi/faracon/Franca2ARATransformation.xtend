@@ -1,5 +1,7 @@
 package org.genivi.faracon
 
+import autosar40.genericstructure.generaltemplateclasses.documentation.textmodel.languagedatamodel.LEnum
+import autosar40.genericstructure.generaltemplateclasses.documentation.textmodel.languagedatamodel.XmlSpaceEnum
 import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinstancedeployment.TransportLayerProtocolEnum
 import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinterfacedeployment.ServiceInterfaceDeployment
 import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinterfacedeployment.SomeipServiceInterfaceDeployment
@@ -76,13 +78,23 @@ class Franca2ARATransformation extends Franca2ARABase {
 		
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
 		val AUTOSAR aModel = src.createAutosarModelSkeleton		
+		
+		// create global AdminData
+		aModel.adminData = fac().createAdminData => [
+			it.language = LEnum.EN
+			it.usedLanguages = fac().createMultiLanguagePlainText => [
+				it.l10s.add(fac.createLPlainText => [
+					it.l = LEnum.EN
+					it.xmlSpace = XmlSpaceEnum.DEFAULT
+				])
+			]
+		]
 		src.interfaces.forEach[transform()]
-
 		src.typeCollections.forEach[it.transform]
 
 		aModel
 	}
-
+	
 	def create fac.createServiceInterface transform(FInterface src) {
 		if (!src.managedInterfaces.empty) {
 			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
