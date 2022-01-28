@@ -38,6 +38,7 @@ import static org.franca.core.framework.FrancaHelpers.*
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
+import org.genivi.faracon.franca2ara.Franca2ARAConfiguration
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -56,6 +57,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	var extension AutosarAnnotator
 	@Inject
 	var extension AutosarSpecialDataGroupCreator
+	@Inject
+	var extension Franca2ARAConfiguration
 
 	@Inject
 	var SomeipFrancaDeploymentData someipFrancaDeploymentData
@@ -165,11 +168,13 @@ class Franca2ARATransformation extends Franca2ARABase {
 		it.addSdgForFrancaElement(src)
 
 		// The flag that indicates a fire&forget method is an optional member in AUTOSAR models.
-		// It can have the values {true, false, undefined}. We encode non-fire&forget methods with 'undefined'.
-		// An additional command line option might give the user the choice between encoding 
-		// with 'false' or 'undefined' in this case.
+		// It can have the values {true, false, undefined}.
 		if (src.fireAndForget) {
 			fireAndForget = true
+		} else {
+			if (genAlwaysFireAndForget) {
+				fireAndForget = false
+			}
 		}
 
 		
