@@ -29,7 +29,7 @@ class IDL1420_Tests extends FrancaAttributeTestsBaseClass{
 		val francaAttribute = createFrancaAttribute(fieldName, isReadOnly, false, true)
 
 		//when 
-		val result = transform(francaAttribute, null)
+		val result = transform(francaAttribute, null, null)
 		
 		//then
 		// is readOnly means: we always have a getter, but only a setter if readonly == false

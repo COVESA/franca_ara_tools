@@ -23,7 +23,7 @@ class IDL1670_Tests extends AbstractFranca2AraStructTest{
 		fStruct.polymorphic = true
 		
 		//when
-		araTypeCreator.getDataTypeForReference(fStruct)
+		araTypeCreator.getDataType(fStruct)
 
 		//then expect the error
 	}

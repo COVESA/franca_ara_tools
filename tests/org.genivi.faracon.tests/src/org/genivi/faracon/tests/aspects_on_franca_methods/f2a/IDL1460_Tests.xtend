@@ -38,7 +38,6 @@ import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARATransformation
 import org.genivi.faracon.franca2ara.ARAConstantsCreator
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
-import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.logging.AbstractLogger
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
@@ -48,6 +47,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 
 import static org.junit.Assert.assertTrue
+import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
 
 /**
  * The mapping of this feature is tested by instantiating concrete subclasses of 'FModelElement', 
@@ -97,7 +97,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 	var ARATypeCreator araTypeCreator
 
 	@Inject
-	var ARAPrimitveTypesCreator araPrimitveTypesCreator
+	var ARAPrimitiveTypesCreator araPrimitveTypesCreator
 
 	@Inject
 	var ARAConstantsCreator araConstantsCreator
@@ -119,7 +119,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			broadcasts += fBroadcast
 		]
 		val ARPackage arInterfacePackage = araFac.createARPackage
-		val VariableDataPrototype variableDataPrototype = franca2ARATransformation.transform(fBroadcast, fParentInterface, arInterfacePackage)
+		val VariableDataPrototype variableDataPrototype = franca2ARATransformation.transform(fBroadcast, null, fParentInterface, arInterfacePackage)
 		checkAbstractBaseClasses(fBroadcast, variableDataPrototype)
 	}
 
@@ -136,7 +136,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fEnumerationType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fEnumerationType)
 		val CompuMethod enumCompuMethod = autosarDataType.swDataDefProps.swDataDefPropsVariants.head.compuMethod
 		for(enumeratorCompuScale : (enumCompuMethod.compuInternalToPhys.compuContent as CompuScales).compuScales) {
 			checkAbstractBaseClasses(fEnumerator, enumeratorCompuScale)
@@ -165,7 +165,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 		val FInterface fParentInterface = francaFac.createFInterface => [
 			attributes += fAttribute
 		]
-		val Field field = franca2ARATransformation.transform(fAttribute, fParentInterface)
+		val Field field = franca2ARATransformation.transform(fAttribute, null, fParentInterface)
 		checkAbstractBaseClasses(fAttribute, field)
 	}
 
@@ -200,7 +200,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		createAutosarModelSkeleton(fModel)
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fStructType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fStructType)
 		for(subElement : (autosarDataType as ImplementationDataType).subElements) {
 			checkAbstractBaseClasses(fField, subElement)
 		}
@@ -212,7 +212,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 		val FInterface fParentInterface = francaFac.createFInterface => [
 			methods += fMethod
 		]
-		val ClientServerOperation clientServerOperation = franca2ARATransformation.transform(fMethod, fParentInterface)
+		val ClientServerOperation clientServerOperation = franca2ARATransformation.transform(fMethod, null, fParentInterface)
 		checkAbstractBaseClasses(fMethod, clientServerOperation)
 	}
 
@@ -230,7 +230,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fArrayType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fArrayType)
 		checkAbstractBaseClasses(fArrayType, autosarDataType)
 	}
 
@@ -244,7 +244,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fStructType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fStructType)
 		checkAbstractBaseClasses(fStructType, autosarDataType)
 	}
 
@@ -258,7 +258,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fUnionType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fUnionType)
 		checkAbstractBaseClasses(fUnionType, autosarDataType)
 	}
 
@@ -272,7 +272,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fEnumerationType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fEnumerationType)
 		checkAbstractBaseClasses(fEnumerationType, autosarDataType)
 	}
 
@@ -282,7 +282,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			lowerBound = new BigInteger("-19")
 			upperBound = new BigInteger("972")
 		]
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fIntegerInterval)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fIntegerInterval)
 		checkAbstractBaseClasses(fIntegerInterval, autosarDataType)
 	}
 
@@ -303,7 +303,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fMapType)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fMapType)
 		checkAbstractBaseClasses(fMapType, autosarDataType)
 	}
 
@@ -321,7 +321,7 @@ class IDL1460_Tests extends Franca2ARATestBase {
 			]
 		]
 		fModel.createAutosarModelSkeleton
-		val AutosarDataType autosarDataType = araTypeCreator.getDataTypeForReference(fTypeDef)
+		val AutosarDataType autosarDataType = araTypeCreator.getDataType(fTypeDef)
 		checkAbstractBaseClasses(fTypeDef, autosarDataType)
 	}
 

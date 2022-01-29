@@ -29,7 +29,7 @@ class IDL1430_Tests extends FrancaAttributeTestsBaseClass{
 		val arField = this.createFrancaAttribute(fieldName, true, isNoRead, true)
 
 		//when 
-		val result = transform(arField, null)
+		val result = transform(arField, null, null)
 		
 		//then
 		// is no read means that we do not have a getter --> if is no read is true, we do not expect a getter and vice versa

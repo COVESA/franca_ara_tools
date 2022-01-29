@@ -52,7 +52,7 @@ class IDL1720_Tests extends AbstractFrancaEnumTest {
 		]
 
 		// when
-		val result = araTypeCreator.getDataTypeForReference(fENumeration)
+		val result = araTypeCreator.getDataType(fENumeration)
 
 		// then
 		val compuScales = assertEnumAndGetCompuScales(result, enumName, 2)

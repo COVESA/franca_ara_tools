@@ -34,7 +34,7 @@ class IDL1580_Tests extends Franca2ARATestBase {
 		]
 
 		// when
-		val resultAutosarDatatype = fTypedef.getDataTypeForReference
+		val resultAutosarDatatype = fTypedef.getDataType
 
 		// then
 		val implementationType = resultAutosarDatatype.assertIsInstanceOf(ImplementationDataType).assertName(
