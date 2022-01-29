@@ -13,6 +13,7 @@ import org.franca.core.franca.FTypeCollection
 import org.genivi.faracon.Franca2ARABase
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import autosar40.autosartoplevelstructure.AUTOSAR
 
 @Singleton
 class ARAModelSkeletonCreator extends Franca2ARABase {
@@ -20,13 +21,15 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 	@Inject
 	var extension AutosarAnnotator
 
+	var AUTOSAR root = null
 	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
 	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
 
 	def create fac.createAUTOSAR createAutosarModelSkeleton(FModel fModel) {
+		root = it
 		arPackages.add(fModel.createPackageHierarchy)
 	}
-
+	
 	def private create fac.createARPackage createPackageHierarchy(FModel fModel) {
 		val segments = fModel.name.split(Pattern.quote("."))
 		var ARPackage currentPackage = it
@@ -61,6 +64,17 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		}
 
 		fModel2arPackage.put(fModel, currentPackage)
+	}
+
+	def create fac.createARPackage createRootPackage(String name) {
+		shortName = name
+		if (root!==null)
+			root.arPackages.add(it)
+	}
+
+	def create fac.createARPackage createPackageWithName(String name, ARPackage parent) {
+		shortName = name
+		parent?.arPackages?.add(it)
 	}
 
 	def getAccordingArPackage(FModel fModel) {
@@ -109,13 +123,6 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 
 	def createAccordingArPackage(EObject obj) {
 		createAccordingArPackage(obj.typeCollection)
-	}
-
-	def private createPackageWithName(String name, ARPackage parent) {
-		val ARPackage newPackage = fac.createARPackage
-		newPackage.shortName = name
-		parent?.arPackages?.add(newPackage)
-		newPackage
 	}
 
 	/**

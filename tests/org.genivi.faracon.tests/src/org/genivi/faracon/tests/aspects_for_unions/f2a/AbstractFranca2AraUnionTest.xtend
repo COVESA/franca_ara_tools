@@ -3,13 +3,13 @@ package org.genivi.faracon.tests.aspects_for_unions.f2a
 import javax.inject.Inject
 import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FUnionType
-import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Before
+import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
 
 abstract class AbstractFranca2AraUnionTest extends Franca2ARATestBase{
 	@Inject
-	var ARAPrimitveTypesCreator primitiveTypes
+	var ARAPrimitiveTypesCreator primitiveTypes
 
 	@Before
 	def void beforeTest(){

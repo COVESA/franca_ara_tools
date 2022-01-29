@@ -2,15 +2,10 @@ package org.genivi.faracon
 
 import autosar40.genericstructure.generaltemplateclasses.documentation.textmodel.languagedatamodel.LEnum
 import autosar40.genericstructure.generaltemplateclasses.documentation.textmodel.languagedatamodel.XmlSpaceEnum
-import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinstancedeployment.TransportLayerProtocolEnum
-import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinterfacedeployment.ServiceInterfaceDeployment
-import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinterfacedeployment.SomeipServiceInterfaceDeployment
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
-import autosar40.swcomponent.portinterface.ClientServerOperation
-import java.util.List
 import java.util.Set
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -23,7 +18,6 @@ import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeCollection
-import org.genivi.commonapi.someip.Deployment.InterfacePropertyAccessor
 import org.genivi.faracon.franca2ara.ARAConstantsCreator
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
@@ -38,7 +32,11 @@ import static org.franca.core.framework.FrancaHelpers.*
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
-import org.genivi.faracon.franca2ara.Franca2ARAConfiguration
+import org.genivi.faracon.franca2ara.ARAImplDataTypeCreator
+import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import autosar40.swcomponent.datatype.datatypes.ApplicationDataType
+import org.genivi.faracon.franca2ara.ARADeploymentGenerator
+import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -48,9 +46,13 @@ class Franca2ARATransformation extends Franca2ARABase {
 	@Inject
 	var extension ARATypeCreator araTypeCreator
 	@Inject
+	var extension ARAImplDataTypeCreator araImplDataTypeCreator
+	@Inject
 	var extension ARAConstantsCreator araConstantsCreator
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
+	@Inject
+	var extension ARADeploymentGenerator
     @Inject
 	var extension ARANamespaceCreator
 	@Inject
@@ -58,10 +60,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	@Inject
 	var extension AutosarSpecialDataGroupCreator
 	@Inject
-	var extension Franca2ARAConfiguration
-
-	@Inject
-	var SomeipFrancaDeploymentData someipFrancaDeploymentData
+	var extension Franca2ARAConfigProvider
 
 	@Inject
 	NamesHierarchy namesHierarchy
@@ -83,15 +82,18 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val AUTOSAR aModel = src.createAutosarModelSkeleton		
 		
 		// create global AdminData
-		aModel.adminData = fac().createAdminData => [
-			it.language = LEnum.EN
-			it.usedLanguages = fac().createMultiLanguagePlainText => [
-				it.l10s.add(fac.createLPlainText => [
-					it.l = LEnum.EN
-					it.xmlSpace = XmlSpaceEnum.DEFAULT
-				])
+		if (generateAdminDataLanguage) {
+			aModel.adminData = fac().createAdminData => [
+				it.language = LEnum.EN
+				it.usedLanguages = fac().createMultiLanguagePlainText => [
+					it.l10s.add(fac.createLPlainText => [
+						it.l = LEnum.EN
+						it.xmlSpace = XmlSpaceEnum.DEFAULT
+					])
+				]
 			]
-		]
+		}
+		
 		src.interfaces.forEach[transform()]
 		src.typeCollections.forEach[it.transform]
 
@@ -109,35 +111,33 @@ class Franca2ARATransformation extends Franca2ARABase {
 		val interfacePackage = src.accordingInterfacePackage
 		it.ARPackage = interfacePackage
 		
-		// experimental code for creating SOME/IP-deployment data structures
-		val ipa = someipFrancaDeploymentData.lookupAccessor(src) 
-		val dp = fac.createARPackage
-		dp.shortName = "THE-DEPLOYMENT"
-		interfacePackage.arPackages.add(dp)
-		
-		val sid = fac.createSomeipServiceInterfaceDeployment
-		sid.serviceInterfaceId = ipa.getSomeIpServiceID(src) as long
-		dp.elements.add(sid)
-		
-
+		// create SOME/IP-deployment for service interface
+		if (generateDeployment) {
+			it.getServiceInterfaceDeployment(src)
+		}
+	
 		namespaces.addAll(interfacePackage.createNamespaceForPackage)
-		events.addAll(getAllBroadcasts(src).map[it.transform(src, interfacePackage, ipa, sid)])
-		fields.addAll(getAllAttributes(src).map[it.transform(src, ipa, sid)])
-		methods.addAll(getAllMethods(src).map[it.transform(src, ipa, sid)])
+		events.addAll(getAllBroadcasts(src).map[b | b.transform(it, src, interfacePackage)])
+		fields.addAll(getAllAttributes(src).map[a | a.transform(it, src)])
+		methods.addAll(getAllMethods(src).map[m | m.transform(it, src)])
 		
 		//transformEventGroups(null, ipa, ipa.getSomeIpEventGroups(src), sid)
+
 		// Ensure that all local type definitions of the interface definition are translated
 		// even if they are not referenced.
 		transform(src as FTypeCollection)
 	}
 
 	def void transform(FTypeCollection fTypeCollection) {
-		val types = fTypeCollection.types.map[dataTypeForReference]
+		val types = fTypeCollection.types.map[getDataType]
 		val constants = fTypeCollection.constants.map[transform]
 		val accordingArPackage = fTypeCollection.accordingArPackage
 
 		// Add the conversions of all Franca types that are defined in this type collection.
-		accordingArPackage?.elements?.addAll(types)
+		if (storeADTsLocally)
+			accordingArPackage?.elements?.addAll(types.filter(ApplicationDataType))
+		if (storeIDTsLocally)
+			accordingArPackage?.elements?.addAll(types.filter(ImplementationDataType))
 		accordingArPackage?.elements?.addAll(constants)
 
 		// Add the according CompuMethods for all Franca enumeration types of this type collection.
@@ -157,12 +157,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 			accordingArPackage?.addSdgForFrancaElement(fTypeCollection)
 		}
 	}
-
+	
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As methods are copied to derived interfaces multiple copies of them are needed.
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
-	def create fac.createClientServerOperation transform(FMethod src, FInterface parentInterface, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
+	def create fac.createClientServerOperation transform(FMethod src, ServiceInterface si, FInterface parentInterface) {
 		shortName = src.name
 		
 		it.addSdgForFrancaElement(src)
@@ -177,9 +177,13 @@ class Franca2ARATransformation extends Franca2ARABase {
 			}
 		}
 
+		// create SOME/IP-deployment for method
+		if (generateDeployment && si!==null) {
+			val md = it.getMethodDeployment(src, parentInterface)
+			val sid = si.getServiceInterfaceDeployment(parentInterface)
+			sid.methodDeployments.add(md)
+		}
 		
-		trasnformMethodDeployment(sid, it, ipa, src)
-
 		arguments.addAll(src.inArgs.map[transform(true, parentInterface)])
 		arguments.addAll(src.outArgs.map[transform(false, parentInterface)])
 
@@ -206,14 +210,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 		}
 	}
 	
-	protected def void trasnformMethodDeployment(ServiceInterfaceDeployment sid, ClientServerOperation it, InterfacePropertyAccessor ipa, FMethod src) {
-		val md = fac.createSomeipMethodDeployment
-		sid.methodDeployments.add(md)
-		md.method = it
-		md.methodId = ipa.getSomeIpMethodID(src) as long
-		md.transportProtocol = ipa.getSomeIpReliable(src) == Boolean.TRUE ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
-	}
-
 	// The parameter 'parentInterface' is important in case of emulation of interface inheritance.
 	// As methods are copied to derived interfaces multiple copies of the method arguments are needed as well.
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
@@ -225,11 +221,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 		direction = if(isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
 	}
 
+	
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As attributes are copied to derived interfaces multiple copies of them are needed.
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
-	def create fac.createField transform(FAttribute src, FInterface parentInterface, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
+	def create fac.createField transform(FAttribute src, ServiceInterface si, FInterface parentInterface) {
 		shortName = src.name
 		it.addSdgForFrancaElement(src)
 		type = src.type.createDataTypeReference(src)
@@ -237,10 +234,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 		hasNotifier = !src.noSubscriptions
 		hasSetter = !src.readonly
 		
-		// Converting Field deployment data
-		transformAttrFieldDeployment(sid, src, ipa)	
-		transformEventGroups(src, ipa, sid)
-		
+		// create SOME/IP-deployment for field
+		if (generateDeployment && si!==null) {
+			val sid = si.getServiceInterfaceDeployment(parentInterface)
+			val fd = it.getFieldDeployment(src, parentInterface, sid)
+			sid.fieldDeployments.add(fd)
+		}		
 		
 		// If the attribute is not a direct member of the current interface definition but is inherited from
 		// a direct or indirect base interface the original interface where it comes from is annotated.
@@ -254,58 +253,27 @@ class Franca2ARATransformation extends Franca2ARABase {
 		}
 	}
 	
-	protected def void transformAttrFieldDeployment(ServiceInterfaceDeployment sid, FAttribute src, InterfacePropertyAccessor ipa) {
-		val fieldDeployment = fac.createSomeipFieldDeployment
-		sid.fieldDeployments.add(fieldDeployment)
-		fieldDeployment.shortName = src.name
-		val getterID = ipa.getSomeIpGetterID(src) 
-		val notifierID = ipa.getSomeIpNotifierID(src) 
-		val setterID = ipa.getSomeIpSetterID(src)
-		
-		if(null !== getterID){
-		val getMethod = fac.createSomeipMethodDeployment
-		getMethod.shortName = 'getter'
-		getMethod.methodId = getterID as long
-		getMethod.transportProtocol = ipa.getSomeIpGetterReliable(src) == Boolean.TRUE ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
-		fieldDeployment.get = getMethod
-		}
-		
-		if(null !== notifierID){
-		val notifierMethod = fac.createSomeipEventDeployment
-		notifierMethod.shortName = 'notifier'
-		notifierMethod.eventId = notifierID as long
-		notifierMethod.transportProtocol = ipa.getSomeIpNotifierReliable(src) == Boolean.TRUE ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
-		fieldDeployment.notifier = notifierMethod
-		}
-		
-		if(null !== setterID){
-		val setMethod = fac.createSomeipMethodDeployment
-		setMethod.shortName = 'setter'
-		setMethod.methodId = setterID as long
-		setMethod.transportProtocol = ipa.getSomeIpSetterReliable(src) == Boolean.TRUE ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
-		fieldDeployment.set = setMethod
-		}
-	}
-
+	
 	// Beside the original parent interface check, the parameter 'parentInterface' is important
 	// in case of emulation of interface inheritance.
 	// As broadcasts are copied to derived interfaces multiple copies of them are needed.
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
-	def create fac.createVariableDataPrototype transform(FBroadcast src, FInterface parentInterface,
-		ARPackage interfaceArPackage, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
+	def create fac.createVariableDataPrototype transform(FBroadcast src,
+		ServiceInterface si,
+		FInterface parentInterface,
+		ARPackage interfaceArPackage)
+	{
 		shortName = src.name
 		it.initUUID(src)
 		
 		it.addSdgForFrancaElement(src)
 		
-		// Converting Field deployment data
-		val eventDeployment = fac.createSomeipEventDeployment
-		sid.eventDeployments.add(eventDeployment)
-		eventDeployment.shortName = src.name + '_Event'
-		eventDeployment.eventId = ipa.getSomeIpEventID(src) as long
-		
-		transformEventGroups(src, ipa, sid)
-		
+		// create SOME/IP-deployment for broadcast
+		if (generateDeployment && si!==null) {
+			val sid = si.getServiceInterfaceDeployment(parentInterface)
+			val md = it.getEventDeployment(src, parentInterface, sid)
+			sid.eventDeployments.add(md)
+		}
 		
 		type = if (src?.outArgs.length == 1) {
 			src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
@@ -318,7 +286,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 			)
 			artificialBroadcastStruct.category = "STRUCTURE"
 			val typeRefs = src.outArgs.map [
-				it.createImplementationDataTypeElement(null)
+				it.createImplDataTypeElement(null)
 			]
 			artificialBroadcastStruct.subElements.addAll(typeRefs)
 			artificialBroadcastStruct.ARPackage = interfaceArPackage
@@ -354,25 +322,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 		}
 	}
 	
-	protected def void transformEventGroups(FBroadcast src, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
-		val someIpEventGroups = ipa.getSomeIpEventGroups(src)
-		if(null !== someIpEventGroups)
-		handleEVProperties(someIpEventGroups, sid)
-	}
-	
-	protected def void transformEventGroups(FAttribute src, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
-		val someIpEventGroups = ipa.getSomeIpEventGroups(src)
-		if(null !== someIpEventGroups)
-		handleEVProperties(someIpEventGroups, sid)
-	}
-	
-	protected def void handleEVProperties(List<Integer> someIpEventGroups, ServiceInterfaceDeployment sid) {
-		for (element : someIpEventGroups) {
-			var eg = fac.createSomeipEventGroup()
-			eg.eventGroupId = element as long
-			(sid as SomeipServiceInterfaceDeployment).eventGroups.add(eg)
-		}
-	}
 
 	static def String getARFullyQualifiedName(FInterface ^interface) {
 		val FModel model = ^interface.getModel;
