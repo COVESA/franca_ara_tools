@@ -164,9 +164,9 @@ class Franca2ARATransformation extends Franca2ARABase {
 		accordingArPackage?.elements?.addAll(constants)
 
 		// Add the according CompuMethods for all Franca enumeration types of this type collection.
-		accordingArPackage?.elements?.addAll(
-			fTypeCollection.types.filter(FEnumerationType).map[createCompuMethod]
-		)
+		val enumCompuMethods = fTypeCollection.types.filter(FEnumerationType).map[createCompuMethod]
+		if (storeIDTsLocally)
+			accordingArPackage?.elements?.addAll(enumCompuMethods)
 
 		// Add artificial vector type definitions for all types of this type collection
 		// which are used as element type of an anonymous array anywhere in the Franca input model.

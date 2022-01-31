@@ -208,7 +208,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 				it.compuScales.addAll(compuScalesForEnum)
 			]
 		]
-		it.ARPackage = fEnumerationType.createAccordingArPackage
+
+		it.ARPackage = storeIDTsLocally ? fEnumerationType.createAccordingArPackage : getDataTypesPackage
 	}
 
 	def private dispatch ImplementationDataType createDataTypeForReference(FIntegerInterval type) {
