@@ -18,6 +18,7 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FField
 
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
+import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
@@ -57,7 +58,16 @@ class ApplDataTypeManager extends Franca2ARABase {
 		adt.createTypeMapping(idt, null)
 		adt
 	}
-		
+
+	def genInterfaceToMapping(ServiceInterface aInterface) {
+		val pkg = createPackageWithName("ServiceInterfaceToDataTypeMappings", aInterface.ARPackage)
+		pkg.elements.add(fac.createPortInterfaceToDataTypeMapping => [
+			shortName = aInterface.shortName + "_ToDataTypeMapping"
+			dataTypeMappingSets.add(getTypeMappingSet)
+			portInterface = aInterface
+		])
+	}
+	
 	def private dispatch ApplicationDataType createApplDataType(FType type) {
 		getLogger.logWarning('''Cannot create ApplicationDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null

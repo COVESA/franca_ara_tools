@@ -37,6 +37,7 @@ import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
 import autosar40.swcomponent.datatype.datatypes.ApplicationDataType
 import org.genivi.faracon.franca2ara.ARADeploymentGenerator
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
+import org.genivi.faracon.franca2ara.ApplDataTypeManager
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -47,6 +48,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	var extension ARATypeCreator araTypeCreator
 	@Inject
 	var extension ARAImplDataTypeCreator araImplDataTypeCreator
+	@Inject
+	var extension ApplDataTypeManager
 	@Inject
 	var extension ARAConstantsCreator araConstantsCreator
 	@Inject
@@ -126,6 +129,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// Ensure that all local type definitions of the interface definition are translated
 		// even if they are not referenced.
 		transform(src as FTypeCollection)
+		
+		if (generateADTs) {
+			genInterfaceToMapping
+		}
 	}
 
 	def void transform(FTypeCollection fTypeCollection) {
