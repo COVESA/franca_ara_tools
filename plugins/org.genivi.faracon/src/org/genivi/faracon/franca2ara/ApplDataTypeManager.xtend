@@ -1,29 +1,29 @@
 package org.genivi.faracon.franca2ara
 
-import org.genivi.faracon.Franca2ARABase
+import java.util.Map
 import javax.inject.Singleton
 import javax.inject.Inject
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.swcomponent.datatype.datatypes.ApplicationDataType
-import java.util.Map
+import autosar40.adaptiveplatform.applicationdesign.applicationdatatype.ApplicationAssocMapDataType
+import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.DataTypeMappingSet
+import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeDef
-import org.franca.core.FrancaModelExtensions
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FField
 import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FMapType
 import org.franca.core.franca.FArrayType
+import org.franca.core.FrancaModelExtensions
 
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
-import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 import static extension org.genivi.faracon.util.FrancaUtil.*
-import org.franca.core.franca.FMapType
-import autosar40.adaptiveplatform.applicationdesign.applicationdatatype.ApplicationAssocMapDataType
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
