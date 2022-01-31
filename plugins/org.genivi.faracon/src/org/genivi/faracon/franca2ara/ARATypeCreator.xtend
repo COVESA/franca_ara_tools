@@ -19,8 +19,6 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 	@Inject
 	var extension ARAImplDataTypeCreator
 	@Inject
-	var extension ARAModelSkeletonCreator araModelSkeletonCreator
-	@Inject
 	var extension Franca2ARAConfigProvider
 
 
