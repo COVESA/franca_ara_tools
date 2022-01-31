@@ -16,10 +16,23 @@ public class ARAModelContainer implements IModelContainer {
 
 	private AraStandardTypeDefinitionsModel araStandardTypeDefinitionsModel = null;
 	private AUTOSAR model = null;
+	private AUTOSAR deploymentModel = null;
 	
-	public ARAModelContainer(AUTOSAR model, AraStandardTypeDefinitionsModel araStandardTypeDefinitionsModel) {
-		this.araStandardTypeDefinitionsModel = araStandardTypeDefinitionsModel;
+	public ARAModelContainer(
+			AUTOSAR model,
+			AraStandardTypeDefinitionsModel araStandardTypeDefinitionsModel
+	) {
+		this(model, null, araStandardTypeDefinitionsModel);
+	}
+
+	public ARAModelContainer(
+		AUTOSAR model,
+		AUTOSAR deploymentModel,
+		AraStandardTypeDefinitionsModel araStandardTypeDefinitionsModel
+	) {
 		this.model = model;
+		this.deploymentModel = deploymentModel;
+		this.araStandardTypeDefinitionsModel = araStandardTypeDefinitionsModel;
 	}
 	
 	public AraStandardTypeDefinitionsModel araStandardTypeDefinitionsModel() {
@@ -28,6 +41,10 @@ public class ARAModelContainer implements IModelContainer {
 	
 	public AUTOSAR model() {
 		return model;
+	}
+
+	public AUTOSAR deploymentModel() {
+		return deploymentModel;
 	}
 	
 }

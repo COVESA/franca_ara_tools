@@ -78,11 +78,18 @@ class Franca2ARATransformation extends Franca2ARABase {
 	}
 
 	def AUTOSAR transform(FModel src) {
+		val res = transformWithDeployment(src)
+		res.key
+	}
+	
+	def Pair<AUTOSAR, AUTOSAR> transformWithDeployment(FModel src) {
 		// Process the conversion.
 		loadPrimitiveTypes
 		
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
-		val AUTOSAR aModel = src.createAutosarModelSkeleton		
+		val AUTOSAR aModel = src.createAutosarModelSkeleton
+		
+		val AUTOSAR aDeploymentModel = createSeparateDeploymentFile ? src.createAutosarDeploymentModelSkeleton : null		
 		
 		// create global AdminData
 		if (generateAdminDataLanguage) {
@@ -100,12 +107,14 @@ class Franca2ARATransformation extends Franca2ARABase {
 		src.interfaces.forEach[transform()]
 		src.typeCollections.forEach[it.transform]
 
-		aModel
+		// return a pair of models: normal AUTOSAR data, deployment data
+		// (Note: if !createSeparateDeploymentFile, the second model will be null
+		aModel -> aDeploymentModel
 	}
 	
 	def create fac.createServiceInterface transform(FInterface src) {
 		if (!src.managedInterfaces.empty) {
-			getLogger.logError("The manages relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
+			getLogger.logError("The manages-relation(s) of interface " + src.name + " cannot be converted! (IDL1280)")
 		}
 		shortName = src.name
 		it.initUUID(src) 

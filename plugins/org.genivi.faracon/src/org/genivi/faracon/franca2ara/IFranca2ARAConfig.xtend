@@ -22,4 +22,5 @@ interface IFranca2ARAConfig {
 	// deployment
 	def boolean generateDeployment()
 	def boolean storeDeploymentLocally()
+	def boolean createSeparateDeploymentFile()
 }

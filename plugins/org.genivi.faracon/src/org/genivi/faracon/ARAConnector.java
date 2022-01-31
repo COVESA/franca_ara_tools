@@ -20,6 +20,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.xtext.xbase.lib.Pair;
 import org.franca.core.framework.FrancaModelContainer;
 import org.franca.core.framework.IFrancaConnector;
 import org.franca.core.framework.IModelContainer;
@@ -65,7 +66,7 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 //			else
 //				getLogger().logInfo("Loaded arxml model (first package " + packages.get(0).getShortName() + ")");
 		}
-		return new ARAModelContainer(model, araResourceSet.getAraStandardTypeDefinitionsModel());
+		return new ARAModelContainer(model, null, araResourceSet.getAraStandardTypeDefinitionsModel());
 	}
 
 	@Override
@@ -75,7 +76,16 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 		}
 
 		ARAModelContainer mc = (ARAModelContainer) model;
-		return saveARXML(new ARAResourceSet(mc.araStandardTypeDefinitionsModel()), mc.model()/*, mc.getComments()*/, filename);
+		ResourceSet rset = new ARAResourceSet(mc.araStandardTypeDefinitionsModel());
+		if (!saveARXML(rset, mc.model(), /*mc.getComments(),*/ filename))
+			return false;
+
+		if (mc.deploymentModel()!=null) {
+			String filename2 = filename.replace(".arxml", "_Deployment.arxml");
+			return saveARXML(rset, mc.deploymentModel(), /*mc.getComments(),*/ filename2);
+		} else {
+			return true;
+		}
 	}
 
 	public void setAllNonPrimitiveElementTypesOfAnonymousArrays (Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
@@ -104,14 +114,14 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 
 		// do the actual transformation
 		franca2ARATransformation.setAllNonPrimitiveElementTypesOfAnonymousArrays(allNonPrimitiveElementTypesOfAnonymousArrays);
-		AUTOSAR amodel = franca2ARATransformation.transform(fmodel);
+		Pair<AUTOSAR,AUTOSAR> amodels = franca2ARATransformation.transformWithDeployment(fmodel);
 
 		// report issues
 //		lastTransformationIssues = franca2ARATransformation.getTransformationIssues();
 //		out.println(IssueReporter.getReportString(lastTransformationIssues));
 
 		// create the model container and add some comments to the model
-		ARAModelContainer mc = new ARAModelContainer(amodel, null);
+		ARAModelContainer mc = new ARAModelContainer(amodels.getKey(), amodels.getValue(), null);
 		return mc;
 	}
 

@@ -133,7 +133,12 @@ class ARADeploymentGenerator extends Franca2ARABase {
 
 	def private getDeploymentPackage() {
 		if (deployPackage===null) {
-			deployPackage = createPackageWithName("ServiceInterfaceDeployment", createRootPackage("ServiceInterfaces"))
+			deployPackage =
+				createPackageWithName("ServiceInterfaceDeployment",
+					createSeparateDeploymentFile ?
+						createDeploymentRootPackage("ServiceInterfaces") :
+						createRootPackage("ServiceInterfaces")
+				)
 		}
 		deployPackage
 	}

@@ -22,4 +22,5 @@ class Franca2ARAConfigDefault implements IFranca2ARAConfig {
 	// deployment
 	override boolean generateDeployment() { false }
 	override boolean storeDeploymentLocally() { false }
+	override boolean createSeparateDeploymentFile() { false }
 }

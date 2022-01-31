@@ -22,12 +22,17 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 	var extension AutosarAnnotator
 
 	var AUTOSAR root = null
+	var AUTOSAR rootDeployment = null
 	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
 	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
 
 	def create fac.createAUTOSAR createAutosarModelSkeleton(FModel fModel) {
 		root = it
 		arPackages.add(fModel.createPackageHierarchy)
+	}
+	
+	def create fac.createAUTOSAR createAutosarDeploymentModelSkeleton(FModel fModel) {
+		rootDeployment = it
 	}
 	
 	def private create fac.createARPackage createPackageHierarchy(FModel fModel) {
@@ -70,6 +75,12 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		shortName = name
 		if (root!==null)
 			root.arPackages.add(it)
+	}
+
+	def create fac.createARPackage createDeploymentRootPackage(String name) {
+		shortName = name
+		if (rootDeployment!==null)
+			rootDeployment.arPackages.add(it)
 	}
 
 	def create fac.createARPackage createPackageWithName(String name, ARPackage parent) {
