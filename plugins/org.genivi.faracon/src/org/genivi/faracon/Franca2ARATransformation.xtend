@@ -93,15 +93,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 		
 		// create global AdminData
 		if (generateAdminDataLanguage) {
-			aModel.adminData = fac().createAdminData => [
-				it.language = LEnum.EN
-				it.usedLanguages = fac().createMultiLanguagePlainText => [
-					it.l10s.add(fac.createLPlainText => [
-						it.l = LEnum.EN
-						it.xmlSpace = XmlSpaceEnum.DEFAULT
-					])
-				]
-			]
+			aModel.initAdminData
+			if (aDeploymentModel!==null) {
+				aDeploymentModel.initAdminData
+			}
 		}
 		
 		src.interfaces.forEach[transform()]
@@ -110,6 +105,18 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// return a pair of models: normal AUTOSAR data, deployment data
 		// (Note: if !createSeparateDeploymentFile, the second model will be null
 		aModel -> aDeploymentModel
+	}
+	
+	def private initAdminData(AUTOSAR aModel) {
+		aModel.adminData = fac.createAdminData => [
+			language = LEnum.EN
+			usedLanguages = fac().createMultiLanguagePlainText => [
+				l10s.add(fac.createLPlainText => [
+					l = LEnum.EN
+					xmlSpace = XmlSpaceEnum.DEFAULT
+				])
+			]			
+		]
 	}
 	
 	def create fac.createServiceInterface transform(FInterface src) {
