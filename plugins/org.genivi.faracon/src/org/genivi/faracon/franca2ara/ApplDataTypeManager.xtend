@@ -16,9 +16,14 @@ import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FField
+import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FArrayType
 
 import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
+import static extension org.genivi.faracon.util.FrancaUtil.*
+import org.franca.core.franca.FMapType
+import autosar40.adaptiveplatform.applicationdesign.applicationdatatype.ApplicationAssocMapDataType
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
@@ -27,6 +32,8 @@ class ApplDataTypeManager extends Franca2ARABase {
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
 	var extension Franca2ARAConfigProvider
+	@Inject
+	var extension DeploymentDataHelper
 	@Inject
 	var extension AutosarAnnotator
 
@@ -97,7 +104,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		if (t instanceof ApplicationDataType) {
 			type = t
 		} else {
-			getLogger.logWarning('''Cannot create ApplicationDatatype because the Franca type "«fTypedElement.type»" is not yet supported''')
+			getLogger.logWarning('''Cannot create ApplicationDatatype for element because the Franca type "«fTypedElement.type»" is not yet supported''')
 		}
 //		val dataDefProps = fac.createSwDataDefProps
 //		val dataDefPropsConditional = fac.createSwDataDefPropsConditional
@@ -106,6 +113,54 @@ class ApplDataTypeManager extends Franca2ARABase {
 	}
 
 
+	def private dispatch create fac.createApplicationPrimitiveDataType createApplDataType(FEnumerationType fEnumerationType) {
+		// TODO: should we create an extra CompuMethod for this? Or is it sufficient to have the CompuMethod of ImplDataType? 
+		//val enumCompuMethod = fEnumerationType.createCompuMethod
+		shortName = ADTPrefix + fEnumerationType.name
+		it.category = "VALUE"  // "TYPE_REFERENCE"
+//		it.swDataDefProps = fac.createSwDataDefProps => [
+//			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+//				compuMethod = enumCompuMethod
+//			// TODO: check whether we need a type for the compu-method itself
+//			// implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
+//			]
+//		]
+	}
+
+	def private dispatch create fac.createApplicationAssocMapDataType createApplDataType(FMapType fMapType) {
+		shortName = ADTPrefix + fMapType.name
+		val ns = fMapType.francaNamespaceName
+		val tKey = fMapType.keyType.createDataTypeReference(fMapType.name, ns)
+		if (tKey instanceof ApplicationDataType) {
+			key = fac.createApplicationAssocMapElement => [ type = tKey ]
+		} else {
+			getLogger.logWarning('''Cannot create ApplicationDatatype for map key because the Franca type "«fMapType.keyType»" is not yet supported''')
+		}		
+		val tValue = fMapType.valueType.createDataTypeReference(fMapType.name, ns)
+		if (tValue instanceof ApplicationDataType) {
+			value = fac.createApplicationAssocMapElement => [ type = tValue ]
+		} else {
+			getLogger.logWarning('''Cannot create ApplicationDatatype for map value because the Franca type "«fMapType.valueType»" is not yet supported''')
+		}		
+	}
+	
+	def private dispatch create fac.createApplicationArrayDataType createApplDataType(FArrayType fArrayType) {
+		shortName = ADTPrefix + fArrayType.name
+		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
+		val int arraySize = fArrayType.getArraySize
+		if (isFixedSizedArray) {
+			it.category = "ARRAY"
+		} else {
+			it.category = "VECTOR"
+		}
+		val t = fArrayType.elementType.createDataTypeReference(fArrayType.name, fArrayType.francaNamespaceName)
+		if (t instanceof ApplicationDataType) {
+			element = fac.createApplicationArrayElement => [ type = t]
+		} else {
+			getLogger.logWarning('''Cannot create ApplicationDatatype for array because the Franca type "«fArrayType.elementType»" is not yet supported''')
+		}
+	}
+	
 	def private dispatch create fac.createApplicationPrimitiveDataType createApplDataType(FTypeDef fTypeDef) {
 		shortName = ADTPrefix + fTypeDef.name
 		if (fTypeDef.actualType.refsPrimitiveType) {

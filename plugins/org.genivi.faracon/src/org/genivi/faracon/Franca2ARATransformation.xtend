@@ -283,7 +283,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 		}
 		
 		type = if (src?.outArgs.length == 1) {
-			src.outArgs.get(0).type.createDataTypeReference(src.outArgs.get(0))
+			val arg0 = src.outArgs.get(0)
+			arg0.type.createDataTypeReference(arg0)
 		} else {
 			val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType
 			artificialBroadcastStruct.shortName = namesHierarchy.createAndInsertUniqueName(

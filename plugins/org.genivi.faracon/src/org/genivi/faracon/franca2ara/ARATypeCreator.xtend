@@ -21,10 +21,6 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
-	var extension DeploymentDataHelper
-	@Inject
-	var extension AutosarAnnotator
-	@Inject
 	var extension Franca2ARAConfigProvider
 
 
@@ -35,7 +31,7 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 			fTypeRef.createAnonymousArrayTypeReference(fTypedElement, fTypedElement.francaNamespaceName)
 		}
 	}
-
+	
 	def AutosarDataType getDataType(FType type) {
 		val idt = getImplDataType(type)
 		if (idt===null)
@@ -55,7 +51,7 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 		}
 	}
 	 
-	def private AutosarDataType createDataTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
+	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
 		val idt = createImplDataTypeReference(fTypeRef, typedElementName, namespaceName)
 		if (idt===null)
 			return null
