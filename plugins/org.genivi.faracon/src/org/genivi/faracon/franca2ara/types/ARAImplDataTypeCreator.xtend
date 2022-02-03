@@ -258,10 +258,10 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
 		val int arraySize = fArrayType.getArraySize
 		it.shortName = fArrayType.name
-		if (isFixedSizedArray) {
-			it.category = "ARRAY"
+		if (isFixedSizedArray || alwaysGenIDTArray) {
+			it.category = CAT_ARRAY
 		} else {
-			it.category = "VECTOR"
+			it.category = CAT_VECTOR
 		}
 		it.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
@@ -273,7 +273,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			} else {
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 			}
-			it.category = "TYPE_REFERENCE"
+			it.category = CAT_TYPEREF
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 					implementationDataType = fArrayType.elementType.createImplDataTypeReference(fArrayType.name, fArrayType.francaNamespaceName) as ImplementationDataType

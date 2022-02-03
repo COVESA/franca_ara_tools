@@ -135,13 +135,21 @@ class ApplDataTypeManager extends Franca2ARABase {
 		val ns = fMapType.francaNamespaceName
 		val tKey = fMapType.keyType.createDataTypeReference(fMapType.name, ns)
 		if (tKey instanceof ApplicationDataType) {
-			key = fac.createApplicationAssocMapElement => [ type = tKey ]
+			key = fac.createApplicationAssocMapElement => [
+				shortName = "elementKey"
+				category = CAT_VALUE
+				type = tKey
+			]
 		} else {
 			getLogger.logWarning('''Cannot create ApplicationDatatype for map key because the Franca type "«fMapType.keyType»" is not yet supported''')
 		}		
 		val tValue = fMapType.valueType.createDataTypeReference(fMapType.name, ns)
 		if (tValue instanceof ApplicationDataType) {
-			value = fac.createApplicationAssocMapElement => [ type = tValue ]
+			value = fac.createApplicationAssocMapElement => [
+				shortName = "elementValue"
+				category = CAT_VALUE
+				type = tValue
+			]
 		} else {
 			getLogger.logWarning('''Cannot create ApplicationDatatype for map value because the Franca type "«fMapType.valueType»" is not yet supported''')
 		}		
@@ -149,16 +157,16 @@ class ApplDataTypeManager extends Franca2ARABase {
 	
 	def private dispatch create fac.createApplicationArrayDataType createApplDataType(FArrayType fArrayType) {
 		shortName = ADTPrefix + fArrayType.name
-		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
-		val int arraySize = fArrayType.getArraySize
-		if (isFixedSizedArray) {
-			it.category = "ARRAY"
-		} else {
-			it.category = "VECTOR"
-		}
+		category = CAT_ARRAY  // always use category array for application datatypes
+//		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
+//		val int arraySize = fArrayType.getArraySize
 		val t = fArrayType.elementType.createDataTypeReference(fArrayType.name, fArrayType.francaNamespaceName)
 		if (t instanceof ApplicationDataType) {
-			element = fac.createApplicationArrayElement => [ type = t]
+			element = fac.createApplicationArrayElement => [
+				shortName = "valueType"
+				category = CAT_VALUE
+				type = t
+			]
 		} else {
 			getLogger.logWarning('''Cannot create ApplicationDatatype for array because the Franca type "«fArrayType.elementType»" is not yet supported''')
 		}

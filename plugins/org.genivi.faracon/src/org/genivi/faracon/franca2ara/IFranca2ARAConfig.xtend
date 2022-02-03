@@ -18,6 +18,7 @@ interface IFranca2ARAConfig {
 	def boolean replaceIDTPrimitiveTypeDefs()
 	//def boolean generateCppIDTs()
 	def boolean storeIDTsLocally()
+	def boolean alwaysGenIDTArray()
 
 	// deployment
 	def boolean generateDeployment()

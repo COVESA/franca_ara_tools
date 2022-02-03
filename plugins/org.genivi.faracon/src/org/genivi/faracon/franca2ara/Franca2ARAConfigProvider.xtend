@@ -46,6 +46,9 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	override boolean storeIDTsLocally() {
 		config.storeIDTsLocally
 	}
+	override boolean alwaysGenIDTArray() {
+		config.alwaysGenIDTArray
+	}
 
 	// deployment
 	override boolean generateDeployment() {
