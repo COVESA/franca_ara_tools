@@ -17,10 +17,13 @@ import org.franca.core.franca.FAttribute
 import java.util.List
 import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinterfacedeployment.SomeipServiceInterfaceDeployment
 import autosar40.adaptiveplatform.applicationdesign.portinterface.Field
+import autosar40.adaptiveplatform.serviceinstancemanifest.serviceinterfacedeployment.SomeipEventDeployment
 
 @Singleton
 class ARADeploymentGenerator extends Franca2ARABase {
 
+	static final String SOMEIP_SUFFIX = "_Someip"
+	
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
@@ -31,6 +34,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	var ARPackage deployPackage = null
 		
 	def create fac.createSomeipServiceInterfaceDeployment getServiceInterfaceDeployment(ServiceInterface aSI, FInterface fSI) {
+		shortName = fSI.name + SOMEIP_SUFFIX
 		serviceInterface = aSI
 		fSI.deploy[ipa |
 			serviceInterfaceId = ipa.getSomeIpServiceID(fSI) as long
@@ -39,6 +43,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	}
 
 	def create fac.createSomeipMethodDeployment getMethodDeployment(ClientServerOperation aOp, FMethod fMethod, FInterface fSI) {
+		shortName = fMethod.name
 		method = aOp
 		fSI.deploy[ipa |
 			methodId = ipa.getSomeIpMethodID(fMethod) as long
@@ -56,7 +61,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		event = aVDP
 		fSI.deploy[ipa |
 			eventId = ipa.getSomeIpEventID(fBroadcast) as long
-			transformEventGroups(fBroadcast, ipa, sid)			
+			transformEventGroups(fBroadcast, it, ipa, sid)			
 		]
 	}
 
@@ -65,7 +70,8 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		FInterface fSI,
 		ServiceInterfaceDeployment sid
 	) {
-		shortName = fAttribute.name
+		val n = fAttribute.name
+		shortName = n + SOMEIP_SUFFIX
 		field = aField
 		fSI.deploy[ipa |
 			val getterID = ipa.getSomeIpGetterID(fAttribute) 
@@ -74,50 +80,69 @@ class ARADeploymentGenerator extends Franca2ARABase {
 			
 			if (null !== getterID) {
 				val getMethod = fac.createSomeipMethodDeployment
-				getMethod.shortName = 'getter'
+				getMethod.shortName = 'get' + n.toFirstUpper
 				getMethod.methodId = getterID as long
 				getMethod.transportProtocol = ipa.getSomeIpGetterReliable(fAttribute) == true ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
 				it.get = getMethod
 			}
 			
 			if (null !== notifierID) {
-				val notifierMethod = fac.createSomeipEventDeployment
-				notifierMethod.shortName = 'notifier'
-				notifierMethod.eventId = notifierID as long
-				notifierMethod.transportProtocol = ipa.getSomeIpNotifierReliable(fAttribute) == true ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
-				it.notifier = notifierMethod
+				val notifierEvent = fac.createSomeipEventDeployment
+				notifierEvent.shortName = n + 'Notifier'
+				notifierEvent.eventId = notifierID as long
+				notifierEvent.transportProtocol = ipa.getSomeIpNotifierReliable(fAttribute) == true ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
+				it.notifier = notifierEvent
+				transformEventGroups(fAttribute, notifierEvent, ipa, sid)			
 			}
 			
 			if (null !== setterID) {
 				val setMethod = fac.createSomeipMethodDeployment
-				setMethod.shortName = 'setter'
+				setMethod.shortName = 'set' + n.toFirstUpper
 				setMethod.methodId = setterID as long
 				setMethod.transportProtocol = ipa.getSomeIpSetterReliable(fAttribute) == true ? TransportLayerProtocolEnum.TCP : TransportLayerProtocolEnum.UDP
 				it.set = setMethod
 			}
 //			eventId = ipa.getSomeIpEventID(fBroadcast) as long
-			transformEventGroups(fAttribute, ipa, sid)			
 		]
 	}
 
 
-	def private void transformEventGroups(FBroadcast src, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
+	def private void transformEventGroups(
+		FBroadcast src,
+		SomeipEventDeployment edepl,
+		InterfacePropertyAccessor ipa,
+		ServiceInterfaceDeployment sid
+	) {
 		val someIpEventGroups = ipa.getSomeIpEventGroups(src)
 		if (null !== someIpEventGroups)
-			handleEVProperties(someIpEventGroups, sid)
+			handleEVProperties(src.name, someIpEventGroups, edepl, sid)
 	}
 	
-	def private void transformEventGroups(FAttribute src, InterfacePropertyAccessor ipa, ServiceInterfaceDeployment sid) {
+	def private void transformEventGroups(
+		FAttribute src,
+		SomeipEventDeployment edepl,
+		InterfacePropertyAccessor ipa,
+		ServiceInterfaceDeployment sid
+	) {
 		val someIpEventGroups = ipa.getSomeIpEventGroups(src)
 		if (null !== someIpEventGroups)
-			handleEVProperties(someIpEventGroups, sid)
+			handleEVProperties(src.name, someIpEventGroups, edepl, sid)
 	}
 	
-	def private void handleEVProperties(List<Integer> someIpEventGroups, ServiceInterfaceDeployment sid) {
+	def private void handleEVProperties(
+		String name,
+		List<Integer> someIpEventGroups,
+		SomeipEventDeployment edepl,
+		ServiceInterfaceDeployment sid
+	) {
+		val ssid = sid as SomeipServiceInterfaceDeployment
 		for (element : someIpEventGroups) {
-			var eg = fac.createSomeipEventGroup()
-			eg.eventGroupId = element as long
-			(sid as SomeipServiceInterfaceDeployment).eventGroups.add(eg)
+			fac.createSomeipEventGroup => [
+				shortName = name + "_EventGroup"
+				eventGroupId = element as long
+				events.add(edepl)
+				ssid.eventGroups.add(it)
+			]
 		}
 	}
 
