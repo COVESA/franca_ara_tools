@@ -10,7 +10,6 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	val config =
 		//new Franca2ARAConfigDefault
 		new Franca2ARAConfig2022
-		//new Franca2ARAConfig2022_navigator
 
 	// general
 	override boolean generateAdminDataLanguage() {
@@ -65,6 +64,9 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	}
 	override boolean createSeparateDeploymentFile() {
 		config.createSeparateDeploymentFile
+	}
+	override String getSignalPrefix() {
+		config.getSignalPrefix
 	}
 
 }

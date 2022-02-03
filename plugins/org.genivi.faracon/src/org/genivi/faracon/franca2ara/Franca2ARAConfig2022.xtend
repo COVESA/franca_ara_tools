@@ -26,4 +26,5 @@ class Franca2ARAConfig2022 implements IFranca2ARAConfig {
 	override boolean generateDeployment() { true }
 	override boolean storeDeploymentLocally() { false }
 	override boolean createSeparateDeploymentFile() { true }
+	override String getSignalPrefix() { "eSOME_IP_" }
 }

@@ -26,4 +26,5 @@ class Franca2ARAConfigDefault implements IFranca2ARAConfig {
 	override boolean generateDeployment() { false }
 	override boolean storeDeploymentLocally() { false }
 	override boolean createSeparateDeploymentFile() { false }
+	override String getSignalPrefix() { "" }
 }
