@@ -28,7 +28,7 @@ import org.franca.core.franca.FUnaryOperation
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
 
-import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
+import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static org.franca.core.framework.FrancaHelpers.*
 
 @Singleton

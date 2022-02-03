@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.franca.core.franca.FModel;
-import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator;
+import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator;
 
 public class Preferences {
 

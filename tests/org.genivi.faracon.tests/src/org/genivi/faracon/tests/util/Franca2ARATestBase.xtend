@@ -6,7 +6,7 @@ import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.Franca2ARATransformation
 import org.genivi.faracon.cli.FilePathsHelper
 import org.genivi.faracon.cli.Franca2AraConverter
-import org.genivi.faracon.franca2ara.ARATypeCreator
+import org.genivi.faracon.franca2ara.types.ARATypeCreator
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.FaraconTestBase

@@ -1,4 +1,4 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.types
 
 import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType

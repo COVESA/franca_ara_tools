@@ -6,6 +6,8 @@ import autosar40.autosartoplevelstructure.AUTOSAR
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ArgumentDirectionEnum
+import autosar40.swcomponent.datatype.datatypes.ApplicationDataType
+import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 import java.util.Set
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,23 +23,22 @@ import org.franca.core.franca.FTypeCollection
 import org.genivi.faracon.franca2ara.ARAConstantsCreator
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
-import org.genivi.faracon.franca2ara.ARATypeCreator
 import org.genivi.faracon.franca2ara.AutosarAnnotator
 import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 import org.genivi.faracon.names.NamesHierarchy
 
+import org.genivi.faracon.franca2ara.types.ARATypeCreator
+import org.genivi.faracon.franca2ara.types.ApplDataTypeManager
+import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator
+import org.genivi.faracon.franca2ara.types.ARAImplDataTypeCreator
+import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.ARADeploymentGenerator
+
 import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
-import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
-import org.genivi.faracon.franca2ara.ARAImplDataTypeCreator
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
-import autosar40.swcomponent.datatype.datatypes.ApplicationDataType
-import org.genivi.faracon.franca2ara.ARADeploymentGenerator
-import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
-import org.genivi.faracon.franca2ara.ApplDataTypeManager
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {

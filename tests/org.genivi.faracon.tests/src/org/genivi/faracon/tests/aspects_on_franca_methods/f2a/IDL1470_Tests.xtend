@@ -39,7 +39,7 @@ import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARATransformation
 import org.genivi.faracon.franca2ara.ARAConstantsCreator
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
-import org.genivi.faracon.franca2ara.ARATypeCreator
+import org.genivi.faracon.franca2ara.types.ARATypeCreator
 import org.genivi.faracon.logging.AbstractLogger
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase

@@ -5,7 +5,7 @@ import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FStructType
 import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.Before
-import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
+import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator
 
 abstract class AbstractFranca2AraStructTest extends Franca2ARATestBase{
 	@Inject

@@ -1,4 +1,4 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.types
 
 import java.util.Map
 import javax.inject.Singleton
@@ -10,6 +10,9 @@ import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterfa
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.DataTypeMappingSet
 import org.genivi.faracon.Franca2ARABase
+import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
+import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.AutosarAnnotator
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeDef
@@ -22,7 +25,7 @@ import org.franca.core.franca.FMapType
 import org.franca.core.franca.FArrayType
 import org.franca.core.FrancaModelExtensions
 
-import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
+import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 
 @Singleton

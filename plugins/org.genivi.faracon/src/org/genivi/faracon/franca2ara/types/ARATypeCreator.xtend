@@ -1,4 +1,4 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.types
 
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import javax.inject.Inject
@@ -7,9 +7,10 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.Franca2ARABase
 
-import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
+import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import org.franca.core.franca.FType
+import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {

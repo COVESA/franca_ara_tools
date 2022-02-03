@@ -1,4 +1,4 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.types
 
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FBasicTypeId

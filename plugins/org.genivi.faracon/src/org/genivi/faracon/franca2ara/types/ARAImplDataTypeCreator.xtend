@@ -1,4 +1,4 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.types
 
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
@@ -21,13 +21,18 @@ import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FUnionType
-import org.genivi.faracon.Franca2ARABase
-
-import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
-import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
-import static extension org.genivi.faracon.util.FrancaUtil.*
 import org.franca.core.framework.FrancaHelpers
 import org.franca.core.franca.FBasicTypeId
+import org.genivi.faracon.Franca2ARABase
+import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
+import org.genivi.faracon.franca2ara.AutosarAnnotator
+import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
+import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+
+import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
+import static extension org.genivi.faracon.util.FrancaUtil.*
+import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
+
 
 @Singleton
 class ARAImplDataTypeCreator extends Franca2ARABase {
