@@ -29,9 +29,9 @@ import org.genivi.faracon.names.FrancaNamesCollector
 import org.genivi.faracon.names.NamesHierarchy
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.stdtypes.AraStandardTypeDefinitionsModel
+import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator
 
 import static org.genivi.faracon.cli.ConverterHelper.*
-import org.genivi.faracon.franca2ara.ARAPrimitiveTypesCreator
 
 class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer, ARAModelContainer> {
 	@Inject
