@@ -15,11 +15,13 @@ class Franca2ARAConfigDefault implements IFranca2ARAConfig {
 	override String getADTPrefix() { "" }
 	
 	// implementation data types	
+	override String getIDTPrefix() { "" }
 	override boolean replaceIDTPrimitiveTypeDefs() { false }
 	//override boolean generateCppIDTs() { false }
 	override boolean storeIDTsLocally() { true }
 	override boolean alwaysGenIDTArray() { false }
-
+	override String getCompuMethodPrefix() { "" }
+	
 	// deployment
 	override boolean generateDeployment() { false }
 	override boolean storeDeploymentLocally() { false }

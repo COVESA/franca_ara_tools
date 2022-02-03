@@ -36,7 +36,10 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 		config.getADTPrefix
 	}
 
-	// implementation data types	
+	// implementation data types
+	override String getIDTPrefix() {
+		config.getIDTPrefix
+	}
 	override boolean replaceIDTPrimitiveTypeDefs() {
 		config.replaceIDTPrimitiveTypeDefs
 	}
@@ -48,6 +51,9 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	}
 	override boolean alwaysGenIDTArray() {
 		config.alwaysGenIDTArray
+	}
+	override String getCompuMethodPrefix() {
+		config.getCompuMethodPrefix
 	}
 
 	// deployment

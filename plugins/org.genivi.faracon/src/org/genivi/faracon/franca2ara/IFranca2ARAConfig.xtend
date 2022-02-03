@@ -15,10 +15,12 @@ interface IFranca2ARAConfig {
 	def String getADTPrefix()
 
 	// implementation data types	
+	def String getIDTPrefix()
 	def boolean replaceIDTPrimitiveTypeDefs()
 	//def boolean generateCppIDTs()
 	def boolean storeIDTsLocally()
 	def boolean alwaysGenIDTArray()
+	def String getCompuMethodPrefix()
 
 	// deployment
 	def boolean generateDeployment()
