@@ -25,7 +25,6 @@ import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.ARANamespaceCreator
 import org.genivi.faracon.franca2ara.AutosarAnnotator
 import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
-import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 import org.genivi.faracon.names.NamesHierarchy
 
 import org.genivi.faracon.franca2ara.types.ARATypeCreator
