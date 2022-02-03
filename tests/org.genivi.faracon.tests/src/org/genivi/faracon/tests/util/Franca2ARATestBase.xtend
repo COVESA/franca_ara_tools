@@ -53,17 +53,22 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		franca2AraConverter.convertFiles(inputPaths)
 
 		// assert
+		val doCheck = expectedFilePaths!==null
 		val autosarModelPaths = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
 		assertNotNull("no outputpath found", autosarModelPaths)
 		val actualAutosarFiles = findArxmlFilesStdFiles(autosarModelPaths, true)
 		actualAutosarFiles.forEach [ autosarFileName |
 			// load autosar models and set UUID to 0
 			val modelContainer = araConnector.loadModel(autosarFileName) as ARAModelContainer
-			modelContainer.model.setUuidsTo0
+			if (doCheck) {
+				modelContainer.model.setUuidsTo0
+				if (modelContainer.deploymentModel!==null)
+					modelContainer.deploymentModel.setUuidsTo0				
+			}
 			araConnector.saveModel(modelContainer, autosarFileName)
 		]
 		
-		if (expectedFilePaths!==null) {
+		if (doCheck) {
 			assertAutosarFilesAreEqual(actualAutosarFiles, expectedFilePaths)
 		} else {
 			println("NOTE: This test doesn't provide expected files, no check will be executed.")
@@ -90,7 +95,9 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		val fromFranca = araConnector.fromFranca(fmodel) as ARAModelContainer
 		val araFileName = "src-gen/testcases/" + fileBasename + ".arxml"
 		println("Save ara file " + araFileName)
-		fromFranca.model.setUuidsTo0
+		if (check) {
+			fromFranca.model.setUuidsTo0		
+		}
 		araConnector.saveModel(fromFranca, araFileName)
 
 		// then
