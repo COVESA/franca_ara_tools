@@ -13,6 +13,7 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	 * Method for changing the current configuration for Franca2ARA transformation.
 	 */
 	def setConfiguration(IFranca2ARAConfig config) {
+		println("Setting configuration to " + config.class.canonicalName)
 		this.config = config
 	}
 	
