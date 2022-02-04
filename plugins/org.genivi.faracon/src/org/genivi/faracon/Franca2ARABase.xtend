@@ -13,6 +13,7 @@ class Franca2ARABase extends BaseWithLogger {
 	protected static final String CAT_TYPEREF = "TYPE_REFERENCE"
 	protected static final String CAT_ARRAY = "ARRAY"
 	protected static final String CAT_VECTOR = "VECTOR"
+	protected static final String CAT_STRUCTURE = "STRUCTURE"
 	
 	static final String FRANCA_UUID_TAG = "uuid=\""
 	 

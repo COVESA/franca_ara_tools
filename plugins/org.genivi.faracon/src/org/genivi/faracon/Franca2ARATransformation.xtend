@@ -298,29 +298,28 @@ class Franca2ARATransformation extends Franca2ARABase {
 			sid.eventDeployments.add(md)
 		}
 		
-		type = if (src?.outArgs.length == 1) {
-			val arg0 = src.outArgs.get(0)
-			arg0.type.createDataTypeReference(arg0)
-		} else {
-			val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType
-			artificialBroadcastStruct.shortName = namesHierarchy.createAndInsertUniqueName(
-				parentInterface.francaFullyQualifiedName,
-				src.name.toFirstUpper + "Data",
-				FType
-			)
-			artificialBroadcastStruct.category = "STRUCTURE"
-			val typeRefs = src.outArgs.map [
-				it.createImplDataTypeElement(null)
-			]
-			artificialBroadcastStruct.subElements.addAll(typeRefs)
-			artificialBroadcastStruct.ARPackage = interfaceArPackage
-			artificialBroadcastStruct.addAnnotation(
-				ANNOTATION_LABEL_ARTIFICIAL_EVENT_DATA_STRUCT_TYPE,
-				"Referencing event definition: " + src.getARFullyQualifiedName
-			)
-			interfaceArPackage.elements += artificialBroadcastStruct
-			artificialBroadcastStruct
-		}
+		type =
+			if (src?.outArgs.length == 1) {
+				val arg0 = src.outArgs.get(0)
+				arg0.type.createDataTypeReference(arg0)
+			} else {
+				val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType => [
+					shortName = namesHierarchy.createAndInsertUniqueName(
+						parentInterface.francaFullyQualifiedName,
+						src.name.toFirstUpper + "Data",
+						FType
+					)
+					category = CAT_STRUCTURE
+					subElements.addAll(src.outArgs.map[ createImplDataTypeElement(null) ])
+					ARPackage = interfaceArPackage
+					addAnnotation(
+						ANNOTATION_LABEL_ARTIFICIAL_EVENT_DATA_STRUCT_TYPE,
+						"Referencing event definition: " + src.getARFullyQualifiedName
+					)
+				]
+				interfaceArPackage.elements += artificialBroadcastStruct
+				artificialBroadcastStruct
+			}
 
 		// If the broadcast is not a direct member of the current interface definition but is inherited from
 		// a direct or indirect base interface the original interface where it comes from is annotated.

@@ -21,6 +21,7 @@ class Franca2ARAConfig2022 implements IFranca2ARAConfig {
 	override boolean storeIDTsLocally() { false }
 	override boolean alwaysGenIDTArray() { true }
 	override String getCompuMethodPrefix() { "CM_" }
+	override boolean generateStringAsArray() { true }
 
 	// deployment
 	override boolean generateDeployment() { true }
