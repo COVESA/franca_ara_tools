@@ -7,10 +7,15 @@ import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FField
 import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FStructType
+import org.franca.core.franca.FCompoundType
+import org.franca.core.franca.FTypedElement
 import org.genivi.commonapi.someip.Deployment
 
 import static extension org.franca.core.FrancaModelExtensions.*
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
+import org.genivi.commonapi.someip.Deployment.TypeCollectionPropertyAccessor
+import org.genivi.commonapi.someip.Deployment.InterfacePropertyAccessor
+import org.genivi.commonapi.someip.Deployment.IDataPropertyAccessor
 
 // This helper class extracts required deployment data from the Franca deployment input models and provides it in a convenient form.
 class DeploymentDataHelper {
@@ -19,114 +24,119 @@ class DeploymentDataHelper {
 	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 
 	// Derives from the deployment data if a given array data type or the type of a given typed model element is a fixed size array.
-	def isFixedSizedArray(FModelElement fModelElement) {
-		val fTypeCollection = fModelElement.typeCollection
-		if (fTypeCollection !== null) {
-			val Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fTypeCollection)
-			if (typeCollectionPropertyAccessor !== null) {
-				val arrayLengthWidth = typeCollectionPropertyAccessor.getArrayLengthWidth(fModelElement)
-				if (arrayLengthWidth !== null) {
-					if (arrayLengthWidth == 0) {
-						return true
-					}
-				}
-			}
-		}
-		val fInterface = fModelElement.interface
-		if (fInterface !== null) {
-			val Deployment.InterfacePropertyAccessor interfacePropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fInterface)
-			if (interfacePropertyAccessor !== null) {
-				val arrayLengthWidth = interfacePropertyAccessor.getArrayLengthWidth(fModelElement)
-				if (arrayLengthWidth !== null) {
-					if (arrayLengthWidth == 0) {
-						return true
-					}
-				}
-			}
-		}
-		return false
+	def isFixedSizedArray(FModelElement elem) {
+		val arrayLengthWidth = elem.getArrayLengthWidth
+		arrayLengthWidth!==null && arrayLengthWidth==0
 	}
 
 	// Extracts the size of fixed sized array type from the deployment data for a given array data type or the type of a given typed model element.
-	def getArraySize(FModelElement fModelElement) {
-		val fTypeCollection = fModelElement.typeCollection
-		if (fTypeCollection !== null) {
-			val Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fTypeCollection)
-			if (typeCollectionPropertyAccessor !== null) {
-				val arrayMaxLength = typeCollectionPropertyAccessor.getArrayMaxLength(fModelElement)
-				if (arrayMaxLength !== null) {
-					return arrayMaxLength
+	def getArraySize(FModelElement elem) {
+		val arrayMaxLength = elem.getArrayMaxLength
+		arrayMaxLength!==null ? arrayMaxLength : 0
+	}
+	
+
+	def Integer getArrayLengthWidth(FModelElement elem) {
+		deploy(elem,
+			[dpa |
+				switch elem {
+					FArrayType: dpa.getSomeIpArrayLengthWidth(elem)
+					FField: chain([
+						if (elem.eContainer instanceof FStructType) {
+							dpa.getSomeIpStructArrayLengthWidth(elem)
+						} else {
+							dpa.getSomeIpUnionArrayLengthWidth(elem)
+						}						
+					], [
+						forwardToType(elem, [getArrayLengthWidth])
+					])
+					default: null
+				}
+			],
+			[ipa |
+				switch elem {
+					FArgument: ipa.getSomeIpArgArrayLengthWidth(elem)
+					FAttribute: ipa.getSomeIpAttrArrayLengthWidth(elem)
+					default: null
+				} 
+			]
+		)
+	}
+		
+	def Integer getArrayMaxLength(FModelElement elem) {
+		deploy(elem,
+			[dpa |
+				switch elem {
+					FArrayType: dpa.getSomeIpArrayMaxLength(elem)
+					FField: chain([
+						if (elem.eContainer instanceof FStructType) {
+							dpa.getSomeIpStructArrayMaxLength(elem)
+						} else {
+							dpa.getSomeIpUnionArrayMaxLength(elem)
+						}						
+					], [
+						forwardToType(elem, [getArrayLengthWidth])
+					])
+					default: null
+				}
+			],
+			[ipa |
+				switch elem {
+					FArgument: ipa.getSomeIpArgArrayMaxLength(elem)
+					FAttribute: ipa.getSomeIpAttrArrayMaxLength(elem)
+					default: null
+				} 
+			]
+		)
+	}
+		
+	
+	
+	def private <T> T forwardToType(FTypedElement te, (FModelElement) => T func) {
+		val t = te.type.derived
+		if (t===null) {
+			null
+		} else {
+			func.apply(t)
+		}
+		
+	}
+	
+	def private <T> T chain(() => T first, () => T second) {
+		val res = first.apply()
+		(res!==null) ? res : second.apply()
+	}
+	
+	def private <T> T deploy(
+		FModelElement elem,
+		(IDataPropertyAccessor) => T func1,
+		(InterfacePropertyAccessor) => T func2
+	) {
+		val tc = elem.typeCollection
+		if (tc!==null) {
+			val tcpa = someipFrancaDeploymentData.lookupAccessor(tc)
+			if (tcpa!==null) {
+				val ret = func1.apply(tcpa)
+				if (ret!==null) {
+					return ret
 				}
 			}
 		}
-		val fInterface = fModelElement.interface
-		if (fInterface !== null) {
-			val Deployment.InterfacePropertyAccessor interfacePropertyAccessor = someipFrancaDeploymentData.lookupAccessor(fInterface)
-			if (interfacePropertyAccessor !== null) {
-				val arrayMaxLength = interfacePropertyAccessor.getArrayMaxLength(fModelElement)
-				if (arrayMaxLength !== null) {
-					return arrayMaxLength
+		val intf = elem.interface
+		if (intf!==null) {
+			val ipa = someipFrancaDeploymentData.lookupAccessor(intf)
+			if (ipa!==null) {
+				val ret1 = func1.apply(ipa)
+				if (ret1!==null) {
+					return ret1
+				}
+				val ret2 = func2.apply(ipa)
+				if (ret2!==null) {
+					return ret2
 				}
 			}
 		}
-		return 0
-	}
-
-
-	dispatch def getArrayLengthWidth(Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor, FArrayType fArrayType) {
-		typeCollectionPropertyAccessor.getSomeIpArrayLengthWidth(fArrayType)
-	}
-	dispatch def getArrayLengthWidth(Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			typeCollectionPropertyAccessor.getSomeIpStructArrayLengthWidth(fField)
-		} else {
-			typeCollectionPropertyAccessor.getSomeIpUnionArrayLengthWidth(fField)
-		}
-	}
-
-	dispatch def getArrayLengthWidth(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FArrayType fArrayType) {
-		interfacePropertyAccessor.getSomeIpArrayLengthWidth(fArrayType)
-	}
-	dispatch def getArrayLengthWidth(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			interfacePropertyAccessor.getSomeIpStructArrayLengthWidth(fField)
-		} else {
-			interfacePropertyAccessor.getSomeIpUnionArrayLengthWidth(fField)
-		}
-	}
-	dispatch def getArrayLengthWidth(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FArgument fArgument) {
-		interfacePropertyAccessor.getSomeIpArgArrayLengthWidth(fArgument)
-	}
-	dispatch def getArrayLengthWidth(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FAttribute fAttribute) {
-		interfacePropertyAccessor.getSomeIpAttrArrayLengthWidth(fAttribute)
-	}
-
-	dispatch def getArrayMaxLength(Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor, FArrayType fArrayType) {
-		typeCollectionPropertyAccessor.getSomeIpArrayMaxLength(fArrayType)
-	}
-	dispatch def getArrayMaxLength(Deployment.TypeCollectionPropertyAccessor typeCollectionPropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			typeCollectionPropertyAccessor.getSomeIpStructArrayMaxLength(fField)
-		} else {
-			typeCollectionPropertyAccessor.getSomeIpUnionArrayMaxLength(fField)
-		}
-	}
-
-	dispatch def getArrayMaxLength(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FArrayType fArrayType) {
-		interfacePropertyAccessor.getSomeIpArrayMaxLength(fArrayType)
-	}
-	dispatch def getArrayMaxLength(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FField fField) {
-		if (fField.eContainer instanceof FStructType) {
-			interfacePropertyAccessor.getSomeIpStructArrayMaxLength(fField)
-		} else {
-			interfacePropertyAccessor.getSomeIpUnionArrayMaxLength(fField)
-		}
-	}
-	dispatch def getArrayMaxLength(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FArgument fArgument) {
-		interfacePropertyAccessor.getSomeIpArgArrayMaxLength(fArgument)
-	}
-	dispatch def getArrayMaxLength(Deployment.InterfacePropertyAccessor interfacePropertyAccessor, FAttribute fAttribute) {
-		interfacePropertyAccessor.getSomeIpAttrArrayMaxLength(fAttribute)
+		null
 	}
 
 }
