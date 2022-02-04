@@ -28,6 +28,8 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	@Inject
 	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 	@Inject
+	var extension ARATransformationPropsGenerator
+	@Inject
 	var extension Franca2ARAConfigProvider
 
 	var ARPackage deployPackage = null
@@ -62,6 +64,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		fSI.deploy[ipa |
 			eventId = ipa.getSomeIpEventID(fBroadcast) as long
 			transformEventGroups(ipa.getSomeIpEventGroups(fBroadcast), sid)			
+			createTrafoProps(aVDP, fBroadcast, ipa)
 		]
 	}
 

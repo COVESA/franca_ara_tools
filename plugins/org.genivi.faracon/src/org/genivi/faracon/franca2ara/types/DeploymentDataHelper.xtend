@@ -26,18 +26,18 @@ class DeploymentDataHelper {
 	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 
 	def isFixedSizedArray(FModelElement elem) {
-		val arrayLengthWidth = elem.getArrayLengthWidth0
+		val arrayLengthWidth = elem.getArrayLengthWidth
 		arrayLengthWidth!==null && arrayLengthWidth==0
 	}
 
-	def private Integer getArrayLengthWidth0(FModelElement elem) {
+	def Integer getArrayLengthWidth(FModelElement elem) {
 		getDeploymentData(elem, typeof(FArrayType),
 			[pa, e | pa.getSomeIpArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpStructArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpUnionArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpArgArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpAttrArrayLengthWidth(e)],
-			[getArrayLengthWidth0]
+			[getArrayLengthWidth]
 		)
 	}
 
