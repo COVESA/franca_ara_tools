@@ -54,6 +54,9 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	override String getCompuMethodPrefix() {
 		config.getCompuMethodPrefix
 	}
+	override boolean generateStringAsArray() {
+		config.generateStringAsArray
+	}
 
 	// deployment
 	override boolean generateDeployment() {

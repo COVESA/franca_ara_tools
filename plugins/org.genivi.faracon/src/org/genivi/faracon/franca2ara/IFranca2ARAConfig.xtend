@@ -21,6 +21,7 @@ interface IFranca2ARAConfig {
 	def boolean storeIDTsLocally()
 	def boolean alwaysGenIDTArray()
 	def String getCompuMethodPrefix()
+	def boolean generateStringAsArray()
 
 	// deployment
 	def boolean generateDeployment()

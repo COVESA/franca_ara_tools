@@ -40,6 +40,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	@Inject
 	var extension ARAPrimitiveTypesCreator
 	@Inject
+	var extension ARAStringTypeCreator
+	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
 	var extension DeploymentDataHelper
@@ -72,8 +74,9 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			logger.logError('''Cannot properly convert '«tc.typedElementName»' in '«tc.namespaceName»' because integer interval types are not supported.''')
 			null
 		} else if (fTypeRef.refsPrimitiveType) {
-			if (false && FrancaHelpers.isString(fTypeRef)) {
-				// TODO implement string handling
+			if (FrancaHelpers.isString(fTypeRef) && generateStringAsArray && tc.hasTypedElement) {
+				val pkg = storeIDTsLocally ? tc.typedElement.createAccordingArPackage : getDataTypesPackage
+				getImplStringType(tc, pkg)
 			} else {
 				getBaseTypeForReference(fTypeRef.predefined, tc)				
 			}
@@ -88,12 +91,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 					}
 				}
 			}
-			getImplDataType(derived)				
+			getImplDataType(derived)	
 		}
-	}
-	
-	def private getImplStringType() {
-		
 	}
 	
 	def ImplementationDataType getImplDataType(FType type) {

@@ -55,12 +55,20 @@ class ApplDataTypeManager extends Franca2ARABase {
 	def getBaseApplDataType(ImplementationDataType idt, ARPackage where) {
 		if (!impl2appl.containsKey(idt)) {
 			val adt = fac.createApplicationPrimitiveDataType
-			adt.shortName = ADTPrefix + idt.shortName
+			adt.shortName = ADTPrefix + idt.shortName.stripIDTPrefix
 			adt.category = "VALUE"
 			impl2appl.put(idt, adt)
 			adt.createTypeMapping(idt, where)
 		}
 		impl2appl.get(idt)
+	}
+	
+	def private stripIDTPrefix(String idt) {
+		if (!IDTPrefix.empty && idt.startsWith(IDTPrefix)) {
+			idt.substring(IDTPrefix.length)
+		} else {
+			idt
+		}
 	}
 
 	def getApplDataType(FType type, ImplementationDataType idt, ARPackage where) {

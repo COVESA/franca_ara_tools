@@ -226,6 +226,17 @@ class DeploymentDataHelper {
 //		val res = first.apply()
 //		(res!==null) ? res : second.apply()
 //	}
+
+
+	def getStringLength(FTypedElement elem) {
+		processDeployment(elem, [ ipa | ipa.getSomeIpStringLength(elem) ])		
+	}
+
+
+	def private <T> T processDeployment(FModelElement elem, (IDataPropertyAccessor) => T func) {
+		processDeployment(elem, func, [null])
+	}		
+
 	
 	/**
 	 * <p>Get deployment data for some Franca element by checking a sequence
