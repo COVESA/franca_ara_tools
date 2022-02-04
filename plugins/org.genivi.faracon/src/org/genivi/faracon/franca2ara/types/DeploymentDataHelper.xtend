@@ -9,51 +9,141 @@ import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FType
+import org.franca.core.franca.FUnionType
+import org.franca.core.franca.FEnumerationType
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 import org.genivi.commonapi.someip.Deployment.InterfacePropertyAccessor
 import org.genivi.commonapi.someip.Deployment.IDataPropertyAccessor
 
 import static extension org.franca.core.FrancaModelExtensions.*
 
-// This helper class extracts required deployment data from the Franca deployment input models and provides it in a convenient form.
+/**
+ * </p>Get values of SOME/IP deployment properties according to SOME/IP deployment rules.</p> 
+ */
 class DeploymentDataHelper {
 	
 	@Inject
 	var SomeipFrancaDeploymentData someipFrancaDeploymentData
 
-	// Derives from the deployment data if a given array data type or the type of a given typed model element is a fixed size array.
 	def isFixedSizedArray(FModelElement elem) {
-		val arrayLengthWidth = elem.getArrayLengthWidth
+		val arrayLengthWidth = elem.getArrayLengthWidth0
 		arrayLengthWidth!==null && arrayLengthWidth==0
 	}
 
-	// Extracts the size of fixed sized array type from the deployment data for a given array data type or the type of a given typed model element.
-	def getArraySize(FModelElement elem) {
-		val arrayMaxLength = elem.getArrayMaxLength
-		arrayMaxLength!==null ? arrayMaxLength : 0
-	}
-	
-
-	def Integer getArrayLengthWidth(FModelElement elem) {
-		getDeploymentData(elem,
+	def private Integer getArrayLengthWidth0(FModelElement elem) {
+		getDeploymentData(elem, typeof(FArrayType),
 			[pa, e | pa.getSomeIpArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpStructArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpUnionArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpArgArrayLengthWidth(e)],
 			[pa, e | pa.getSomeIpAttrArrayLengthWidth(e)],
-			[getArrayLengthWidth]
+			[getArrayLengthWidth0]
 		)
 	}
 
-	def Integer getArrayMaxLength(FModelElement elem) {
-		getDeploymentData(elem,
+	def int getArraySize(FModelElement elem) {
+		elem.getValueOrDefault([getArrayMaxLength0], 0)
+	}
+
+	def private Integer getArrayMaxLength0(FModelElement elem) {
+		getDeploymentData(elem, typeof(FArrayType),
 			[pa, e | pa.getSomeIpArrayMaxLength(e)],
 			[pa, e | pa.getSomeIpStructArrayMaxLength(e)],
 			[pa, e | pa.getSomeIpUnionArrayMaxLength(e)],
 			[pa, e | pa.getSomeIpArgArrayMaxLength(e)],
 			[pa, e | pa.getSomeIpAttrArrayMaxLength(e)],
-			[getArrayMaxLength]
+			[getArrayMaxLength0]
 		)
+	}
+
+//	def Long getArrayMinLength(FModelElement elem) {
+//		elem.getValueOrDefault([getArrayMinLength0], 0L)
+//	}
+
+	def Integer getArrayMinLength(FModelElement elem) {
+		getDeploymentData(elem, typeof(FArrayType),
+			[pa, e | pa.getSomeIpArrayMinLength(e)],
+			[pa, e | pa.getSomeIpStructArrayMinLength(e)],
+			[pa, e | pa.getSomeIpUnionArrayMinLength(e)],
+			[pa, e | pa.getSomeIpArgArrayMinLength(e)],
+			[pa, e | pa.getSomeIpAttrArrayMinLength(e)],
+			[getArrayMinLength]
+		)
+	}
+
+	def Integer getStructLengthWidth(FModelElement elem) {
+		getDeploymentData(elem, typeof(FStructType),
+			[pa, e | pa.getSomeIpStructLengthWidth(e)],
+			[pa, e | pa.getSomeIpStructStructLengthWidth(e)],
+			[pa, e | pa.getSomeIpUnionStructLengthWidth(e)],
+			[pa, e | pa.getSomeIpArgStructLengthWidth(e)],
+			[pa, e | pa.getSomeIpAttrStructLengthWidth(e)],
+			[getStructLengthWidth]
+		)
+	}
+
+	def Integer getUnionLengthWidth(FModelElement elem) {
+		getDeploymentData(elem, typeof(FUnionType),
+			[pa, e | pa.getSomeIpUnionLengthWidth(e)],
+			[pa, e | pa.getSomeIpStructUnionLengthWidth(e)],
+			[pa, e | pa.getSomeIpUnionUnionLengthWidth(e)],
+			[pa, e | pa.getSomeIpArgUnionLengthWidth(e)],
+			[pa, e | pa.getSomeIpAttrUnionLengthWidth(e)],
+			[getUnionLengthWidth]
+		)
+	}
+	
+	def Integer getUnionMaxLength(FModelElement elem) {
+		getDeploymentData(elem, typeof(FUnionType),
+			[pa, e | pa.getSomeIpUnionMaxLength(e)],
+			[pa, e | pa.getSomeIpStructUnionMaxLength(e)],
+			[pa, e | pa.getSomeIpUnionUnionMaxLength(e)],
+			[pa, e | pa.getSomeIpArgUnionMaxLength(e)],
+			[pa, e | pa.getSomeIpAttrUnionMaxLength(e)],
+			[getUnionMaxLength]
+		)
+	}
+
+	def Integer getUnionTypeWidth(FModelElement elem) {
+		getDeploymentData(elem, typeof(FUnionType),
+			[pa, e | pa.getSomeIpUnionTypeWidth(e)],
+			[pa, e | pa.getSomeIpStructUnionTypeWidth(e)],
+			[pa, e | pa.getSomeIpUnionUnionTypeWidth(e)],
+			[pa, e | pa.getSomeIpArgUnionTypeWidth(e)],
+			[pa, e | pa.getSomeIpAttrUnionTypeWidth(e)],
+			[getUnionTypeWidth]
+		)
+	}
+
+	def Boolean getUnionDefaultOrder(FModelElement elem) {
+		getDeploymentData(elem, typeof(FUnionType),
+			[pa, e | pa.getSomeIpUnionDefaultOrder(e)],
+			[pa, e | pa.getSomeIpStructUnionDefaultOrder(e)],
+			[pa, e | pa.getSomeIpUnionUnionDefaultOrder(e)],
+			[pa, e | pa.getSomeIpArgUnionDefaultOrder(e)],
+			[pa, e | pa.getSomeIpAttrUnionDefaultOrder(e)],
+			[getUnionDefaultOrder]
+		)
+	}
+
+	def Integer getEnumWidth(FModelElement elem) {
+		getDeploymentData(elem, typeof(FEnumerationType),
+			[pa, e | pa.getSomeIpEnumWidth(e)],
+			[pa, e | pa.getSomeIpStructEnumWidth(e)],
+			[pa, e | pa.getSomeIpUnionEnumWidth(e)],
+			[pa, e | pa.getSomeIpArgEnumWidth(e)],
+			[pa, e | pa.getSomeIpAttrEnumWidth(e)],
+			[getEnumWidth]
+		)
+	}
+
+
+	/**
+	 * Helper which allows to return a default, and could also do a type cast.
+	 */
+	def <R,T> T getValueOrDefault(FModelElement elem, (FModelElement) => R getter, T dflt) {
+		val result = getter.apply(elem) as T
+		result!==null ? result : dflt
 	}
 
 	
@@ -70,9 +160,10 @@ class DeploymentDataHelper {
 	 * specific API of PropertyAccessors generated by Franca's deployment
 	 * specification generator.</p> 
 	 */
-	def private <T> T getDeploymentData(
+	def private <T,Elem> T getDeploymentData(
 		FModelElement elem,
-		(IDataPropertyAccessor, FArrayType) => T f1,
+		Class<Elem> clazz,
+		(IDataPropertyAccessor, Elem) => T f1,
 		(IDataPropertyAccessor, FField) => T f2,
 		(IDataPropertyAccessor, FField) => T f3,
 		(InterfacePropertyAccessor, FArgument) => T f4,
@@ -82,7 +173,7 @@ class DeploymentDataHelper {
 		processDeployment(elem,
 			[dpa |
 				switch elem {
-					FArrayType: f1.apply(dpa, elem)
+					case clazz.isInstance(elem): f1.apply(dpa, elem as Elem)
 					FField:
 						elem.locallyOrViaType(recursiveCall, [
 							if (elem.eContainer instanceof FStructType) {
