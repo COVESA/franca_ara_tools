@@ -132,8 +132,8 @@ class ApplDataTypeManager extends Franca2ARABase {
 
 	def private dispatch create fac.createApplicationAssocMapDataType createApplDataType(FMapType fMapType) {
 		shortName = ADTPrefix + fMapType.name
-		val ns = fMapType.francaNamespaceName
-		val tKey = fMapType.keyType.createDataTypeReference(fMapType.name, ns)
+		val tc = new TypeContext(fMapType.name, fMapType.francaNamespaceName)
+		val tKey = fMapType.keyType.createDataTypeReference(tc)
 		if (tKey instanceof ApplicationDataType) {
 			key = fac.createApplicationAssocMapElement => [
 				shortName = "elementKey"
@@ -143,7 +143,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		} else {
 			getLogger.logWarning('''Cannot create ApplicationDatatype for map key because the Franca type "«fMapType.keyType»" is not yet supported''')
 		}		
-		val tValue = fMapType.valueType.createDataTypeReference(fMapType.name, ns)
+		val tValue = fMapType.valueType.createDataTypeReference(tc)
 		if (tValue instanceof ApplicationDataType) {
 			value = fac.createApplicationAssocMapElement => [
 				shortName = "elementValue"
@@ -160,7 +160,8 @@ class ApplDataTypeManager extends Franca2ARABase {
 		category = CAT_ARRAY  // always use category array for application datatypes
 //		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
 //		val int arraySize = fArrayType.getArraySize
-		val t = fArrayType.elementType.createDataTypeReference(fArrayType.name, fArrayType.francaNamespaceName)
+		val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
+		val t = fArrayType.elementType.createDataTypeReference(tc)
 		if (t instanceof ApplicationDataType) {
 			element = fac.createApplicationArrayElement => [
 				shortName = "valueType"

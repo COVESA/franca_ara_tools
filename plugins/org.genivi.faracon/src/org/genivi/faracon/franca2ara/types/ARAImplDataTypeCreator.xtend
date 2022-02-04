@@ -59,19 +59,24 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 
 	def ImplementationDataType createImplDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
-		if (fTypedElement === null || !fTypedElement.isArray) {
-			fTypeRef.createImplDataTypeReference(fTypedElement.name, fTypedElement.francaNamespaceName)
+		val tc = new TypeContext(fTypedElement)
+		if (!fTypedElement.isArray) {
+			fTypeRef.createImplDataTypeReference(tc)
 		} else {
-			fTypeRef.createImplAnonymousArrayTypeReference(fTypedElement, fTypedElement.francaNamespaceName)
+			fTypeRef.createImplAnonymousArrayTypeReference(tc)
 		}
 	}
 
-	def ImplementationDataType createImplDataTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
+	def ImplementationDataType createImplDataTypeReference(FTypeRef fTypeRef, TypeContext tc) {
 		if (fTypeRef.interval !== null) {
-			logger.logError('''Cannot properly convert '«typedElementName»' in '«namespaceName»' because integer interval types are not supported.''')
+			logger.logError('''Cannot properly convert '«tc.typedElementName»' in '«tc.namespaceName»' because integer interval types are not supported.''')
 			null
 		} else if (fTypeRef.refsPrimitiveType) {
-			getBaseTypeForReference(fTypeRef.predefined, typedElementName, namespaceName)
+			if (false && FrancaHelpers.isString(fTypeRef)) {
+				// TODO implement string handling
+			} else {
+				getBaseTypeForReference(fTypeRef.predefined, tc)				
+			}
 		} else {
 			val derived = fTypeRef.derived
 			if (replaceIDTPrimitiveTypeDefs) {
@@ -79,12 +84,16 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 					// this follows the typedef chain until primitive type is reached
 					val primType = FrancaHelpers.getActualPredefined(fTypeRef)
 					if (primType!=FBasicTypeId.UNDEFINED) {
-						return getBaseTypeForReference(derived.actualType.predefined, typedElementName, namespaceName)
+						return getBaseTypeForReference(derived.actualType.predefined, tc)
 					}
 				}
 			}
 			getImplDataType(derived)				
 		}
+	}
+	
+	def private getImplStringType() {
+		
 	}
 	
 	def ImplementationDataType getImplDataType(FType type) {
@@ -172,7 +181,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			category = "TYPE_REFERENCE"
 			it.swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = referencedType.createImplDataTypeReference(elementShortName, namespaceName) as ImplementationDataType
+					val tc = new TypeContext(elementShortName, namespaceName)
+					implementationDataType = referencedType.createImplDataTypeReference(tc) as ImplementationDataType
 				]
 			]
 		]
@@ -223,8 +233,10 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		return null
 	}
 
-	def create fac.createImplementationDataTypeElement createImplDataTypeElement(FTypedElement fTypedElement,
-		FCompoundType fParentCompoundType) {
+	def create fac.createImplementationDataTypeElement createImplDataTypeElement(
+		FTypedElement fTypedElement,
+		FCompoundType fParentCompoundType
+	) {
 		it.shortName = fTypedElement.name
 		it.category = CAT_TYPEREF
 		if (generateOptionalFalse)
@@ -276,7 +288,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			it.category = CAT_TYPEREF
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = fArrayType.elementType.createImplDataTypeReference(fArrayType.name, fArrayType.francaNamespaceName) as ImplementationDataType
+					val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
+					implementationDataType = fArrayType.elementType.createImplDataTypeReference(tc) as ImplementationDataType
 				]
 			]
 		]
@@ -293,7 +306,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			it.category = CAT_TYPEREF
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					implementationDataType = fTypeDef.actualType.createImplDataTypeReference(fTypeDef.name, fTypeDef.francaNamespaceName)
+					val tc = new TypeContext(fTypeDef.name, fTypeDef.francaNamespaceName)
+					implementationDataType = fTypeDef.actualType.createImplDataTypeReference(tc)
 				]
 			]
 		]
@@ -324,7 +338,11 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		)
 	}
 
-	def private create fac.createImplementationDataType createArtificialArrayType(ImplementationDataType aElementType, int arraySize, ARPackage aPackage) {
+	def private create fac.createImplementationDataType createArtificialArrayType(
+		ImplementationDataType aElementType,
+		int arraySize,
+		ARPackage aPackage
+	) {
 		shortName = getIDTPrefix + aElementType.shortName + "Array" + arraySize
 		category = CAT_ARRAY
 		subElements += fac.createImplementationDataTypeElement => [
@@ -366,15 +384,15 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 
 	// Create an artificial array or vector type if necessary.
-	def createImplAnonymousArrayTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement, String namespaceName) {
-		val boolean isFixedSizedArray = fTypedElement.isFixedSizedArray
-		val int arraySize = fTypedElement.getArraySize
+	def createImplAnonymousArrayTypeReference(FTypeRef fTypeRef, TypeContext tc) {
+		val boolean isFixedSizedArray = tc.typedElement.isFixedSizedArray
+		val int arraySize = tc.typedElement.getArraySize
 		if (fTypeRef.refsPrimitiveType) {
 			if (isFixedSizedArray) {
-				val aElementType = getBaseTypeForReference(fTypeRef.predefined, fTypedElement.name, namespaceName)
+				val aElementType = getBaseTypeForReference(fTypeRef.predefined, tc)
 				createArtificialArrayType(aElementType, arraySize, getOrCreatePrimitiveTypesAnonymousArraysMainPackage)
 			} else {
-				getBaseTypeVectorForReference(fTypeRef.predefined, fTypedElement.name, namespaceName)
+				getBaseTypeVectorForReference(fTypeRef.predefined, tc)
 			}
 		} else {
 			if (isFixedSizedArray) {

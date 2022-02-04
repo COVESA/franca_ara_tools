@@ -6,11 +6,10 @@ import javax.inject.Singleton
 import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.Franca2ARABase
-
-import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
-import static extension org.genivi.faracon.util.FrancaUtil.*
 import org.franca.core.franca.FType
 import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+
+import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
@@ -24,10 +23,14 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 
 
 	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
-		if (fTypedElement === null || !fTypedElement.isArray) {
-			fTypeRef.createDataTypeReference(fTypedElement.name, fTypedElement.francaNamespaceName)
+		if (fTypedElement===null) {
+			throw new RuntimeException("Missing fTypedElement")
+		}
+		val tc = new TypeContext(fTypedElement)
+		if (!fTypedElement.isArray) {
+			fTypeRef.createDataTypeReference(tc)
 		} else {
-			fTypeRef.createAnonymousArrayTypeReference(fTypedElement, fTypedElement.francaNamespaceName)
+			fTypeRef.createAnonymousArrayTypeReference(tc)
 		}
 	}
 	
@@ -50,8 +53,8 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 		}
 	}
 	 
-	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, String typedElementName, String namespaceName) {
-		val idt = createImplDataTypeReference(fTypeRef, typedElementName, namespaceName)
+	def AutosarDataType createDataTypeReference(FTypeRef fTypeRef, TypeContext tc) {
+		val idt = createImplDataTypeReference(fTypeRef, tc)
 		if (idt===null)
 			return null
 	
@@ -74,9 +77,9 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 	}
 	
 	// Create an artificial array or vector type if necessary.
-	def private createAnonymousArrayTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement, String namespaceName) {
+	def private createAnonymousArrayTypeReference(FTypeRef fTypeRef, TypeContext tc) {
 		// TODO: ApplDataType handling
-		createImplAnonymousArrayTypeReference(fTypeRef, fTypedElement, namespaceName)
+		createImplAnonymousArrayTypeReference(fTypeRef, tc)
 	}
 
 }

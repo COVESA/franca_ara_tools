@@ -47,25 +47,27 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 		]
 	}
 
-	def getBaseTypeForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
+	def getBaseTypeForReference(FBasicTypeId fBasicTypeId, TypeContext tc) {
 		loadPrimitiveTypes		
 		if(!this.nameToImplType.containsKey(fBasicTypeId.getName)){
 			getLogger.logError("Can not find an AUTOSAR simple type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
 		if(fBasicTypeId == FBasicTypeId.BYTE_BUFFER){
-			logger.logWarning('''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffer '«typedElementName»' in '«namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
+			logger.logWarning(
+				'''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffer '«tc.typedElementName»' in '«tc.namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
 		}
 		this.nameToImplType.get(fBasicTypeId.getName)
 	}
 
-	def getBaseTypeVectorForReference(FBasicTypeId fBasicTypeId, String typedElementName, String namespaceName) {
+	def getBaseTypeVectorForReference(FBasicTypeId fBasicTypeId, TypeContext tc) {
 		loadPrimitiveTypes
 		val basicTypeVectorName = fBasicTypeId.getName + "Vector"
 		if(!this.nameToImplVectorType.containsKey(basicTypeVectorName)){
 			getLogger.logError("Can not find an AUTOSAR vector type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
 		if(fBasicTypeId == FBasicTypeId.BYTE_BUFFER){
-			logger.logWarning('''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffers in the array '«typedElementName»' in '«namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
+			logger.logWarning(
+				'''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffers in the array '«tc.typedElementName»' in '«tc.namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
 		}
 		this.nameToImplVectorType.get(basicTypeVectorName)
 	}
