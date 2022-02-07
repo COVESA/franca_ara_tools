@@ -105,11 +105,11 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FStructType fStructType) {
-		fillAutosarCompoundType(fStructType, "STRUCTURE", ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, it)
+		fillAutosarCompoundType(fStructType, CAT_STRUCTURE, ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, it)
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FUnionType fUnionType) {
-		fillAutosarCompoundType(fUnionType, "UNION", ANNOTATION_LABEL_ORIGINAL_UNION_TYPE, it)
+		fillAutosarCompoundType(fUnionType, CAT_UNION, ANNOTATION_LABEL_ORIGINAL_UNION_TYPE, it)
 	}
 
 	// Use 'FCompoundType' in order to deal with union and struct types in the same way.

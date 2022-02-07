@@ -27,6 +27,7 @@ import org.franca.core.FrancaModelExtensions
 
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
+import org.franca.core.franca.FUnionType
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
@@ -35,8 +36,6 @@ class ApplDataTypeManager extends Franca2ARABase {
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
 	var extension Franca2ARAConfigProvider
-	@Inject
-	var extension DeploymentDataHelper
 	@Inject
 	var extension AutosarAnnotator
 
@@ -94,12 +93,27 @@ class ApplDataTypeManager extends Franca2ARABase {
 	def private dispatch create fac.createApplicationRecordDataType createApplDataType(FStructType fStructType) {
 		// ImplDataType generation will check if Franca struct is polymorphic and issue a warning
 		shortName = ADTPrefix + fStructType.name
-		category = "STRUCTURE"
+		category = CAT_STRUCTURE
 		val fAllElements = FrancaModelExtensions.getAllElements(fStructType).filter(FField)
 		val aAllElements = fAllElements.map[
 			val newElement = it.createApplicationDataTypeElement(fStructType)
 			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
 			if (originalCompoundType !== fStructType) {
+				newElement.addAnnotation(ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, originalCompoundType.ARFullyQualifiedName)
+			}
+			newElement
+		]
+		elements.addAll(aAllElements)
+	}
+
+	def private dispatch create fac.createApplicationRecordDataType createApplDataType(FUnionType fUnionType) {
+		shortName = ADTPrefix + fUnionType.name
+		category = CAT_UNION
+		val fAllElements = FrancaModelExtensions.getAllElements(fUnionType).filter(FField)
+		val aAllElements = fAllElements.map[
+			val newElement = it.createApplicationDataTypeElement(fUnionType)
+			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
+			if (originalCompoundType !== fUnionType) {
 				newElement.addAnnotation(ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, originalCompoundType.ARFullyQualifiedName)
 			}
 			newElement
