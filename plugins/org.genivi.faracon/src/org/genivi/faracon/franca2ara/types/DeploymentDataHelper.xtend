@@ -12,8 +12,8 @@ import org.franca.core.franca.FType
 import org.franca.core.franca.FUnionType
 import org.franca.core.franca.FEnumerationType
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
-import org.genivi.commonapi.someip.Deployment.InterfacePropertyAccessor
-import org.genivi.commonapi.someip.Deployment.IDataPropertyAccessor
+import org.genivi.commonapi.someip.DeploymentV1.InterfacePropertyAccessor
+import org.genivi.commonapi.someip.DeploymentV1.IDataPropertyAccessor
 
 import static extension org.franca.core.FrancaModelExtensions.*
 
