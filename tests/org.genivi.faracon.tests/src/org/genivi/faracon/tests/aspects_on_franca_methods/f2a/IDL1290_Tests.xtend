@@ -27,10 +27,10 @@ class IDL1290_Tests extends Franca2ARATestBase {
 			testPath,
 			#[ "methodWithInAndOutArguments.fidl",
 				"methodWithInAndOutArguments.fdepl",
-			 	"CommonAPI_deployment_spec.fdepl",
-				"CommonAPI-SOMEIP_deployment_spec.fdepl"
+			 	"CommonAPI-4_deployment_spec.fdepl",
+				"CommonAPI-4-SOMEIP_deployment_spec.fdepl"
 			],
-			#[ ],
+			#[ testPath + "methodWithInAndOutArguments.arxml" ],
 			"methodTestOutputFolder"
 		)
 	}

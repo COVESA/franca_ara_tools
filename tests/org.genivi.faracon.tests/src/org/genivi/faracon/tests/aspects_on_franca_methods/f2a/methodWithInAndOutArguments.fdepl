@@ -1,4 +1,4 @@
-import "CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "CommonAPI-4-SOMEIP_deployment_spec.fdepl"
 //import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
 //import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
 import "methodWithInAndOutArguments.fidl"
