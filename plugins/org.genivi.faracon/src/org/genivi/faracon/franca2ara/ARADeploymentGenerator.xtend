@@ -34,7 +34,10 @@ class ARADeploymentGenerator extends Franca2ARABase {
 
 	var ARPackage deployPackage = null
 		
-	def create fac.createSomeipServiceInterfaceDeployment getServiceInterfaceDeployment(ServiceInterface aSI, FInterface fSI) {
+	def create fac.createSomeipServiceInterfaceDeployment getServiceInterfaceDeployment(
+		ServiceInterface aSI,
+		FInterface fSI
+	) {
 		shortName = fSI.name + SOMEIP_SUFFIX
 		serviceInterface = aSI
 		fSI.deploy[ipa |
@@ -45,17 +48,23 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		]
 	}
 
-	def create fac.createSomeipMethodDeployment getMethodDeployment(ClientServerOperation aOp, FMethod fMethod, FInterface fSI) {
+	def create fac.createSomeipMethodDeployment getMethodDeployment(
+		ClientServerOperation aOp,
+		FMethod fMethod,
+		FInterface fSI
+	) {
 		shortName = fMethod.name
 		method = aOp
 		fSI.deploy[ipa |
 			methodId = ipa.getSomeIpMethodID(fMethod) as long
 			transportProtocol = ipa.getSomeIpReliable(fMethod).chooseTLP
+			createTrafoProps(aOp, fMethod, ipa)
 		]
 	}
 
 	def create fac.createSomeipEventDeployment getEventDeployment(
-		VariableDataPrototype aVDP, FBroadcast fBroadcast,
+		VariableDataPrototype aVDP,
+		FBroadcast fBroadcast,
 		FInterface fSI,
 		SomeipServiceInterfaceDeployment sid
 	) {
@@ -69,7 +78,8 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	}
 
 	def create fac.createSomeipFieldDeployment getFieldDeployment(
-		Field aField, FAttribute fAttribute,
+		Field aField,
+		FAttribute fAttribute,
 		FInterface fSI,
 		SomeipServiceInterfaceDeployment sid
 	) {
@@ -105,6 +115,8 @@ class ARADeploymentGenerator extends Franca2ARABase {
 					transportProtocol = ipa.getSomeIpSetterReliable(fAttribute).chooseTLP
 				]
 			}
+
+			createTrafoProps(aField, fAttribute, ipa)
 		]
 	}
 	
