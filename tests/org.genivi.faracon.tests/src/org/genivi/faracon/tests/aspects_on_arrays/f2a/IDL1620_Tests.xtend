@@ -69,8 +69,8 @@ class IDL1620_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["simpleAnonymousFixedSizedArrayTypeInInterface.fidl",
 			  "simpleAnonymousFixedSizedArrayTypeInInterface.fdepl",
-			  "CommonAPI_deployment_spec.fdepl",
-			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			  "CommonAPI-4_deployment_spec.fdepl",
+			  "CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "simpleAnonymousFixedSizedArrayTypeInInterface.arxml",
 			  testPath + "stdtypes_arrays.arxml"],
 			"simpleAnonymousFixedSizedArrayTypeInInterface")
@@ -81,8 +81,8 @@ class IDL1620_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["simpleAnonymousFixedSizedArrayTypeInTypeCollection.fidl",
 			  "simpleAnonymousFixedSizedArrayTypeInTypeCollection.fdepl",
-			  "CommonAPI_deployment_spec.fdepl",
-			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			  "CommonAPI-4_deployment_spec.fdepl",
+			  "CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "simpleAnonymousFixedSizedArrayTypeInTypeCollection.arxml",
 			  testPath + "stdtypes_arrays.arxml"],
 			"simpleAnonymousFixedSizedArrayTypeInTypeCollection")
@@ -93,8 +93,8 @@ class IDL1620_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["complexAnonymousFixedSizedArrayTypeInInterface.fidl",
 			  "complexAnonymousFixedSizedArrayTypeInInterface.fdepl",
-			  "CommonAPI_deployment_spec.fdepl",
-			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			  "CommonAPI-4_deployment_spec.fdepl",
+			  "CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "complexAnonymousFixedSizedArrayTypeInInterface.arxml"],
 			"complexAnonymousFixedSizedArrayTypeInInterface")
 	}
@@ -104,8 +104,8 @@ class IDL1620_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["complexAnonymousFixedSizedArrayTypeInTypeCollection.fidl",
 			  "complexAnonymousFixedSizedArrayTypeInTypeCollection.fdepl",
-			  "CommonAPI_deployment_spec.fdepl",
-			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			  "CommonAPI-4_deployment_spec.fdepl",
+			  "CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "complexAnonymousFixedSizedArrayTypeInTypeCollection.arxml"],
 			"complexAnonymousFixedSizedArrayTypeInTypeCollection")
 	}

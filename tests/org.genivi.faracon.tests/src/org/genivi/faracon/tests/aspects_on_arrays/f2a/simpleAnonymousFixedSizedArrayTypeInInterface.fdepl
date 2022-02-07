@@ -1,4 +1,4 @@
-import "CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "CommonAPI-4-SOMEIP_deployment_spec.fdepl"
 //import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
 //import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
 import "simpleAnonymousFixedSizedArrayTypeInInterface.fidl"
@@ -10,108 +10,94 @@ define org.genivi.commonapi.someip.deployment for interface a1.b2.c3.ExampleInte
 		SomeIpMethodID = 0
 		in {
 			fixedSizedArray_10_Elements_inParam {
-				SomeIpArgArrayLengthWidth = 0
-				SomeIpArgArrayMaxLength = 10
+				SomeIpArrayLengthWidth = 0
+				SomeIpArrayMaxLength = 10
 			}
 			fixedSizedArray_20_Elements_inParam {
-				SomeIpArgArrayLengthWidth = 0
-				SomeIpArgArrayMaxLength = 20
+				SomeIpArrayLengthWidth = 0
+				SomeIpArrayMaxLength = 20
 			}
 			explicitlyDynamicallySizedArray_inParam {
-				SomeIpArgArrayLengthWidth = 4
-				SomeIpArgArrayMaxLength = 99
+				SomeIpArrayLengthWidth = 4
+				SomeIpArrayMaxLength = 99
 			}
 			nonArray_inParam {
-				SomeIpArgArrayLengthWidth = 0
-				SomeIpArgArrayMaxLength = 99
 			}
 		}
 		out {
 			fixedSizedArray_10_Elements_outParam {
-				SomeIpArgArrayLengthWidth = 0
-				SomeIpArgArrayMaxLength = 10
+				SomeIpArrayLengthWidth = 0
+				SomeIpArrayMaxLength = 10
 			}
 			fixedSizedArray_20_Elements_outParam {
-				SomeIpArgArrayLengthWidth = 0
-				SomeIpArgArrayMaxLength = 20
+				SomeIpArrayLengthWidth = 0
+				SomeIpArrayMaxLength = 20
 			}
 			explicitlyDynamicallySizedArray_outParam {
-				SomeIpArgArrayLengthWidth = 4
-				SomeIpArgArrayMaxLength = 99
+				SomeIpArrayLengthWidth = 4
+				SomeIpArrayMaxLength = 99
 			}
 			nonArray_outParam {
-				SomeIpArgArrayLengthWidth = 0
-				SomeIpArgArrayMaxLength = 99
 			}
 		}
 	}
 
 	attribute attribute_fixedSizedArray_10_Elements {
-		SomeIpAttrArrayLengthWidth = 0
-		SomeIpAttrArrayMaxLength = 10
+		SomeIpArrayLengthWidth = 0
+		SomeIpArrayMaxLength = 10
 	}
 	attribute attribute_fixedSizedArray_20_Elements {
-		SomeIpAttrArrayLengthWidth = 0
-		SomeIpAttrArrayMaxLength = 20
+		SomeIpArrayLengthWidth = 0
+		SomeIpArrayMaxLength = 20
 	}
 	attribute attribute_explicitlyDynamicallySizedArray {
-		SomeIpAttrArrayLengthWidth = 4
-		SomeIpAttrArrayMaxLength = 99
+		SomeIpArrayLengthWidth = 4
+		SomeIpArrayMaxLength = 99
 	}
 	attribute attribute_nonArray {
-		SomeIpAttrArrayLengthWidth = 0
-		SomeIpAttrArrayMaxLength = 99
 	}
 
 	struct TestStruct {
 		fixedSizedArray_10_Elements {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 10
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 10
 		}
 		fixedSizedArray_20_Elements {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 20
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 20
 		}
 		explicitlyDynamicallySizedArray {
-			SomeIpStructArrayLengthWidth = 4
-			SomeIpStructArrayMaxLength = 99
+			SomeIpArrayLengthWidth = 4
+			SomeIpArrayMaxLength = 99
 		}
 		nonArrayStructField {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 99
 		}
 	}
 
 	union TestUnion_FixedSizedArray_10_Elements {
 		fixedSizedArray_10_Elements {
-			SomeIpUnionArrayLengthWidth = 0
-			SomeIpUnionArrayMaxLength = 10
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 10
 		}
 		nonArrayUnionField {
-			SomeIpUnionArrayLengthWidth = 0
-			SomeIpUnionArrayMaxLength = 99
 		}
 	}
 
 	union TestUnion_FixedSizedArray_20_Elements {
 		fixedSizedArray_20_Elements {
-			SomeIpUnionArrayLengthWidth = 0
-			SomeIpUnionArrayMaxLength = 20
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 20
 		}
 		nonArrayUnionField {
-			SomeIpUnionArrayLengthWidth = 0
-			SomeIpUnionArrayMaxLength = 99
 		}
 	}
 
 	union TestUnion_ExplicitlyDynamicallySizedArray {
 		explicitlyDynamicallySizedArray {
-			SomeIpUnionArrayLengthWidth = 4
-			SomeIpUnionArrayMaxLength = 99
+			SomeIpArrayLengthWidth = 4
+			SomeIpArrayMaxLength = 99
 		}
 		nonArrayUnionField {
-			SomeIpUnionArrayLengthWidth = 0
-			SomeIpUnionArrayMaxLength = 99
 		}
 	}
 
