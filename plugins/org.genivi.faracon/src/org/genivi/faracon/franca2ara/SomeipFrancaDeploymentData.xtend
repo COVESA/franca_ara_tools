@@ -6,13 +6,14 @@ import org.franca.core.franca.FInterface
 import org.franca.core.franca.FTypeCollection
 import org.franca.deploymodel.core.FDeployedInterface
 import org.franca.deploymodel.core.FDeployedTypeCollection
-import org.genivi.commonapi.someip.DeploymentV1
+import org.genivi.commonapi.someip.DeploymentV2.InterfacePropertyAccessor
+import org.genivi.commonapi.someip.DeploymentV2.TypeCollectionPropertyAccessor
 
 @Singleton
 class SomeipFrancaDeploymentData {
 	
-	var Map<FInterface, DeploymentV1.InterfacePropertyAccessor> interfacesDeploymentData
-	var Map<FTypeCollection, DeploymentV1.TypeCollectionPropertyAccessor> typeCollectionDeploymentData
+	var Map<FInterface, InterfacePropertyAccessor> interfacesDeploymentData
+	var Map<FTypeCollection, TypeCollectionPropertyAccessor> typeCollectionDeploymentData
 
 	def clear() {
 		interfacesDeploymentData = newHashMap
@@ -20,12 +21,12 @@ class SomeipFrancaDeploymentData {
 	}
 
 	def registerInterfaceDeployment(FInterface fInterface, FDeployedInterface deployedInterface) {
-		val DeploymentV1.InterfacePropertyAccessor accessor = new DeploymentV1.InterfacePropertyAccessor(deployedInterface)
+		val accessor = new InterfacePropertyAccessor(deployedInterface)
 		interfacesDeploymentData.put(fInterface, accessor)
 	}
 
 	def registerTypeCollectionDeployment(FTypeCollection fTypeCollection, FDeployedTypeCollection deployedTypeCollection) {
-		val DeploymentV1.TypeCollectionPropertyAccessor accessor = new DeploymentV1.TypeCollectionPropertyAccessor(deployedTypeCollection)
+		val accessor = new TypeCollectionPropertyAccessor(deployedTypeCollection)
 		typeCollectionDeploymentData.put(fTypeCollection, accessor)
 	}
 

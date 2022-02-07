@@ -16,7 +16,7 @@ import org.franca.core.franca.FInterface
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FBroadcast
 import org.franca.core.franca.FAttribute
-import org.genivi.commonapi.someip.DeploymentV1.InterfacePropertyAccessor
+import org.genivi.commonapi.someip.DeploymentV2.InterfacePropertyAccessor
 
 @Singleton
 class ARADeploymentGenerator extends Franca2ARABase {
@@ -91,11 +91,14 @@ class ARADeploymentGenerator extends Franca2ARABase {
 			val notifierID = ipa.getSomeIpNotifierID(fAttribute) 
 			val setterID = ipa.getSomeIpSetterID(fAttribute)
 			
+			// the property SomeIpAttributeReliable has been introduced in CommonAPI-4
+			val tp = ipa.getSomeIpAttributeReliable(fAttribute).chooseTLP
+			
 			if (null !== getterID) {
 				get = fac.createSomeipMethodDeployment => [
 					shortName = 'get' + n.toFirstUpper
 					methodId = getterID as long
-					transportProtocol = ipa.getSomeIpGetterReliable(fAttribute).chooseTLP					
+					transportProtocol = tp					
 				]
 			}
 			
@@ -103,7 +106,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 				notifier = fac.createSomeipEventDeployment => [
 					shortName = n + 'Notifier'
 					eventId = notifierID as long
-					transportProtocol = ipa.getSomeIpNotifierReliable(fAttribute).chooseTLP
+					transportProtocol = tp
 					transformEventGroups(ipa.getSomeIpEventGroups(fAttribute), sid)			
 				]
 			}
@@ -112,7 +115,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 				set = fac.createSomeipMethodDeployment => [
 					shortName = 'set' + n.toFirstUpper
 					methodId = setterID as long
-					transportProtocol = ipa.getSomeIpSetterReliable(fAttribute).chooseTLP
+					transportProtocol = tp
 				]
 			}
 

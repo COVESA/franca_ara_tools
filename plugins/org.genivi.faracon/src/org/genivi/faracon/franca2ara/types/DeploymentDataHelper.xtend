@@ -12,13 +12,13 @@ import org.franca.core.franca.FType
 import org.franca.core.franca.FUnionType
 import org.franca.core.franca.FEnumerationType
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
-import org.genivi.commonapi.someip.DeploymentV1.InterfacePropertyAccessor
-import org.genivi.commonapi.someip.DeploymentV1.IDataPropertyAccessor
+import org.genivi.commonapi.someip.DeploymentV2.InterfacePropertyAccessor
+import org.genivi.commonapi.someip.DeploymentV2.IDataPropertyAccessor
 
 import static extension org.franca.core.FrancaModelExtensions.*
 
 /**
- * </p>Get values of SOME/IP deployment properties according to SOME/IP deployment rules.</p> 
+ * <p>Get values of SOME/IP deployment properties according to SOME/IP deployment rules.</p> 
  */
 class DeploymentDataHelper {
 	
@@ -33,10 +33,10 @@ class DeploymentDataHelper {
 	def Integer getArrayLengthWidth(FModelElement elem) {
 		getDeploymentData(elem, typeof(FArrayType),
 			[pa, e | pa.getSomeIpArrayLengthWidth(e)],
-			[pa, e | pa.getSomeIpStructArrayLengthWidth(e)],
-			[pa, e | pa.getSomeIpUnionArrayLengthWidth(e)],
-			[pa, e | pa.getSomeIpArgArrayLengthWidth(e)],
-			[pa, e | pa.getSomeIpAttrArrayLengthWidth(e)],
+//			[pa, e | pa.getSomeIpStructArrayLengthWidth(e)],
+//			[pa, e | pa.getSomeIpUnionArrayLengthWidth(e)],
+//			[pa, e | pa.getSomeIpArgArrayLengthWidth(e)],
+//			[pa, e | pa.getSomeIpAttrArrayLengthWidth(e)],
 			[getArrayLengthWidth]
 		)
 	}
@@ -48,10 +48,10 @@ class DeploymentDataHelper {
 	def private Integer getArrayMaxLength0(FModelElement elem) {
 		getDeploymentData(elem, typeof(FArrayType),
 			[pa, e | pa.getSomeIpArrayMaxLength(e)],
-			[pa, e | pa.getSomeIpStructArrayMaxLength(e)],
-			[pa, e | pa.getSomeIpUnionArrayMaxLength(e)],
-			[pa, e | pa.getSomeIpArgArrayMaxLength(e)],
-			[pa, e | pa.getSomeIpAttrArrayMaxLength(e)],
+//			[pa, e | pa.getSomeIpStructArrayMaxLength(e)],
+//			[pa, e | pa.getSomeIpUnionArrayMaxLength(e)],
+//			[pa, e | pa.getSomeIpArgArrayMaxLength(e)],
+//			[pa, e | pa.getSomeIpAttrArrayMaxLength(e)],
 			[getArrayMaxLength0]
 		)
 	}
@@ -63,10 +63,10 @@ class DeploymentDataHelper {
 	def Integer getArrayMinLength(FModelElement elem) {
 		getDeploymentData(elem, typeof(FArrayType),
 			[pa, e | pa.getSomeIpArrayMinLength(e)],
-			[pa, e | pa.getSomeIpStructArrayMinLength(e)],
-			[pa, e | pa.getSomeIpUnionArrayMinLength(e)],
-			[pa, e | pa.getSomeIpArgArrayMinLength(e)],
-			[pa, e | pa.getSomeIpAttrArrayMinLength(e)],
+//			[pa, e | pa.getSomeIpStructArrayMinLength(e)],
+//			[pa, e | pa.getSomeIpUnionArrayMinLength(e)],
+//			[pa, e | pa.getSomeIpArgArrayMinLength(e)],
+//			[pa, e | pa.getSomeIpAttrArrayMinLength(e)],
 			[getArrayMinLength]
 		)
 	}
@@ -74,10 +74,10 @@ class DeploymentDataHelper {
 	def Integer getStructLengthWidth(FModelElement elem) {
 		getDeploymentData(elem, typeof(FStructType),
 			[pa, e | pa.getSomeIpStructLengthWidth(e)],
-			[pa, e | pa.getSomeIpStructStructLengthWidth(e)],
-			[pa, e | pa.getSomeIpUnionStructLengthWidth(e)],
-			[pa, e | pa.getSomeIpArgStructLengthWidth(e)],
-			[pa, e | pa.getSomeIpAttrStructLengthWidth(e)],
+//			[pa, e | pa.getSomeIpStructStructLengthWidth(e)],
+//			[pa, e | pa.getSomeIpUnionStructLengthWidth(e)],
+//			[pa, e | pa.getSomeIpArgStructLengthWidth(e)],
+//			[pa, e | pa.getSomeIpAttrStructLengthWidth(e)],
 			[getStructLengthWidth]
 		)
 	}
@@ -85,10 +85,10 @@ class DeploymentDataHelper {
 	def Integer getUnionLengthWidth(FModelElement elem) {
 		getDeploymentData(elem, typeof(FUnionType),
 			[pa, e | pa.getSomeIpUnionLengthWidth(e)],
-			[pa, e | pa.getSomeIpStructUnionLengthWidth(e)],
-			[pa, e | pa.getSomeIpUnionUnionLengthWidth(e)],
-			[pa, e | pa.getSomeIpArgUnionLengthWidth(e)],
-			[pa, e | pa.getSomeIpAttrUnionLengthWidth(e)],
+//			[pa, e | pa.getSomeIpStructUnionLengthWidth(e)],
+//			[pa, e | pa.getSomeIpUnionUnionLengthWidth(e)],
+//			[pa, e | pa.getSomeIpArgUnionLengthWidth(e)],
+//			[pa, e | pa.getSomeIpAttrUnionLengthWidth(e)],
 			[getUnionLengthWidth]
 		)
 	}
@@ -96,10 +96,10 @@ class DeploymentDataHelper {
 	def Integer getUnionMaxLength(FModelElement elem) {
 		getDeploymentData(elem, typeof(FUnionType),
 			[pa, e | pa.getSomeIpUnionMaxLength(e)],
-			[pa, e | pa.getSomeIpStructUnionMaxLength(e)],
-			[pa, e | pa.getSomeIpUnionUnionMaxLength(e)],
-			[pa, e | pa.getSomeIpArgUnionMaxLength(e)],
-			[pa, e | pa.getSomeIpAttrUnionMaxLength(e)],
+//			[pa, e | pa.getSomeIpStructUnionMaxLength(e)],
+//			[pa, e | pa.getSomeIpUnionUnionMaxLength(e)],
+//			[pa, e | pa.getSomeIpArgUnionMaxLength(e)],
+//			[pa, e | pa.getSomeIpAttrUnionMaxLength(e)],
 			[getUnionMaxLength]
 		)
 	}
@@ -107,10 +107,10 @@ class DeploymentDataHelper {
 	def Integer getUnionTypeWidth(FModelElement elem) {
 		getDeploymentData(elem, typeof(FUnionType),
 			[pa, e | pa.getSomeIpUnionTypeWidth(e)],
-			[pa, e | pa.getSomeIpStructUnionTypeWidth(e)],
-			[pa, e | pa.getSomeIpUnionUnionTypeWidth(e)],
-			[pa, e | pa.getSomeIpArgUnionTypeWidth(e)],
-			[pa, e | pa.getSomeIpAttrUnionTypeWidth(e)],
+//			[pa, e | pa.getSomeIpStructUnionTypeWidth(e)],
+//			[pa, e | pa.getSomeIpUnionUnionTypeWidth(e)],
+//			[pa, e | pa.getSomeIpArgUnionTypeWidth(e)],
+//			[pa, e | pa.getSomeIpAttrUnionTypeWidth(e)],
 			[getUnionTypeWidth]
 		)
 	}
@@ -118,10 +118,10 @@ class DeploymentDataHelper {
 	def Boolean getUnionDefaultOrder(FModelElement elem) {
 		getDeploymentData(elem, typeof(FUnionType),
 			[pa, e | pa.getSomeIpUnionDefaultOrder(e)],
-			[pa, e | pa.getSomeIpStructUnionDefaultOrder(e)],
-			[pa, e | pa.getSomeIpUnionUnionDefaultOrder(e)],
-			[pa, e | pa.getSomeIpArgUnionDefaultOrder(e)],
-			[pa, e | pa.getSomeIpAttrUnionDefaultOrder(e)],
+//			[pa, e | pa.getSomeIpStructUnionDefaultOrder(e)],
+//			[pa, e | pa.getSomeIpUnionUnionDefaultOrder(e)],
+//			[pa, e | pa.getSomeIpArgUnionDefaultOrder(e)],
+//			[pa, e | pa.getSomeIpAttrUnionDefaultOrder(e)],
 			[getUnionDefaultOrder]
 		)
 	}
@@ -129,10 +129,10 @@ class DeploymentDataHelper {
 	def Integer getEnumWidth(FModelElement elem) {
 		getDeploymentData(elem, typeof(FEnumerationType),
 			[pa, e | pa.getSomeIpEnumWidth(e)],
-			[pa, e | pa.getSomeIpStructEnumWidth(e)],
-			[pa, e | pa.getSomeIpUnionEnumWidth(e)],
-			[pa, e | pa.getSomeIpArgEnumWidth(e)],
-			[pa, e | pa.getSomeIpAttrEnumWidth(e)],
+//			[pa, e | pa.getSomeIpStructEnumWidth(e)],
+//			[pa, e | pa.getSomeIpUnionEnumWidth(e)],
+//			[pa, e | pa.getSomeIpArgEnumWidth(e)],
+//			[pa, e | pa.getSomeIpAttrEnumWidth(e)],
 			[getEnumWidth]
 		)
 	}
@@ -164,10 +164,10 @@ class DeploymentDataHelper {
 		FModelElement elem,
 		Class<Elem> clazz,
 		(IDataPropertyAccessor, Elem) => T f1,
-		(IDataPropertyAccessor, FField) => T f2,
-		(IDataPropertyAccessor, FField) => T f3,
-		(InterfacePropertyAccessor, FArgument) => T f4,
-		(InterfacePropertyAccessor, FAttribute) => T f5,
+//		(IDataPropertyAccessor, FField) => T f2,
+//		(IDataPropertyAccessor, FField) => T f3,
+//		(InterfacePropertyAccessor, FArgument) => T f4,
+//		(InterfacePropertyAccessor, FAttribute) => T f5,
 		(FModelElement) => T recursiveCall
 	) {
 		processDeployment(elem,
@@ -175,22 +175,24 @@ class DeploymentDataHelper {
 				switch elem {
 					case clazz.isInstance(elem): f1.apply(dpa, elem as Elem)
 					FField:
-						elem.locallyOrViaType(recursiveCall, [
-							if (elem.eContainer instanceof FStructType) {
-								f2.apply(dpa, elem)
-							} else {
-								f3.apply(dpa, elem)
-							}						
-						])
+						elem.locallyOrViaType(recursiveCall, null
+//							[
+//								if (elem.eContainer instanceof FStructType) {
+//									f2.apply(dpa, elem)
+//								} else {
+//									f3.apply(dpa, elem)
+//								}						
+//							]
+						)
 					default: null
 				}
 			],
 			[ipa |
 				switch elem {
 					FArgument:
-						elem.locallyOrViaType(recursiveCall, [ f4.apply(ipa, elem) ])
+						elem.locallyOrViaType(recursiveCall, null /*[ f4.apply(ipa, elem) ]*/)
 					FAttribute:
-						elem.locallyOrViaType(recursiveCall, [ f5.apply(ipa, elem) ])
+						elem.locallyOrViaType(recursiveCall, null /*[ f5.apply(ipa, elem) ]*/)
 					default: null
 				}
 			]
@@ -203,7 +205,7 @@ class DeploymentDataHelper {
 	 * <p>First try to get the data from the element itself, otherwise get the data from its type.</p>
 	 */
 	def private <T> T locallyOrViaType(FTypedElement elem, (FModelElement) => T recursiveCall, () => T processLocally) {
-		val res = processLocally.apply()
+		val res = processLocally===null ? null : processLocally.apply()
 		(res!==null) ? res : forwardToType(elem, recursiveCall)
 	}
 

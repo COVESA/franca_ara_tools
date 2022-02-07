@@ -8,10 +8,10 @@ import org.franca.core.franca.FAttribute
 import org.franca.core.franca.FBroadcast
 import org.franca.core.franca.FModelElement
 import org.franca.core.franca.FMethod
-import org.genivi.commonapi.someip.DeploymentV1.InterfacePropertyAccessor
-import org.genivi.commonapi.someip.DeploymentV1.Enums.SomeIpBroadcastEndianess
-import org.genivi.commonapi.someip.DeploymentV1.Enums.SomeIpMethodEndianess
-import org.genivi.commonapi.someip.DeploymentV1.Enums.SomeIpAttributeEndianess
+import org.genivi.commonapi.someip.DeploymentV2.InterfacePropertyAccessor
+import org.genivi.commonapi.someip.DeploymentV2.Enums.SomeIpBroadcastEndianess
+import org.genivi.commonapi.someip.DeploymentV2.Enums.SomeIpMethodEndianess
+import org.genivi.commonapi.someip.DeploymentV2.Enums.SomeIpAttributeEndianess
 import org.genivi.faracon.franca2ara.types.DeploymentDataHelper
 import org.genivi.faracon.Franca2ARABase
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.ByteOrderEnum
