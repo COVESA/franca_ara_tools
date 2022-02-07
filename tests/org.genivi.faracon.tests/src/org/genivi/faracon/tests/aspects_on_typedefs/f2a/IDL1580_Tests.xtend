@@ -39,7 +39,7 @@ class IDL1580_Tests extends Franca2ARATestBase {
 		// then
 		val implementationType = resultAutosarDatatype.assertIsInstanceOf(ImplementationDataType).assertName(
 			testTypedefName)
-		implementationType.assertCategory("TYPE_REF")
+		implementationType.assertCategory("TYPE_REFERENCE")
 		val subElement = implementationType.subElements.assertOneElement
 		subElement.assertCategory("TYPE_REFERENCE")
 	}
