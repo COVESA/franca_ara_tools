@@ -52,8 +52,11 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
 		
 		val allArgs = Iterables.concat(fMethod.inArgs, fMethod.outArgs)
-		val widths = allArgs.map[getArrayLengthWidth].filterNull.toSet
-		setArrayLengthField("method", fMethod.name, widths)
+		setTypeRelatedProps("method", fMethod.name,
+			allArgs.map[getArrayLengthWidth].filterNull.toSet,
+			allArgs.map[getStructLengthWidth].filterNull.toSet,
+			allArgs.map[getUnionLengthWidth].filterNull.toSet
+		)
 		
 		trafoPropsSet.transformationProps.add(it)
 		fMethod.createMapping(aCSO, it)
@@ -69,8 +72,11 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST :
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
 		
-		val widths = fBroadcast.outArgs.map[getArrayLengthWidth].filterNull.toSet
-		setArrayLengthField("broadcast", fBroadcast.name, widths)
+		setTypeRelatedProps("broadcast", fBroadcast.name,
+			fBroadcast.outArgs.map[getArrayLengthWidth].filterNull.toSet,
+			fBroadcast.outArgs.map[getStructLengthWidth].filterNull.toSet,
+			fBroadcast.outArgs.map[getUnionLengthWidth].filterNull.toSet
+		)
 		
 		trafoPropsSet.transformationProps.add(it)
 		fBroadcast.createMapping(aVDP, it)
@@ -86,25 +92,42 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST :
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
 		
-		val width = fAttribute.getArrayLengthWidth
-		setArrayLengthField("attribute", fAttribute.name, (width===null ? #[] : #[width]).toSet)
+		setTypeRelatedProps("attribute", fAttribute.name,
+			wrap(fAttribute.getArrayLengthWidth),
+			wrap(fAttribute.getStructLengthWidth),
+			wrap(fAttribute.getUnionLengthWidth)
+		)
 		
 		trafoPropsSet.transformationProps.add(it)
 		fAttribute.createMapping(aField, it)
 	}
 	
-	def private setArrayLengthField(
+	def private wrap(Integer v) {
+		(v===null ? #[] : #[v]).toSet
+	}
+	
+	
+	def private setTypeRelatedProps(
 		ApSomeipTransformationProps props,
 		String type,
 		String name,
-		Set<Integer> widths
+		Set<Integer> arrayLengthFieldValues,
+		Set<Integer> structLengthFieldValues,
+		Set<Integer> unionLengthFieldValues
 	) {
-		if (widths.size==1) {
-			props.sizeOfArrayLengthField = widths.head.longValue				
-		} else if (widths.size>1) {
+		setProp(type, name, "ArrayLengthField", arrayLengthFieldValues, [v | props.sizeOfArrayLengthField = v])
+		setProp(type, name, "StructLengthField", structLengthFieldValues, [v | props.sizeOfStructLengthField = v])
+		setProp(type, name, "UnionLengthField", unionLengthFieldValues, [v | props.sizeOfUnionLengthField = v])
+	}
+
+	// aux function to set a single property and do a check first
+	def private setProp(String type, String name, String field, Set<Integer> data, (long) => void setter) {
+		if (data.size==1) {
+			setter.apply(data.head.longValue)				
+		} else if (data.size>1) {
 			logger.logError(
-				"ArrayLengthField for " + type + " '" + name + "' " +
-				"is not unique (" + widths.map[""+it].join(", ") + "), skipping!"
+				field + " for " + type + " '" + name + "' " +
+				"is not unique (" + data.map[""+it].join(", ") + "), skipping!"
 			)
 		}
 	}
