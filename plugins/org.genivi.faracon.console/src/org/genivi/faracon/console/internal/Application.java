@@ -5,6 +5,8 @@ import org.eclipse.equinox.app.IApplication;
 import org.eclipse.equinox.app.IApplicationContext;
 import org.franca.core.dsl.FrancaIDLStandaloneSetup;
 import org.franca.deploymodel.dsl.FDeployStandaloneSetup;
+import org.franca.deploymodel.ext.providers.ProviderExtension;
+import org.franca.deploymodel.extensions.ExtensionRegistry;
 import org.genivi.faracon.console.CommandExecuter;
 
 public class Application implements IApplication
@@ -20,6 +22,9 @@ public class Application implements IApplication
 
         FrancaIDLStandaloneSetup.doSetup();
         FDeployStandaloneSetup.doSetup();
+        		
+		// load Franca provider extension
+		ExtensionRegistry.addExtension(new ProviderExtension());
 
         int returnValue = CommandExecuter.INSTANCE.executeCommand(Platform.getApplicationArgs());
 

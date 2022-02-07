@@ -12,8 +12,6 @@ import org.genivi.faracon.InputFile
 import org.genivi.faracon.logging.BaseWithLogger
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
-import org.franca.deploymodel.ext.providers.ProviderExtension
-import org.franca.deploymodel.extensions.ExtensionRegistry
 
 /**
  * Abstract base class for converters in the Faracon project.
@@ -27,9 +25,6 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 
 	new() {
 		preferences = Preferences.getInstance();
-		
-		// load Franca provider extension
-		ExtensionRegistry.addExtension(new ProviderExtension());
 	}
 
 	def void registerSingleInputFilePath(String inputFilePath) {
