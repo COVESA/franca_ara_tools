@@ -11,7 +11,8 @@ Require-Bundle: org.eclipse.core.runtime,
  org.franca.deploymodel.dsl;bundle-version="[0.9.0,0.13.2)";visibility:=reexport,
  org.genivi.faracon.console,
  org.genivi.faracon;bundle-version="0.9.0",
- org.eclipse.xtend.lib;bundle-version="2.14.0"
+ org.eclipse.xtend.lib;bundle-version="2.14.0",
+ org.franca.deploymodel.ext.providers;bundle-version="0.13.1"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.genivi.faracon.cli
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
