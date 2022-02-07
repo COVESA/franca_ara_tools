@@ -51,7 +51,7 @@ class AutosarAssertHelper {
 			val expectedContentStr = expectedContent.join(System.lineSeparator)
 			var diffLine = ""
 			if (firstDiffingLine>=0) {
-				diffLine += "First diffing line: " + firstDiffingLine + " ("
+				diffLine += "First diffing line: " + (firstDiffingLine+3) + " ("
 				if (firstDiffingLine<actualContent.size)
 					diffLine += "actual: '" + actualContent.get(firstDiffingLine) + "'"
 				if (firstDiffingLine<expectedContent.size)
