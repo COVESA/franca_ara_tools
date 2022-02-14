@@ -40,6 +40,12 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	) {
 		shortName = fSI.name + SOMEIP_SUFFIX
 		serviceInterface = aSI
+		if (null !== fSI.version) {
+			it.serviceInterfaceVersion = fac.createSomeipServiceInterfaceVersion => [
+				majorVersion = fSI.version.major as long
+				minorVersion = fSI.version.minor as long
+			]
+		}
 		fSI.deploy[ipa |
 			serviceInterfaceId = ipa.getSomeIpServiceID(fSI) as long
 			ARPackage = storeDeploymentLocally ? fSI.accordingInterfacePackage : getDeploymentPackage
