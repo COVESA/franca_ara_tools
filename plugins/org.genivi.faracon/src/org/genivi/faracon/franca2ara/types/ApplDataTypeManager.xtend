@@ -44,6 +44,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 	var extension ARATypeCreator
 	
 	static final String ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE = "OriginalStructType"
+	static final String DEFAULT_DATATYPEMAPPINGSET_NAME = "DataTypeMappings"
 	
 	
 	val Map<ImplementationDataType, ApplicationDataType> impl2appl = newHashMap
@@ -80,7 +81,13 @@ class ApplDataTypeManager extends Franca2ARABase {
 		val pkg = createPackageWithName("ServiceInterfaceToDataTypeMappings", aInterface.ARPackage)
 		pkg.elements.add(fac.createPortInterfaceToDataTypeMapping => [
 			shortName = aInterface.shortName + "_ToDataTypeMapping"
-			dataTypeMappingSets.add(getTypeMappingSet)
+			val dtms = getTypeMappingSet
+			dataTypeMappingSets.add(dtms)
+			if (dtms.shortName == DEFAULT_DATATYPEMAPPINGSET_NAME) {
+				// use name of the first interface using the DTMS as a prefix
+				// this will ensure that different arxml files use different DTMS shortNames
+				dtms.shortName = aInterface.shortName + "_" + DEFAULT_DATATYPEMAPPINGSET_NAME
+			} 
 			portInterface = aInterface
 		])
 	}
@@ -242,7 +249,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 	def private getTypeMappingSet() {
 		if (tms===null) {
 			tms = fac.createDataTypeMappingSet => [
-				shortName = "DataTypeMappings"
+				shortName = DEFAULT_DATATYPEMAPPINGSET_NAME
 				ARPackage = createRootPackage("DataTypeMappingSets")
 			]
 		}
