@@ -187,6 +187,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createClientServerOperation transform(FMethod src, ServiceInterface si, FInterface parentInterface) {
 		shortName = src.name
+		it.initUUID(src)
 		
 		it.addSdgForFrancaElement(src)
 
@@ -238,6 +239,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createArgumentDataPrototype transform(FArgument arg, boolean isIn, FInterface parentInterface) {
 		shortName = arg.name
+		it.initUUID(arg)
+
 		it.addSdgForFrancaElement(arg)
 		// category = xxx
 		type = createDataTypeReference(arg.type, arg)
@@ -251,6 +254,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createField transform(FAttribute src, ServiceInterface si, FInterface parentInterface) {
 		shortName = src.name
+		it.initUUID(src)
+		
 		it.addSdgForFrancaElement(src)
 		type = src.type.createDataTypeReference(src)
 		hasGetter = !src.noRead
@@ -309,6 +314,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 						src.name.toFirstUpper + "Data",
 						FType
 					)
+					initUUID(shortName)
 					category = CAT_STRUCTURE
 					subElements.addAll(src.outArgs.map[ createImplDataTypeElement(null) ])
 					ARPackage = interfaceArPackage

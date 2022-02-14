@@ -28,8 +28,9 @@ class ARAStringTypeCreator extends Franca2ARABase {
 	
 	def private create fac.createImplementationDataType createStringType(int len, ARPackage where) {
 		shortName = IDTPrefix + "String_" + len
+		initUUID(shortName)
 		category = CAT_ARRAY
-		subElements += createTypeElemForString => [
+		subElements += createTypeElemForString(shortName) => [
 			arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
 			arraySize = fac.createPositiveIntegerValueVariationPoint => [
 				it.mixedText = len.toString
@@ -40,17 +41,19 @@ class ARAStringTypeCreator extends Franca2ARABase {
 
 	def private create fac.createImplementationDataType createStringType(ARPackage where) {
 		shortName = IDTPrefix + "String"
+		initUUID(shortName)
 		category = CAT_ARRAY
-		subElements += createTypeElemForString => [
+		subElements += createTypeElemForString(shortName) => [
 			arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 		]
 		ARPackage = where
 	}
 
-	def private createTypeElemForString() {
+	def private createTypeElemForString(String n) {
 		val it = fac.createImplementationDataTypeElement
 		shortName = "valueType"
-		it.category = "TYPE_REFERENCE"
+		initUUID(n + "_stringelem")
+		category = "TYPE_REFERENCE"
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				implementationDataType = getStringBaseType

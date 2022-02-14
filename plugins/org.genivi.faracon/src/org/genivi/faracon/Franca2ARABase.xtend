@@ -4,8 +4,8 @@ import autosar40.util.Autosar40Factory
 import org.genivi.faracon.logging.BaseWithLogger
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import org.franca.core.franca.FAnnotationType
-import org.franca.core.franca.FAnnotation
 import org.franca.core.franca.FModelElement
+import java.util.UUID
 
 class Franca2ARABase extends BaseWithLogger {
 
@@ -22,13 +22,35 @@ class Franca2ARABase extends BaseWithLogger {
 	}
 
 
+	// TODO: get this from IFranca2AraConfig
+	private static final Boolean ensureStableUUIDs = true
+	private static final Boolean extractUUIDFromFranca = false
+	
 	def protected initUUID(Identifiable id, FModelElement fElement) {
-		val uuid = fElement.UUIDForFModelElement
-		if (null !== uuid) {
-			id.uuid = uuid
+		if (!ensureStableUUIDs) {
+			return
 		}
-		// if we cannot find any UUID in the input data, just keep the freshly generated UUID
+		
+		if (extractUUIDFromFranca) {
+			val uuid = fElement.UUIDForFModelElement
+			if (null !== uuid) {
+				id.uuid = uuid
+			}
+			// if we cannot find any UUID in the input data, just keep the freshly generated UUID			
+		} else {
+			initUUID(id, fElement.name)
+		}
 	}
+
+	def protected initUUID(Identifiable id, String seed) {
+		if (!ensureStableUUIDs) {
+			return
+		}
+		
+		// TODO
+		//id.uuid = new UUID(seed)
+	}
+
 
 	static final String FRANCA_UUID_TAG = "uuid=\""
 	

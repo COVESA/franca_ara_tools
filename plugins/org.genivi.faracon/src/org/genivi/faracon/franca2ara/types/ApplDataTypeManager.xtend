@@ -54,11 +54,13 @@ class ApplDataTypeManager extends Franca2ARABase {
 	
 	def getBaseApplDataType(ImplementationDataType idt, ARPackage where) {
 		if (!impl2appl.containsKey(idt)) {
-			val adt = fac.createApplicationPrimitiveDataType
-			adt.shortName = ADTPrefix + idt.shortName.stripIDTPrefix
-			adt.category = "VALUE"
-			impl2appl.put(idt, adt)
-			adt.createTypeMapping(idt, where)
+			impl2appl.put(idt, fac.createApplicationPrimitiveDataType => [
+				val n = idt.shortName.stripIDTPrefix
+				shortName = ADTPrefix + n
+				initUUID("ADT_" + n)
+				category = "VALUE"
+				createTypeMapping(idt, where)
+			])
 		}
 		impl2appl.get(idt)
 	}
@@ -81,12 +83,14 @@ class ApplDataTypeManager extends Franca2ARABase {
 		val pkg = createPackageWithName("ServiceInterfaceToDataTypeMappings", aInterface.ARPackage)
 		pkg.elements.add(fac.createPortInterfaceToDataTypeMapping => [
 			shortName = aInterface.shortName + "_ToDataTypeMapping"
+			initUUID(shortName)
 			val dtms = getTypeMappingSet
 			dataTypeMappingSets.add(dtms)
 			if (dtms.shortName == DEFAULT_DATATYPEMAPPINGSET_NAME) {
 				// use name of the first interface using the DTMS as a prefix
 				// this will ensure that different arxml files use different DTMS shortNames
 				dtms.shortName = aInterface.shortName + "_" + DEFAULT_DATATYPEMAPPINGSET_NAME
+				initUUID(dtms, dtms.shortName)
 			} 
 			portInterface = aInterface
 		])
@@ -100,6 +104,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 	def private dispatch create fac.createApplicationRecordDataType createApplDataType(FStructType fStructType) {
 		// ImplDataType generation will check if Franca struct is polymorphic and issue a warning
 		shortName = ADTPrefix + fStructType.name
+		initUUID("ADT_" + fStructType.name)
 		category = CAT_STRUCTURE
 		val fAllElements = FrancaModelExtensions.getAllElements(fStructType).filter(FField)
 		val aAllElements = fAllElements.map[
@@ -115,6 +120,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 
 	def private dispatch create fac.createApplicationRecordDataType createApplDataType(FUnionType fUnionType) {
 		shortName = ADTPrefix + fUnionType.name
+		initUUID("ADT_" + fUnionType.name)
 		category = CAT_UNION
 		val fAllElements = FrancaModelExtensions.getAllElements(fUnionType).filter(FField)
 		val aAllElements = fAllElements.map[
@@ -131,6 +137,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 	def private create fac.createApplicationRecordElement createApplicationDataTypeElement(FTypedElement fTypedElement,
 		FCompoundType fParentCompoundType) {
 		shortName = fTypedElement.name
+		it.initUUID("ADT_" + fTypedElement.name)
 		category = "VALUE"
 		val t = createDataTypeReference(fTypedElement.type, fTypedElement)
 		if (t instanceof ApplicationDataType) {
@@ -149,6 +156,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		// TODO: should we create an extra CompuMethod for this? Or is it sufficient to have the CompuMethod of ImplDataType? 
 		//val enumCompuMethod = fEnumerationType.createCompuMethod
 		shortName = ADTPrefix + fEnumerationType.name
+		initUUID("ADT_" + fEnumerationType.name)
 		it.category = "VALUE"  // "TYPE_REFERENCE"
 //		it.swDataDefProps = fac.createSwDataDefProps => [
 //			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
@@ -161,6 +169,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 
 	def private dispatch create fac.createApplicationAssocMapDataType createApplDataType(FMapType fMapType) {
 		shortName = ADTPrefix + fMapType.name
+		initUUID("ADT_" + fMapType.name)
 		val tc = new TypeContext(fMapType.name, fMapType.francaNamespaceName)
 		val tKey = fMapType.keyType.createDataTypeReference(tc)
 		if (tKey instanceof ApplicationDataType) {
@@ -186,6 +195,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 	
 	def private dispatch create fac.createApplicationArrayDataType createApplDataType(FArrayType fArrayType) {
 		shortName = ADTPrefix + fArrayType.name
+		initUUID("ADT_" + fArrayType.name)
 		category = CAT_ARRAY  // always use category array for application datatypes
 //		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
 //		val int arraySize = fArrayType.getArraySize
@@ -194,6 +204,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		if (t instanceof ApplicationDataType) {
 			element = fac.createApplicationArrayElement => [
 				shortName = "valueType"
+				initUUID("ADT_ELEM_" + fArrayType.name)
 				category = CAT_VALUE
 				type = t
 			]
@@ -204,6 +215,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 	
 	def private dispatch create fac.createApplicationPrimitiveDataType createApplDataType(FTypeDef fTypeDef) {
 		shortName = ADTPrefix + fTypeDef.name
+		initUUID("ADT_" + fTypeDef.name)
 		if (fTypeDef.actualType.refsPrimitiveType) {
 			it.category = "VALUE"
 		} else {

@@ -153,9 +153,10 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
 		FEnumerationType fEnumerationType) {
-		val enumCompuMethod = fEnumerationType.createCompuMethod
 		shortName = getIDTPrefix + fEnumerationType.name
-		it.category = "TYPE_REFERENCE"
+		initUUID(fEnumerationType)
+		category = "TYPE_REFERENCE"
+		val enumCompuMethod = fEnumerationType.createCompuMethod
 		it.swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				compuMethod = enumCompuMethod
@@ -168,6 +169,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
 		it.shortName = getIDTPrefix + fMapType.name
+		initUUID(fMapType)
 		it.category = "ASSOCIATIVE_MAP"
 		it.subElements += createTypeRefImplementationDataTypeElement("keyType", fMapType.francaNamespaceName, fMapType.keyType)
 		it.subElements += createTypeRefImplementationDataTypeElement("valueType", fMapType.francaNamespaceName, fMapType.valueType)
@@ -177,6 +179,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	def private createTypeRefImplementationDataTypeElement(String elementShortName, String namespaceName, FTypeRef referencedType) {
 		fac.createImplementationDataTypeElement => [
 			shortName = elementShortName
+			initUUID(shortName + "_" + namespaceName)
 			category = "TYPE_REFERENCE"
 			it.swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
@@ -189,7 +192,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
 		shortName = getCompuMethodPrefix + fEnumerationType.name + "_CompuMethod"
-		it.category = "TEXTTABLE"
+		initUUID(shortName)
+		category = "TEXTTABLE"
 		val allEnumerators = FrancaModelExtensions.getInheritationSet(fEnumerationType).map[it as FEnumerationType].map [
 			it.enumerators
 		].flatten
@@ -236,8 +240,9 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		FTypedElement fTypedElement,
 		FCompoundType fParentCompoundType
 	) {
-		it.shortName = fTypedElement.name
-		it.category = CAT_TYPEREF
+		shortName = fTypedElement.name
+		initUUID(fTypedElement)
+		category = CAT_TYPEREF
 		if (generateOptionalFalse)
 			it.isOptional = false
 		val dataDefProps = fac.createSwDataDefProps
@@ -276,6 +281,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		}
 		it.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
+			initUUID("Elem_" + fArrayType.name)
 			if (isFixedSizedArray) {
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
 				it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
@@ -365,6 +371,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		if (setPackage) {
 			aType.ARPackage = storeIDTsLocally ? fType.createAccordingArPackage : getDataTypesPackage
 		}
+		aType.initUUID(fType)
 		aType.addSdgForFrancaElement(fType)
 		
 		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?

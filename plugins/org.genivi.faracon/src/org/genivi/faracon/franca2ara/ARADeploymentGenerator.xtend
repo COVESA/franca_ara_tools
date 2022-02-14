@@ -39,6 +39,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		FInterface fSI
 	) {
 		shortName = fSI.name + SOMEIP_SUFFIX
+		initUUID(shortName)
 		serviceInterface = aSI
 		if (null !== fSI.version) {
 			it.serviceInterfaceVersion = fac.createSomeipServiceInterfaceVersion => [
@@ -60,6 +61,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		FInterface fSI
 	) {
 		shortName = fMethod.name
+		initUUID("DEPLOY_" + shortName)
 		method = aOp
 		fSI.deploy[ipa |
 			methodId = ipa.getSomeIpMethodID(fMethod) as long
@@ -75,6 +77,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		SomeipServiceInterfaceDeployment sid
 	) {
 		shortName = fBroadcast.name + '_Event'
+		initUUID("DEPLOY_" + shortName)
 		event = aVDP
 		fSI.deploy[ipa |
 			eventId = ipa.getSomeIpEventID(fBroadcast) as long
@@ -91,6 +94,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	) {
 		val n = fAttribute.name
 		shortName = n + SOMEIP_SUFFIX
+		initUUID("DEPLOY_" + shortName)
 		field = aField
 		fSI.deploy[ipa |
 			val getterID = ipa.getSomeIpGetterID(fAttribute) 
@@ -103,6 +107,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 			if (null !== getterID) {
 				get = fac.createSomeipMethodDeployment => [
 					shortName = 'get' + n.toFirstUpper
+					initUUID("DEPLOY_" + shortName)
 					methodId = getterID as long
 					transportProtocol = tp					
 				]
@@ -111,6 +116,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 			if (null !== notifierID) {
 				notifier = fac.createSomeipEventDeployment => [
 					shortName = n + 'Notifier'
+					initUUID("DEPLOY_" + shortName)
 					eventId = notifierID as long
 					transportProtocol = tp
 					transformEventGroups(ipa.getSomeIpEventGroups(fAttribute), sid)			
@@ -120,6 +126,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 			if (null !== setterID) {
 				set = fac.createSomeipMethodDeployment => [
 					shortName = 'set' + n.toFirstUpper
+					initUUID("DEPLOY_" + shortName)
 					methodId = setterID as long
 					transportProtocol = tp
 				]
@@ -152,6 +159,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	
 	def private create fac.createSomeipEventGroup getEventGroup(SomeipServiceInterfaceDeployment sid, long id) {
 		shortName = "EventGroup_" + id
+		initUUID(shortName)
 		eventGroupId = id
 		sid.eventGroups.add(it)
 	}
