@@ -23,6 +23,7 @@ import autosar40.swcomponent.portinterface.ClientServerOperation
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import org.franca.core.franca.FInterface
 
 @Singleton
 class ARATransformationPropsGenerator extends Franca2ARABase {
@@ -149,7 +150,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			Field: fields.add(aElem)
 		}
 		transformationProps = props
-		trafoPropsMappingsSet.mappings.add(it)
+		getTrafoPropsMappingSet(fElem.interface).mappings.add(it)
 	}
 	
 	
@@ -157,8 +158,8 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		elem.interface.name + "_" + elem.name
 	}
 	
-	def private create fac.createTransformationPropsToServiceInterfaceElementMappingSet getTrafoPropsMappingsSet() {
-		shortName = "TransformationPropsMappingSet"
+	def private create fac.createTransformationPropsToServiceInterfaceElementMappingSet getTrafoPropsMappingSet(FInterface fInt) {
+		shortName = fInt.name + "_TransformationPropsMappingSet"
 		ARPackage = package2
 	}
 
