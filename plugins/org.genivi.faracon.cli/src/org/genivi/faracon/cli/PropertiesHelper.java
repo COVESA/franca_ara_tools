@@ -12,7 +12,7 @@ public class PropertiesHelper {
 
 	}
 
-	protected static F2AConfig readPropertiesFile(String pathToFile) throws IOException {
+	public static F2AConfig readPropertiesFile(String pathToFile) throws IOException {
 		F2AConfig f2aConf = null;
 
 		try (InputStream input = new FileInputStream(pathToFile)) {
