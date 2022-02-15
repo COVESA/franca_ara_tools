@@ -32,7 +32,8 @@ import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
-
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
+import autosar40.commonstructure.datadefproperties.SwDataDefProps
 
 @Singleton
 class ARAImplDataTypeCreator extends Franca2ARABase {
@@ -151,23 +152,28 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		// nothing to check
 	}
 
-	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
-		FEnumerationType fEnumerationType) {
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FEnumerationType fEnumerationType) {
 		shortName = getIDTPrefix + fEnumerationType.name
-		initUUID(fEnumerationType)
-		category = CAT_VALUE
-		val enumCompuMethod = fEnumerationType.createCompuMethod
-		it.swDataDefProps = fac.createSwDataDefProps => [
-			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-				compuMethod = enumCompuMethod
-				val ebt = getEnumBaseType(fEnumerationType)
-				if (ebt != FBasicTypeId.UNDEFINED) {
-					baseType = getBaseTypeForReference(ebt)
-				}
-			]
-		]
+		initAsEnumeration([props | swDataDefProps = props], fEnumerationType)
 		it.postprocess(fEnumerationType, true)
 	}
+	
+	def private initAsEnumeration(Identifiable it, (SwDataDefProps) => void dataDefPropsSetter, FEnumerationType fEnumerationType) {
+		initUUID(shortName)
+		category = CAT_VALUE
+		val enumCompuMethod = fEnumerationType.createCompuMethod
+		dataDefPropsSetter.apply(
+			fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					compuMethod = enumCompuMethod
+					val ebt = getEnumBaseType(fEnumerationType)
+					if (ebt != FBasicTypeId.UNDEFINED) {
+						baseType = getBaseTypeForReference(ebt)
+					}
+				]
+			]					
+		)
+	} 
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
 		it.shortName = getIDTPrefix + fMapType.name
@@ -243,20 +249,27 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		FCompoundType fParentCompoundType
 	) {
 		shortName = fTypedElement.name
-		initUUID(fTypedElement)
-		category = CAT_TYPEREF
 		if (generateOptionalFalse)
-			it.isOptional = false
-		val dataDefProps = fac.createSwDataDefProps
-		val dataDefPropsConditional = fac.createSwDataDefPropsConditional
-		val typeRef = createImplDataTypeReference(fTypedElement.type, fTypedElement)
-		if (typeRef instanceof ImplementationDataType) {
-			dataDefPropsConditional.implementationDataType = typeRef
+			isOptional = false
+			
+		if (skipCompoundTypeRefs && FrancaHelpers.isEnumeration(fTypedElement.type)) {
+			// if config requires, skip type reference for enumerations
+			initAsEnumeration([props | swDataDefProps = props], fTypedElement.type.derived as FEnumerationType)
 		} else {
-			getLogger.logWarning("Cannot set implementation data type for element '" + it.shortName + "'.")
+			// for all other types, create a type reference
+			initUUID(fTypedElement)
+			category = CAT_TYPEREF
+			swDataDefProps = fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					val typeRef = createImplDataTypeReference(fTypedElement.type, fTypedElement)
+					if (typeRef instanceof ImplementationDataType) {
+						implementationDataType = typeRef
+					} else {
+						getLogger.logWarning("Cannot set implementation data type for element '" + fTypedElement.name + "'.")
+					}
+				]
+			]
 		}
-		dataDefProps.swDataDefPropsVariants += dataDefPropsConditional
-		it.swDataDefProps = dataDefProps
 	}
 
 	/*
