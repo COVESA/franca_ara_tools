@@ -1,11 +1,14 @@
 package org.genivi.faracon
 
+import java.util.UUID
 import autosar40.util.Autosar40Factory
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import org.genivi.faracon.logging.BaseWithLogger
+import org.genivi.faracon.util.NamedUUIDGenerator
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import org.franca.core.franca.FAnnotationType
 import org.franca.core.franca.FModelElement
-import java.util.UUID
+import java.util.Map
 
 class Franca2ARABase extends BaseWithLogger {
 
@@ -42,13 +45,21 @@ class Franca2ARABase extends BaseWithLogger {
 		}
 	}
 
+	val Map<String, String> uuids = newHashMap
+	
 	def protected initUUID(Identifiable id, String seed) {
 		if (!ensureStableUUIDs) {
 			return
 		}
 		
-		// TODO
-		//id.uuid = new UUID(seed)
+		// create name-based UUID from seed string
+		val uuid = NamedUUIDGenerator.makeUUID(seed).toString
+		if (uuids.containsKey(uuid)) {
+			println("WARNING: Generated duplicate UUID '" + uuid + "' for '" + uuids.get(uuid) + "' and '" + id.shortName + "'!")
+		} else {
+			uuids.put(uuid, id.shortName)
+		}
+		id.uuid = "F2A:" + uuid.toString
 	}
 
 
