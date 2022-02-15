@@ -155,13 +155,17 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		FEnumerationType fEnumerationType) {
 		shortName = getIDTPrefix + fEnumerationType.name
 		initUUID(fEnumerationType)
-		category = "TYPE_REFERENCE"
+		category = CAT_VALUE
 		val enumCompuMethod = fEnumerationType.createCompuMethod
 		it.swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				compuMethod = enumCompuMethod
 			// TODO: check whether we need a type for the compu-method itself
 			// implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
+				val ebt = getEnumBaseType(fEnumerationType)
+				if (ebt != FBasicTypeId.UNDEFINED) {
+					implementationDataType = getBaseTypeForReference(ebt, null)
+				}
 			]
 		]
 		it.postprocess(fEnumerationType, true)

@@ -52,9 +52,12 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 		if(!this.nameToImplType.containsKey(fBasicTypeId.getName)){
 			getLogger.logError("Cannot find an AUTOSAR simple type for the FBasicTypeId: " + fBasicTypeId?.getName + "! (IDL2620)")
 		}
-		if(fBasicTypeId == FBasicTypeId.BYTE_BUFFER){
+		if (fBasicTypeId == FBasicTypeId.BYTE_BUFFER){
+			val n = tc!==null ? "'" + tc.typedElementName + "' in '" + tc.namespaceName + "'" : "(unknown location)"
 			logger.logWarning(
-				'''The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffer '«tc.typedElementName»' in '«tc.namespaceName»' are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes.''')
+				"The CommonAPI and AUTOSAR serialization formats of the Franca ByteBuffer " + n +
+				" are equivalent only if the ARA::COM system configuration defines array sizes to be encoded with 4 Bytes."
+			)
 		}
 		this.nameToImplType.get(fBasicTypeId.getName)
 	}
