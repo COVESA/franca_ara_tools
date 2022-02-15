@@ -186,7 +186,6 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 				ap = null
 			}
 		}
-		println("INIT UUID: " + path)
 		aPackage.initUUID(path)
 	}
 }
