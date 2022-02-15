@@ -1,9 +1,6 @@
 package org.genivi.faracon.franca2ara
 
 class F2AConfig {
-	new() {
-		super()
-	}
 
 	new(Boolean generateAdminDataLanguage, Boolean generateOptionalFalse, Boolean genAlwaysFireAndForget,
 		Boolean generateADTs, Boolean storeADTsLocally, String getADTPrefix, String getIDTPrefix,

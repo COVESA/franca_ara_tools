@@ -15,6 +15,7 @@ import org.genivi.faracon.console.CommandlineTool;
 import org.genivi.faracon.franca2ara.F2AConfig;
 import org.genivi.faracon.franca2ara.Franca2ARAConfigDefault;
 import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider;
+import org.genivi.faracon.franca2ara.Franca2ARAUserConfig;
 import org.genivi.faracon.franca2ara.IFranca2ARAConfig;
 import org.genivi.faracon.preferences.Preferences;
 import org.genivi.faracon.preferences.PreferencesConstants;
@@ -127,11 +128,18 @@ public class ConverterCliCommand extends CommandlineTool {
 			if (parsedArguments.hasOption("conf")) {
 				try {
 					F2AConfig conf = readPropertiesFile(parsedArguments.getOptionValue("conf"));
-					IFranca2ARAConfig f2aConf = new Franca2ARAConfigDefault(conf);
+					IFranca2ARAConfig f2aConf = new Franca2ARAUserConfig(conf);
 					this.franca2ARAConfigProvider.setConfiguration(f2aConf);
 				} catch (IOException e) {
-					getLogger().logInfo("Failed to read Franca to ARA config properties file. Default values will be used. : " + e.getLocalizedMessage());
+					getLogger().logInfo(
+							"Failed to read Franca to ARA config properties file. Default values will be used. : "
+									+ e.getLocalizedMessage());
 				}
+			} else {
+				IFranca2ARAConfig f2aConf = new Franca2ARAConfigDefault();
+				this.franca2ARAConfigProvider.setConfiguration(f2aConf);
+				getLogger().logInfo(
+						"No Franca to ARA config properties file found. Hence using default values for transformation.");
 			}
 			this.convertFrancaFiles(Arrays.asList(francaFilePaths));
 		}
