@@ -53,7 +53,7 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		val it = fac.createImplementationDataTypeElement
 		shortName = "valueType"
 		initUUID(n + "_stringelem")
-		category = "TYPE_REFERENCE"
+		category = CAT_VALUE
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				implementationDataType = getStringBaseType

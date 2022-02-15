@@ -294,7 +294,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			} else {
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 			}
-			it.category = CAT_TYPEREF
+			it.category = CAT_VALUE
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 					val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
