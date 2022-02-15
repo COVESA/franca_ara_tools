@@ -38,6 +38,7 @@ import static org.franca.core.framework.FrancaHelpers.*
 
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
+import org.franca.core.franca.FModelElement
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -83,7 +84,10 @@ class Franca2ARATransformation extends Franca2ARABase {
 	}
 	
 	def Pair<AUTOSAR, AUTOSAR> transformWithDeployment(FModel src) {
-		// Process the conversion.
+		// init seed for UUID generation
+		seedForUUID = src.interfaces.isEmpty ? src.name : src.name + "__" + src.interfaces.head.name 
+
+		// prepare primitive types
 		loadPrimitiveTypes
 		
 		// we are intentionally not adding the primitive types to the AUTOSAR target model
@@ -239,9 +243,9 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createArgumentDataPrototype transform(FArgument arg, boolean isIn, FInterface parentInterface) {
 		shortName = arg.name
-		it.initUUID(arg)
+		initUUID((arg.eContainer as FModelElement).name + "_" + arg.name)
 
-		it.addSdgForFrancaElement(arg)
+		addSdgForFrancaElement(arg)
 		// category = xxx
 		type = createDataTypeReference(arg.type, arg)
 		direction = if(isIn) ArgumentDirectionEnum.IN else ArgumentDirectionEnum.OUT
@@ -254,7 +258,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	// Without the parameter 'parentInterface', the memoisation mechanism of Xtend create methods would avoid this.
 	def create fac.createField transform(FAttribute src, ServiceInterface si, FInterface parentInterface) {
 		shortName = src.name
-		it.initUUID(src)
+		initUUID(src)
 		
 		it.addSdgForFrancaElement(src)
 		type = src.type.createDataTypeReference(src)
@@ -311,12 +315,12 @@ class Franca2ARATransformation extends Franca2ARABase {
 				val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType => [
 					shortName = namesHierarchy.createAndInsertUniqueName(
 						parentInterface.francaFullyQualifiedName,
-						src.name.toFirstUpper + "Data",
+						IDTPrefix + src.name.toFirstUpper + "Data",
 						FType
 					)
 					initUUID(shortName)
 					category = CAT_STRUCTURE
-					subElements.addAll(src.outArgs.map[ createImplDataTypeElement(null) ])
+					subElements.addAll(src.outArgs.map[ createImplDataTypeElement(name) ])
 					ARPackage = interfaceArPackage
 					addAnnotation(
 						ANNOTATION_LABEL_ARTIFICIAL_EVENT_DATA_STRUCT_TYPE,

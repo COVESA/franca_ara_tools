@@ -29,6 +29,12 @@ class Franca2ARABase extends BaseWithLogger {
 	private static final Boolean ensureStableUUIDs = true
 	private static final Boolean extractUUIDFromFranca = false
 	
+	private static String seedPerFile = ""
+	
+	def setSeedForUUID(String seed) {
+		seedPerFile = seed
+	}
+	
 	def protected initUUID(Identifiable id, FModelElement fElement) {
 		if (!ensureStableUUIDs) {
 			return
@@ -47,12 +53,13 @@ class Franca2ARABase extends BaseWithLogger {
 
 	val Map<String, String> uuids = newHashMap
 	
-	def protected initUUID(Identifiable id, String seed) {
+	def protected initUUID(Identifiable id, String detailSeed) {
 		if (!ensureStableUUIDs) {
 			return
 		}
 		
 		// create name-based UUID from seed string
+		val seed = seedPerFile + "__" + detailSeed
 		val uuid = NamedUUIDGenerator.makeUUID(seed).toString
 		if (uuids.containsKey(uuid)) {
 			println("WARNING: Generated duplicate UUID '" + uuid + "' for '" + uuids.get(uuid) + "' and '" + id.shortName + "'!")

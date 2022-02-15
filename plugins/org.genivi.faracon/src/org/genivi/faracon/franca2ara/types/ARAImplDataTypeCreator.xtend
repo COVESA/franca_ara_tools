@@ -125,7 +125,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		aCompoundType.category = category
 		val fAllElements = FrancaModelExtensions.getAllElements(fCompoundType).map[it as FField]
 		val aAllElements = fAllElements.map [
-			val newElement = it.createImplDataTypeElement(fCompoundType)
+			val newElement = it.createImplDataTypeElement(fCompoundType.name)
 			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
 			if (originalCompoundType !== fCompoundType) {
 				newElement.addAnnotation(annotationLabelText, originalCompoundType.ARFullyQualifiedName)
@@ -159,7 +159,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	}
 	
 	def private initAsEnumeration(Identifiable it, (SwDataDefProps) => void dataDefPropsSetter, FEnumerationType fEnumerationType) {
-		initUUID(shortName)
+		initUUID(shortName + "_" + fEnumerationType.name)
 		category = CAT_VALUE
 		val enumCompuMethod = fEnumerationType.createCompuMethod
 		dataDefPropsSetter.apply(
@@ -246,7 +246,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def create fac.createImplementationDataTypeElement createImplDataTypeElement(
 		FTypedElement fTypedElement,
-		FCompoundType fParentCompoundType
+		String ownerName
 	) {
 		shortName = fTypedElement.name
 		if (generateOptionalFalse)
@@ -257,7 +257,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			initAsEnumeration([props | swDataDefProps = props], fTypedElement.type.derived as FEnumerationType)
 		} else {
 			// for all other types, create a type reference
-			initUUID(fTypedElement)
+			initUUID(ownerName + "_" + fTypedElement.name)
 			category = CAT_TYPEREF
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
