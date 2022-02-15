@@ -78,7 +78,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 				val pkg = storeIDTsLocally ? tc.typedElement.createAccordingArPackage : getDataTypesPackage
 				getImplStringType(tc, pkg)
 			} else {
-				getBaseTypeForReference(fTypeRef.predefined, tc)				
+				getStdTypeForReference(fTypeRef.predefined, tc)				
 			}
 		} else {
 			val derived = fTypeRef.derived
@@ -87,7 +87,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 					// this follows the typedef chain until primitive type is reached
 					val primType = FrancaHelpers.getActualPredefined(fTypeRef)
 					if (primType!=FBasicTypeId.UNDEFINED) {
-						return getBaseTypeForReference(derived.actualType.predefined, tc)
+						return getStdTypeForReference(derived.actualType.predefined, tc)
 					}
 				}
 			}
@@ -160,11 +160,9 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		it.swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				compuMethod = enumCompuMethod
-			// TODO: check whether we need a type for the compu-method itself
-			// implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
 				val ebt = getEnumBaseType(fEnumerationType)
 				if (ebt != FBasicTypeId.UNDEFINED) {
-					implementationDataType = getBaseTypeForReference(ebt, null)
+					baseType = getBaseTypeForReference(ebt)
 				}
 			]
 		]
@@ -399,10 +397,10 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		val int arraySize = tc.typedElement.getArraySize
 		if (fTypeRef.refsPrimitiveType) {
 			if (isFixedSizedArray) {
-				val aElementType = getBaseTypeForReference(fTypeRef.predefined, tc)
+				val aElementType = getStdTypeForReference(fTypeRef.predefined, tc)
 				createArtificialArrayType(aElementType, arraySize, getOrCreatePrimitiveTypesAnonymousArraysMainPackage)
 			} else {
-				getBaseTypeVectorForReference(fTypeRef.predefined, tc)
+				getStdTypeVectorForReference(fTypeRef.predefined, tc)
 			}
 		} else {
 			if (isFixedSizedArray) {

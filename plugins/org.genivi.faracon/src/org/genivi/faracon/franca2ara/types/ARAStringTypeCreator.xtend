@@ -56,7 +56,7 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		category = CAT_VALUE
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-				implementationDataType = getStringBaseType
+				baseType = getStringBaseType
 			]
 		]
 		it
