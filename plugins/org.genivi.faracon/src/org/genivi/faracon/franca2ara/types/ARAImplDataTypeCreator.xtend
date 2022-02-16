@@ -32,7 +32,8 @@ import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
-
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
+import autosar40.commonstructure.datadefproperties.SwDataDefProps
 
 @Singleton
 class ARAImplDataTypeCreator extends Franca2ARABase {
@@ -78,7 +79,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 				val pkg = storeIDTsLocally ? tc.typedElement.createAccordingArPackage : getDataTypesPackage
 				getImplStringType(tc, pkg)
 			} else {
-				getBaseTypeForReference(fTypeRef.predefined, tc)				
+				getStdTypeForReference(fTypeRef.predefined, tc)				
 			}
 		} else {
 			val derived = fTypeRef.derived
@@ -87,7 +88,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 					// this follows the typedef chain until primitive type is reached
 					val primType = FrancaHelpers.getActualPredefined(fTypeRef)
 					if (primType!=FBasicTypeId.UNDEFINED) {
-						return getBaseTypeForReference(derived.actualType.predefined, tc)
+						return getStdTypeForReference(derived.actualType.predefined, tc)
 					}
 				}
 			}
@@ -124,7 +125,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		aCompoundType.category = category
 		val fAllElements = FrancaModelExtensions.getAllElements(fCompoundType).map[it as FField]
 		val aAllElements = fAllElements.map [
-			val newElement = it.createImplDataTypeElement(fCompoundType)
+			val newElement = it.createImplDataTypeElement(fCompoundType.name)
 			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
 			if (originalCompoundType !== fCompoundType) {
 				newElement.addAnnotation(annotationLabelText, originalCompoundType.ARFullyQualifiedName)
@@ -151,23 +152,32 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		// nothing to check
 	}
 
-	def private dispatch create fac.createImplementationDataType createDataTypeForReference(
-		FEnumerationType fEnumerationType) {
-		val enumCompuMethod = fEnumerationType.createCompuMethod
+	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FEnumerationType fEnumerationType) {
 		shortName = getIDTPrefix + fEnumerationType.name
-		it.category = "TYPE_REFERENCE"
-		it.swDataDefProps = fac.createSwDataDefProps => [
-			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-				compuMethod = enumCompuMethod
-			// TODO: check whether we need a type for the compu-method itself
-			// implementationDataType = getBaseTypeForReference(FBasicTypeId.UINT32)
-			]
-		]
+		initAsEnumeration([props | swDataDefProps = props], fEnumerationType)
 		it.postprocess(fEnumerationType, true)
 	}
+	
+	def private initAsEnumeration(Identifiable it, (SwDataDefProps) => void dataDefPropsSetter, FEnumerationType fEnumerationType) {
+		initUUID(shortName + "_" + fEnumerationType.name)
+		category = CAT_VALUE
+		val enumCompuMethod = fEnumerationType.createCompuMethod
+		dataDefPropsSetter.apply(
+			fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					compuMethod = enumCompuMethod
+					val ebt = getEnumBaseType(fEnumerationType)
+					if (ebt != FBasicTypeId.UNDEFINED) {
+						baseType = getBaseTypeForReference(ebt)
+					}
+				]
+			]					
+		)
+	} 
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
 		it.shortName = getIDTPrefix + fMapType.name
+		initUUID(fMapType)
 		it.category = "ASSOCIATIVE_MAP"
 		it.subElements += createTypeRefImplementationDataTypeElement("keyType", fMapType.francaNamespaceName, fMapType.keyType)
 		it.subElements += createTypeRefImplementationDataTypeElement("valueType", fMapType.francaNamespaceName, fMapType.valueType)
@@ -177,6 +187,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	def private createTypeRefImplementationDataTypeElement(String elementShortName, String namespaceName, FTypeRef referencedType) {
 		fac.createImplementationDataTypeElement => [
 			shortName = elementShortName
+			initUUID(shortName + "_" + namespaceName)
 			category = "TYPE_REFERENCE"
 			it.swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
@@ -189,7 +200,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def create fac.createCompuMethod createCompuMethod(FEnumerationType fEnumerationType) {
 		shortName = getCompuMethodPrefix + fEnumerationType.name + "_CompuMethod"
-		it.category = "TEXTTABLE"
+		initUUID(shortName)
+		category = "TEXTTABLE"
 		val allEnumerators = FrancaModelExtensions.getInheritationSet(fEnumerationType).map[it as FEnumerationType].map [
 			it.enumerators
 		].flatten
@@ -234,22 +246,30 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def create fac.createImplementationDataTypeElement createImplDataTypeElement(
 		FTypedElement fTypedElement,
-		FCompoundType fParentCompoundType
+		String ownerName
 	) {
-		it.shortName = fTypedElement.name
-		it.category = CAT_TYPEREF
+		shortName = fTypedElement.name
 		if (generateOptionalFalse)
-			it.isOptional = false
-		val dataDefProps = fac.createSwDataDefProps
-		val dataDefPropsConditional = fac.createSwDataDefPropsConditional
-		val typeRef = createImplDataTypeReference(fTypedElement.type, fTypedElement)
-		if (typeRef instanceof ImplementationDataType) {
-			dataDefPropsConditional.implementationDataType = typeRef
+			isOptional = false
+			
+		if (skipCompoundTypeRefs && FrancaHelpers.isEnumeration(fTypedElement.type)) {
+			// if config requires, skip type reference for enumerations
+			initAsEnumeration([props | swDataDefProps = props], fTypedElement.type.derived as FEnumerationType)
 		} else {
-			getLogger.logWarning("Cannot set implementation data type for element '" + it.shortName + "'.")
+			// for all other types, create a type reference
+			initUUID(ownerName + "_" + fTypedElement.name)
+			category = CAT_TYPEREF
+			swDataDefProps = fac.createSwDataDefProps => [
+				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+					val typeRef = createImplDataTypeReference(fTypedElement.type, fTypedElement)
+					if (typeRef instanceof ImplementationDataType) {
+						implementationDataType = typeRef
+					} else {
+						getLogger.logWarning("Cannot set implementation data type for element '" + fTypedElement.name + "'.")
+					}
+				]
+			]
 		}
-		dataDefProps.swDataDefPropsVariants += dataDefPropsConditional
-		it.swDataDefProps = dataDefProps
 	}
 
 	/*
@@ -276,6 +296,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		}
 		it.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
+			initUUID("Elem_" + fArrayType.name)
 			if (isFixedSizedArray) {
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
 				it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
@@ -284,7 +305,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			} else {
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 			}
-			it.category = CAT_TYPEREF
+			it.category = CAT_VALUE
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 					val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
@@ -365,6 +386,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		if (setPackage) {
 			aType.ARPackage = storeIDTsLocally ? fType.createAccordingArPackage : getDataTypesPackage
 		}
+		aType.initUUID(fType)
 		aType.addSdgForFrancaElement(fType)
 		
 		// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
@@ -388,10 +410,10 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		val int arraySize = tc.typedElement.getArraySize
 		if (fTypeRef.refsPrimitiveType) {
 			if (isFixedSizedArray) {
-				val aElementType = getBaseTypeForReference(fTypeRef.predefined, tc)
+				val aElementType = getStdTypeForReference(fTypeRef.predefined, tc)
 				createArtificialArrayType(aElementType, arraySize, getOrCreatePrimitiveTypesAnonymousArraysMainPackage)
 			} else {
-				getBaseTypeVectorForReference(fTypeRef.predefined, tc)
+				getStdTypeVectorForReference(fTypeRef.predefined, tc)
 			}
 		} else {
 			if (isFixedSizedArray) {

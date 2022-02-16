@@ -48,6 +48,7 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		} else {
 			currentPackage.shortName = fModel.name
 		}
+		currentPackage.setUUIDFromPath
 
 		// Create AUTOSAR subpackages for all Franca interface definitions with content that has to be transformed into package content.
 		for (interface : fModel.interfaces) {
@@ -73,12 +74,14 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 
 	def create fac.createARPackage createRootPackage(String name) {
 		shortName = name
+		it.initUUID(name)
 		if (root!==null)
 			root.arPackages.add(it)
 	}
 
 	def create fac.createARPackage createDeploymentRootPackage(String name) {
 		shortName = name
+		it.initUUID(name)
 		if (rootDeployment!==null)
 			rootDeployment.arPackages.add(it)
 	}
@@ -86,6 +89,7 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 	def create fac.createARPackage createPackageWithName(String name, ARPackage parent) {
 		shortName = name
 		parent?.arPackages?.add(it)
+		it.setUUIDFromPath
 	}
 
 	def getAccordingArPackage(FModel fModel) {
@@ -162,9 +166,26 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		FTypeCollection fTypeCollection) {
 		it.shortName = name
 		parentPackage.arPackages += it
+		it.setUUIDFromPath
+		
 		val typeCollectionNameString = if(fTypeCollection.name.isNullOrEmpty) "" else fTypeCollection.name + " "
 		val classNameString = if( fTypeCollection instanceof FInterface) FInterface.simpleName else FTypeCollection.simpleName 
 		it.addAnnotation("FrancaVersion", classNameString+ ": " + typeCollectionNameString + name)
 	}
 
+
+	def private setUUIDFromPath(ARPackage aPackage) {
+		var path = ""
+		var ap = aPackage
+		while (null!==ap) {
+			path = ap.shortName + "/" + path
+			val p = ap.eContainer
+			if (null!==p && ap.eContainer instanceof ARPackage) {
+				ap = p as ARPackage
+			} else {
+				ap = null
+			}
+		}
+		aPackage.initUUID(path)
+	}
 }

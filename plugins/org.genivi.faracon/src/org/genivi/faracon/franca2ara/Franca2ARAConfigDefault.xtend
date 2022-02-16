@@ -22,6 +22,7 @@ class Franca2ARAConfigDefault implements IFranca2ARAConfig {
 	override boolean alwaysGenIDTArray() { false }
 	override String getCompuMethodPrefix() { "" }
 	override boolean generateStringAsArray() { false }
+	override boolean skipCompoundTypeRefs() { false }
 	
 	// deployment
 	override boolean generateDeployment() { false }

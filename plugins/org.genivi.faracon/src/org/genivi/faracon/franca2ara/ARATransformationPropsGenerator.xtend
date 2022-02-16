@@ -23,6 +23,7 @@ import autosar40.swcomponent.portinterface.ClientServerOperation
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import org.franca.core.franca.FInterface
 
 @Singleton
 class ARATransformationPropsGenerator extends Franca2ARABase {
@@ -47,6 +48,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		InterfacePropertyAccessor ipa
 	) {
 		shortName = fMethod.shortName + "_TransformationProps"
+		initUUID(shortName)
 		byteOrder = ipa.getSomeIpMethodEndianess(fMethod)===SomeIpMethodEndianess.be ? 
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST :
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
@@ -58,7 +60,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			allArgs.map[getUnionLengthWidth].filterNull.toSet
 		)
 		
-		trafoPropsSet.transformationProps.add(it)
+		getTrafoPropsSet(fMethod.interface).transformationProps.add(it)
 		fMethod.createMapping(aCSO, it)
 	}
 	
@@ -68,6 +70,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		InterfacePropertyAccessor ipa
 	) {
 		shortName = fBroadcast.shortName + "_TransformationProps"
+		initUUID(shortName)
 		byteOrder = ipa.getSomeIpBroadcastEndianess(fBroadcast)===SomeIpBroadcastEndianess.be ? 
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST :
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
@@ -78,7 +81,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			fBroadcast.outArgs.map[getUnionLengthWidth].filterNull.toSet
 		)
 		
-		trafoPropsSet.transformationProps.add(it)
+		getTrafoPropsSet(fBroadcast.interface).transformationProps.add(it)
 		fBroadcast.createMapping(aVDP, it)
 	}
 
@@ -88,6 +91,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		InterfacePropertyAccessor ipa
 	) {
 		shortName = fAttribute.shortName + "_TransformationProps"
+		initUUID(shortName)
 		byteOrder = ipa.getSomeIpAttributeEndianess(fAttribute)===SomeIpAttributeEndianess.be ? 
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_FIRST :
 			ByteOrderEnum.MOST_SIGNIFICANT_BYTE_LAST
@@ -98,7 +102,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			wrap(fAttribute.getUnionLengthWidth)
 		)
 		
-		trafoPropsSet.transformationProps.add(it)
+		getTrafoPropsSet(fAttribute.interface).transformationProps.add(it)
 		fAttribute.createMapping(aField, it)
 	}
 	
@@ -132,8 +136,9 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		}
 	}
 
-	def private create fac.createTransformationPropsSet getTrafoPropsSet() {
-		shortName = "Transformation_Properties"
+	def private create fac.createTransformationPropsSet getTrafoPropsSet(FInterface fInt) {
+		shortName = fInt.name + "_TransformationProperties"
+		initUUID(shortName)
 		ARPackage = package1
 	}
 	
@@ -143,13 +148,14 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		ApSomeipTransformationProps props
 	) {
 		shortName = fElem.shortName + "_Mapping"
+		initUUID(shortName)
 		switch aElem {
 			VariableDataPrototype: events.add(aElem)
 			ClientServerOperation: methods.add(aElem)
 			Field: fields.add(aElem)
 		}
 		transformationProps = props
-		trafoPropsMappingsSet.mappings.add(it)
+		getTrafoPropsMappingSet(fElem.interface).mappings.add(it)
 	}
 	
 	
@@ -157,8 +163,9 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		elem.interface.name + "_" + elem.name
 	}
 	
-	def private create fac.createTransformationPropsToServiceInterfaceElementMappingSet getTrafoPropsMappingsSet() {
-		shortName = "TransformationPropsMappingSet"
+	def private create fac.createTransformationPropsToServiceInterfaceElementMappingSet getTrafoPropsMappingSet(FInterface fInt) {
+		shortName = fInt.name + "_TransformationPropsMappingSet"
+		initUUID(shortName)
 		ARPackage = package2
 	}
 

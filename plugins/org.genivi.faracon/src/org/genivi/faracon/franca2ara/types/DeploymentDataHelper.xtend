@@ -11,9 +11,11 @@ import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FType
 import org.franca.core.franca.FUnionType
 import org.franca.core.franca.FEnumerationType
+import org.franca.core.franca.FBasicTypeId
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 import org.genivi.commonapi.someip.DeploymentV2.InterfacePropertyAccessor
 import org.genivi.commonapi.someip.DeploymentV2.IDataPropertyAccessor
+import org.genivi.commonapi.core.DeploymentV2.Enums.EnumBackingType
 
 import static extension org.franca.core.FrancaModelExtensions.*
 
@@ -134,6 +136,35 @@ class DeploymentDataHelper {
 //			[pa, e | pa.getSomeIpArgEnumWidth(e)],
 //			[pa, e | pa.getSomeIpAttrEnumWidth(e)],
 			[getEnumWidth]
+		)
+	}
+
+	def getEnumBaseType(FModelElement elem) {
+		val ebt = elem.getEnumBackingType
+		if (null === ebt) {
+			return FBasicTypeId.UNDEFINED
+		}
+		switch (ebt) {
+			case UInt8: FBasicTypeId.UINT8
+			case UInt16: FBasicTypeId.UINT16
+			case UInt32: FBasicTypeId.UINT32
+			case UInt64: FBasicTypeId.UINT64
+			case Int8: FBasicTypeId.INT8
+			case Int16: FBasicTypeId.INT16
+			case Int32: FBasicTypeId.INT32
+			case Int64: FBasicTypeId.INT64
+			default: FBasicTypeId.UNDEFINED
+		}
+	}
+	
+ 	def private EnumBackingType getEnumBackingType(FModelElement elem) {
+		getDeploymentData(elem, typeof(FEnumerationType),
+			[pa, e | pa.getEnumBackingType(e)],
+//			[pa, e | pa.getEnumBackingType(e)],
+//			[pa, e | pa.getEnumBackingType(e)],
+//			[pa, e | pa.getEnumBackingType(e)],
+//			[pa, e | pa.getEnumBackingType(e)],
+			[getEnumBackingType]
 		)
 	}
 
