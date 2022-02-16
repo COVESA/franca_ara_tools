@@ -5,8 +5,10 @@ class F2AConfig {
 	new(Boolean generateAdminDataLanguage, Boolean generateOptionalFalse, Boolean genAlwaysFireAndForget,
 		Boolean generateADTs, Boolean storeADTsLocally, String getADTPrefix, String getIDTPrefix,
 		Boolean replaceIDTPrimitiveTypeDefs, Boolean storeIDTsLocally, Boolean alwaysGenIDTArray,
-		String getCompuMethodPrefix, Boolean generateStringAsArray, Boolean generateDeployment,
-		Boolean storeDeploymentLocally, Boolean createSeparateDeploymentFile, String getSignalPrefix) {
+		String getCompuMethodPrefix, Boolean generateStringAsArray, Boolean skipCompoundTypeRefs,
+		Boolean generateDeployment, Boolean storeDeploymentLocally,
+		Boolean createSeparateDeploymentFile, String getSignalPrefix
+	) {
 		super()
 		this.generateAdminDataLanguage = generateAdminDataLanguage
 		this.generateOptionalFalse = generateOptionalFalse
@@ -20,6 +22,7 @@ class F2AConfig {
 		this.alwaysGenIDTArray = alwaysGenIDTArray
 		this.getCompuMethodPrefix = getCompuMethodPrefix
 		this.generateStringAsArray = generateStringAsArray
+		this.skipCompoundTypeRefs = skipCompoundTypeRefs
 		this.generateDeployment = generateDeployment
 		this.storeDeploymentLocally = storeDeploymentLocally
 		this.createSeparateDeploymentFile = createSeparateDeploymentFile
@@ -47,6 +50,7 @@ class F2AConfig {
 	Boolean alwaysGenIDTArray
 	String getCompuMethodPrefix
 	Boolean generateStringAsArray
+	Boolean skipCompoundTypeRefs
 
 	// deployment
 	Boolean generateDeployment
@@ -100,6 +104,10 @@ class F2AConfig {
 
 	def Boolean isGenerateStringAsArray() {
 		return generateStringAsArray
+	}
+	
+	def Boolean isSkipCompoundTypeRefs() {
+		return skipCompoundTypeRefs
 	}
 
 	def Boolean isGenerateDeployment() {

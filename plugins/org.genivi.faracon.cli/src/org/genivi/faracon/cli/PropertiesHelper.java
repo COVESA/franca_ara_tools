@@ -8,9 +8,7 @@ import java.util.Properties;
 import org.genivi.faracon.franca2ara.F2AConfig;
 
 public class PropertiesHelper {
-	private PropertiesHelper() {
-
-	}
+	private PropertiesHelper() { }
 
 	public static F2AConfig readPropertiesFile(String pathToFile) throws IOException {
 		F2AConfig f2aConf = null;
@@ -26,13 +24,15 @@ public class PropertiesHelper {
 					getBooleanValue(prop.getProperty("IsOptionalFalseGenerationNeeded")),
 					getBooleanValue(prop.getProperty("IsAlwaysFireAndForgetGenerationNeeded")),
 					getBooleanValue(prop.getProperty("IsADTsGenerationNeeded")),
-					getBooleanValue(prop.getProperty("IsStoringADTsLocallyNeeded")), prop.getProperty("ADTPrefix"),
+					getBooleanValue(prop.getProperty("IsStoringADTsLocallyNeeded")),
+					prop.getProperty("ADTPrefix"),
 					prop.getProperty("IDTPrefix"),
 					getBooleanValue(prop.getProperty("IsReplacingIDTPrimitiveTypeDefsNeeded")),
 					getBooleanValue(prop.getProperty("IsStoringIDTsLocallyNeeded")),
 					getBooleanValue(prop.getProperty("IsAlwaysIDTArrayGenerationNeeded")),
 					prop.getProperty("CompuMethodPrefix"),
-					getBooleanValue(prop.getProperty("IsStringAsArrayGenerationNeeded")),
+					getBooleanValue(prop.getProperty("IsStringAsArrayGenerationNeeded")),					
+					getBooleanValue(prop.getProperty("SkipCompoundTypeReferences")),
 					getBooleanValue(prop.getProperty("IsDeploymentGenerationNeeded")),
 					getBooleanValue(prop.getProperty("IsStoringDeploymentLocallyNeeded")),
 					getBooleanValue(prop.getProperty("IsSeparateDeploymentFileCreationNeeded")),
