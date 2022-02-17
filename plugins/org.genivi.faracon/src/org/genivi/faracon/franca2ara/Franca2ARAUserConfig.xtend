@@ -77,6 +77,11 @@ class Franca2ARAUserConfig implements IFranca2ARAConfig {
 		genStringAsArray !== null ? genStringAsArray : f2aDefaultConfig.generateStringAsArray
 	}
 
+	override boolean avoidTypeReferences() {
+		val avoidTypeReferences = f2aConfig.avoidTypeReferences
+		avoidTypeReferences !== null ? avoidTypeReferences : f2aDefaultConfig.avoidTypeReferences
+	}
+	
 	override boolean skipCompoundTypeRefs() {
 		val skipCompoundTypeRefs = f2aConfig.skipCompoundTypeRefs
 		skipCompoundTypeRefs !== null ? skipCompoundTypeRefs : f2aDefaultConfig.skipCompoundTypeRefs

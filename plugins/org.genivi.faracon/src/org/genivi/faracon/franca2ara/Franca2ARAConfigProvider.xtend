@@ -63,6 +63,9 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	override boolean generateStringAsArray() {
 		config.generateStringAsArray
 	}
+	override boolean avoidTypeReferences() {
+		config.avoidTypeReferences
+	}
 	override boolean skipCompoundTypeRefs() {
 		config.skipCompoundTypeRefs
 	}

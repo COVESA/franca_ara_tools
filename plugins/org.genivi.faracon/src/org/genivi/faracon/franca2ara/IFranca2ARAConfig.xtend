@@ -22,6 +22,7 @@ interface IFranca2ARAConfig {
 	def boolean alwaysGenIDTArray()
 	def String getCompuMethodPrefix()
 	def boolean generateStringAsArray()
+	def boolean avoidTypeReferences()
 	def boolean skipCompoundTypeRefs()
 
 	// deployment
