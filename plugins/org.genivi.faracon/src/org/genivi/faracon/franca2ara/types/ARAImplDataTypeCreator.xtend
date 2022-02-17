@@ -160,7 +160,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	
 	def private initAsEnumeration(Identifiable it, (SwDataDefProps) => void dataDefPropsSetter, FEnumerationType fEnumerationType) {
 		initUUID(shortName + "_" + fEnumerationType.name)
-		category = CAT_VALUE
+		category = avoidTypeReferences ? CAT_VALUE : CAT_TYPEREF
 		val enumCompuMethod = fEnumerationType.createCompuMethod
 		dataDefPropsSetter.apply(
 			fac.createSwDataDefProps => [
