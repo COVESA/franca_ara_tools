@@ -119,7 +119,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 					initUUID("DEPLOY_" + shortName)
 					eventId = notifierID as long
 					transportProtocol = tp
-					transformEventGroups(ipa.getSomeIpEventGroups(fAttribute), sid)			
+					transformEventGroups(ipa.getSomeIpNotifierEventGroups(fAttribute), sid)			
 				]
 			}
 			
