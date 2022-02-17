@@ -252,24 +252,42 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		if (generateOptionalFalse)
 			isOptional = false
 			
-		if (skipCompoundTypeRefs && FrancaHelpers.isEnumeration(fTypedElement.type)) {
-			// if config requires, skip type reference for enumerations
-			initAsEnumeration([props | swDataDefProps = props], fTypedElement.type.derived as FEnumerationType)
-		} else {
-			// for all other types, create a type reference
-			initUUID(ownerName + "_" + fTypedElement.name)
-			category = CAT_TYPEREF
-			swDataDefProps = fac.createSwDataDefProps => [
-				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					val typeRef = createImplDataTypeReference(fTypedElement.type, fTypedElement)
-					if (typeRef instanceof ImplementationDataType) {
-						implementationDataType = typeRef
-					} else {
-						getLogger.logWarning("Cannot set implementation data type for element '" + fTypedElement.name + "'.")
-					}
-				]
-			]
+		if (skipCompoundTypeRefs) {
+			if (fTypedElement.type.refsPrimitiveType) {
+				// skip type reference for primitive types
+				val bt = getBaseTypeForReference(fTypedElement.type.predefined)
+				if (bt!==null) {
+					initUUID(ownerName + "_" + fTypedElement.name)
+					category = CAT_VALUE
+					swDataDefProps = fac.createSwDataDefProps => [
+						swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+							baseType = bt
+						]
+					]
+					return					
+				}
+			}
+			if (FrancaHelpers.isEnumeration(fTypedElement.type)) {
+				// skip type reference for enumerations
+				initAsEnumeration([props | swDataDefProps = props], fTypedElement.type.derived as FEnumerationType)
+				return
+			}
 		}
+		
+		// for all other types, create a type reference
+		initUUID(ownerName + "_" + fTypedElement.name)
+		// not sure CAT_VALUE will be correct here at all, this is a type reference after all 
+		category = skipCompoundTypeRefs ? CAT_VALUE : CAT_TYPEREF
+		swDataDefProps = fac.createSwDataDefProps => [
+			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+				val typeRef = createImplDataTypeReference(fTypedElement.type, fTypedElement)
+				if (typeRef instanceof ImplementationDataType) {
+					implementationDataType = typeRef
+				} else {
+					getLogger.logWarning("Cannot set implementation data type for element '" + fTypedElement.name + "'.")
+				}
+			]
+		]
 	}
 
 	/*
