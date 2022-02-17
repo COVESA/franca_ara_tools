@@ -2,7 +2,8 @@ package org.genivi.faracon.franca2ara
 
 class F2AConfig {
 
-	new(Boolean generateAdminDataLanguage, Boolean generateOptionalFalse, Boolean genAlwaysFireAndForget,
+	new(Boolean generateAdminDataLanguage, Boolean generateAnnotations,
+		Boolean generateOptionalFalse, Boolean genAlwaysFireAndForget,
 		Boolean generateADTs, Boolean storeADTsLocally, String getADTPrefix, String getIDTPrefix,
 		Boolean replaceIDTPrimitiveTypeDefs, Boolean storeIDTsLocally, Boolean alwaysGenIDTArray,
 		String getCompuMethodPrefix, Boolean generateStringAsArray,
@@ -12,6 +13,7 @@ class F2AConfig {
 	) {
 		super()
 		this.generateAdminDataLanguage = generateAdminDataLanguage
+		this.generateAnnotations = generateAnnotations
 		this.generateOptionalFalse = generateOptionalFalse
 		this.genAlwaysFireAndForget = genAlwaysFireAndForget
 		this.generateADTs = generateADTs
@@ -33,6 +35,7 @@ class F2AConfig {
 
 	// general
 	Boolean generateAdminDataLanguage
+	Boolean generateAnnotations
 
 	// service interfaces
 	Boolean generateOptionalFalse
@@ -63,6 +66,10 @@ class F2AConfig {
 
 	def Boolean isGenerateAdminDataLanguage() {
 		return generateAdminDataLanguage
+	}
+	
+	def Boolean isGenerateAnnotations() {
+		return generateAnnotations
 	}
 
 	def Boolean isGenerateOptionalFalse() {

@@ -17,6 +17,11 @@ class Franca2ARAUserConfig implements IFranca2ARAConfig {
 		genAdminDataLanguage !== null ? genAdminDataLanguage : f2aDefaultConfig.generateAdminDataLanguage
 	}
 
+	override boolean generateAnnotations() {
+		val genAnnotations = f2aConfig.generateAnnotations
+		genAnnotations!== null ? genAnnotations : f2aDefaultConfig.generateAnnotations
+	}
+
 	// service interfaces
 	override boolean generateOptionalFalse() {
 		val genOptionalFalse = f2aConfig.generateOptionalFalse

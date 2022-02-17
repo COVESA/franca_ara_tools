@@ -21,6 +21,9 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	override boolean generateAdminDataLanguage() {
 		config.generateAdminDataLanguage
 	}
+	override boolean generateAnnotations() {
+		config.generateAnnotations
+	}
 
 	// service interfaces
 	override boolean generateOptionalFalse() {

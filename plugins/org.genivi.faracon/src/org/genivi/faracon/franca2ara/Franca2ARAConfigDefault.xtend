@@ -4,6 +4,7 @@ class Franca2ARAConfigDefault implements IFranca2ARAConfig {
 	
 	// general
 	override boolean generateAdminDataLanguage() { false }
+	override boolean generateAnnotations() { true }
 
 	// service interfaces
 	override boolean generateOptionalFalse() { false }

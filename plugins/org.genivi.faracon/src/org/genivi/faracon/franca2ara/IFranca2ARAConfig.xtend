@@ -4,6 +4,7 @@ interface IFranca2ARAConfig {
 
 	// general
 	def boolean generateAdminDataLanguage()
+	def boolean generateAnnotations()
 
 	// service interfaces
 	def boolean generateOptionalFalse()

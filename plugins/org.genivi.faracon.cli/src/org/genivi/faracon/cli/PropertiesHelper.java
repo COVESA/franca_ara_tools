@@ -21,6 +21,7 @@ public class PropertiesHelper {
 
 			// get the property value and print it out
 			f2aConf = new F2AConfig(getBooleanValue(prop.getProperty("IsAdminDataLanguageGenerationNeeded")),
+					getBooleanValue(prop.getProperty("IsAnnotationGenerationNeeded")),
 					getBooleanValue(prop.getProperty("IsOptionalFalseGenerationNeeded")),
 					getBooleanValue(prop.getProperty("IsAlwaysFireAndForgetGenerationNeeded")),
 					getBooleanValue(prop.getProperty("IsADTsGenerationNeeded")),
