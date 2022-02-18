@@ -101,12 +101,18 @@ class AutosarUtil {
 
 	def private create autosar40Factory.createARPackage createTopLevelPackage(AUTOSAR autosar, String packageName) {
 		it.shortName = packageName
+		it.uuid = createUUID(packageName)
 		autosar.arPackages += it
 	}
 
 	def private create autosar40Factory.createARPackage createArPackageInPackage(ARPackage parentPackage, String packageName) {
 		it.shortName = packageName
+		it.uuid = createUUID(packageName)
 		parentPackage.arPackages += it
+	}
+
+	def createUUID(String seed) {
+		'FRC:' + NamedUUIDGenerator.makeUUID(seed).toString
 	}
 
 }
