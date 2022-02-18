@@ -60,6 +60,9 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	//val Map<String, ImplementationDataType> arrayTypeNameToImplementationDataType = newHashMap()
 	var ARPackage dtPackage = null
 
+	def initialize() {
+		dtPackage = null
+	}
 
 	def ImplementationDataType createImplDataTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement) {
 		val tc = new TypeContext(fTypedElement)

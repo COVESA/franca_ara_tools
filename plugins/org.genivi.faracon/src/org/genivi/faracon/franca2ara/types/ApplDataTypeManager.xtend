@@ -51,6 +51,11 @@ class ApplDataTypeManager extends Franca2ARABase {
 	var ARPackage dtPackage = null
 	var DataTypeMappingSet tms = null
 	
+	def initialize() {
+		impl2appl.clear
+		dtPackage = null
+		tms = null
+	}
 	
 	def getBaseApplDataType(ImplementationDataType idt, ARPackage where) {
 		if (!impl2appl.containsKey(idt)) {

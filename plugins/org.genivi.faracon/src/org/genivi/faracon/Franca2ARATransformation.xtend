@@ -39,6 +39,7 @@ import static org.franca.core.framework.FrancaHelpers.*
 import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import org.franca.core.franca.FModelElement
+import org.genivi.faracon.franca2ara.ARATransformationPropsGenerator
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -50,7 +51,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	@Inject
 	var extension ARAImplDataTypeCreator araImplDataTypeCreator
 	@Inject
-	var extension ApplDataTypeManager
+	var extension ApplDataTypeManager applDataTypeMgr
 	@Inject
 	var extension ARAConstantsCreator araConstantsCreator
 	@Inject
@@ -63,6 +64,8 @@ class Franca2ARATransformation extends Franca2ARABase {
 	var extension AutosarAnnotator
 	@Inject
 	var extension AutosarSpecialDataGroupCreator
+	@Inject
+	var extension ARATransformationPropsGenerator trafoPropsGenerator
 	@Inject
 	var extension Franca2ARAConfigProvider
 
@@ -87,6 +90,11 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// init seed for UUID generation
 		seedForUUID = src.interfaces.isEmpty ? src.name : src.name + "__" + src.interfaces.head.name 
 
+		// initialize some sub-components 
+		applDataTypeMgr.initialize
+		araImplDataTypeCreator.initialize
+		trafoPropsGenerator.initialize
+		
 		// prepare primitive types
 		loadPrimitiveTypes
 		

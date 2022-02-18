@@ -41,6 +41,11 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 	var ARPackage trafoProps1Package = null
 	var ARPackage trafoProps2Package = null
 	
+	def initialize() {
+		trafoPropsRootPackage = null
+		trafoProps1Package = null
+		trafoProps2Package = null
+	}
 
 	def create fac.createApSomeipTransformationProps createTrafoProps(
 		ClientServerOperation aCSO,
