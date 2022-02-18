@@ -57,7 +57,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
 	@Inject
-	var extension ARADeploymentGenerator
+	var extension ARADeploymentGenerator araDeploymentGenerator
     @Inject
 	var extension ARANamespaceCreator
 	@Inject
@@ -94,6 +94,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 		applDataTypeMgr.initialize
 		araImplDataTypeCreator.initialize
 		trafoPropsGenerator.initialize
+		araDeploymentGenerator.initialize
 		
 		// prepare primitive types
 		loadPrimitiveTypes

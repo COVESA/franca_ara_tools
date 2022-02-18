@@ -34,6 +34,10 @@ class ARADeploymentGenerator extends Franca2ARABase {
 
 	var ARPackage deployPackage = null
 		
+	def initialize() {
+		deployPackage = null
+	}
+
 	def create fac.createSomeipServiceInterfaceDeployment getServiceInterfaceDeployment(
 		ServiceInterface aSI,
 		FInterface fSI
