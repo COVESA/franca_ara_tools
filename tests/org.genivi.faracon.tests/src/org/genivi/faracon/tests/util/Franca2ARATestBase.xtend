@@ -66,16 +66,16 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		val autosarModelPaths = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
 		assertNotNull("no outputpath found", autosarModelPaths)
 		val actualAutosarFiles = findArxmlFilesStdFiles(autosarModelPaths, true)
-		actualAutosarFiles.forEach [ autosarFileName |
-			// load autosar models and set UUID to 0
-			val modelContainer = araConnector.loadModel(autosarFileName) as ARAModelContainer
-			if (doCheck && resetUUIDs) {
+		if (doCheck && resetUUIDs) {
+			actualAutosarFiles.forEach [ autosarFileName |
+				// load Autosar models and set UUID to 0
+				val modelContainer = araConnector.loadModel(autosarFileName) as ARAModelContainer
 				modelContainer.model.setUuidsTo0
 				if (modelContainer.deploymentModel!==null)
 					modelContainer.deploymentModel.setUuidsTo0				
-			}
-			araConnector.saveModel(modelContainer, autosarFileName)
-		]
+				araConnector.saveModel(modelContainer, autosarFileName)
+			]			
+		}
 		
 		if (doCheck) {
 			assertAutosarFilesAreEqual(actualAutosarFiles, expectedFilePaths)
