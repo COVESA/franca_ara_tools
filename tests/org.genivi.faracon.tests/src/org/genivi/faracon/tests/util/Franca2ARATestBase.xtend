@@ -42,7 +42,16 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	}
 
 	def void transformAndCheckIntegrationTest(String path, Collection<String> files,
-		Collection<String> expectedFilePaths, String outputFolderName) {
+		Collection<String> expectedFilePaths, String outputFolderName
+	) {
+		transformAndCheckIntegrationTest(path, files, expectedFilePaths, outputFolderName, true)
+	}
+
+	def void transformAndCheckIntegrationTest(
+		String path, Collection<String> files,
+		Collection<String> expectedFilePaths, String outputFolderName,
+		boolean resetUUIDs
+	) {
 		// given: non-null strings, which are not empty
 		val inputPaths = files.map[path + it].toList
 		assertFalse("No source file path given", inputPaths.nullOrEmpty)
@@ -60,7 +69,7 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		actualAutosarFiles.forEach [ autosarFileName |
 			// load autosar models and set UUID to 0
 			val modelContainer = araConnector.loadModel(autosarFileName) as ARAModelContainer
-			if (doCheck) {
+			if (doCheck && resetUUIDs) {
 				modelContainer.model.setUuidsTo0
 				if (modelContainer.deploymentModel!==null)
 					modelContainer.deploymentModel.setUuidsTo0				
