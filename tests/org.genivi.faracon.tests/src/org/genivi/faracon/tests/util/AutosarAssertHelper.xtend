@@ -12,6 +12,9 @@ import static org.junit.Assert.fail
 import java.util.List
 
 class AutosarAssertHelper {
+	
+	val static SEP = System.lineSeparator
+	
 	new() {
 	}
 
@@ -41,28 +44,27 @@ class AutosarAssertHelper {
 	 * For Autosar models, we compare the actual output files, but ignore the first two lines (which is the Autosar header)
 	 */
 	def static void assertAutosarFilesAreEqual(String actualFileName, String expectedFileName) {
-		var actualContent = Files.readAllLines(Paths.get(actualFileName)).drop(2).toList
-		var expectedContent = Files.readAllLines(Paths.get(expectedFileName)).drop(2).toList
-		actualContent = actualContent.map[it.trim]
-		expectedContent = expectedContent.map[it.trim]
-		var firstDiffingLine = getFirstDiffLine(actualContent, expectedContent)
-		if (!actualContent.equals(expectedContent)) {
-			val actualContentStr = actualContent.join(System.lineSeparator)
-			val expectedContentStr = expectedContent.join(System.lineSeparator)
+		val actualContent = Files.readAllLines(Paths.get(actualFileName)).drop(2).toList
+		val expectedContent = Files.readAllLines(Paths.get(expectedFileName)).drop(2).toList
+		val actualContentTrimmed = actualContent.map[it.trim]
+		val expectedContentTrimmed = expectedContent.map[it.trim]
+		var firstDiffingLine = getFirstDiffLine(actualContentTrimmed, expectedContentTrimmed)
+		if (firstDiffingLine >= 0) {
 			var diffLine = ""
-			if (firstDiffingLine>=0) {
-				diffLine += "First diffing line: " + (firstDiffingLine+3) + " ("
-				if (firstDiffingLine<actualContent.size)
-					diffLine += "actual: '" + actualContent.get(firstDiffingLine) + "'"
-				if (firstDiffingLine<expectedContent.size)
-					diffLine += " expected: '" + expectedContent.get(firstDiffingLine) + "'"
-				diffLine += ")" + System.lineSeparator
-			}
+			diffLine += "First diffing line: " + (firstDiffingLine+3) + " ("
+			if (firstDiffingLine<actualContent.size)
+				diffLine += "actual: '" + actualContentTrimmed.get(firstDiffingLine) + "'"
+			if (firstDiffingLine<expectedContent.size)
+				diffLine += " expected: '" + expectedContentTrimmed.get(firstDiffingLine) + "'"
+			diffLine += ")" + SEP
+			
+			val actualContentStr = actualContent.join(SEP)
+			val expectedContentStr = expectedContent.join(SEP)
 			fail(
-				"Actual file: " + actualFileName + " does not equal expected file " + expectedFileName + System.lineSeparator +
+				"Actual file: " + actualFileName + " does not equal expected file " + expectedFileName + SEP +
 				diffLine +
-				"Actual content is: " + actualContentStr + System.lineSeparator +
-				"Expected content was: " + expectedContentStr + System.lineSeparator
+				"Actual content is:" + SEP + actualContentStr + SEP +
+				"Expected content was:" + SEP + expectedContentStr + SEP
 			)
 		}
 	}
