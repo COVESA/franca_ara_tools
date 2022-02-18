@@ -146,7 +146,11 @@ class IDL1470_Tests extends Franca2ARATestBase {
 				predefined = FBasicTypeId.UINT32
 			]
 		]
-		val FInterface fParentInterface = francaFac.createFInterface
+		val FInterface fParentInterface = francaFac.createFInterface => [
+			methods.add(francaFac.createFMethod => [
+				inArgs.add(fArgument)
+			])
+		]
 		val ArgumentDataPrototype argumentDataPrototype = franca2ARATransformation.transform(fArgument, true, fParentInterface)
 		checkNamesEquality(fArgument, argumentDataPrototype)
 	}
