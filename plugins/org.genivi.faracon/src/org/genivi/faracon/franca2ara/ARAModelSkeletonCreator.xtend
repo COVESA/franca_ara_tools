@@ -23,16 +23,26 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 
 	var AUTOSAR root = null
 	var AUTOSAR rootDeployment = null
-	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
-	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
+	val Map<FModel, ARPackage> fModel2arPackage = newHashMap
+	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap
+	val Map<String, ARPackage> name2package = newHashMap
+	val Map<String, ARPackage> name2packageDeploy = newHashMap
+	
 
 	def create fac.createAUTOSAR createAutosarModelSkeleton(FModel fModel) {
 		root = it
+		
+		fModel2arPackage.clear
+		fTypeCollection2arPackage.clear
+		name2package.clear
+		
 		arPackages.add(fModel.createPackageHierarchy)
 	}
 	
 	def create fac.createAUTOSAR createAutosarDeploymentModelSkeleton(FModel fModel) {
 		rootDeployment = it
+
+		name2packageDeploy.clear
 	}
 	
 	def private create fac.createARPackage createPackageHierarchy(FModel fModel) {
@@ -72,18 +82,32 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		fModel2arPackage.put(fModel, currentPackage)
 	}
 
-	def create fac.createARPackage createRootPackage(String name) {
-		shortName = name
-		it.initUUID(name)
-		if (root!==null)
-			root.arPackages.add(it)
+	def createRootPackage(String name) {
+		if (name2package.containsKey(name)) {
+			name2package.get(name)
+		} else {
+			fac.createARPackage => [
+				shortName = name
+				it.initUUID(name)
+				if (root!==null)
+					root.arPackages.add(it)
+				name2package.put(name, it)
+			]
+		}
 	}
-
-	def create fac.createARPackage createDeploymentRootPackage(String name) {
-		shortName = name
-		it.initUUID(name)
-		if (rootDeployment!==null)
-			rootDeployment.arPackages.add(it)
+	
+	def createDeploymentRootPackage(String name) {
+		if (name2packageDeploy.containsKey(name)) {
+			name2packageDeploy.get(name)
+		} else {
+			fac.createARPackage => [
+				shortName = name
+				it.initUUID(name)
+				if (rootDeployment!==null)
+					rootDeployment.arPackages.add(it)
+				name2packageDeploy.put(name, it)
+			]
+		}
 	}
 
 	def create fac.createARPackage createPackageWithName(String name, ARPackage parent) {
