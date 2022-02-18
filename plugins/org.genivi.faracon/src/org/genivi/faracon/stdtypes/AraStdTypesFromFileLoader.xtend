@@ -56,9 +56,11 @@ class AraStdTypesFromFileLoader implements IAraStdTypesLoader {
 	private def ImplementationDataTypeWithPackagePath createVectorTypeForStdType(ImplementationDataType stdType) {
 		val vectorType = createImplementationDataType => [
 			it.shortName = stdType.shortName + "Vector"
+			it.uuid = createUUID(stdType.shortName + "_TYPE")
 			it.category = "VECTOR"
 			it.subElements += createImplementationDataTypeElement => [
 				it.shortName = stdType.shortName + "Ref"
+				it.uuid = createUUID(stdType.shortName + "_ELEM")
 				it.category = "TYPE_REFERENCE"
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 				it.swDataDefProps = createSwDataDefProps => [
