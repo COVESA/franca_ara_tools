@@ -29,20 +29,18 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 	val Map<String, ARPackage> name2packageDeploy = newHashMap
 	
 
+	def initialize() {
+		name2package.clear
+		name2packageDeploy.clear
+	}
+
 	def create fac.createAUTOSAR createAutosarModelSkeleton(FModel fModel) {
 		root = it
-		
-		fModel2arPackage.clear
-		fTypeCollection2arPackage.clear
-		name2package.clear
-		
 		arPackages.add(fModel.createPackageHierarchy)
 	}
 	
 	def create fac.createAUTOSAR createAutosarDeploymentModelSkeleton(FModel fModel) {
 		rootDeployment = it
-
-		name2packageDeploy.clear
 	}
 	
 	def private create fac.createARPackage createPackageHierarchy(FModel fModel) {

@@ -2,9 +2,9 @@ package org.genivi.faracon.tests.util
 
 import java.util.Collection
 import javax.inject.Inject
+import org.junit.Before
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.Franca2ARATransformation
-import org.genivi.faracon.cli.FilePathsHelper
 import org.genivi.faracon.cli.Franca2AraConverter
 import org.genivi.faracon.franca2ara.types.ARATypeCreator
 import org.genivi.faracon.preferences.Preferences
@@ -24,6 +24,11 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	var protected extension ARATypeCreator araTypeCreator
 	@Inject
 	var Franca2AraConverter franca2AraConverter
+
+	@Before
+	def void initTestEnvironment() {
+		initializeTransformation
+	}
 
 	def void transform(String path, String fileBasename) {
 		transformationTest(path, fileBasename, null, false)

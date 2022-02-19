@@ -80,6 +80,14 @@ class Franca2ARATransformation extends Franca2ARABase {
 	def setAllNonPrimitiveElementTypesOfAnonymousArrays(Set<FType> allNonPrimitiveElementTypesOfAnonymousArrays) {
 		this.allNonPrimitiveElementTypesOfAnonymousArrays = allNonPrimitiveElementTypesOfAnonymousArrays
 	}
+	
+	def initializeTransformation() {
+		applDataTypeMgr.initialize
+		araImplDataTypeCreator.initialize
+		trafoPropsGenerator.initialize
+		araDeploymentGenerator.initialize
+		araModelSkeletonCreator.initialize	
+	}
 
 	def AUTOSAR transform(FModel src) {
 		val res = transformWithDeployment(src)
@@ -90,12 +98,6 @@ class Franca2ARATransformation extends Franca2ARABase {
 		// init seed for UUID generation
 		seedForUUID = src.interfaces.isEmpty ? src.name : src.name + "__" + src.interfaces.head.name 
 
-		// initialize some sub-components 
-		applDataTypeMgr.initialize
-		araImplDataTypeCreator.initialize
-		trafoPropsGenerator.initialize
-		araDeploymentGenerator.initialize
-		
 		// prepare primitive types
 		loadPrimitiveTypes
 		
