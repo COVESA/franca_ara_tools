@@ -46,7 +46,7 @@
                 </SERVICE-INTERFACE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>StructTypedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -80,7 +80,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>TestTypeDef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
