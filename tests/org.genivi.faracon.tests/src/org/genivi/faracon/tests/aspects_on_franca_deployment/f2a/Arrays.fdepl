@@ -1,0 +1,24 @@
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "Arrays.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface arrayPackage.ArrayInterface {
+    SomeIpServiceID = 4510 // 0x119E
+
+    enumeration ENUM_FOR_ARRAY {
+        EnumBackingType = UInt8
+        SomeIpEnumWidth = 1
+    }
+
+    array arrayOfInt8 {
+        SomeIpArrayMinLength = 16
+        SomeIpArrayMaxLength = 16
+        SomeIpArrayLengthWidth = 12
+    }
+
+    array arrayOfEnum {
+        SomeIpArrayMinLength = 8
+        SomeIpArrayMaxLength = 8
+        SomeIpArrayLengthWidth = 12
+    }    
+}
+

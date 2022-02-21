@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/XML/1998/namespace xml.xsd">
+  <ADMIN-DATA>
+    <LANGUAGE>EN</LANGUAGE>
+    <USED-LANGUAGES>
+      <L-10 L="EN" xml:space="default"/>
+    </USED-LANGUAGES>
+  </ADMIN-DATA>
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>packageEventGroup</SHORT-NAME>
+      <ELEMENTS>
+        <SERVICE-INTERFACE UUID="0">
+          <SHORT-NAME>EventGroup</SHORT-NAME>
+          <NAMESPACES>
+            <SYMBOL-PROPS>
+              <SHORT-NAME>packageEventGroup</SHORT-NAME>
+              <SYMBOL>packageEventGroup</SYMBOL>
+            </SYMBOL-PROPS>
+          </NAMESPACES>
+          <EVENTS>
+            <VARIABLE-DATA-PROTOTYPE UUID="0">
+              <SHORT-NAME>onChangeEventStatus</SHORT-NAME>
+              <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_UInt8</TYPE-TREF>
+            </VARIABLE-DATA-PROTOTYPE>
+          </EVENTS>
+        </SERVICE-INTERFACE>
+      </ELEMENTS>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ServiceInterfaceToDataTypeMappings</SHORT-NAME>
+          <ELEMENTS>
+            <PORT-INTERFACE-TO-DATA-TYPE-MAPPING UUID="0">
+              <SHORT-NAME>EventGroup_ToDataTypeMapping</SHORT-NAME>
+              <DATA-TYPE-MAPPING-SET-REFS>
+                <DATA-TYPE-MAPPING-SET-REF DEST="DATA-TYPE-MAPPING-SET">/DataTypeMappingSets/EventGroup_DataTypeMappings</DATA-TYPE-MAPPING-SET-REF>
+              </DATA-TYPE-MAPPING-SET-REFS>
+              <PORT-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageEventGroup/EventGroup</PORT-INTERFACE-REF>
+            </PORT-INTERFACE-TO-DATA-TYPE-MAPPING>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>TransformationProps</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>TransformationPropsSet</SHORT-NAME>
+          <ELEMENTS>
+            <TRANSFORMATION-PROPS-SET UUID="0">
+              <SHORT-NAME>EventGroup_TransformationProperties</SHORT-NAME>
+              <TRANSFORMATION-PROPSS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>EventGroup_onChangeEventStatus_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+              </TRANSFORMATION-PROPSS>
+            </TRANSFORMATION-PROPS-SET>
+          </ELEMENTS>
+        </AR-PACKAGE>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>TransformationPropsToServiceInterfaceMappingSets</SHORT-NAME>
+          <ELEMENTS>
+            <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING-SET UUID="0">
+              <SHORT-NAME>EventGroup_TransformationPropsMappingSet</SHORT-NAME>
+              <MAPPINGS>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>EventGroup_onChangeEventStatus_Mapping</SHORT-NAME>
+                  <EVENT-REFS>
+                    <EVENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/packageEventGroup/EventGroup/onChangeEventStatus</EVENT-REF>
+                  </EVENT-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/EventGroup_TransformationProperties/EventGroup_onChangeEventStatus_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+              </MAPPINGS>
+            </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING-SET>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>DataTypes</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ApplicationDataTypes</SHORT-NAME>
+          <ELEMENTS>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_UInt8</SHORT-NAME>
+              <CATEGORY>VALUE</CATEGORY>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>DataTypeMappingSets</SHORT-NAME>
+      <ELEMENTS>
+        <DATA-TYPE-MAPPING-SET UUID="0">
+          <SHORT-NAME>EventGroup_DataTypeMappings</SHORT-NAME>
+          <DATA-TYPE-MAPS>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_UInt8</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/UInt8</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+          </DATA-TYPE-MAPS>
+        </DATA-TYPE-MAPPING-SET>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

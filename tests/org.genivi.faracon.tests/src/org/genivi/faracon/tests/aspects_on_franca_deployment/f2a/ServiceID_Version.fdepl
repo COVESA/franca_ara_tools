@@ -1,0 +1,6 @@
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "ServiceID_Version.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface serviceIDVersion.ServiceID_Version {
+	SomeIpServiceID = 4321
+}

@@ -1,0 +1,16 @@
+//import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "EventGroup.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface packageEventGroup.EventGroup {
+    SomeIpServiceID = 1234
+
+	SomeIpEventGroups = { 33000, 33300 }
+	
+	broadcast onChangeEventStatus {
+		SomeIpEventID = 70000
+		
+		// the broadcast event is member of two event groups
+		SomeIpEventGroups = { 30000, 30001 }
+	}
+}

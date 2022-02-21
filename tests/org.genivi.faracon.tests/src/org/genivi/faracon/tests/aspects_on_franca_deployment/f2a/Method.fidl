@@ -1,0 +1,26 @@
+package packageMethod
+
+interface MethodInterface {
+
+	method methodWithInAndOutArguments {
+		in {
+			UInt32 input_argument_1
+			Int16 input_argument_2
+		}
+		out {
+			Int32 output_argument_3
+			UInt8 output_argument_1
+			UInt16 output_argument_2
+		}
+	}
+	
+	method methodWithInAndOutArguments2 {
+		in {
+			UInt32 input_argument_1
+		}
+		out {
+			Int32 output_argument_3
+		}
+	}
+	
+}

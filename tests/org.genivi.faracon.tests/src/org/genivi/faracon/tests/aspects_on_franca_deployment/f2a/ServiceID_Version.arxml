@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/XML/1998/namespace xml.xsd">
+  <ADMIN-DATA>
+    <LANGUAGE>EN</LANGUAGE>
+    <USED-LANGUAGES>
+      <L-10 L="EN" xml:space="default"/>
+    </USED-LANGUAGES>
+  </ADMIN-DATA>
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>serviceIDVersion</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>v_1_0</SHORT-NAME>
+          <ANNOTATIONS>
+            <ANNOTATION>
+              <LABEL>
+                <L-4>FrancaVersion</L-4>
+              </LABEL>
+              <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+              <ANNOTATION-TEXT>
+                <VERBATIM>
+                  <L-5>FInterface: ServiceID_Version v_1_0</L-5>
+                </VERBATIM>
+              </ANNOTATION-TEXT>
+            </ANNOTATION>
+          </ANNOTATIONS>
+          <ELEMENTS>
+            <SERVICE-INTERFACE UUID="0">
+              <SHORT-NAME>ServiceID_Version</SHORT-NAME>
+              <NAMESPACES>
+                <SYMBOL-PROPS>
+                  <SHORT-NAME>serviceIDVersion</SHORT-NAME>
+                  <SYMBOL>serviceIDVersion</SYMBOL>
+                </SYMBOL-PROPS>
+                <SYMBOL-PROPS>
+                  <SHORT-NAME>v_1_0</SHORT-NAME>
+                  <SYMBOL>v_1_0</SYMBOL>
+                </SYMBOL-PROPS>
+              </NAMESPACES>
+            </SERVICE-INTERFACE>
+          </ELEMENTS>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>ServiceInterfaceToDataTypeMappings</SHORT-NAME>
+              <ELEMENTS>
+                <PORT-INTERFACE-TO-DATA-TYPE-MAPPING UUID="0">
+                  <SHORT-NAME>ServiceID_Version_ToDataTypeMapping</SHORT-NAME>
+                  <DATA-TYPE-MAPPING-SET-REFS>
+                    <DATA-TYPE-MAPPING-SET-REF DEST="DATA-TYPE-MAPPING-SET">/DataTypeMappingSets/ServiceID_Version_DataTypeMappings</DATA-TYPE-MAPPING-SET-REF>
+                  </DATA-TYPE-MAPPING-SET-REFS>
+                  <PORT-INTERFACE-REF DEST="SERVICE-INTERFACE">/serviceIDVersion/v_1_0/ServiceID_Version</PORT-INTERFACE-REF>
+                </PORT-INTERFACE-TO-DATA-TYPE-MAPPING>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>DataTypeMappingSets</SHORT-NAME>
+      <ELEMENTS>
+        <DATA-TYPE-MAPPING-SET UUID="0">
+          <SHORT-NAME>ServiceID_Version_DataTypeMappings</SHORT-NAME>
+        </DATA-TYPE-MAPPING-SET>
+      </ELEMENTS>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

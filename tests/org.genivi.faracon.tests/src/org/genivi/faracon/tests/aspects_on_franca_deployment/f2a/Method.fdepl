@@ -1,0 +1,17 @@
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "Method.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface packageMethod.MethodInterface {
+	SomeIpServiceID = 4321
+
+	method methodWithInAndOutArguments {
+		SomeIpMethodID = 1234
+		SomeIpReliable = true
+	}
+	
+	method methodWithInAndOutArguments2 {
+		SomeIpMethodID = 1122
+		SomeIpReliable = false
+	}
+
+}

@@ -1,0 +1,22 @@
+package packageAttribute
+
+interface AttributeInterface {
+    version {major 1 minor 2}
+
+  
+    enumeration ATTR_ENUM {
+        ENUM_KEY_1 = 0
+        ENUM_KEY_2 = 1
+        ENUM_KEY_3 = 2
+        ENUM_KEY_4 = 3
+    }
+
+    attribute ATTR_ENUM enumAttr
+
+    
+    attribute Int8 int8Attr
+
+    attribute Int16 int16Attr
+
+    attribute Boolean boolAttr
+}
