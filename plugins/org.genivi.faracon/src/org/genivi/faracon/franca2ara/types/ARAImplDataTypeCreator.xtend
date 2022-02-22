@@ -252,7 +252,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		FTypedElement fTypedElement,
 		String ownerName
 	) {
-		shortName = fTypedElement.name
+		shortName = getIDTPrefix + fTypedElement.name
 		if (generateOptionalFalse)
 			isOptional = false
 			

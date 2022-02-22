@@ -141,7 +141,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 
 	def private create fac.createApplicationRecordElement createApplicationDataTypeElement(FTypedElement fTypedElement,
 		FCompoundType fParentCompoundType) {
-		shortName = fTypedElement.name
+		shortName = ADTPrefix + fTypedElement.name
 		it.initUUID("ADT_" + fTypedElement.name)
 		category = "VALUE"
 		val t = createDataTypeReference(fTypedElement.type, fTypedElement)
