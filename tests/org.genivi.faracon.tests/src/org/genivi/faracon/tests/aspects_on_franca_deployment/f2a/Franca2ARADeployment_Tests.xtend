@@ -8,9 +8,11 @@ import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
 import org.genivi.faracon.franca2ara.Franca2ARAUserConfig
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
 import org.genivi.faracon.tests.util.Franca2ARATestBase
+import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.genivi.faracon.franca2ara.Franca2ARAConfigDefault
 
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
@@ -28,6 +30,12 @@ class Franca2ARADeployment_Tests extends Franca2ARATestBase {
 		var conf = PropertiesHelper.readPropertiesFile(CONFIG_PROPERTY_FILE)
 		var f2aConf = new Franca2ARAUserConfig(conf);
 		configuration = f2aConf
+	}
+	
+	@After
+	def void cleanup() {
+		// switch back to default configuration
+		configuration = new Franca2ARAConfigDefault
 	}
 
 	@Test
