@@ -210,6 +210,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		].flatten
 		val compuScalesForEnum = allEnumerators.map [ enumerator |
 			fac.createCompuScale => [ compuScale |
+				compuScale.shortLabel = enumerator.name
 				compuScale.symbol = enumerator.name
 				if (enumerator.value !== null) {
 					val enumValue = enumerator.value

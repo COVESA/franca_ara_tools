@@ -56,11 +56,13 @@
                   <COMPU-INTERNAL-TO-PHYS>
                     <COMPU-SCALES>
                       <COMPU-SCALE>
+                        <SHORT-LABEL>enumerator1</SHORT-LABEL>
                         <SYMBOL>enumerator1</SYMBOL>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
                       </COMPU-SCALE>
                       <COMPU-SCALE>
+                        <SHORT-LABEL>enumerator2</SHORT-LABEL>
                         <SYMBOL>enumerator2</SYMBOL>
                         <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
                         <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>

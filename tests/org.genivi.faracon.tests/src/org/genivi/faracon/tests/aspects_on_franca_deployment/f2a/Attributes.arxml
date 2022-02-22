@@ -141,21 +141,25 @@
               <COMPU-INTERNAL-TO-PHYS>
                 <COMPU-SCALES>
                   <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_1</SHORT-LABEL>
                     <SYMBOL>ENUM_KEY_1</SYMBOL>
                     <LOWER-LIMIT INTERVAL-TYPE="CLOSED">0</LOWER-LIMIT>
                     <UPPER-LIMIT INTERVAL-TYPE="CLOSED">0</UPPER-LIMIT>
                   </COMPU-SCALE>
                   <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_2</SHORT-LABEL>
                     <SYMBOL>ENUM_KEY_2</SYMBOL>
                     <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
                     <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
                   </COMPU-SCALE>
                   <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_3</SHORT-LABEL>
                     <SYMBOL>ENUM_KEY_3</SYMBOL>
                     <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
                     <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
                   </COMPU-SCALE>
                   <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_4</SHORT-LABEL>
                     <SYMBOL>ENUM_KEY_4</SYMBOL>
                     <LOWER-LIMIT INTERVAL-TYPE="CLOSED">3</LOWER-LIMIT>
                     <UPPER-LIMIT INTERVAL-TYPE="CLOSED">3</UPPER-LIMIT>

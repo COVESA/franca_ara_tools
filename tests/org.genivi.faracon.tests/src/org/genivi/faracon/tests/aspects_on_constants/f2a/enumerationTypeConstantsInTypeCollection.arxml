@@ -45,12 +45,15 @@
                   <COMPU-INTERNAL-TO-PHYS>
                     <COMPU-SCALES>
                       <COMPU-SCALE>
+                        <SHORT-LABEL>X</SHORT-LABEL>
                         <SYMBOL>X</SYMBOL>
                       </COMPU-SCALE>
                       <COMPU-SCALE>
+                        <SHORT-LABEL>Y</SHORT-LABEL>
                         <SYMBOL>Y</SYMBOL>
                       </COMPU-SCALE>
                       <COMPU-SCALE>
+                        <SHORT-LABEL>Z</SHORT-LABEL>
                         <SYMBOL>Z</SYMBOL>
                       </COMPU-SCALE>
                     </COMPU-SCALES>

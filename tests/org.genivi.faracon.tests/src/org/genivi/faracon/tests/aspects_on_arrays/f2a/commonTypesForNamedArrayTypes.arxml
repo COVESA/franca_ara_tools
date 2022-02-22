@@ -30,15 +30,19 @@
                       <COMPU-INTERNAL-TO-PHYS>
                         <COMPU-SCALES>
                           <COMPU-SCALE>
+                            <SHORT-LABEL>E1</SHORT-LABEL>
                             <SYMBOL>E1</SYMBOL>
                           </COMPU-SCALE>
                           <COMPU-SCALE>
+                            <SHORT-LABEL>E2</SHORT-LABEL>
                             <SYMBOL>E2</SYMBOL>
                           </COMPU-SCALE>
                           <COMPU-SCALE>
+                            <SHORT-LABEL>E3</SHORT-LABEL>
                             <SYMBOL>E3</SYMBOL>
                           </COMPU-SCALE>
                           <COMPU-SCALE>
+                            <SHORT-LABEL>E4</SHORT-LABEL>
                             <SYMBOL>E4</SYMBOL>
                           </COMPU-SCALE>
                         </COMPU-SCALES>
