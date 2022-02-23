@@ -12,6 +12,7 @@ import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.util.AutosarUtil
 import autosar40.commonstructure.basetypes.SwBaseType
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 
 @Singleton
 class ARAPrimitiveTypesCreator extends Franca2ARABase {
@@ -42,10 +43,10 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 		val ARAResourceSet araResourceSet = new ARAResourceSet()
 		val AUTOSAR primitiveTypesModel = araResourceSet.araStandardTypeDefinitionsModel.standardTypeDefinitionsModel
 		primitiveTypesModel.eAllContents.filter(SwBaseType).forEach[
-			nameToBaseType.put(it.shortName, it)
+			nameToBaseType.put(it.nameForIndex, it)
 		]
 		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
-			nameToImplType.put(it.shortName, it)
+			nameToImplType.put(it.nameForIndex, it)
 		]
 
 		val AUTOSAR primitiveTypesVectorsModel = araResourceSet.araStandardTypeDefinitionsModel.standardVectorTypeDefinitionsModel
@@ -53,7 +54,27 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 			nameToImplVectorType.put(it.shortName, it)
 		]
 	}
-
+	
+	def private String getNameForIndex(Identifiable id) {
+		// first check annotation with "IndexTypeName"
+		if (!id.annotations.empty) {
+			val index = id.annotations.findFirst[a |
+				!a.label.l4s.empty && a.label.l4s.head.mixedText == "IndexTypeName"
+			]
+			if (index!==null) {
+				val verbs = index.annotationText.verbatims
+				if (!verbs.empty && !verbs.head.l5s.empty) {
+					val l5 = verbs.head.l5s.head
+					//println("INDEX for " + id.shortName + " is " + l5.mixedText)
+					return l5.mixedText
+				}
+			}			
+		}
+		
+		// default: use shortName for indexing
+		id.shortName
+	}
+	
 	def getBaseTypeForReference(FBasicTypeId fBasicTypeId) {
 		loadPrimitiveTypes		
 		val name = 
