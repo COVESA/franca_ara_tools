@@ -18,6 +18,7 @@ class Franca2ARABase extends BaseWithLogger {
 	protected static final String CAT_VECTOR = "VECTOR"
 	protected static final String CAT_STRUCTURE = "STRUCTURE"
 	protected static final String CAT_UNION = "UNION"
+	protected static final String CAT_STRING = "STRING"
 	
 	 
 	def protected fac() {

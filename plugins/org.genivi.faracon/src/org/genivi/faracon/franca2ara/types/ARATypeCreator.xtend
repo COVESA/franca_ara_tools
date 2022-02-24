@@ -10,6 +10,7 @@ import org.franca.core.franca.FType
 import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
 
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
+import org.franca.core.framework.FrancaHelpers
 
 @Singleton
 class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
@@ -60,7 +61,8 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 	
 		if (generateADTs) {
 			if (fTypeRef.refsPrimitiveType) {
-				idt.getBaseApplDataType(null)
+				val isString = FrancaHelpers.isString(fTypeRef) && generateStringAsArray
+				idt.getBaseApplDataType(isString, null)
 			} else {
 				val adt = getApplDataType(fTypeRef.derived, idt, null)
 				if (adt===null) {

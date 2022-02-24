@@ -5,10 +5,10 @@ import javax.inject.Singleton
 import javax.inject.Inject
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.swcomponent.datatype.datatypes.ApplicationDataType
-import autosar40.adaptiveplatform.applicationdesign.applicationdatatype.ApplicationAssocMapDataType
 import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterface
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.DataTypeMappingSet
+import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
@@ -24,16 +24,19 @@ import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FArrayType
 import org.franca.core.FrancaModelExtensions
+import org.franca.core.franca.FUnionType
 
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
-import org.franca.core.franca.FUnionType
+import autosar40.swcomponent.datatype.datatypes.ApplicationPrimitiveDataType
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
 
 	@Inject
 	var extension ARAModelSkeletonCreator araModelSkeletonCreator
+	@Inject
+	var extension ARAPrimitiveTypesCreator
 	@Inject
 	var extension Franca2ARAConfigProvider
 	@Inject
@@ -57,17 +60,43 @@ class ApplDataTypeManager extends Franca2ARABase {
 		tms = null
 	}
 	
-	def getBaseApplDataType(ImplementationDataType idt, ARPackage where) {
+	def getBaseApplDataType(ImplementationDataType idt, boolean isString, ARPackage where) {
 		if (!impl2appl.containsKey(idt)) {
 			impl2appl.put(idt, fac.createApplicationPrimitiveDataType => [
 				val n = idt.shortName.stripIDTPrefix
 				shortName = ADTPrefix + n
 				initUUID("ADT_" + n)
-				category = "VALUE"
+				if (isString) {
+					category = CAT_STRING
+					initADTString(idt)
+				} else {
+					category = CAT_VALUE
+				}
 				createTypeMapping(idt, where)
 			])
 		}
 		impl2appl.get(idt)
+	}
+	
+	def private initADTString(ApplicationPrimitiveDataType it, ImplementationDataType idt) {
+		val idtElem = idt.subElements.head
+		val sizeSem = idtElem.arraySizeSemantics
+		val isFixed = sizeSem==ArraySizeSemanticsEnum.FIXED_SIZE
+		swDataDefProps = fac.createSwDataDefProps => [
+			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+				swTextProps = fac.createSwTextProps => [
+					arraySizeSemantics = sizeSem
+					if (isFixed) {
+						swMaxTextSize = fac.createIntegerValueVariationPoint => [
+							it.mixedText = idtElem.arraySize.mixedText
+						]						
+					}
+					baseType = getStringBaseType
+					swFillCharacter = 0
+				]
+			]
+		]
+		
 	}
 	
 	def private stripIDTPrefix(String idt) {
@@ -222,7 +251,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		shortName = ADTPrefix + fTypeDef.name
 		initUUID("ADT_" + fTypeDef.name)
 		if (fTypeDef.actualType.refsPrimitiveType) {
-			it.category = "VALUE"
+			it.category = CAT_VALUE
 		} else {
 			it.category = "TYPE_REF"			
 		}
