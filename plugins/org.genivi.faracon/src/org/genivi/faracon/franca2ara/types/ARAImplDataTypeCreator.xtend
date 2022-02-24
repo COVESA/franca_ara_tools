@@ -316,9 +316,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		} else {
 			it.category = CAT_VECTOR
 		}
-		it.subElements += fac.createImplementationDataTypeElement => [
-			shortName = "valueType"
-			initUUID("Elem_" + fArrayType.name)
+		it.subElements += createTypeElemForArray(fArrayType) => [
 			if (isFixedSizedArray) {
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
 				it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
@@ -327,19 +325,26 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			} else {
 				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 			}
-			it.category = avoidTypeReferences ? CAT_VALUE : CAT_TYPEREF
-			swDataDefProps = fac.createSwDataDefProps => [
-				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-					val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
-					implementationDataType = fArrayType.elementType.createImplDataTypeReference(tc) as ImplementationDataType
-				]
-			]
 		]
 		it.postprocess(fArrayType, true)
 	// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
 //		it.createImplementationDataTypeExtension
 	}
-
+	
+	def private createTypeElemForArray(FArrayType fArrayType) {
+		val it = fac.createImplementationDataTypeElement
+		shortName = "valueType"
+		initUUID("Elem_" + fArrayType.name)
+		category = avoidTypeReferences ? CAT_VALUE : CAT_TYPEREF
+		swDataDefProps = fac.createSwDataDefProps => [
+			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+				val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
+				implementationDataType = fArrayType.elementType.createImplDataTypeReference(tc) as ImplementationDataType
+			]
+		]
+		it
+	} 
+	
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FTypeDef fTypeDef) {
 		it.shortName = getIDTPrefix + fTypeDef.name
 		it.category = CAT_TYPEREF
