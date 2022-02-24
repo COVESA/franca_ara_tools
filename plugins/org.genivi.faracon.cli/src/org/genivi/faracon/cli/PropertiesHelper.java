@@ -33,6 +33,7 @@ public class PropertiesHelper {
 					getBooleanValue(prop.getProperty("IsAlwaysIDTArrayGenerationNeeded")),
 					prop.getProperty("CompuMethodPrefix"),
 					getBooleanValue(prop.getProperty("IsStringAsArrayGenerationNeeded")),
+					getBooleanValue(prop.getProperty("UseSizeAndPayloadStructs")),
 					getBooleanValue(prop.getProperty("AvoidTypeReferences")),
 					getBooleanValue(prop.getProperty("SkipCompoundTypeReferences")),
 					getBooleanValue(prop.getProperty("IsDeploymentGenerationNeeded")),

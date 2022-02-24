@@ -7,6 +7,7 @@ class F2AConfig {
 		Boolean generateADTs, Boolean storeADTsLocally, String getADTPrefix, String getIDTPrefix,
 		Boolean replaceIDTPrimitiveTypeDefs, Boolean storeIDTsLocally, Boolean alwaysGenIDTArray,
 		String getCompuMethodPrefix, Boolean generateStringAsArray,
+		Boolean useSizeAndPayloadStructs,
 		Boolean avoidTypeRefs, Boolean skipCompoundTypeRefs,
 		Boolean generateDeployment, Boolean storeDeploymentLocally,
 		Boolean createSeparateDeploymentFile
@@ -25,6 +26,7 @@ class F2AConfig {
 		this.alwaysGenIDTArray = alwaysGenIDTArray
 		this.getCompuMethodPrefix = getCompuMethodPrefix
 		this.generateStringAsArray = generateStringAsArray
+		this.useSizeAndPayloadStructs = useSizeAndPayloadStructs
 		this.avoidTypeRefs = avoidTypeRefs
 		this.skipCompoundTypeRefs = skipCompoundTypeRefs
 		this.generateDeployment = generateDeployment
@@ -54,6 +56,7 @@ class F2AConfig {
 	Boolean alwaysGenIDTArray
 	String getCompuMethodPrefix
 	Boolean generateStringAsArray
+	Boolean useSizeAndPayloadStructs
 	Boolean avoidTypeRefs
 	Boolean skipCompoundTypeRefs
 
@@ -112,6 +115,10 @@ class F2AConfig {
 
 	def Boolean isGenerateStringAsArray() {
 		return generateStringAsArray
+	}
+	
+	def Boolean isUseSizeAndPayloadStructs() {
+		return useSizeAndPayloadStructs
 	}
 	
 	def Boolean avoidTypeReferences() {
