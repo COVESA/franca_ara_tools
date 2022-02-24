@@ -20,31 +20,41 @@ public class PropertiesHelper {
 			prop.load(input);
 
 			// get the property value and print it out
-			f2aConf = new F2AConfig(getBooleanValue(prop.getProperty("IsAdminDataLanguageGenerationNeeded")),
-					getBooleanValue(prop.getProperty("IsAnnotationGenerationNeeded")),
-					getBooleanValue(prop.getProperty("IsOptionalFalseGenerationNeeded")),
-					getBooleanValue(prop.getProperty("IsAlwaysFireAndForgetGenerationNeeded")),
-					getBooleanValue(prop.getProperty("IsADTsGenerationNeeded")),
-					getBooleanValue(prop.getProperty("IsStoringADTsLocallyNeeded")),
-					prop.getProperty("ADTPrefix"),
-					prop.getProperty("IDTPrefix"),
-					getBooleanValue(prop.getProperty("IsReplacingIDTPrimitiveTypeDefsNeeded")),
-					getBooleanValue(prop.getProperty("IsStoringIDTsLocallyNeeded")),
-					getBooleanValue(prop.getProperty("IsAlwaysIDTArrayGenerationNeeded")),
+			f2aConf =
+				new F2AConfig(
+					asBool(prop, "IsAdminDataLanguageGenerationNeeded"),
+					asBool(prop, "IsAnnotationGenerationNeeded"),
+					asBool(prop, "IsOptionalFalseGenerationNeeded"),
+					asBool(prop, "IsAlwaysFireAndForgetGenerationNeeded"),
+					asBool(prop, "IsADTsGenerationNeeded"),
+					asBool(prop, "IsStoringADTsLocallyNeeded"),
+					asString(prop, "ADTPrefix"),
+					asString(prop, "IDTPrefix"),
+					asBool(prop, "IsReplacingIDTPrimitiveTypeDefsNeeded"),
+					asBool(prop, "IsStoringIDTsLocallyNeeded"),
+					asBool(prop, "IsAlwaysIDTArrayGenerationNeeded"),
 					prop.getProperty("CompuMethodPrefix"),
-					getBooleanValue(prop.getProperty("IsStringAsArrayGenerationNeeded")),
-					getBooleanValue(prop.getProperty("UseSizeAndPayloadStructs")),
-					getBooleanValue(prop.getProperty("AvoidTypeReferences")),
-					getBooleanValue(prop.getProperty("SkipCompoundTypeReferences")),
-					getBooleanValue(prop.getProperty("IsDeploymentGenerationNeeded")),
-					getBooleanValue(prop.getProperty("IsStoringDeploymentLocallyNeeded")),
-					getBooleanValue(prop.getProperty("IsSeparateDeploymentFileCreationNeeded"))
+					asBool(prop, "IsStringAsArrayGenerationNeeded"),
+					asBool(prop, "UseSizeAndPayloadStructs"),
+					asBool(prop, "AvoidTypeReferences"),
+					asBool(prop, "SkipCompoundTypeReferences"),
+					asBool(prop, "IsDeploymentGenerationNeeded"),
+					asBool(prop, "IsStoringDeploymentLocallyNeeded"),
+					asBool(prop, "IsSeparateDeploymentFileCreationNeeded")
 				);
 		} catch (IOException ex) {
 			throw new IOException(ex);
 		}
 
 		return f2aConf;
+	}
+	
+	private static String asString(Properties prop, String property) {
+		return prop.getProperty(property);
+	}
+
+	private static Boolean asBool(Properties prop, String property) {
+		return getBooleanValue(prop.getProperty(property));
 	}
 
 	private static Boolean getBooleanValue(String property) {
