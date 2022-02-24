@@ -41,6 +41,8 @@ class ApplDataTypeManager extends Franca2ARABase {
 	var extension Franca2ARAConfigProvider
 	@Inject
 	var extension AutosarAnnotator
+	@Inject
+	var extension DeploymentDataHelper
 
 	// TODO: circular dependency, replace this by using IARATypeCreator
 	@Inject
@@ -60,7 +62,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		tms = null
 	}
 	
-	def getBaseApplDataType(ImplementationDataType idt, boolean isString, ARPackage where) {
+	def getBaseApplDataType(ImplementationDataType idt, boolean isString, TypeContext tc, ARPackage where) {
 		if (!impl2appl.containsKey(idt)) {
 			impl2appl.put(idt, fac.createApplicationPrimitiveDataType => [
 				val n = idt.shortName.stripIDTPrefix
@@ -68,7 +70,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 				initUUID("ADT_" + n)
 				if (isString) {
 					category = CAT_STRING
-					initADTString(idt)
+					initADTString(idt, tc)
 				} else {
 					category = CAT_VALUE
 				}
@@ -78,18 +80,20 @@ class ApplDataTypeManager extends Franca2ARABase {
 		impl2appl.get(idt)
 	}
 	
-	def private initADTString(ApplicationPrimitiveDataType it, ImplementationDataType idt) {
-		val idtElem = idt.subElements.head
-		val sizeSem = idtElem.arraySizeSemantics
-		val isFixed = sizeSem==ArraySizeSemanticsEnum.FIXED_SIZE
+	def private initADTString(ApplicationPrimitiveDataType it, ImplementationDataType idt, TypeContext tc) {
+		val len = tc.typedElement.getStringLength
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				swTextProps = fac.createSwTextProps => [
-					arraySizeSemantics = sizeSem
-					if (isFixed) {
+					if (len!==null && len>0) {
+						// fixed sized string
+						arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
 						swMaxTextSize = fac.createIntegerValueVariationPoint => [
-							it.mixedText = idtElem.arraySize.mixedText
+							mixedText = "" + len
 						]						
+					} else {
+						// variable sized string
+						arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 					}
 					baseType = getStringBaseType
 					swFillCharacter = 0

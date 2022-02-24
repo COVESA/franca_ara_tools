@@ -7,6 +7,7 @@ import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.ArraySizeHandlingEnum
+import org.franca.core.franca.FBasicTypeId
 
 @Singleton
 class ARAStringTypeCreator extends Franca2ARABase {
@@ -48,19 +49,42 @@ class ARAStringTypeCreator extends Franca2ARABase {
 	 * Create variable-sized string. 
 	 */
 	def private create fac.createImplementationDataType createStringType(ARPackage where) {
-		shortName = IDTPrefix + "String_varSize"
+		val n = IDTPrefix + "String_varSize"
+		shortName = n
 		initUUID(shortName)
-		category = CAT_ARRAY
-		subElements += createTypeElemForString(shortName) => [
-			arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
-		]
+		if (useSizeAndPayloadStructs) {
+			category = CAT_STRUCTURE
+			subElements += fac.createImplementationDataTypeElement => [
+				shortName = n + "_Size"
+				initUUID(shortName)
+				category = CAT_VALUE
+				swDataDefProps = fac.createSwDataDefProps => [
+					swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+						baseType = getBaseTypeForReference(FBasicTypeId.UINT16)
+					]
+				]
+			]
+			subElements += fac.createImplementationDataTypeElement => [
+				shortName = n + "_Payload"
+				initUUID(shortName)
+				category = CAT_ARRAY
+				subElements += createTypeElemForString(n) => [
+					arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+				]
+			]
+		} else {
+			category = CAT_ARRAY
+			subElements += createTypeElemForString(n) => [
+				arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+			]
+		}
 		ARPackage = where
 	}
 
-	def private createTypeElemForString(String n) {
+	def private createTypeElemForString(String parentName) {
 		val it = fac.createImplementationDataTypeElement
 		shortName = "IDT_uint8"
-		initUUID(n + "_stringelem")
+		initUUID(parentName + "_stringelem")
 		category = CAT_VALUE
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
@@ -69,4 +93,5 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		]
 		it
 	} 
+	
 }

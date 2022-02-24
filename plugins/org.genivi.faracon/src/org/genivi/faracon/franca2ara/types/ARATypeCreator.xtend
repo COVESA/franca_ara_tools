@@ -62,7 +62,7 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 		if (generateADTs) {
 			if (fTypeRef.refsPrimitiveType) {
 				val isString = FrancaHelpers.isString(fTypeRef) && generateStringAsArray
-				idt.getBaseApplDataType(isString, null)
+				idt.getBaseApplDataType(isString, tc, null)
 			} else {
 				val adt = getApplDataType(fTypeRef.derived, idt, null)
 				if (adt===null) {

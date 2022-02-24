@@ -60,6 +60,11 @@ class Franca2ARADeployment_Tests extends Franca2ARATestBase {
 	}
 
 	@Test
+	def void testStringsDepl() {
+		testTransformation("Strings.fidl", "Strings.fdepl", "Strings", "StringsOutputFolder")
+	}
+	
+	@Test
 	def void testArraysDepl() {
 		testTransformation("Arrays.fidl", "Arrays.fdepl", "Arrays", "ArraysOutputFolder")
 	}
