@@ -11,7 +11,7 @@ import autosar40.swcomponent.datatype.datatypes.DataTypeMappingSet
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 import org.genivi.faracon.franca2ara.AutosarAnnotator
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType

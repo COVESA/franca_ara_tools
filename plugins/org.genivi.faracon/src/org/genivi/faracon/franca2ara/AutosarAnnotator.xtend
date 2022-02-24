@@ -4,6 +4,7 @@ import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiab
 import org.genivi.faracon.Franca2ARABase
 import javax.inject.Singleton
 import javax.inject.Inject
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 
 @Singleton
 class AutosarAnnotator extends Franca2ARABase {

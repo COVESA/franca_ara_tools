@@ -17,6 +17,7 @@ import org.franca.core.franca.FMethod
 import org.franca.core.franca.FBroadcast
 import org.franca.core.franca.FAttribute
 import org.genivi.commonapi.someip.DeploymentV2.InterfacePropertyAccessor
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 
 @Singleton
 class ARADeploymentGenerator extends Franca2ARABase {

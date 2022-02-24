@@ -27,7 +27,7 @@ import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.AutosarAnnotator
 import org.genivi.faracon.franca2ara.AutosarSpecialDataGroupCreator
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*

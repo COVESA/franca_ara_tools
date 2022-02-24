@@ -1,6 +1,6 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.config
 
-import org.genivi.faracon.franca2ara.IFranca2ARAConfig
+import org.genivi.faracon.franca2ara.config.IFranca2ARAConfig
 
 import javax.inject.Singleton
 

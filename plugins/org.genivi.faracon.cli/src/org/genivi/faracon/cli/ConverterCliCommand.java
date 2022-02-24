@@ -12,11 +12,11 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.xtext.xbase.lib.Extension;
 import org.genivi.faracon.InputFile;
 import org.genivi.faracon.console.CommandlineTool;
-import org.genivi.faracon.franca2ara.F2AConfig;
-import org.genivi.faracon.franca2ara.Franca2ARAConfigDefault;
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider;
-import org.genivi.faracon.franca2ara.Franca2ARAUserConfig;
-import org.genivi.faracon.franca2ara.IFranca2ARAConfig;
+import org.genivi.faracon.franca2ara.config.F2AConfig;
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigDefault;
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider;
+import org.genivi.faracon.franca2ara.config.Franca2ARAUserConfig;
+import org.genivi.faracon.franca2ara.config.IFranca2ARAConfig;
 import org.genivi.faracon.preferences.Preferences;
 import org.genivi.faracon.preferences.PreferencesConstants;
 

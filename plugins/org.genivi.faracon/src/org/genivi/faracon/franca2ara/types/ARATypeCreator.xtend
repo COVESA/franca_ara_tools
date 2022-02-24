@@ -7,7 +7,7 @@ import org.franca.core.franca.FTypeRef
 import org.franca.core.franca.FTypedElement
 import org.genivi.faracon.Franca2ARABase
 import org.franca.core.franca.FType
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import org.franca.core.framework.FrancaHelpers

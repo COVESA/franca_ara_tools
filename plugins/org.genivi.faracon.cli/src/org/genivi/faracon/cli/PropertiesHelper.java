@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import org.genivi.faracon.franca2ara.F2AConfig;
+import org.genivi.faracon.franca2ara.config.F2AConfig;
 
 public class PropertiesHelper {
 	private PropertiesHelper() { }

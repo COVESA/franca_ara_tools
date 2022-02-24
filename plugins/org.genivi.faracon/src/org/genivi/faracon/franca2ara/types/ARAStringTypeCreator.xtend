@@ -3,7 +3,7 @@ package org.genivi.faracon.franca2ara.types
 import javax.inject.Singleton
 import javax.inject.Inject
 import org.genivi.faracon.Franca2ARABase
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.ArraySizeHandlingEnum

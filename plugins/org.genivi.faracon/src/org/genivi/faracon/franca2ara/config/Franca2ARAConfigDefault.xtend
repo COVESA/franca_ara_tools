@@ -1,4 +1,4 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.config
 
 class Franca2ARAConfigDefault implements IFranca2ARAConfig {
 	

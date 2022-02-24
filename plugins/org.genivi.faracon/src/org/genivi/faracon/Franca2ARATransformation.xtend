@@ -31,7 +31,7 @@ import org.genivi.faracon.franca2ara.types.ARATypeCreator
 import org.genivi.faracon.franca2ara.types.ApplDataTypeManager
 import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator
 import org.genivi.faracon.franca2ara.types.ARAImplDataTypeCreator
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 import org.genivi.faracon.franca2ara.ARADeploymentGenerator
 
 import static org.franca.core.framework.FrancaHelpers.*

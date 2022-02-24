@@ -1,18 +1,18 @@
 package org.genivi.faracon.tests.aspects_on_franca_deployment.f2a
 
 import javax.inject.Inject
-import org.eclipse.xtext.testing.InjectWith
-import org.franca.core.dsl.tests.util.XtextRunner2_Franca
-import org.genivi.faracon.cli.PropertiesHelper
-import org.genivi.faracon.franca2ara.Franca2ARAConfigProvider
-import org.genivi.faracon.franca2ara.Franca2ARAUserConfig
-import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
-import org.genivi.faracon.tests.util.Franca2ARATestBase
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.genivi.faracon.franca2ara.Franca2ARAConfigDefault
+import org.eclipse.xtext.testing.InjectWith
+import org.franca.core.dsl.tests.util.XtextRunner2_Franca
+import org.genivi.faracon.cli.PropertiesHelper
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
+import org.genivi.faracon.franca2ara.config.Franca2ARAUserConfig
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigDefault
+import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider
+import org.genivi.faracon.tests.util.Franca2ARATestBase
 
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
