@@ -34,6 +34,7 @@ import static extension org.genivi.faracon.util.FrancaUtil.*
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import autosar40.commonstructure.datadefproperties.SwDataDefProps
+import autosar40.swcomponent.datatype.datatypes.ArraySizeHandlingEnum
 
 @Singleton
 class ARAImplDataTypeCreator extends Franca2ARABase {
@@ -310,22 +311,51 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FArrayType fArrayType) {
 		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
 		val int arraySize = fArrayType.getArraySize
-		it.shortName = getIDTPrefix + fArrayType.name
-		if (isFixedSizedArray || alwaysGenIDTArray) {
-			it.category = CAT_ARRAY
-		} else {
-			it.category = CAT_VECTOR
-		}
-		it.subElements += createTypeElemForArray(fArrayType) => [
-			if (isFixedSizedArray) {
-				it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
-				it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
-					it.mixedText = arraySize.toString
+		val lengthWidthType = fArrayType.getArrayLengthWidth.convertLengthWidth
+		val n = getIDTPrefix + fArrayType.name
+		shortName = n
+		if (!isFixedSizedArray && useSizeAndPayloadStructs) {
+			category = CAT_STRUCTURE
+			//dynamicArraySizeProfile = VSA_LINEAR
+			subElements += fac.createImplementationDataTypeElement => [
+				shortName = n + "_Size"
+				initUUID(shortName)
+				category = CAT_VALUE
+				swDataDefProps = fac.createSwDataDefProps => [
+					swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
+						baseType = getBaseTypeForReference(
+							lengthWidthType!==null ? lengthWidthType : FBasicTypeId.UINT16
+						)
+					]
 				]
+			]
+			subElements += fac.createImplementationDataTypeElement => [
+				shortName = n + "_Payload"
+				initUUID(shortName)
+				category = CAT_ARRAY
+				subElements += createTypeElemForArray(fArrayType) => [
+					arraySizeHandling = ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
+					arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+				]
+			]
+		} else {
+			if (isFixedSizedArray || alwaysGenIDTArray) {
+				category = CAT_ARRAY
 			} else {
-				it.arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+				category = CAT_VECTOR
 			}
-		]
+			it.subElements += createTypeElemForArray(fArrayType) => [
+				if (isFixedSizedArray) {
+					arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
+					arraySize = fac.createPositiveIntegerValueVariationPoint => [
+						mixedText = arraySize.toString
+					]
+				} else {
+					//arraySizeHandling = ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
+					arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+				}
+			]
+		}
 		it.postprocess(fArrayType, true)
 	// TODO: ImplementationDataTypeExtension seems to no more exist in 18.10, what can we do about it?
 //		it.createImplementationDataTypeExtension

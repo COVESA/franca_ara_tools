@@ -217,6 +217,18 @@ class DeploymentDataHelper {
 		)
 	}
 
+	def FBasicTypeId convertLengthWidth(Integer lw) {
+		if (lw!==null) {
+			return switch (lw) {
+				case 1: FBasicTypeId.UINT8
+				case 2: FBasicTypeId.UINT16
+				case 4: FBasicTypeId.UINT32
+				case 8: FBasicTypeId.UINT64
+				default: null
+			}
+		}
+		null
+	}
 
 	/**
 	 * Helper which allows to return a default, and could also do a type cast.
