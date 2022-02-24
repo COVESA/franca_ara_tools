@@ -83,9 +83,6 @@ class Franca2ARAConfigProvider implements IFranca2ARAConfig {
 	override boolean createSeparateDeploymentFile() {
 		config.createSeparateDeploymentFile
 	}
-	override String getSignalPrefix() {
-		config.getSignalPrefix
-	}
 
 }
 

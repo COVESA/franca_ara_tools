@@ -108,9 +108,4 @@ class Franca2ARAUserConfig implements IFranca2ARAConfig {
 		createSeparateDeploymentFile !== null ? createSeparateDeploymentFile : f2aDefaultConfig.
 			createSeparateDeploymentFile
 	}
-
-	override String getSignalPrefix() {
-		val signalPrefix = f2aConfig.getSignalPrefix
-		!signalPrefix.nullOrEmpty ? signalPrefix : f2aDefaultConfig.getSignalPrefix
-	}
 }

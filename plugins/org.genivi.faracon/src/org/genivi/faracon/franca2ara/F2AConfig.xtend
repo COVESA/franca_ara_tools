@@ -9,7 +9,7 @@ class F2AConfig {
 		String getCompuMethodPrefix, Boolean generateStringAsArray,
 		Boolean avoidTypeRefs, Boolean skipCompoundTypeRefs,
 		Boolean generateDeployment, Boolean storeDeploymentLocally,
-		Boolean createSeparateDeploymentFile, String getSignalPrefix
+		Boolean createSeparateDeploymentFile
 	) {
 		super()
 		this.generateAdminDataLanguage = generateAdminDataLanguage
@@ -30,7 +30,6 @@ class F2AConfig {
 		this.generateDeployment = generateDeployment
 		this.storeDeploymentLocally = storeDeploymentLocally
 		this.createSeparateDeploymentFile = createSeparateDeploymentFile
-		this.getSignalPrefix = getSignalPrefix
 	}
 
 	// general
@@ -62,7 +61,6 @@ class F2AConfig {
 	Boolean generateDeployment
 	Boolean storeDeploymentLocally
 	Boolean createSeparateDeploymentFile
-	String getSignalPrefix
 
 	def Boolean isGenerateAdminDataLanguage() {
 		return generateAdminDataLanguage
@@ -134,9 +132,5 @@ class F2AConfig {
 
 	def Boolean isCreateSeparateDeploymentFile() {
 		return createSeparateDeploymentFile
-	}
-
-	def String getGetSignalPrefix() {
-		return getSignalPrefix
 	}
 }

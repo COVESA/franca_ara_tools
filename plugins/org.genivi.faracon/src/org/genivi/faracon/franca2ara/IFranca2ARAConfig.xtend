@@ -30,5 +30,4 @@ interface IFranca2ARAConfig {
 	def boolean generateDeployment()
 	def boolean storeDeploymentLocally()
 	def boolean createSeparateDeploymentFile()
-	def String getSignalPrefix()
 }

@@ -37,8 +37,8 @@ public class PropertiesHelper {
 					getBooleanValue(prop.getProperty("SkipCompoundTypeReferences")),
 					getBooleanValue(prop.getProperty("IsDeploymentGenerationNeeded")),
 					getBooleanValue(prop.getProperty("IsStoringDeploymentLocallyNeeded")),
-					getBooleanValue(prop.getProperty("IsSeparateDeploymentFileCreationNeeded")),
-					prop.getProperty("SignalPrefix"));
+					getBooleanValue(prop.getProperty("IsSeparateDeploymentFileCreationNeeded"))
+				);
 		} catch (IOException ex) {
 			throw new IOException(ex);
 		}
