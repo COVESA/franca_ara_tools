@@ -1,10 +1,13 @@
 package org.genivi.faracon.preferences;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.franca.core.franca.FModel;
 import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator;
+
+import com.google.common.collect.Lists;
 
 public class Preferences {
 
@@ -20,7 +23,7 @@ public class Preferences {
 
 	private static Preferences instance = null;
 	private Map<String, String> preferences = null;
-
+	
 	public Map<String, String> getPreferences() {
 		return preferences;
 	}
@@ -76,17 +79,33 @@ public class Preferences {
 	}
 
 	public void setPreference(String name, String value) {
-		if(preferences != null) {
+		if (preferences != null) {
 			preferences.put(name, value);
+			updateAfterPrefChange(Lists.newArrayList(name));
+		}
+	}
 
-			// Ensure that other primitive types are loaded when requested by changed preferences.
-			if (araPrimitiveTypesCreator != null) {
-				if (name == PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH || name == PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED) {
-					araPrimitiveTypesCreator.explicitlyLoadPrimitiveTypes();
-				}
+	public void setPreferences(Map<String, String> values) {
+		if (preferences != null) {
+			for(String name : values.keySet()) {
+				preferences.put(name, values.get(name));
+			}
+			updateAfterPrefChange(values.keySet());
+		}
+	}
+	
+	private void updateAfterPrefChange(Collection<String> touchedNames) {
+		// Ensure that other primitive types are loaded when requested by changed preferences.
+		if (araPrimitiveTypesCreator != null) {
+			if (
+				touchedNames.contains(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH) ||
+				touchedNames.contains(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED)
+			) {
+				araPrimitiveTypesCreator.explicitlyLoadPrimitiveTypes();
 			}
 		}
 	}
+
 
 	public String getModelPath(FModel model) {
 		String ret = model.eResource().getURI().toString();
