@@ -157,7 +157,13 @@ class ARADeploymentGenerator extends Franca2ARABase {
 	) {
 		if (someIpEventGroups!==null) {
 			for (id : someIpEventGroups) {
-				sid.getEventGroup(id).events.add(evDepl)
+				val eg = sid.getEventGroup(id) 
+				eg.events.add(evDepl)
+				if (eg.events.size==1) {
+					eg.shortName = "EG_" + evDepl.shortName
+				} else if (eg.events.size==2) {
+					eg.shortName = "EventGroup_" + id
+				}
 			}
 		}
 	}

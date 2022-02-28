@@ -96,31 +96,31 @@
               <SERVICE-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageAttribute/v_1_2/AttributeInterface</SERVICE-INTERFACE-REF>
               <EVENT-GROUPS>
                 <SOMEIP-EVENT-GROUP UUID="0">
-                  <SHORT-NAME>EventGroup_45100</SHORT-NAME>
+                  <SHORT-NAME>EG_boolAttrNotifier</SHORT-NAME>
+                  <EVENT-GROUP-ID>45106</EVENT-GROUP-ID>
+                  <EVENT-REFS>
+                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/boolAttr_Someip/boolAttrNotifier</EVENT-REF>
+                  </EVENT-REFS>
+                </SOMEIP-EVENT-GROUP>
+                <SOMEIP-EVENT-GROUP UUID="0">
+                  <SHORT-NAME>EG_enumAttrNotifier</SHORT-NAME>
                   <EVENT-GROUP-ID>45100</EVENT-GROUP-ID>
                   <EVENT-REFS>
                     <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/enumAttr_Someip/enumAttrNotifier</EVENT-REF>
                   </EVENT-REFS>
                 </SOMEIP-EVENT-GROUP>
                 <SOMEIP-EVENT-GROUP UUID="0">
-                  <SHORT-NAME>EventGroup_45102</SHORT-NAME>
-                  <EVENT-GROUP-ID>45102</EVENT-GROUP-ID>
-                  <EVENT-REFS>
-                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/int8Attr_Someip/int8AttrNotifier</EVENT-REF>
-                  </EVENT-REFS>
-                </SOMEIP-EVENT-GROUP>
-                <SOMEIP-EVENT-GROUP UUID="0">
-                  <SHORT-NAME>EventGroup_45104</SHORT-NAME>
+                  <SHORT-NAME>EG_int16AttrNotifier</SHORT-NAME>
                   <EVENT-GROUP-ID>45104</EVENT-GROUP-ID>
                   <EVENT-REFS>
                     <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/int16Attr_Someip/int16AttrNotifier</EVENT-REF>
                   </EVENT-REFS>
                 </SOMEIP-EVENT-GROUP>
                 <SOMEIP-EVENT-GROUP UUID="0">
-                  <SHORT-NAME>EventGroup_45106</SHORT-NAME>
-                  <EVENT-GROUP-ID>45106</EVENT-GROUP-ID>
+                  <SHORT-NAME>EG_int8AttrNotifier</SHORT-NAME>
+                  <EVENT-GROUP-ID>45102</EVENT-GROUP-ID>
                   <EVENT-REFS>
-                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/boolAttr_Someip/boolAttrNotifier</EVENT-REF>
+                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/int8Attr_Someip/int8AttrNotifier</EVENT-REF>
                   </EVENT-REFS>
                 </SOMEIP-EVENT-GROUP>
               </EVENT-GROUPS>

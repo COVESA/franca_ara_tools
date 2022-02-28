@@ -25,14 +25,14 @@
               <SERVICE-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageEventGroup/EventGroup</SERVICE-INTERFACE-REF>
               <EVENT-GROUPS>
                 <SOMEIP-EVENT-GROUP UUID="0">
-                  <SHORT-NAME>EventGroup_30000</SHORT-NAME>
+                  <SHORT-NAME>EG_onChangeEventStatus_Event</SHORT-NAME>
                   <EVENT-GROUP-ID>30000</EVENT-GROUP-ID>
                   <EVENT-REFS>
                     <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/EventGroup_Someip/onChangeEventStatus_Event</EVENT-REF>
                   </EVENT-REFS>
                 </SOMEIP-EVENT-GROUP>
                 <SOMEIP-EVENT-GROUP UUID="0">
-                  <SHORT-NAME>EventGroup_30001</SHORT-NAME>
+                  <SHORT-NAME>EG_onChangeEventStatus_Event</SHORT-NAME>
                   <EVENT-GROUP-ID>30001</EVENT-GROUP-ID>
                   <EVENT-REFS>
                     <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/EventGroup_Someip/onChangeEventStatus_Event</EVENT-REF>
