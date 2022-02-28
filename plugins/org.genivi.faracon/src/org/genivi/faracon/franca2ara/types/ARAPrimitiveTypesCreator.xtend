@@ -42,11 +42,21 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 
 		val ARAResourceSet araResourceSet = new ARAResourceSet()
 		val AUTOSAR primitiveTypesModel = araResourceSet.araStandardTypeDefinitionsModel.standardTypeDefinitionsModel
-		primitiveTypesModel.eAllContents.filter(SwBaseType).forEach[
+		val baseTypes = primitiveTypesModel.eAllContents.filter(SwBaseType).toSet
+		baseTypes.forEach[
 			nameToBaseType.put(it.nameForIndex, it)
 		]
 		primitiveTypesModel.eAllContents.filter(ImplementationDataType).forEach[
 			nameToImplType.put(it.nameForIndex, it)
+			
+			val bt = it.swDataDefProps?.swDataDefPropsVariants
+			if (bt!==null && !bt.empty && bt.head.baseType!==null
+			) {
+				if (!baseTypes.contains(bt.head.baseType)) {
+					logger.logError("Missing basetype for implementation primitive type '" + it.shortName + "'")
+					
+				}
+			}
 		]
 
 		val AUTOSAR primitiveTypesVectorsModel = araResourceSet.araStandardTypeDefinitionsModel.standardVectorTypeDefinitionsModel
