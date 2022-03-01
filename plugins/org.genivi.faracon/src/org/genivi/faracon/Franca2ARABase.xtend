@@ -1,11 +1,9 @@
 package org.genivi.faracon
 
-import java.util.UUID
 import autosar40.util.Autosar40Factory
 import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import org.genivi.faracon.logging.BaseWithLogger
 import org.genivi.faracon.util.NamedUUIDGenerator
-import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
 import org.franca.core.franca.FAnnotationType
 import org.franca.core.franca.FModelElement
 import java.util.Map
@@ -20,17 +18,15 @@ class Franca2ARABase extends BaseWithLogger {
 	protected static final String CAT_UNION = "UNION"
 	protected static final String CAT_STRING = "STRING"
 	
-	 
 	def protected fac() {
 		Autosar40Factory.eINSTANCE
 	}
 
-
 	// TODO: get this from IFranca2AraConfig
-	private static final Boolean ensureStableUUIDs = true
-	private static final Boolean extractUUIDFromFranca = false
+	static final Boolean ensureStableUUIDs = true
+	static final Boolean extractUUIDFromFranca = false
 	
-	private static String seedPerFile = ""
+	static String seedPerFile = ""
 	
 	def setSeedForUUID(String seed) {
 		seedPerFile = seed

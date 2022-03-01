@@ -11,7 +11,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
@@ -29,11 +28,8 @@ import org.franca.core.franca.FModel;
 import org.franca.core.franca.FType;
 import org.franca.core.utils.IntegerTypeConverter;
 import org.genivi.faracon.logging.BaseWithLogger;
-
 import com.google.inject.Inject;
-
 import autosar40.autosartoplevelstructure.AUTOSAR;
-import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage;
 import autosar40.util.Autosar40ReleaseDescriptor;
 
 public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
@@ -43,8 +39,6 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 
 	@Inject
 	Franca2ARATransformation franca2ARATransformation;
-
-	private String fileExtension = "arxml";
 
 	private Set<TransformationIssue> lastTransformationIssues = null;
 	
@@ -60,7 +54,7 @@ public class ARAConnector extends BaseWithLogger implements IFrancaConnector {
 		if (model==null) {
 			getLogger().logError("Could not load arxml model from file " + filename);
 		} else {
-			List<ARPackage> packages = model.getArPackages();
+//			List<ARPackage> packages = model.getArPackages();
 //			if (packages.isEmpty())
 //				getLogger().logInfo("Loaded arxml model (no packages)");
 //			else

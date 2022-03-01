@@ -10,6 +10,7 @@ import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.DataTypeMappingSet
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.swcomponent.datatype.datatypes.ApplicationPrimitiveDataType
+import autosar40.swcomponent.datatype.datatypes.ApplicationRecordDataType
 import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
@@ -20,7 +21,6 @@ import org.franca.core.franca.FTypeDef
 import org.franca.core.franca.FTypedElement
 import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FTypeRef
-import org.franca.core.franca.FField
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FArrayType
@@ -30,7 +30,6 @@ import org.franca.core.FrancaModelExtensions
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import static extension org.franca.core.framework.FrancaHelpers.*
-import autosar40.swcomponent.datatype.datatypes.ApplicationRecordDataType
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
@@ -275,9 +274,9 @@ class ApplDataTypeManager extends Franca2ARABase {
 
 
 	// Create an artificial array or vector type if necessary.
-	def private createAnonymousArrayTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement, String namespaceName) {
-		// TODO: ApplDataType handling
-	}
+//	def private createAnonymousArrayTypeReference(FTypeRef fTypeRef, FTypedElement fTypedElement, String namespaceName) {
+//		// TODO: ApplDataType handling
+//	}
 
 
 
