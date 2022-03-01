@@ -9,10 +9,12 @@ import autosar40.adaptiveplatform.applicationdesign.portinterface.ServiceInterfa
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.DataTypeMappingSet
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
+import autosar40.swcomponent.datatype.datatypes.ApplicationPrimitiveDataType
 import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 import org.genivi.faracon.franca2ara.AutosarAnnotator
+import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeDef
@@ -23,12 +25,12 @@ import org.franca.core.franca.FField
 import org.franca.core.franca.FEnumerationType
 import org.franca.core.franca.FMapType
 import org.franca.core.franca.FArrayType
-import org.franca.core.FrancaModelExtensions
 import org.franca.core.franca.FUnionType
+import org.franca.core.FrancaModelExtensions
 
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
-import autosar40.swcomponent.datatype.datatypes.ApplicationPrimitiveDataType
+import static extension org.franca.core.framework.FrancaHelpers.*
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
@@ -62,15 +64,17 @@ class ApplDataTypeManager extends Franca2ARABase {
 		tms = null
 	}
 	
-	def getBaseApplDataType(ImplementationDataType idt, boolean isString, TypeContext tc, ARPackage where) {
+	def getBaseApplDataType(ImplementationDataType idt, FTypeRef fType, TypeContext tc, ARPackage where) {
 		if (!impl2appl.containsKey(idt)) {
 			impl2appl.put(idt, fac.createApplicationPrimitiveDataType => [
 				val n = idt.shortName.stripIDTPrefix
 				shortName = ADTPrefix + n
 				initUUID("ADT_" + n)
-				if (isString) {
+				if (fType.isString && generateStringAsArray) {
 					category = CAT_STRING
 					initADTString(idt, tc)
+				} else if (fType.isByteBuffer) {
+					category = CAT_ARRAY
 				} else {
 					category = CAT_VALUE
 				}
