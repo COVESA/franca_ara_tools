@@ -59,7 +59,7 @@ class Franca2ARABase extends BaseWithLogger {
 		val seed = seedPerFile + "__" + detailSeed
 		val uuid = NamedUUIDGenerator.makeUUID(seed).toString
 		if (uuids.containsKey(uuid)) {
-			println("WARNING: Generated duplicate UUID '" + uuid + "' for '" + uuids.get(uuid) + "' and '" + id.shortName + "'!")
+			logger.logWarning("Generated duplicate UUID '" + uuid + "' for '" + uuids.get(uuid) + "' and '" + id.shortName + "'!")
 		} else {
 			uuids.put(uuid, id.shortName)
 		}
