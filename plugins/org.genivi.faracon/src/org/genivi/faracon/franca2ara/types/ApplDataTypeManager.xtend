@@ -164,7 +164,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		initUUID("ADT_" + compoundName)
 		category = CAT_STRUCTURE
 		elements.addAll(fAllElements.map[elem |
-			val newElem = elem.createApplicationDataTypeElement
+			val newElem = elem.createApplicationDataTypeElement(compoundName)
 			if (elem.eContainer instanceof FCompoundType && isInherited!==null) {
 				val cont = elem.eContainer as FCompoundType
 				if (isInherited.apply(cont)) {
@@ -175,9 +175,12 @@ class ApplDataTypeManager extends Franca2ARABase {
 		])
 	}
 
-	def private create fac.createApplicationRecordElement createApplicationDataTypeElement(FTypedElement fTypedElement) {
+	def private create fac.createApplicationRecordElement createApplicationDataTypeElement(
+		FTypedElement fTypedElement,
+		String ownerName
+	) {
 		shortName = fTypedElement.name
-		it.initUUID("ADT_" + fTypedElement.name)
+		it.initUUID("ADT_" + fTypedElement.name + "_" + ownerName)
 		category = "VALUE"
 		val t = createDataTypeReference(fTypedElement.type, fTypedElement)
 		if (t instanceof ApplicationDataType) {
