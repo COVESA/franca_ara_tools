@@ -115,7 +115,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		}
 	}
 
-	def getApplDataType(FType type, ImplementationDataType idt, ARPackage where) {
+	def getApplDataType(FType type, ImplementationDataType idt) {
 		val adt = type.createApplDataType
 		adt.createTypeMapping(idt, null)
 		adt
@@ -142,7 +142,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 		getLogger.logWarning('''Cannot create ApplicationDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null
 	}
-
+	
 	def private dispatch create fac.createApplicationRecordDataType createApplDataType(FStructType fStructType) {
 		// ImplDataType generation will check if Franca struct is polymorphic and issue a warning
 		shortName = ADTPrefix + fStructType.name

@@ -40,7 +40,7 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 			return null
 			
 		if (generateADTs) {
-			val adt = getApplDataType(type, idt, null)
+			val adt = getApplDataType(type, idt)
 			if (adt===null) {
 				logger.logWarning("Couldn't create ApplicationDataType for " + type + ". " +
 					"Using ImplementationDataType instead.")
@@ -62,7 +62,7 @@ class ARATypeCreator extends Franca2ARABase implements IARATypeCreator {
 			if (fTypeRef.refsPrimitiveType) {
 				idt.getBaseApplDataType(fTypeRef, tc, null)
 			} else {
-				val adt = getApplDataType(fTypeRef.derived, idt, null)
+				val adt = getApplDataType(fTypeRef.derived, idt)
 				if (adt===null) {
 					logger.logWarning("Couldn't create ApplicationDataType for " + fTypeRef.derived + ". " +
 						"Using ImplementationDataType instead.")
