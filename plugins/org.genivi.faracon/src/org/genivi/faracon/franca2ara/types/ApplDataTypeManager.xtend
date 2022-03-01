@@ -14,7 +14,6 @@ import org.genivi.faracon.Franca2ARABase
 import org.genivi.faracon.franca2ara.ARAModelSkeletonCreator
 import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 import org.genivi.faracon.franca2ara.AutosarAnnotator
-import org.franca.core.franca.FBasicTypeId
 import org.franca.core.franca.FStructType
 import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeDef
@@ -31,6 +30,7 @@ import org.franca.core.FrancaModelExtensions
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import static extension org.franca.core.framework.FrancaHelpers.*
+import autosar40.swcomponent.datatype.datatypes.ApplicationRecordDataType
 
 @Singleton
 class ApplDataTypeManager extends Franca2ARABase {
@@ -142,42 +142,41 @@ class ApplDataTypeManager extends Franca2ARABase {
 		getLogger.logWarning('''Cannot create ApplicationDatatype because the Franca type "«type.eClass.name»" is not yet supported''')
 		return null
 	}
-	
+
 	def private dispatch create fac.createApplicationRecordDataType createApplDataType(FStructType fStructType) {
 		// ImplDataType generation will check if Franca struct is polymorphic and issue a warning
-		shortName = ADTPrefix + fStructType.name
-		initUUID("ADT_" + fStructType.name)
-		category = CAT_STRUCTURE
-		val fAllElements = FrancaModelExtensions.getAllElements(fStructType).filter(FField)
-		val aAllElements = fAllElements.map[
-			val newElement = it.createApplicationDataTypeElement(fStructType)
-			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
-			if (originalCompoundType !== fStructType) {
-				newElement.addAnnotation(ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, originalCompoundType.ARFullyQualifiedName)
-			}
-			newElement
-		]
-		elements.addAll(aAllElements)
+		val fAllElements = FrancaModelExtensions.getAllElements(fStructType).filter(FTypedElement)
+		initApplDataTypeForCompound(fStructType.name, fAllElements, [it !== fStructType])
 	}
-
+	
 	def private dispatch create fac.createApplicationRecordDataType createApplDataType(FUnionType fUnionType) {
-		shortName = ADTPrefix + fUnionType.name
-		initUUID("ADT_" + fUnionType.name)
+		val fAllElements = FrancaModelExtensions.getAllElements(fUnionType).filter(FTypedElement)
+		initApplDataTypeForCompound(fUnionType.name, fAllElements, [it !== fUnionType])
 		category = CAT_UNION
-		val fAllElements = FrancaModelExtensions.getAllElements(fUnionType).filter(FField)
-		val aAllElements = fAllElements.map[
-			val newElement = it.createApplicationDataTypeElement(fUnionType)
-			val FCompoundType originalCompoundType = it.eContainer as FCompoundType
-			if (originalCompoundType !== fUnionType) {
-				newElement.addAnnotation(ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, originalCompoundType.ARFullyQualifiedName)
-			}
-			newElement
-		]
-		elements.addAll(aAllElements)
 	}
 
-	def private create fac.createApplicationRecordElement createApplicationDataTypeElement(FTypedElement fTypedElement,
-		FCompoundType fParentCompoundType) {
+	def void initApplDataTypeForCompound(
+		ApplicationRecordDataType it,
+		String compoundName,
+		Iterable<FTypedElement> fAllElements,
+		(FCompoundType) => boolean isInherited
+	) {
+		shortName = ADTPrefix + compoundName
+		initUUID("ADT_" + compoundName)
+		category = CAT_STRUCTURE
+		elements.addAll(fAllElements.map[elem |
+			val newElem = elem.createApplicationDataTypeElement
+			if (elem.eContainer instanceof FCompoundType && isInherited!==null) {
+				val cont = elem.eContainer as FCompoundType
+				if (isInherited.apply(cont)) {
+					newElem.addAnnotation(ANNOTATION_LABEL_ORIGINAL_STRUCT_TYPE, cont.ARFullyQualifiedName)				
+				}
+			}
+			newElem
+		])
+	}
+
+	def private create fac.createApplicationRecordElement createApplicationDataTypeElement(FTypedElement fTypedElement) {
 		shortName = fTypedElement.name
 		it.initUUID("ADT_" + fTypedElement.name)
 		category = "VALUE"
