@@ -40,6 +40,7 @@ import static extension org.franca.core.FrancaModelExtensions.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import org.franca.core.franca.FModelElement
 import org.genivi.faracon.franca2ara.ARATransformationPropsGenerator
+import org.franca.core.franca.FTypedElement
 
 @Singleton
 class Franca2ARATransformation extends Franca2ARABase {
@@ -339,7 +340,15 @@ class Franca2ARATransformation extends Franca2ARABase {
 					)
 				]
 				interfaceArPackage.elements += artificialBroadcastStruct
-				artificialBroadcastStruct
+
+				if (generateADTs) {
+					fac.createApplicationRecordDataType => [
+						initApplDataTypeForCompound(src.name + "Data", src.outArgs.filter(FTypedElement), null)
+						createTypeMapping(artificialBroadcastStruct, null)
+					]
+				} else {
+					artificialBroadcastStruct
+				}				
 			}
 
 		// If the broadcast is not a direct member of the current interface definition but is inherited from

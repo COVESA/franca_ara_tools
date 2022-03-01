@@ -281,7 +281,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 
 
 
-	def private createTypeMapping(ApplicationDataType adt, ImplementationDataType idt, ARPackage adtPackage) {
+	def createTypeMapping(ApplicationDataType adt, ImplementationDataType idt, ARPackage adtPackage) {
 		adt.ARPackage = adtPackage!==null ? adtPackage : getDataTypesPackage
 		createApplTypeMapping(adt, idt) 		
 	}
