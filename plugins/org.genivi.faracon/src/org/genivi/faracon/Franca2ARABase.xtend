@@ -21,6 +21,19 @@ class Franca2ARABase extends BaseWithLogger {
 	def protected fac() {
 		Autosar40Factory.eINSTANCE
 	}
+	
+	def asPositiveInteger(int n) {
+		fac.createPositiveIntegerValueVariationPoint => [
+			it.mixedText = n.toString
+		]
+	}
+
+	def asInteger(int n) {
+		fac.createIntegerValueVariationPoint => [
+			it.mixedText = n.toString
+		]
+	}
+	
 
 	// TODO: get this from IFranca2AraConfig
 	static final Boolean ensureStableUUIDs = true

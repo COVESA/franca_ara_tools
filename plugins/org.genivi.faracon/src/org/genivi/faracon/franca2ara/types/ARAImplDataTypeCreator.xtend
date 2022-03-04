@@ -310,7 +310,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	// Generate AUTOSAR representation of the given array data type.
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FArrayType fArrayType) {
 		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
-		val int arraySize = fArrayType.getArraySize
+		val int sizeOfArray = fArrayType.getArraySize
 		val lengthWidthType = fArrayType.getArrayLengthWidth.convertLengthWidth
 		val n = getIDTPrefix + fArrayType.name
 		shortName = n
@@ -347,9 +347,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			it.subElements += createTypeElemForArray(fArrayType) => [
 				if (isFixedSizedArray) {
 					arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
-					arraySize = fac.createPositiveIntegerValueVariationPoint => [
-						mixedText = arraySize.toString
-					]
+					arraySize = sizeOfArray.asPositiveInteger
 				} else {
 					//arraySizeHandling = ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
 					arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
@@ -417,18 +415,16 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def private create fac.createImplementationDataType createArtificialArrayType(
 		ImplementationDataType aElementType,
-		int arraySize,
+		int sizeOfArray,
 		ARPackage aPackage
 	) {
-		shortName = getIDTPrefix + aElementType.shortName + "Array" + arraySize
+		shortName = getIDTPrefix + aElementType.shortName + "Array" + sizeOfArray
 		category = CAT_ARRAY
 		subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
-			it.arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
-			it.arraySize = fac.createPositiveIntegerValueVariationPoint => [
-				it.mixedText = arraySize.toString
-			]
-			it.category = "TYPE_REFERENCE"
+			category = CAT_TYPEREF
+			arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
+			arraySize = sizeOfArray.asPositiveInteger
 			swDataDefProps = fac.createSwDataDefProps => [
 				swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 					implementationDataType = aElementType

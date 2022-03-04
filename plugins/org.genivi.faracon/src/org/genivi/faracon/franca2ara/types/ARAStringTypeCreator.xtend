@@ -38,9 +38,7 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		subElements += createTypeElemForString(shortName) => [
 			arraySizeHandling = ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
 			arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
-			arraySize = fac.createPositiveIntegerValueVariationPoint => [
-				it.mixedText = len.toString
-			]
+			arraySize = len.asPositiveInteger
 		]
 		ARPackage = where
 	}
