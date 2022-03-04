@@ -9,12 +9,13 @@ define org.genivi.commonapi.someip.deployment for interface packageStrings.Strin
         SomeIpSetterID = 1
         SomeIpStringLength = 789
         SomeIpStringLengthWidth = 0
+        SomeIpStringEncoding = utf16be
     }
 
     attribute aVariableString {
         SomeIpGetterID = 0
         SomeIpSetterID = 1
         SomeIpStringLengthWidth = 2
+        SomeIpStringEncoding = utf8
     }
-
 }

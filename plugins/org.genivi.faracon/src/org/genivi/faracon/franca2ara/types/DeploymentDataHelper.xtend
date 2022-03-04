@@ -330,6 +330,20 @@ class DeploymentDataHelper {
 		processDeployment(elem, [ ipa | ipa.getSomeIpStringLength(elem) ])		
 	}
 
+	def getStringEncoding(FTypedElement elem) {
+		val enc = processDeployment(elem, [ ipa | ipa.getSomeIpStringEncoding(elem) ])
+		if (enc===null) {
+			return null
+		}
+		val mapped = switch (enc) {
+			case utf8: "UTF-8"
+			case utf16le: "UTF-16LE"
+			case utf16be: "UTF-16BE"
+			default: null
+		}
+		mapped
+	}
+
 
 	def private <T> T processDeployment(FModelElement elem, (IDataPropertyAccessor) => T func) {
 		processDeployment(elem, func, [null])

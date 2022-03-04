@@ -62,7 +62,8 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		setTypeRelatedProps("method", fMethod.name,
 			allArgs.map[getArrayLengthWidth].filterNull.toSet,
 			allArgs.map[getStructLengthWidth].filterNull.toSet,
-			allArgs.map[getUnionLengthWidth].filterNull.toSet
+			allArgs.map[getUnionLengthWidth].filterNull.toSet,
+			allArgs.map[getStringEncoding].filterNull.toSet
 		)
 		
 		getTrafoPropsSet(fMethod.interface).transformationProps.add(it)
@@ -83,7 +84,8 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		setTypeRelatedProps("broadcast", fBroadcast.name,
 			fBroadcast.outArgs.map[getArrayLengthWidth].filterNull.toSet,
 			fBroadcast.outArgs.map[getStructLengthWidth].filterNull.toSet,
-			fBroadcast.outArgs.map[getUnionLengthWidth].filterNull.toSet
+			fBroadcast.outArgs.map[getUnionLengthWidth].filterNull.toSet,
+			fBroadcast.outArgs.map[getStringEncoding].filterNull.toSet
 		)
 		
 		getTrafoPropsSet(fBroadcast.interface).transformationProps.add(it)
@@ -104,14 +106,15 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		setTypeRelatedProps("attribute", fAttribute.name,
 			wrap(fAttribute.getArrayLengthWidth),
 			wrap(fAttribute.getStructLengthWidth),
-			wrap(fAttribute.getUnionLengthWidth)
+			wrap(fAttribute.getUnionLengthWidth),
+			wrap(fAttribute.getStringEncoding)
 		)
 		
 		getTrafoPropsSet(fAttribute.interface).transformationProps.add(it)
 		fAttribute.createMapping(aField, it)
 	}
 	
-	def private wrap(Integer v) {
+	def private <T> wrap(T v) {
 		(v===null ? #[] : #[v]).toSet
 	}
 	
@@ -122,17 +125,19 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		String name,
 		Set<Integer> arrayLengthFieldValues,
 		Set<Integer> structLengthFieldValues,
-		Set<Integer> unionLengthFieldValues
+		Set<Integer> unionLengthFieldValues,
+		Set<String> stringEncodingValues
 	) {
-		setProp(type, name, "ArrayLengthField", arrayLengthFieldValues, [v | props.sizeOfArrayLengthField = v])
-		setProp(type, name, "StructLengthField", structLengthFieldValues, [v | props.sizeOfStructLengthField = v])
-		setProp(type, name, "UnionLengthField", unionLengthFieldValues, [v | props.sizeOfUnionLengthField = v])
+		setProp(type, name, "ArrayLengthField", arrayLengthFieldValues, [v | props.sizeOfArrayLengthField = v.longValue])
+		setProp(type, name, "StructLengthField", structLengthFieldValues, [v | props.sizeOfStructLengthField = v.longValue])
+		setProp(type, name, "UnionLengthField", unionLengthFieldValues, [v | props.sizeOfUnionLengthField = v.longValue])
+		setProp(type, name, "StringEncoding", stringEncodingValues, [v | props.stringEncoding = v])
 	}
 
 	// aux function to set a single property and do a check first
-	def private setProp(String type, String name, String field, Set<Integer> data, (long) => void setter) {
+	def private <T> setProp(String type, String name, String field, Set<T> data, (T) => void setter) {
 		if (data.size==1) {
-			setter.apply(data.head.longValue)				
+			setter.apply(data.head)				
 		} else if (data.size>1) {
 			logger.logError(
 				field + " for " + type + " '" + name + "' " +
