@@ -20,18 +20,21 @@ class ARAStringTypeCreator extends Franca2ARABase {
 	var extension Franca2ARAConfigProvider
 
 	def getImplStringType(TypeContext tc, ARPackage where) {
-		val len = tc.typedElement.getStringLength
-		if (len===null || len==0) {
-			createStringType(where)
+		val te = tc.typedElement
+		val len = te.getStringLength
+		val len1 = len!==null ? len : 0
+		val isFixedSize = te.isFixedSizedString
+		if (isFixedSize) {
+			createFixedStringType(len1, where)
 		} else {
-			createStringType(len, where)
+			createVariableStringType(te.getStringLengthWidth, len1, where)
 		}
 	}
 	
 	/**
 	 * Create fixed-size string.
 	 */
-	def private create fac.createImplementationDataType createStringType(int len, ARPackage where) {
+	def private create fac.createImplementationDataType createFixedStringType(int len, ARPackage where) {
 		shortName = IDTPrefix + "String_" + len
 		initUUID(shortName)
 		category = CAT_ARRAY
@@ -42,12 +45,12 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		]
 		ARPackage = where
 	}
-
+	
 	/**
 	 * Create variable-sized string. 
 	 */
-	def private create fac.createImplementationDataType createStringType(ARPackage where) {
-		val n = IDTPrefix + "String_varSize"
+	def private create fac.createImplementationDataType createVariableStringType(int lengthWidth, int maxlen, ARPackage where) {
+		val n = IDTPrefix + "String_varSize_base" + lengthWidth + (maxlen>0 ? "_max" + maxlen : "")
 		shortName = n
 		initUUID(shortName)
 		if (useSizeAndPayloadStructs) {
@@ -58,7 +61,7 @@ class ARAStringTypeCreator extends Franca2ARABase {
 				category = CAT_VALUE
 				swDataDefProps = fac.createSwDataDefProps => [
 					swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-						baseType = getBaseTypeForReference(FBasicTypeId.UINT16)
+						baseType = getBaseTypeForReference(lengthWidth.convertLengthWidth)
 					]
 				]
 			]
@@ -68,6 +71,9 @@ class ARAStringTypeCreator extends Franca2ARABase {
 				category = CAT_ARRAY
 				subElements += createTypeElemForString(n) => [
 					arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+					if (maxlen>0) {
+						arraySize = maxlen.asPositiveInteger						
+					}
 				]
 			]
 		} else {

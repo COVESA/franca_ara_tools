@@ -327,6 +327,11 @@ class DeploymentDataHelper {
 //	}
 
 
+	def isFixedSizedString(FTypedElement elem) {
+		val stringLengthWidth = elem.getStringLengthWidth
+		stringLengthWidth!==null && stringLengthWidth==0
+	}
+
 	def getStringLength(FTypedElement elem) {
 		processDeployment(elem, [ ipa | ipa.getSomeIpStringLength(elem) ])		
 	}

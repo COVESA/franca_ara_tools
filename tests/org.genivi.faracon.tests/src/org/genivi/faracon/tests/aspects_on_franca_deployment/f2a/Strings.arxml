@@ -48,7 +48,7 @@
                 </FIELD>
                 <FIELD UUID="0">
                   <SHORT-NAME>aVariableString</SHORT-NAME>
-                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize</TYPE-TREF>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_base2</TYPE-TREF>
                   <HAS-GETTER>true</HAS-GETTER>
                   <HAS-NOTIFIER>false</HAS-NOTIFIER>
                   <HAS-SETTER>true</HAS-SETTER>
@@ -96,7 +96,7 @@
               </SW-DATA-DEF-PROPS>
             </APPLICATION-PRIMITIVE-DATA-TYPE>
             <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
-              <SHORT-NAME>ADT_String_varSize</SHORT-NAME>
+              <SHORT-NAME>ADT_String_varSize_base2</SHORT-NAME>
               <CATEGORY>STRING</CATEGORY>
               <SW-DATA-DEF-PROPS>
                 <SW-DATA-DEF-PROPS-VARIANTS>
@@ -136,11 +136,11 @@
               </SUB-ELEMENTS>
             </IMPLEMENTATION-DATA-TYPE>
             <IMPLEMENTATION-DATA-TYPE UUID="0">
-              <SHORT-NAME>IDT_eSOME_IP_String_varSize</SHORT-NAME>
+              <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2</SHORT-NAME>
               <CATEGORY>STRUCTURE</CATEGORY>
               <SUB-ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_Size</SHORT-NAME>
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2_Size</SHORT-NAME>
                   <CATEGORY>VALUE</CATEGORY>
                   <SW-DATA-DEF-PROPS>
                     <SW-DATA-DEF-PROPS-VARIANTS>
@@ -151,7 +151,7 @@
                   </SW-DATA-DEF-PROPS>
                 </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_Payload</SHORT-NAME>
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2_Payload</SHORT-NAME>
                   <CATEGORY>ARRAY</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
@@ -185,8 +185,8 @@
               <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_789</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
             <DATA-TYPE-MAP>
-              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize</APPLICATION-DATA-TYPE-REF>
-              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize</IMPLEMENTATION-DATA-TYPE-REF>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_base2</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize_base2</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
           </DATA-TYPE-MAPS>
         </DATA-TYPE-MAPPING-SET>
