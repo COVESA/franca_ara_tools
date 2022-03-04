@@ -204,11 +204,13 @@
                 <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
                   <SHORT-NAME>StringsInterface_aFixedString_TransformationProps</SHORT-NAME>
                   <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                  <SIZE-OF-STRING-LENGTH-FIELD>0</SIZE-OF-STRING-LENGTH-FIELD>
                   <STRING-ENCODING>UTF-16BE</STRING-ENCODING>
                 </AP-SOMEIP-TRANSFORMATION-PROPS>
                 <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
                   <SHORT-NAME>StringsInterface_aVariableString_TransformationProps</SHORT-NAME>
                   <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                  <SIZE-OF-STRING-LENGTH-FIELD>2</SIZE-OF-STRING-LENGTH-FIELD>
                   <STRING-ENCODING>UTF-8</STRING-ENCODING>
                 </AP-SOMEIP-TRANSFORMATION-PROPS>
               </TRANSFORMATION-PROPSS>

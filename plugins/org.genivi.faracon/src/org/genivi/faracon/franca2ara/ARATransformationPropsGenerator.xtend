@@ -63,6 +63,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			allArgs.map[getArrayLengthWidth].filterNull.toSet,
 			allArgs.map[getStructLengthWidth].filterNull.toSet,
 			allArgs.map[getUnionLengthWidth].filterNull.toSet,
+			allArgs.map[getStringLengthWidth].filterNull.toSet,
 			allArgs.map[getStringEncoding].filterNull.toSet
 		)
 		
@@ -85,6 +86,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			fBroadcast.outArgs.map[getArrayLengthWidth].filterNull.toSet,
 			fBroadcast.outArgs.map[getStructLengthWidth].filterNull.toSet,
 			fBroadcast.outArgs.map[getUnionLengthWidth].filterNull.toSet,
+			fBroadcast.outArgs.map[getStringLengthWidth].filterNull.toSet,
 			fBroadcast.outArgs.map[getStringEncoding].filterNull.toSet
 		)
 		
@@ -107,6 +109,7 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 			wrap(fAttribute.getArrayLengthWidth),
 			wrap(fAttribute.getStructLengthWidth),
 			wrap(fAttribute.getUnionLengthWidth),
+			wrap(fAttribute.getStringLengthWidth),
 			wrap(fAttribute.getStringEncoding)
 		)
 		
@@ -126,11 +129,13 @@ class ARATransformationPropsGenerator extends Franca2ARABase {
 		Set<Integer> arrayLengthFieldValues,
 		Set<Integer> structLengthFieldValues,
 		Set<Integer> unionLengthFieldValues,
+		Set<Integer> stringLengthFieldValues,
 		Set<String> stringEncodingValues
 	) {
 		setProp(type, name, "ArrayLengthField", arrayLengthFieldValues, [v | props.sizeOfArrayLengthField = v.longValue])
 		setProp(type, name, "StructLengthField", structLengthFieldValues, [v | props.sizeOfStructLengthField = v.longValue])
 		setProp(type, name, "UnionLengthField", unionLengthFieldValues, [v | props.sizeOfUnionLengthField = v.longValue])
+		setProp(type, name, "StringLengthField", stringLengthFieldValues, [v | props.sizeOfStringLengthField = v.longValue])
 		setProp(type, name, "StringEncoding", stringEncodingValues, [v | props.stringEncoding = v])
 	}
 

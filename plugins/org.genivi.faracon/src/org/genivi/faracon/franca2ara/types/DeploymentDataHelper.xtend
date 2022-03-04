@@ -230,6 +230,7 @@ class DeploymentDataHelper {
 		null
 	}
 
+
 	/**
 	 * Helper which allows to return a default, and could also do a type cast.
 	 */
@@ -328,6 +329,10 @@ class DeploymentDataHelper {
 
 	def getStringLength(FTypedElement elem) {
 		processDeployment(elem, [ ipa | ipa.getSomeIpStringLength(elem) ])		
+	}
+
+	def getStringLengthWidth(FTypedElement elem) {
+		processDeployment(elem, [ ipa | ipa.getSomeIpStringLengthWidth(elem) ])		
 	}
 
 	def getStringEncoding(FTypedElement elem) {
