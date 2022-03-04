@@ -1,0 +1,21 @@
+package packageStruct
+
+interface StructInterface {
+    version {major 1 minor 2}
+
+    struct book {
+        String title
+        String author
+        String series
+        UInt32 bookNumber
+        UInt32 bookCopiesCount
+    }
+
+    struct headPhone {
+        String address
+        String name
+        Boolean isPaired
+        Boolean isConnected
+    }
+    
+}

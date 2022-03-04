@@ -1,0 +1,8 @@
+package packageStrings
+
+interface StringsInterface {
+    version {major 1 minor 2}
+  
+    attribute String aFixedString noSubscriptions
+    attribute String aVariableString noSubscriptions
+}

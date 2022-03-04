@@ -1,0 +1,10 @@
+package packageEventGroup
+
+interface EventGroup {
+	broadcast onChangeEventStatus {
+		out {
+			UInt8 eventStatus
+		}
+	}
+
+}

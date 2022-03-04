@@ -110,6 +110,15 @@
                   required="false"
                   shortName="s">
             </option>
+            <option
+                  argCount="1"
+                  description="Configuration for command line related to Franca to arxml generation."
+                  hasOptionalArg="false"
+                  id="org.genivi.faracon.cli.option.francatoaraconfig"
+                  longName="f2aconfig"
+                  required="false"
+                  shortName="conf">
+            </option>
          </options>
       </command>
    </extension>

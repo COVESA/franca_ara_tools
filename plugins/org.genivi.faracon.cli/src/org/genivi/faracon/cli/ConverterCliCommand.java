@@ -1,13 +1,22 @@
 package org.genivi.faracon.cli;
 
+import static org.genivi.faracon.cli.PropertiesHelper.readPropertiesFile;
+
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.xtext.xbase.lib.Extension;
 import org.genivi.faracon.InputFile;
 import org.genivi.faracon.console.CommandlineTool;
+import org.genivi.faracon.franca2ara.config.F2AConfig;
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigDefault;
+import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider;
+import org.genivi.faracon.franca2ara.config.Franca2ARAUserConfig;
+import org.genivi.faracon.franca2ara.config.IFranca2ARAConfig;
 import org.genivi.faracon.preferences.Preferences;
 import org.genivi.faracon.preferences.PreferencesConstants;
 
@@ -21,6 +30,10 @@ public class ConverterCliCommand extends CommandlineTool {
 	private Ara2FrancaConverter ara2FrancaConverter;
 
 	private Preferences preferences;
+	
+	@Inject
+	@Extension
+	private Franca2ARAConfigProvider franca2ARAConfigProvider;
 
 	/**
 	 * The constructor registers the needed bindings to use the generator
@@ -112,6 +125,22 @@ public class ConverterCliCommand extends CommandlineTool {
 			this.convertARAFiles(Arrays.asList(araFilePaths));
 		}
 		if (francaFilePaths != null) {
+			if (parsedArguments.hasOption("conf")) {
+				try {
+					F2AConfig conf = readPropertiesFile(parsedArguments.getOptionValue("conf"));
+					IFranca2ARAConfig f2aConf = new Franca2ARAUserConfig(conf);
+					this.franca2ARAConfigProvider.setConfiguration(f2aConf);
+				} catch (IOException e) {
+					getLogger().logInfo(
+							"Failed to read Franca to ARA config properties file. Default values will be used. : "
+									+ e.getLocalizedMessage());
+				}
+			} else {
+				IFranca2ARAConfig f2aConf = new Franca2ARAConfigDefault();
+				this.franca2ARAConfigProvider.setConfiguration(f2aConf);
+				getLogger().logInfo(
+						"No Franca to ARA config properties file found. Hence using default values for transformation.");
+			}
 			this.convertFrancaFiles(Arrays.asList(francaFilePaths));
 		}
 

@@ -1,0 +1,2 @@
+location "https://yakindu-builds.itemis.de/updates/targets/.thirdparty/artop/4.12.1" {
+//location "https://www.artop.org/containers/artop-sdk-update-site-4.12" {

@@ -37,7 +37,7 @@ class IDL1660_Tests extends AbstractFranca2AraStructTest{
 		val fStruct = this.createFStruct(structName, subElementName, baseStruct)
 		
 		//when
-		val type = araTypeCreator.getDataTypeForReference(fStruct)
+		val type = araTypeCreator.getDataType(fStruct)
 
 		//then
 		val implementationDatatype = type.assertIsInstanceOf(ImplementationDataType).assertName(structName).assertCategory("STRUCTURE")

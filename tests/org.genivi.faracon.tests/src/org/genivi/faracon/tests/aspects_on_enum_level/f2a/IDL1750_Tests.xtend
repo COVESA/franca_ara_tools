@@ -21,7 +21,7 @@ class IDL1750_Tests extends AbstractFrancaEnumTest {
 			 it.name = enumName
 			 it.enumerators += createFEnumerator =>[it.name = "enumeratorBase"] 
 		]
-		val fENumeration = createFEnumerationType =>[
+		val fEnumeration = createFEnumerationType =>[
 			 it.name = enumName
 			 it.enumerators += createFEnumerator =>[it.name = "enumerator1"] 
 			 it.enumerators += createFEnumerator =>[it.name = "enumerator2"]
@@ -30,7 +30,7 @@ class IDL1750_Tests extends AbstractFrancaEnumTest {
 		 
 		
 		// when
-		val result = araTypeCreator.getDataTypeForReference(fENumeration)
+		val result = araTypeCreator.getDataType(fEnumeration)
 
 		// then
 		val compuScales = assertEnumAndGetCompuScales(result, enumName, 3)

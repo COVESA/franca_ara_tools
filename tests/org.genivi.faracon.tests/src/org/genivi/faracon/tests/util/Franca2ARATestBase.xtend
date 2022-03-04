@@ -2,11 +2,11 @@ package org.genivi.faracon.tests.util
 
 import java.util.Collection
 import javax.inject.Inject
+import org.junit.Before
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.Franca2ARATransformation
-import org.genivi.faracon.cli.FilePathsHelper
 import org.genivi.faracon.cli.Franca2AraConverter
-import org.genivi.faracon.franca2ara.ARATypeCreator
+import org.genivi.faracon.franca2ara.types.ARATypeCreator
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.FaraconTestBase
@@ -25,8 +25,13 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	@Inject
 	var Franca2AraConverter franca2AraConverter
 
+	@Before
+	def void initTestEnvironment() {
+		initializeTransformation
+	}
+
 	def void transform(String path, String fileBasename) {
-		transformtionTest(path, fileBasename, null, false)
+		transformationTest(path, fileBasename, null, false)
 	}
 
 	/**
@@ -34,15 +39,24 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	 */
 	@Deprecated
 	def void transformAndCheck(String path, String fileBasename) {
-		transformtionTest(path, fileBasename, null, true)
+		transformationTest(path, fileBasename, null, true)
 	}
 
 	def void transformAndCheck(String path, String fileBasename, String expectedFilePath) {
-		transformtionTest(path, fileBasename, expectedFilePath, true)
+		transformationTest(path, fileBasename, expectedFilePath, true)
 	}
 
 	def void transformAndCheckIntegrationTest(String path, Collection<String> files,
-		Collection<String> expectedFilePaths, String outputFolderName) {
+		Collection<String> expectedFilePaths, String outputFolderName
+	) {
+		transformAndCheckIntegrationTest(path, files, expectedFilePaths, outputFolderName, true)
+	}
+
+	def void transformAndCheckIntegrationTest(
+		String path, Collection<String> files,
+		Collection<String> expectedFilePaths, String outputFolderName,
+		boolean resetUUIDs
+	) {
 		// given: non-null strings, which are not empty
 		val inputPaths = files.map[path + it].toList
 		assertFalse("No source file path given", inputPaths.nullOrEmpty)
@@ -53,27 +67,39 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		franca2AraConverter.convertFiles(inputPaths)
 
 		// assert
+		val doCheck = expectedFilePaths!==null
 		val autosarModelPaths = Preferences.instance.getPreference(PreferencesConstants.P_OUTPUT_DIRECTORY_PATH, null)
 		assertNotNull("no outputpath found", autosarModelPaths)
 		val actualAutosarFiles = findArxmlFilesStdFiles(autosarModelPaths, true)
-		actualAutosarFiles.forEach [ autosarFileName |
-			// load autosar models and set UUID to 0
-			val modelContainer = araConnector.loadModel(autosarFileName) as ARAModelContainer
-			modelContainer.model.setUuidsTo0
-			araConnector.saveModel(modelContainer, autosarFileName)
-		]
-		assertAutosarFilesAreEqual(actualAutosarFiles, expectedFilePaths)
+		if (doCheck && resetUUIDs) {
+			actualAutosarFiles.forEach [ autosarFileName |
+				// load Autosar models and set UUID to 0
+				val modelContainer = araConnector.loadModel(autosarFileName) as ARAModelContainer
+				modelContainer.model.setUuidsTo0
+				if (modelContainer.deploymentModel!==null)
+					modelContainer.deploymentModel.setUuidsTo0				
+				araConnector.saveModel(modelContainer, autosarFileName)
+			]			
+		}
+		
+		if (doCheck) {
+			assertAutosarFilesAreEqual(actualAutosarFiles, expectedFilePaths)
+		} else {
+			println("NOTE: This test doesn't provide expected files, no check will be executed.")
+		}
 	}
 	
 	protected def Collection<String> findArxmlFilesStdFiles(String autosarModelPaths, boolean ignoreStdFiles) {
 		val arxmlFiles = findFiles(autosarModelPaths, "arxml")
-		if(ignoreStdFiles){
-			return arxmlFiles.filter[!it.endsWith("stdtypes.arxml") && !it.endsWith("stdtypes_vectors.arxml")].toList	
+		if (ignoreStdFiles) {
+			return arxmlFiles.filter[
+				! (endsWith("stdtypes.arxml") || endsWith("stdtypes_vectors.arxml"))
+			].toList	
 		}
 		return arxmlFiles
 	}
 
-	def private void transformtionTest(String path, String fileBasename, String expectedFileName, boolean check) {
+	def private void transformationTest(String path, String fileBasename, String expectedFileName, boolean check) {
 		// given
 		// load example Franca IDL interface
 		val inputfile = path + fileBasename + ".fidl"
@@ -85,7 +111,9 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		val fromFranca = araConnector.fromFranca(fmodel) as ARAModelContainer
 		val araFileName = "src-gen/testcases/" + fileBasename + ".arxml"
 		println("Save ara file " + araFileName)
-		fromFranca.model.setUuidsTo0
+		if (check) {
+			fromFranca.model.setUuidsTo0		
+		}
 		araConnector.saveModel(fromFranca, araFileName)
 
 		// then

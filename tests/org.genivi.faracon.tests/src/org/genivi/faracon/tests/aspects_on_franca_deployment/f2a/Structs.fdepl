@@ -1,0 +1,39 @@
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "Structs.fidl"
+
+
+define org.genivi.commonapi.someip.deployment for interface packageStruct.StructInterface {
+    SomeIpServiceID = 4520 // 0x11A8
+
+    struct book {
+    	SomeIpStructLengthWidth = 33
+        title {
+            SomeIpStringLength = 255
+            SomeIpStringLengthWidth = 4
+            SomeIpStringEncoding = utf8
+        }
+        author {
+            SomeIpStringLength = 255
+            SomeIpStringLengthWidth = 4
+            SomeIpStringEncoding = utf8
+        }
+        series {
+            SomeIpStringLength = 255
+            SomeIpStringLengthWidth = 4
+            SomeIpStringEncoding = utf8
+        }
+    }
+
+    struct headPhone {
+        address {
+            SomeIpStringLength = 255
+            SomeIpStringLengthWidth = 4
+            SomeIpStringEncoding = utf8
+        }
+        name {
+            SomeIpStringLength = 255
+            SomeIpStringLengthWidth = 4
+            SomeIpStringEncoding = utf8
+        }
+    }
+}

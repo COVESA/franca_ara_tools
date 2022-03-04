@@ -1,4 +1,4 @@
-import "CommonAPI-SOMEIP_deployment_spec.fdepl"
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
 //import "platform:/plugin/org.genivi.faracon/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
 //import "platform:/plugin/org.genivi.commonapi.someip/deployment/CommonAPI-SOMEIP_deployment_spec.fdepl"
 import "francaBasicVectorTypes.fidl"
@@ -7,60 +7,60 @@ define org.genivi.commonapi.someip.deployment for typeCollection a1.b2.c3 {
 
 	struct BasicTypesStruct {
 		booleanTest {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 78
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 78
 		}
 		doubleTest {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 9
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 9
 		}
 		floatTest {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 73
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 73
 		}
 		int16Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 16
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 16
 		}
 		int32Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 95
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 95
 		}
 		int64Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 94
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 94
 		}
 		int8Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 27
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 27
 		}
 		integerTest {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 53
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 53
 		}
 		stringTest {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 41
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 41
 		}
 		uInt16Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 90
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 90
 		}
 		uInt32Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 115
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 115
 		}
 		uInt64Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 698
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 698
 		}
 		uint8Test {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 6
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 6
 		}
 		byteBufferTest {
-			SomeIpStructArrayLengthWidth = 0
-			SomeIpStructArrayMaxLength = 88
+			SomeIpArrayLengthWidth = 0
+			SomeIpArrayMaxLength = 88
 		}
 	}
 

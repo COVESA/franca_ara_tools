@@ -7,7 +7,7 @@
    </configIni>
 
    <launcherArgs>
-      <vmArgs>-Dosgi.requiredJavaVersion=1.8 -Xms512m
+      <vmArgs>-Dosgi.requiredJavaVersion=1.8 -Xms512m --illegal-access=deny
       </vmArgs>
       <vmArgsLin>-Xmx2048m
       </vmArgsLin>

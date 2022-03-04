@@ -1,14 +1,17 @@
 package org.genivi.faracon.preferences;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.franca.core.franca.FModel;
-import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator;
+import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator;
+
+import com.google.common.collect.Lists;
 
 public class Preferences {
 
-	private ARAPrimitveTypesCreator araPrimitveTypesCreator;
+	private ARAPrimitiveTypesCreator araPrimitiveTypesCreator;
 
 	public class UnknownPreferenceException extends Exception {
 		private static final long serialVersionUID = -3576591568647428294L;
@@ -20,7 +23,7 @@ public class Preferences {
 
 	private static Preferences instance = null;
 	private Map<String, String> preferences = null;
-
+	
 	public Map<String, String> getPreferences() {
 		return preferences;
 	}
@@ -30,8 +33,8 @@ public class Preferences {
 		clidefPreferences();
 	}
 
-	public void registerARAPrimitveTypesCreator(ARAPrimitveTypesCreator araPrimitveTypesCreator) {
-		this.araPrimitveTypesCreator = araPrimitveTypesCreator;
+	public void registerARAPrimitiveTypesCreator(ARAPrimitiveTypesCreator araPrimitiveTypesCreator) {
+		this.araPrimitiveTypesCreator = araPrimitiveTypesCreator;
 	}
 
 	public void resetPreferences(){
@@ -39,8 +42,8 @@ public class Preferences {
 			preferences.clear();
 
 			// Ensure that the default primitive types are loaded again.
-			if (araPrimitveTypesCreator != null) {
-				araPrimitveTypesCreator.explicitlyLoadPrimitiveTypes();
+			if (araPrimitiveTypesCreator != null) {
+				araPrimitiveTypesCreator.explicitlyLoadPrimitiveTypes();
 			}
 		}
 	}
@@ -76,17 +79,33 @@ public class Preferences {
 	}
 
 	public void setPreference(String name, String value) {
-		if(preferences != null) {
+		if (preferences != null) {
 			preferences.put(name, value);
+			updateAfterPrefChange(Lists.newArrayList(name));
+		}
+	}
 
-			// Ensure that other primitive types are loaded when requested by changed preferences.
-			if (araPrimitveTypesCreator != null) {
-				if (name == PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH || name == PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED) {
-					araPrimitveTypesCreator.explicitlyLoadPrimitiveTypes();
-				}
+	public void setPreferences(Map<String, String> values) {
+		if (preferences != null) {
+			for(String name : values.keySet()) {
+				preferences.put(name, values.get(name));
+			}
+			updateAfterPrefChange(values.keySet());
+		}
+	}
+	
+	private void updateAfterPrefChange(Collection<String> touchedNames) {
+		// Ensure that other primitive types are loaded when requested by changed preferences.
+		if (araPrimitiveTypesCreator != null) {
+			if (
+				touchedNames.contains(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_PATH) ||
+				touchedNames.contains(PreferencesConstants.P_CUSTOM_ARA_STD_TYPES_USED)
+			) {
+				araPrimitiveTypesCreator.explicitlyLoadPrimitiveTypes();
 			}
 		}
 	}
+
 
 	public String getModelPath(FModel model) {
 		String ret = model.eResource().getURI().toString();

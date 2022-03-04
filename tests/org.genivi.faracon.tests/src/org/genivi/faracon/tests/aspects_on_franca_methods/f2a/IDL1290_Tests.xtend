@@ -21,4 +21,18 @@ class IDL1290_Tests extends Franca2ARATestBase {
 		transformAndCheck(LOCAL_FRANCA_MODELS, "methodWithInAndOutArguments")
 	}
 
+	@Test
+	def void methodWithInAndOutArguments_fdepl() {
+		transformAndCheckIntegrationTest(
+			testPath,
+			#[ "methodWithInAndOutArguments.fidl",
+				"methodWithInAndOutArguments.fdepl",
+			 	"../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
+				"../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+			],
+			#[ testPath + "methodWithInAndOutArguments.arxml" ],
+			"methodTestOutputFolder"
+		)
+	}
+
 }

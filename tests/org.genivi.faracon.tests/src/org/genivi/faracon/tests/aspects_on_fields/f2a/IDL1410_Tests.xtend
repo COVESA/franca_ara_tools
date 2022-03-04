@@ -11,7 +11,7 @@ import org.junit.runner.RunWith
  */
 @RunWith(XtextRunner2_Franca)
 @InjectWith(FaraconTestsInjectorProvider)
-class IDL1410_Tests extends FrancaAttributeTestsBaseClass{
+class IDL1410_Tests extends FrancaAttributeTestsBaseClass {
 	
 	@Test
 	def void testUnitSingleAttributeToField(){
@@ -20,7 +20,7 @@ class IDL1410_Tests extends FrancaAttributeTestsBaseClass{
 		val fAttribute = createFrancaAttribute(fieldName, true, true, true)
 
 		//when 
-		val result = transform(fAttribute, null)
+		val result = transform(fAttribute, null, null)
 		
 		//then
 		assertAutosarField(result, fieldName, false, false, false)

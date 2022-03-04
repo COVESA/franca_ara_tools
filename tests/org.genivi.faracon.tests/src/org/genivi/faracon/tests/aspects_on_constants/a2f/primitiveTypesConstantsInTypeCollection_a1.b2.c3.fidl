@@ -15,9 +15,9 @@ typeCollection {
 
 	const Double int16Test = -30000.0d
 
-	const Double int32Test = -2.0E9d
+	const Double int32Test = -2.0E9d  // Franca file writer produces "E" instead of "e"
 
-	const Double int64Test = -8.1112223334445558E18d
+	const Double int64Test = -8.1112223334445558E18d  // Franca file writer produces "E" instead of "e"
 
 	const Double int8Test = 54.0d
 
@@ -27,9 +27,9 @@ typeCollection {
 
 	const Double uint16Test = 61234.0d
 
-	const Double uint32Test = 4.0E9d
+	const Double uint32Test = 4.0E9d  // Franca file writer produces "E" instead of "e"
 
-	const Double uint64Test = 1.6111222333444555E19d
+	const Double uint64Test = 1.6111222333444555E19d  // Franca file writer produces "E" instead of "e"
 
 	const Double uint8Test = 200.0d
 }

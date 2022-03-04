@@ -34,7 +34,7 @@
                   <ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE UUID="0">
                       <SHORT-NAME>IntegerIntervalTypeA</SHORT-NAME>
-                      <CATEGORY>TYPE_REF</CATEGORY>
+                      <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SUB-ELEMENTS>
                         <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                           <SHORT-NAME>valueType</SHORT-NAME>
@@ -51,7 +51,7 @@
                     </IMPLEMENTATION-DATA-TYPE>
                     <IMPLEMENTATION-DATA-TYPE UUID="0">
                       <SHORT-NAME>IntegerIntervalTypeB</SHORT-NAME>
-                      <CATEGORY>TYPE_REF</CATEGORY>
+                      <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SUB-ELEMENTS>
                         <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                           <SHORT-NAME>valueType</SHORT-NAME>
@@ -68,7 +68,7 @@
                     </IMPLEMENTATION-DATA-TYPE>
                     <IMPLEMENTATION-DATA-TYPE UUID="0">
                       <SHORT-NAME>IntegerIntervalTypeC</SHORT-NAME>
-                      <CATEGORY>TYPE_REF</CATEGORY>
+                      <CATEGORY>TYPE_REFERENCE</CATEGORY>
                       <SUB-ELEMENTS>
                         <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                           <SHORT-NAME>valueType</SHORT-NAME>

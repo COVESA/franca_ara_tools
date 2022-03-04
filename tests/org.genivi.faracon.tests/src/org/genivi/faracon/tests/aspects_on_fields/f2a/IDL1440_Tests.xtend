@@ -29,7 +29,7 @@ class IDL1440_Tests extends FrancaAttributeTestsBaseClass{
 		val arField = createFrancaAttribute(fieldName, true, true, noSubsrciption)
 
 		//when 
-		val result = transform(arField, null)
+		val result = transform(arField, null, null)
 		
 		//then
 		val expectdNotifier = !noSubsrciption

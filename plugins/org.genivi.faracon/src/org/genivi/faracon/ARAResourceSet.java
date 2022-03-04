@@ -27,6 +27,7 @@ public class ARAResourceSet extends ExtendedResourceSetImpl {
 
 	protected void configure() {
 		// next line needs to stay because side effects.
+		@SuppressWarnings("unused")
 		Autosar40Package autosar40Package = Autosar40Package.eINSTANCE;
 		//EPackage.Registry.INSTANCE.put(autosar40Package.eNS_URI, autosar40Package);
 

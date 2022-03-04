@@ -1,0 +1,17 @@
+package arrayPackage
+
+interface ArrayInterface {
+    version {major 1 minor 2}
+
+    enumeration ENUM_FOR_ARRAY {
+        ENUM_KEY_1 = 0
+        ENUM_KEY_2 = 1
+        ENUM_KEY_3 = 2
+    }
+    
+    array arrayOfInt8 of Int8
+
+    array arrayOfEnum of ENUM_FOR_ARRAY
+    
+    array arrayTest of arrayOfInt8
+}

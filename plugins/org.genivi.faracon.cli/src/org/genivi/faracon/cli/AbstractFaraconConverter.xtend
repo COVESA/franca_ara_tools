@@ -137,9 +137,9 @@ abstract class AbstractFaraconConverter<SRC extends IModelContainer, TAR extends
 			val proxiesAfterErrorMsg = proxiesAfterResolution.keySet.map [ eObject |
 				if (eObject.eIsProxy && eObject instanceof BasicEObjectImpl) {
 					val basicEObject = eObject as BasicEObjectImpl
-					return "Cannot find object " + basicEObject.eProxyURI()
+					return "Cannot find object for proxy: " + basicEObject.eProxyURI()
 				} else {
-					return "Cannot find object " + eObject.toString
+					return "Cannot find object (no proxy): " + eObject.toString
 				}
 			].join(System.lineSeparator)
 			logger.logError(

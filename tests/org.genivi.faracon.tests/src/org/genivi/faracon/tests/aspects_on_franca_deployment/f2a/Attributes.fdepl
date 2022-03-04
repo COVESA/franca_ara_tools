@@ -1,0 +1,48 @@
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "Attributes.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface packageAttribute.AttributeInterface {
+    SomeIpServiceID = 4510 // 0x119E
+
+    enumeration ATTR_ENUM {
+        EnumBackingType = UInt8
+        SomeIpEnumWidth = 1
+    }
+
+   
+    attribute enumAttr {
+        SomeIpGetterID = 0 // 0x0000
+        SomeIpSetterID = 1 // 0x0001
+        SomeIpNotifierID = 45100 // 0xB02C
+        SomeIpNotifierEventGroups = {45100} // 0xB02C
+        SomeIpAttributeReliable = true
+        SomeIpAttributeEndianess = be
+    }
+
+    attribute int8Attr {
+        SomeIpGetterID = 2 // 0x0002
+        SomeIpSetterID = 3 // 0x0003
+        SomeIpNotifierID = 45102 // 0xB02E
+        SomeIpNotifierEventGroups = {45102} // 0xB02E
+        SomeIpAttributeReliable = true
+        SomeIpAttributeEndianess = be
+    }
+
+    attribute int16Attr {
+        SomeIpGetterID = 4 // 0x0004
+        SomeIpSetterID = 5 // 0x0005
+        SomeIpNotifierID = 45104 // 0xB030
+        SomeIpNotifierEventGroups = {45104} // 0xB030
+        SomeIpAttributeReliable = true
+        SomeIpAttributeEndianess = be
+    }
+
+    attribute boolAttr {
+        SomeIpGetterID = 6 // 0x0006
+        SomeIpSetterID = 7 // 0x0007
+        SomeIpNotifierID = 45106 // 0xB032
+        SomeIpNotifierEventGroups = {45106} // 0xB032
+        SomeIpAttributeReliable = true
+        SomeIpAttributeEndianess = be
+    }
+}

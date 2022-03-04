@@ -12,7 +12,7 @@
               <ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>DoubleNestedStructTypedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -29,7 +29,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>DoubleStructTypedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -46,7 +46,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>DoubleUInt8Typedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -141,7 +141,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>NestedStructTypedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -158,7 +158,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>StructTypedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -175,7 +175,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>TripleNestedStructTypedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -192,7 +192,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>TripleStructTypedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -209,7 +209,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>TripleUInt8Typedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>
@@ -244,7 +244,7 @@
                 </IMPLEMENTATION-DATA-TYPE>
                 <IMPLEMENTATION-DATA-TYPE UUID="0">
                   <SHORT-NAME>UInt8Typedef</SHORT-NAME>
-                  <CATEGORY>TYPE_REF</CATEGORY>
+                  <CATEGORY>TYPE_REFERENCE</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
                       <SHORT-NAME>valueType</SHORT-NAME>

@@ -1,7 +1,9 @@
 package a1.b2.c3
 
+<** @see : uuid="FRA:a519383c-da8a-4d92-9fa7-b2a74119b854" **>
 interface ExampleInterface {
 
+	<** @see : uuid="FRA:a779b599-e04d-41fe-a915-6e670f064220" **>
 	broadcast exampleBroadcast {
 		out {
 			UInt32 argument

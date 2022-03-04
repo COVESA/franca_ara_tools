@@ -77,12 +77,15 @@
                       <COMPU-INTERNAL-TO-PHYS>
                         <COMPU-SCALES>
                           <COMPU-SCALE>
+                            <SHORT-LABEL>enum_literal_1</SHORT-LABEL>
                             <SYMBOL>enum_literal_1</SYMBOL>
                           </COMPU-SCALE>
                           <COMPU-SCALE>
+                            <SHORT-LABEL>enum_literal_2</SHORT-LABEL>
                             <SYMBOL>enum_literal_2</SYMBOL>
                           </COMPU-SCALE>
                           <COMPU-SCALE>
+                            <SHORT-LABEL>enum_literal_3</SHORT-LABEL>
                             <SYMBOL>enum_literal_3</SYMBOL>
                           </COMPU-SCALE>
                         </COMPU-SCALES>

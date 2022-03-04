@@ -4,7 +4,7 @@ import javax.inject.Inject
 import org.eclipse.xtext.testing.InjectWith
 import org.franca.core.dsl.tests.util.XtextRunner2_Franca
 import org.franca.core.franca.FBasicTypeId
-import org.genivi.faracon.franca2ara.ARATypeCreator
+import org.genivi.faracon.franca2ara.types.ARATypeCreator
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.preferences.PreferencesConstants
 import org.genivi.faracon.tests.util.FaraconTestsInjectorProvider

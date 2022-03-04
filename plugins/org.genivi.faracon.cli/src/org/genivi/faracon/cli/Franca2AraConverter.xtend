@@ -24,12 +24,12 @@ import org.genivi.faracon.ARAConnector
 import org.genivi.faracon.ARAModelContainer
 import org.genivi.faracon.ARAResourceSet
 import org.genivi.faracon.InputFile
-import org.genivi.faracon.franca2ara.ARAPrimitveTypesCreator
 import org.genivi.faracon.franca2ara.SomeipFrancaDeploymentData
 import org.genivi.faracon.names.FrancaNamesCollector
 import org.genivi.faracon.names.NamesHierarchy
 import org.genivi.faracon.preferences.Preferences
 import org.genivi.faracon.stdtypes.AraStandardTypeDefinitionsModel
+import org.genivi.faracon.franca2ara.types.ARAPrimitiveTypesCreator
 
 import static org.genivi.faracon.cli.ConverterHelper.*
 
@@ -39,7 +39,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	@Inject
 	var FrancaPersistenceManager francaLoader
 	@Inject
-	var ARAPrimitveTypesCreator araPrimitveTypesCreator
+	var ARAPrimitiveTypesCreator araPrimitveTypesCreator
 	@Inject
 	var FDeployPersistenceManager francaDeploymentLoader
 	@Inject
@@ -150,12 +150,16 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 		Collection<Pair<FrancaModelContainer, ARAModelContainer>> francaToAutosarModelContainer) {
 		targetResourceSet = new ARAResourceSet
 		francaToAutosarModelContainer.forEach [
-			val arModel = it.value
+			val arModelContainer = it.value
 			val francaModelUri = it.key.model.findSourceModelUri
 			if (francaModelUri !== null) {
-				val araFilePath = getAraFilePath(francaModelUri, arModel)
-				val resource = targetResourceSet.createResource(FileHelper.createURI(araFilePath))
-				resource.contents.add(arModel.model)
+				val araFilePath = getAraFilePath(francaModelUri, arModelContainer)
+				val resource = targetResourceSet.createResource(FileHelper.createURI(araFilePath.key))
+				resource.contents.add(arModelContainer.model)
+				if (arModelContainer.deploymentModel!==null) {
+					val resource2 = targetResourceSet.createResource(FileHelper.createURI(araFilePath.value))
+					resource2.contents.add(arModelContainer.deploymentModel)
+				}
 			}
 		]
 
@@ -174,7 +178,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 			val francaModelUri = it.key.model.findSourceModelUri
 			if (francaModelUri !== null) {
 				val autosarFilePath = getAraFilePath(francaModelUri, araModelContainer)
-				araConnector.saveModel(araModelContainer, autosarFilePath);
+				araConnector.saveModel(araModelContainer, autosarFilePath.key);
 			}
 		]
 
@@ -183,7 +187,7 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 		// Save a file with the AUTOSAR model with the anonymous fixed sized arrays of primitive types if any.
 		val primitiveTypesAnonymousArraysModel = araPrimitveTypesCreator.primitiveTypesAnonymousArraysModel
 		if (primitiveTypesAnonymousArraysModel !== null) {
-			var primitiveTypesAnonymousArraysModelContainer = new ARAModelContainer(primitiveTypesAnonymousArraysModel, null)
+			var primitiveTypesAnonymousArraysModelContainer = new ARAModelContainer(primitiveTypesAnonymousArraysModel, null, null)
 			araConnector.saveModel(primitiveTypesAnonymousArraysModelContainer, primitiveTypesAnonymousArraysModelFilePath);
 		}
 	}
@@ -191,10 +195,15 @@ class Franca2AraConverter extends AbstractFaraconConverter<FrancaModelContainer,
 	def private getAraFilePath(URI francaModelUri, ARAModelContainer autosar) {
 		val inputFilePath = francaModelUri.toFileString
 		val basePathLength = inputFilesToBasePathLengthsMap.get(inputFilePath)
-		URI.createFileURI(Paths.get(normalize(outputDirPath), inputFilePath.substring(basePathLength)).toString)
-			.trimFileExtension
-			.appendFileExtension("arxml")
-			.toFileString
+		val orig = Paths.get(normalize(outputDirPath), inputFilePath.substring(basePathLength)).toString
+		val afp1 = URI.createFileURI(orig).trimFileExtension.appendFileExtension("arxml").toFileString
+			
+		// construct path for deployment model arxml
+		val origURI = URI.createFileURI(orig).trimFileExtension
+		val name = origURI.lastSegment
+		val afp2 = origURI.trimSegments(1).appendSegment(name + "_Deployment")
+			.appendFileExtension("arxml").toFileString	
+		afp1 -> afp2	
 	}
 
 	def private getPrimitiveTypesAnonymousArraysModelFilePath() {

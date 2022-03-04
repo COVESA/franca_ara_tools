@@ -56,9 +56,11 @@
                   <COMPU-INTERNAL-TO-PHYS>
                     <COMPU-SCALES>
                       <COMPU-SCALE>
+                        <SHORT-LABEL>enumerator1</SHORT-LABEL>
                         <SYMBOL>enumerator1</SYMBOL>
                       </COMPU-SCALE>
                       <COMPU-SCALE>
+                        <SHORT-LABEL>enumerator2</SHORT-LABEL>
                         <SYMBOL>enumerator2</SYMBOL>
                       </COMPU-SCALE>
                     </COMPU-SCALES>

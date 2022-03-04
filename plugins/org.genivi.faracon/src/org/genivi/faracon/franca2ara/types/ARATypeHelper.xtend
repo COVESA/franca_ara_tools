@@ -1,4 +1,4 @@
-package org.genivi.faracon.franca2ara
+package org.genivi.faracon.franca2ara.types
 
 import org.franca.core.franca.FArgument
 import org.franca.core.franca.FBasicTypeId
@@ -7,12 +7,11 @@ import org.franca.core.franca.FField
 import org.franca.core.franca.FMethod
 import org.franca.core.franca.FModel
 import org.franca.core.franca.FModelElement
-import org.franca.core.franca.FType
 import org.franca.core.franca.FTypeCollection
 import org.franca.core.franca.FTypeRef
+import org.franca.core.franca.FCompoundType
 
 import static extension org.franca.core.FrancaModelExtensions.*
-import org.franca.core.franca.FCompoundType
 
 class ARATypeHelper {
 	private new (){}

@@ -2,11 +2,12 @@ package org.genivi.faracon.tests.aspects_on_enum_level.f2a
 
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.varianthandling.attributevaluevariationpoints.LimitValueVariationPoint
+import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 import autosar40.swcomponent.datatype.computationmethod.CompuScale
 import autosar40.swcomponent.datatype.computationmethod.CompuScales
 import autosar40.swcomponent.datatype.datatypes.AutosarDataType
 import com.google.inject.Inject
-import org.genivi.faracon.franca2ara.ARATypeCreator
+import org.genivi.faracon.franca2ara.types.ARATypeCreator
 import org.genivi.faracon.tests.util.Franca2ARATestBase
 
 import static org.junit.Assert.assertEquals
@@ -15,7 +16,6 @@ import static org.junit.Assert.assertNull
 
 import static extension org.genivi.faracon.tests.util.AutosarAssertHelper.*
 import static extension org.genivi.faracon.tests.util.FaraconAssertHelper.*
-import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
 
 abstract class AbstractFrancaEnumTest extends Franca2ARATestBase {
 	@Inject

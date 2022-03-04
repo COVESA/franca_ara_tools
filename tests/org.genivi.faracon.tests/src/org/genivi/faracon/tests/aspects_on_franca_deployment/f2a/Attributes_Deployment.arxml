@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/XML/1998/namespace xml.xsd">
+  <ADMIN-DATA>
+    <LANGUAGE>EN</LANGUAGE>
+    <USED-LANGUAGES>
+      <L-10 L="EN" xml:space="default"/>
+    </USED-LANGUAGES>
+  </ADMIN-DATA>
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>ServiceInterfaces</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ServiceInterfaceDeployment</SHORT-NAME>
+          <ELEMENTS>
+            <SOMEIP-SERVICE-INTERFACE-DEPLOYMENT UUID="0">
+              <SHORT-NAME>AttributeInterface_Someip</SHORT-NAME>
+              <FIELD-DEPLOYMENTS>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>boolAttr_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/boolAttr</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getBoolAttr</SHORT-NAME>
+                    <METHOD-ID>6</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <NOTIFIER UUID="0">
+                    <SHORT-NAME>boolAttrNotifier</SHORT-NAME>
+                    <EVENT-ID>45106</EVENT-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </NOTIFIER>
+                  <SET UUID="0">
+                    <SHORT-NAME>setBoolAttr</SHORT-NAME>
+                    <METHOD-ID>7</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>enumAttr_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/enumAttr</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getEnumAttr</SHORT-NAME>
+                    <METHOD-ID>0</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <NOTIFIER UUID="0">
+                    <SHORT-NAME>enumAttrNotifier</SHORT-NAME>
+                    <EVENT-ID>45100</EVENT-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </NOTIFIER>
+                  <SET UUID="0">
+                    <SHORT-NAME>setEnumAttr</SHORT-NAME>
+                    <METHOD-ID>1</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>int16Attr_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/int16Attr</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getInt16Attr</SHORT-NAME>
+                    <METHOD-ID>4</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <NOTIFIER UUID="0">
+                    <SHORT-NAME>int16AttrNotifier</SHORT-NAME>
+                    <EVENT-ID>45104</EVENT-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </NOTIFIER>
+                  <SET UUID="0">
+                    <SHORT-NAME>setInt16Attr</SHORT-NAME>
+                    <METHOD-ID>5</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>int8Attr_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/int8Attr</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getInt8Attr</SHORT-NAME>
+                    <METHOD-ID>2</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <NOTIFIER UUID="0">
+                    <SHORT-NAME>int8AttrNotifier</SHORT-NAME>
+                    <EVENT-ID>45102</EVENT-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </NOTIFIER>
+                  <SET UUID="0">
+                    <SHORT-NAME>setInt8Attr</SHORT-NAME>
+                    <METHOD-ID>3</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+              </FIELD-DEPLOYMENTS>
+              <SERVICE-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageAttribute/v_1_2/AttributeInterface</SERVICE-INTERFACE-REF>
+              <EVENT-GROUPS>
+                <SOMEIP-EVENT-GROUP UUID="0">
+                  <SHORT-NAME>EG_boolAttrNotifier</SHORT-NAME>
+                  <EVENT-GROUP-ID>45106</EVENT-GROUP-ID>
+                  <EVENT-REFS>
+                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/boolAttr_Someip/boolAttrNotifier</EVENT-REF>
+                  </EVENT-REFS>
+                </SOMEIP-EVENT-GROUP>
+                <SOMEIP-EVENT-GROUP UUID="0">
+                  <SHORT-NAME>EG_enumAttrNotifier</SHORT-NAME>
+                  <EVENT-GROUP-ID>45100</EVENT-GROUP-ID>
+                  <EVENT-REFS>
+                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/enumAttr_Someip/enumAttrNotifier</EVENT-REF>
+                  </EVENT-REFS>
+                </SOMEIP-EVENT-GROUP>
+                <SOMEIP-EVENT-GROUP UUID="0">
+                  <SHORT-NAME>EG_int16AttrNotifier</SHORT-NAME>
+                  <EVENT-GROUP-ID>45104</EVENT-GROUP-ID>
+                  <EVENT-REFS>
+                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/int16Attr_Someip/int16AttrNotifier</EVENT-REF>
+                  </EVENT-REFS>
+                </SOMEIP-EVENT-GROUP>
+                <SOMEIP-EVENT-GROUP UUID="0">
+                  <SHORT-NAME>EG_int8AttrNotifier</SHORT-NAME>
+                  <EVENT-GROUP-ID>45102</EVENT-GROUP-ID>
+                  <EVENT-REFS>
+                    <EVENT-REF DEST="SOMEIP-EVENT-DEPLOYMENT">/ServiceInterfaces/ServiceInterfaceDeployment/AttributeInterface_Someip/int8Attr_Someip/int8AttrNotifier</EVENT-REF>
+                  </EVENT-REFS>
+                </SOMEIP-EVENT-GROUP>
+              </EVENT-GROUPS>
+              <SERVICE-INTERFACE-ID>4510</SERVICE-INTERFACE-ID>
+              <SERVICE-INTERFACE-VERSION>
+                <MAJOR-VERSION>1</MAJOR-VERSION>
+                <MINOR-VERSION>2</MINOR-VERSION>
+              </SERVICE-INTERFACE-VERSION>
+            </SOMEIP-SERVICE-INTERFACE-DEPLOYMENT>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

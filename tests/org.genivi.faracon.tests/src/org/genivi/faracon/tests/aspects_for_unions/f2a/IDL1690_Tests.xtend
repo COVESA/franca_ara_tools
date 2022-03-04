@@ -37,7 +37,7 @@ class IDL1690_Tests extends AbstractFranca2AraUnionTest{
 		val fUnion = this.createFUnion(unionName, subElementName, baseUnion)
 		
 		//when
-		val type = araTypeCreator.getDataTypeForReference(fUnion)
+		val type = araTypeCreator.getDataType(fUnion)
 
 		//then
 		val implementationDatatype = type.assertIsInstanceOf(ImplementationDataType).assertName(unionName).assertCategory("UNION")

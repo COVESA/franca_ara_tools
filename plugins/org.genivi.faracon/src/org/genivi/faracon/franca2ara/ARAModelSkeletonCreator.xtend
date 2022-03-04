@@ -13,6 +13,7 @@ import org.franca.core.franca.FTypeCollection
 import org.genivi.faracon.Franca2ARABase
 
 import static extension org.franca.core.FrancaModelExtensions.*
+import autosar40.autosartoplevelstructure.AUTOSAR
 
 @Singleton
 class ARAModelSkeletonCreator extends Franca2ARABase {
@@ -20,13 +21,28 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 	@Inject
 	var extension AutosarAnnotator
 
-	val Map<FModel, ARPackage> fModel2arPackage = newHashMap()
-	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap()
+	var AUTOSAR root = null
+	var AUTOSAR rootDeployment = null
+	val Map<FModel, ARPackage> fModel2arPackage = newHashMap
+	val Map<FTypeCollection, ARPackage> fTypeCollection2arPackage = newHashMap
+	val Map<String, ARPackage> name2package = newHashMap
+	val Map<String, ARPackage> name2packageDeploy = newHashMap
+	
 
-	def create fac.createAUTOSAR createAutosarModelSkeleton(FModel fModel) {
-		arPackages.add(fModel.createPackageHierarchy)
+	def initialize() {
+		name2package.clear
+		name2packageDeploy.clear
 	}
 
+	def create fac.createAUTOSAR createAutosarModelSkeleton(FModel fModel) {
+		root = it
+		arPackages.add(fModel.createPackageHierarchy)
+	}
+	
+	def create fac.createAUTOSAR createAutosarDeploymentModelSkeleton(FModel fModel) {
+		rootDeployment = it
+	}
+	
 	def private create fac.createARPackage createPackageHierarchy(FModel fModel) {
 		val segments = fModel.name.split(Pattern.quote("."))
 		var ARPackage currentPackage = it
@@ -40,6 +56,7 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		} else {
 			currentPackage.shortName = fModel.name
 		}
+		currentPackage.setUUIDFromPath
 
 		// Create AUTOSAR subpackages for all Franca interface definitions with content that has to be transformed into package content.
 		for (interface : fModel.interfaces) {
@@ -61,6 +78,40 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		}
 
 		fModel2arPackage.put(fModel, currentPackage)
+	}
+
+	def createRootPackage(String name) {
+		if (name2package.containsKey(name)) {
+			name2package.get(name)
+		} else {
+			fac.createARPackage => [
+				shortName = name
+				it.initUUID(name)
+				if (root!==null)
+					root.arPackages.add(it)
+				name2package.put(name, it)
+			]
+		}
+	}
+	
+	def createDeploymentRootPackage(String name) {
+		if (name2packageDeploy.containsKey(name)) {
+			name2packageDeploy.get(name)
+		} else {
+			fac.createARPackage => [
+				shortName = name
+				it.initUUID(name)
+				if (rootDeployment!==null)
+					rootDeployment.arPackages.add(it)
+				name2packageDeploy.put(name, it)
+			]
+		}
+	}
+
+	def create fac.createARPackage createPackageWithName(String name, ARPackage parent) {
+		shortName = name
+		parent?.arPackages?.add(it)
+		it.setUUIDFromPath
 	}
 
 	def getAccordingArPackage(FModel fModel) {
@@ -111,13 +162,6 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		createAccordingArPackage(obj.typeCollection)
 	}
 
-	def private createPackageWithName(String name, ARPackage parent) {
-		val ARPackage newPackage = fac.createARPackage
-		newPackage.shortName = name
-		parent?.arPackages?.add(newPackage)
-		newPackage
-	}
-
 	/**
 	 * Creates a package for an FTypeCollection or an FInterface if the FTypeCollection or FInterface
 	 * has a version attached.
@@ -144,9 +188,26 @@ class ARAModelSkeletonCreator extends Franca2ARABase {
 		FTypeCollection fTypeCollection) {
 		it.shortName = name
 		parentPackage.arPackages += it
+		it.setUUIDFromPath
+		
 		val typeCollectionNameString = if(fTypeCollection.name.isNullOrEmpty) "" else fTypeCollection.name + " "
 		val classNameString = if( fTypeCollection instanceof FInterface) FInterface.simpleName else FTypeCollection.simpleName 
 		it.addAnnotation("FrancaVersion", classNameString+ ": " + typeCollectionNameString + name)
 	}
 
+
+	def private setUUIDFromPath(ARPackage aPackage) {
+		var path = ""
+		var ap = aPackage
+		while (null!==ap) {
+			path = ap.shortName + "/" + path
+			val p = ap.eContainer
+			if (null!==p && ap.eContainer instanceof ARPackage) {
+				ap = p as ARPackage
+			} else {
+				ap = null
+			}
+		}
+		aPackage.initUUID(path)
+	}
 }

@@ -73,8 +73,8 @@ class IDL1540_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["namedFixedSizedArrayTypeInTypeCollection.fidl",
 			  "namedFixedSizedArrayTypeInTypeCollection.fdepl",
-			  "CommonAPI_deployment_spec.fdepl",
-			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			  "../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
+			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "namedFixedSizedArrayTypeInTypeCollection.arxml"],
 			"namedFixedSizedArrayTypeInTypeCollection")
 	}
@@ -84,8 +84,8 @@ class IDL1540_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["namedFixedSizedArrayTypeInInterface.fidl",
 			  "namedFixedSizedArrayTypeInInterface.fdepl",
-			  "CommonAPI_deployment_spec.fdepl",
-			  "CommonAPI-SOMEIP_deployment_spec.fdepl"],
+			  "../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
+			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "namedFixedSizedArrayTypeInInterface.arxml"],
 			"namedFixedSizedArrayTypeInInterface")
 	}

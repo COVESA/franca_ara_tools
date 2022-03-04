@@ -1,0 +1,21 @@
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "Strings.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface packageStrings.StringsInterface {
+    SomeIpServiceID = 4111
+
+    attribute aFixedString {
+        SomeIpGetterID = 0
+        SomeIpSetterID = 1
+        SomeIpStringLength = 789
+        SomeIpStringLengthWidth = 0
+        SomeIpStringEncoding = utf16be
+    }
+
+    attribute aVariableString {
+        SomeIpGetterID = 0
+        SomeIpSetterID = 1
+        SomeIpStringLengthWidth = 2
+        SomeIpStringEncoding = utf8
+    }
+}

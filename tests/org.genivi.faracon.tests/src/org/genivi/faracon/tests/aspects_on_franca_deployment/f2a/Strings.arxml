@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/XML/1998/namespace xml.xsd">
+  <ADMIN-DATA>
+    <LANGUAGE>EN</LANGUAGE>
+    <USED-LANGUAGES>
+      <L-10 L="EN" xml:space="default"/>
+    </USED-LANGUAGES>
+  </ADMIN-DATA>
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>packageStrings</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>v_1_2</SHORT-NAME>
+          <ANNOTATIONS>
+            <ANNOTATION>
+              <LABEL>
+                <L-4>FrancaVersion</L-4>
+              </LABEL>
+              <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+              <ANNOTATION-TEXT>
+                <VERBATIM>
+                  <L-5>FInterface: StringsInterface v_1_2</L-5>
+                </VERBATIM>
+              </ANNOTATION-TEXT>
+            </ANNOTATION>
+          </ANNOTATIONS>
+          <ELEMENTS>
+            <SERVICE-INTERFACE UUID="0">
+              <SHORT-NAME>StringsInterface</SHORT-NAME>
+              <NAMESPACES>
+                <SYMBOL-PROPS>
+                  <SHORT-NAME>packageStrings</SHORT-NAME>
+                  <SYMBOL>packageStrings</SYMBOL>
+                </SYMBOL-PROPS>
+                <SYMBOL-PROPS>
+                  <SHORT-NAME>v_1_2</SHORT-NAME>
+                  <SYMBOL>v_1_2</SYMBOL>
+                </SYMBOL-PROPS>
+              </NAMESPACES>
+              <FIELDS>
+                <FIELD UUID="0">
+                  <SHORT-NAME>aFixedString</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_789</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>false</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+                <FIELD UUID="0">
+                  <SHORT-NAME>aVariableString</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_base2</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>false</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+              </FIELDS>
+            </SERVICE-INTERFACE>
+          </ELEMENTS>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>ServiceInterfaceToDataTypeMappings</SHORT-NAME>
+              <ELEMENTS>
+                <PORT-INTERFACE-TO-DATA-TYPE-MAPPING UUID="0">
+                  <SHORT-NAME>StringsInterface_ToDataTypeMapping</SHORT-NAME>
+                  <DATA-TYPE-MAPPING-SET-REFS>
+                    <DATA-TYPE-MAPPING-SET-REF DEST="DATA-TYPE-MAPPING-SET">/DataTypeMappingSets/StringsInterface_DataTypeMappings</DATA-TYPE-MAPPING-SET-REF>
+                  </DATA-TYPE-MAPPING-SET-REFS>
+                  <PORT-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageStrings/v_1_2/StringsInterface</PORT-INTERFACE-REF>
+                </PORT-INTERFACE-TO-DATA-TYPE-MAPPING>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>DataTypes</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ApplicationDataTypes</SHORT-NAME>
+          <ELEMENTS>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_String_789</SHORT-NAME>
+              <CATEGORY>STRING</CATEGORY>
+              <SW-DATA-DEF-PROPS>
+                <SW-DATA-DEF-PROPS-VARIANTS>
+                  <SW-DATA-DEF-PROPS-CONDITIONAL>
+                    <SW-TEXT-PROPS>
+                      <ARRAY-SIZE-SEMANTICS>FIXED-SIZE</ARRAY-SIZE-SEMANTICS>
+                      <SW-MAX-TEXT-SIZE>789</SW-MAX-TEXT-SIZE>
+                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                      <SW-FILL-CHARACTER>0</SW-FILL-CHARACTER>
+                    </SW-TEXT-PROPS>
+                  </SW-DATA-DEF-PROPS-CONDITIONAL>
+                </SW-DATA-DEF-PROPS-VARIANTS>
+              </SW-DATA-DEF-PROPS>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_String_varSize_base2</SHORT-NAME>
+              <CATEGORY>STRING</CATEGORY>
+              <SW-DATA-DEF-PROPS>
+                <SW-DATA-DEF-PROPS-VARIANTS>
+                  <SW-DATA-DEF-PROPS-CONDITIONAL>
+                    <SW-TEXT-PROPS>
+                      <ARRAY-SIZE-SEMANTICS>VARIABLE-SIZE</ARRAY-SIZE-SEMANTICS>
+                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                      <SW-FILL-CHARACTER>0</SW-FILL-CHARACTER>
+                    </SW-TEXT-PROPS>
+                  </SW-DATA-DEF-PROPS-CONDITIONAL>
+                </SW-DATA-DEF-PROPS-VARIANTS>
+              </SW-DATA-DEF-PROPS>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ImplementationDataTypes</SHORT-NAME>
+          <ELEMENTS>
+            <IMPLEMENTATION-DATA-TYPE UUID="0">
+              <SHORT-NAME>IDT_eSOME_IP_String_789</SHORT-NAME>
+              <CATEGORY>ARRAY</CATEGORY>
+              <SUB-ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                  <SHORT-NAME>IDT_uint8</SHORT-NAME>
+                  <CATEGORY>VALUE</CATEGORY>
+                  <ARRAY-SIZE>789</ARRAY-SIZE>
+                  <ARRAY-SIZE-HANDLING>ALL-INDICES-SAME-ARRAY-SIZE</ARRAY-SIZE-HANDLING>
+                  <ARRAY-SIZE-SEMANTICS>FIXED-SIZE</ARRAY-SIZE-SEMANTICS>
+                  <SW-DATA-DEF-PROPS>
+                    <SW-DATA-DEF-PROPS-VARIANTS>
+                      <SW-DATA-DEF-PROPS-CONDITIONAL>
+                        <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                      </SW-DATA-DEF-PROPS-CONDITIONAL>
+                    </SW-DATA-DEF-PROPS-VARIANTS>
+                  </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+              </SUB-ELEMENTS>
+            </IMPLEMENTATION-DATA-TYPE>
+            <IMPLEMENTATION-DATA-TYPE UUID="0">
+              <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2</SHORT-NAME>
+              <CATEGORY>STRUCTURE</CATEGORY>
+              <SUB-ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2_Size</SHORT-NAME>
+                  <CATEGORY>VALUE</CATEGORY>
+                  <SW-DATA-DEF-PROPS>
+                    <SW-DATA-DEF-PROPS-VARIANTS>
+                      <SW-DATA-DEF-PROPS-CONDITIONAL>
+                        <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint16_t</BASE-TYPE-REF>
+                      </SW-DATA-DEF-PROPS-CONDITIONAL>
+                    </SW-DATA-DEF-PROPS-VARIANTS>
+                  </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2_Payload</SHORT-NAME>
+                  <CATEGORY>ARRAY</CATEGORY>
+                  <SUB-ELEMENTS>
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                      <SHORT-NAME>IDT_uint8</SHORT-NAME>
+                      <CATEGORY>VALUE</CATEGORY>
+                      <ARRAY-SIZE-SEMANTICS>VARIABLE-SIZE</ARRAY-SIZE-SEMANTICS>
+                      <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                          <SW-DATA-DEF-PROPS-CONDITIONAL>
+                            <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                          </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                      </SW-DATA-DEF-PROPS>
+                    </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                  </SUB-ELEMENTS>
+                </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+              </SUB-ELEMENTS>
+            </IMPLEMENTATION-DATA-TYPE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>DataTypeMappingSets</SHORT-NAME>
+      <ELEMENTS>
+        <DATA-TYPE-MAPPING-SET UUID="0">
+          <SHORT-NAME>StringsInterface_DataTypeMappings</SHORT-NAME>
+          <DATA-TYPE-MAPS>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_789</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_789</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_base2</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize_base2</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+          </DATA-TYPE-MAPS>
+        </DATA-TYPE-MAPPING-SET>
+      </ELEMENTS>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>TransformationProps</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>TransformationPropsSet</SHORT-NAME>
+          <ELEMENTS>
+            <TRANSFORMATION-PROPS-SET UUID="0">
+              <SHORT-NAME>StringsInterface_TransformationProperties</SHORT-NAME>
+              <TRANSFORMATION-PROPSS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>StringsInterface_aFixedString_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                  <SIZE-OF-STRING-LENGTH-FIELD>0</SIZE-OF-STRING-LENGTH-FIELD>
+                  <STRING-ENCODING>UTF-16BE</STRING-ENCODING>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>StringsInterface_aVariableString_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                  <SIZE-OF-STRING-LENGTH-FIELD>2</SIZE-OF-STRING-LENGTH-FIELD>
+                  <STRING-ENCODING>UTF-8</STRING-ENCODING>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+              </TRANSFORMATION-PROPSS>
+            </TRANSFORMATION-PROPS-SET>
+          </ELEMENTS>
+        </AR-PACKAGE>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>TransformationPropsToServiceInterfaceMappingSets</SHORT-NAME>
+          <ELEMENTS>
+            <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING-SET UUID="0">
+              <SHORT-NAME>StringsInterface_TransformationPropsMappingSet</SHORT-NAME>
+              <MAPPINGS>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>StringsInterface_aFixedString_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aFixedString</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aFixedString_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>StringsInterface_aVariableString_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aVariableString</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aVariableString_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+              </MAPPINGS>
+            </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING-SET>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

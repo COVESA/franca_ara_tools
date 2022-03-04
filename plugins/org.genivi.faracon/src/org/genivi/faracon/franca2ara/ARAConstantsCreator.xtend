@@ -12,7 +12,6 @@ import org.franca.core.franca.FCompoundType
 import org.franca.core.franca.FConstantDef
 import org.franca.core.franca.FDoubleConstant
 import org.franca.core.franca.FEnumerationType
-import org.franca.core.franca.FEnumerator
 import org.franca.core.franca.FFloatConstant
 import org.franca.core.franca.FInitializerExpression
 import org.franca.core.franca.FIntegerConstant
@@ -28,7 +27,7 @@ import org.franca.core.franca.FUnaryOperation
 import org.franca.core.franca.FUnionType
 import org.genivi.faracon.Franca2ARABase
 
-import static extension org.genivi.faracon.franca2ara.ARATypeHelper.*
+import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
 import static org.franca.core.framework.FrancaHelpers.*
 
 @Singleton

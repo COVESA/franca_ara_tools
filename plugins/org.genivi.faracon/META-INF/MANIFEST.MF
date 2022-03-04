@@ -26,6 +26,8 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.genivi.faracon,
  org.genivi.faracon.ara2franca,
  org.genivi.faracon.franca2ara,
+ org.genivi.faracon.franca2ara.types,
+ org.genivi.faracon.franca2ara.config,
  org.genivi.faracon.logging,
  org.genivi.faracon.names,
  org.genivi.faracon.preferences,

@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/XML/1998/namespace xml.xsd">
+  <ADMIN-DATA>
+    <LANGUAGE>EN</LANGUAGE>
+    <USED-LANGUAGES>
+      <L-10 L="EN" xml:space="default"/>
+    </USED-LANGUAGES>
+  </ADMIN-DATA>
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>packageAttribute</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>AttributeInterface</SHORT-NAME>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>v_1_2</SHORT-NAME>
+              <ANNOTATIONS>
+                <ANNOTATION>
+                  <LABEL>
+                    <L-4>FrancaVersion</L-4>
+                  </LABEL>
+                  <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+                  <ANNOTATION-TEXT>
+                    <VERBATIM>
+                      <L-5>FInterface: AttributeInterface v_1_2</L-5>
+                    </VERBATIM>
+                  </ANNOTATION-TEXT>
+                </ANNOTATION>
+              </ANNOTATIONS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>v_1_2</SHORT-NAME>
+          <ANNOTATIONS>
+            <ANNOTATION>
+              <LABEL>
+                <L-4>FrancaVersion</L-4>
+              </LABEL>
+              <ANNOTATION-ORIGIN>faracon</ANNOTATION-ORIGIN>
+              <ANNOTATION-TEXT>
+                <VERBATIM>
+                  <L-5>FInterface: AttributeInterface v_1_2</L-5>
+                </VERBATIM>
+              </ANNOTATION-TEXT>
+            </ANNOTATION>
+          </ANNOTATIONS>
+          <ELEMENTS>
+            <SERVICE-INTERFACE UUID="0">
+              <SHORT-NAME>AttributeInterface</SHORT-NAME>
+              <NAMESPACES>
+                <SYMBOL-PROPS>
+                  <SHORT-NAME>packageAttribute</SHORT-NAME>
+                  <SYMBOL>packageAttribute</SYMBOL>
+                </SYMBOL-PROPS>
+                <SYMBOL-PROPS>
+                  <SHORT-NAME>v_1_2</SHORT-NAME>
+                  <SYMBOL>v_1_2</SYMBOL>
+                </SYMBOL-PROPS>
+              </NAMESPACES>
+              <FIELDS>
+                <FIELD UUID="0">
+                  <SHORT-NAME>boolAttr</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_Boolean</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>true</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+                <FIELD UUID="0">
+                  <SHORT-NAME>enumAttr</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_ATTR_ENUM</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>true</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+                <FIELD UUID="0">
+                  <SHORT-NAME>int16Attr</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_Int16</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>true</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+                <FIELD UUID="0">
+                  <SHORT-NAME>int8Attr</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_Int8</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>true</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+              </FIELDS>
+            </SERVICE-INTERFACE>
+          </ELEMENTS>
+          <AR-PACKAGES>
+            <AR-PACKAGE UUID="0">
+              <SHORT-NAME>ServiceInterfaceToDataTypeMappings</SHORT-NAME>
+              <ELEMENTS>
+                <PORT-INTERFACE-TO-DATA-TYPE-MAPPING UUID="0">
+                  <SHORT-NAME>AttributeInterface_ToDataTypeMapping</SHORT-NAME>
+                  <DATA-TYPE-MAPPING-SET-REFS>
+                    <DATA-TYPE-MAPPING-SET-REF DEST="DATA-TYPE-MAPPING-SET">/DataTypeMappingSets/AttributeInterface_DataTypeMappings</DATA-TYPE-MAPPING-SET-REF>
+                  </DATA-TYPE-MAPPING-SET-REFS>
+                  <PORT-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageAttribute/v_1_2/AttributeInterface</PORT-INTERFACE-REF>
+                </PORT-INTERFACE-TO-DATA-TYPE-MAPPING>
+              </ELEMENTS>
+            </AR-PACKAGE>
+          </AR-PACKAGES>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>DataTypes</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ApplicationDataTypes</SHORT-NAME>
+          <ELEMENTS>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_ATTR_ENUM</SHORT-NAME>
+              <CATEGORY>VALUE</CATEGORY>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_Boolean</SHORT-NAME>
+              <CATEGORY>VALUE</CATEGORY>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_Int16</SHORT-NAME>
+              <CATEGORY>VALUE</CATEGORY>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_Int8</SHORT-NAME>
+              <CATEGORY>VALUE</CATEGORY>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ImplementationDataTypes</SHORT-NAME>
+          <ELEMENTS>
+            <COMPU-METHOD UUID="0">
+              <SHORT-NAME>CM_ATTR_ENUM_CompuMethod</SHORT-NAME>
+              <CATEGORY>TEXTTABLE</CATEGORY>
+              <COMPU-INTERNAL-TO-PHYS>
+                <COMPU-SCALES>
+                  <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_1</SHORT-LABEL>
+                    <SYMBOL>ENUM_KEY_1</SYMBOL>
+                    <LOWER-LIMIT INTERVAL-TYPE="CLOSED">0</LOWER-LIMIT>
+                    <UPPER-LIMIT INTERVAL-TYPE="CLOSED">0</UPPER-LIMIT>
+                  </COMPU-SCALE>
+                  <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_2</SHORT-LABEL>
+                    <SYMBOL>ENUM_KEY_2</SYMBOL>
+                    <LOWER-LIMIT INTERVAL-TYPE="CLOSED">1</LOWER-LIMIT>
+                    <UPPER-LIMIT INTERVAL-TYPE="CLOSED">1</UPPER-LIMIT>
+                  </COMPU-SCALE>
+                  <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_3</SHORT-LABEL>
+                    <SYMBOL>ENUM_KEY_3</SYMBOL>
+                    <LOWER-LIMIT INTERVAL-TYPE="CLOSED">2</LOWER-LIMIT>
+                    <UPPER-LIMIT INTERVAL-TYPE="CLOSED">2</UPPER-LIMIT>
+                  </COMPU-SCALE>
+                  <COMPU-SCALE>
+                    <SHORT-LABEL>ENUM_KEY_4</SHORT-LABEL>
+                    <SYMBOL>ENUM_KEY_4</SYMBOL>
+                    <LOWER-LIMIT INTERVAL-TYPE="CLOSED">3</LOWER-LIMIT>
+                    <UPPER-LIMIT INTERVAL-TYPE="CLOSED">3</UPPER-LIMIT>
+                  </COMPU-SCALE>
+                </COMPU-SCALES>
+              </COMPU-INTERNAL-TO-PHYS>
+            </COMPU-METHOD>
+            <IMPLEMENTATION-DATA-TYPE UUID="0">
+              <SHORT-NAME>IDT_eSOME_IP_ATTR_ENUM</SHORT-NAME>
+              <CATEGORY>TYPE_REFERENCE</CATEGORY>
+              <SW-DATA-DEF-PROPS>
+                <SW-DATA-DEF-PROPS-VARIANTS>
+                  <SW-DATA-DEF-PROPS-CONDITIONAL>
+                    <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                    <COMPU-METHOD-REF DEST="COMPU-METHOD">/DataTypes/ImplementationDataTypes/CM_ATTR_ENUM_CompuMethod</COMPU-METHOD-REF>
+                  </SW-DATA-DEF-PROPS-CONDITIONAL>
+                </SW-DATA-DEF-PROPS-VARIANTS>
+              </SW-DATA-DEF-PROPS>
+            </IMPLEMENTATION-DATA-TYPE>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>DataTypeMappingSets</SHORT-NAME>
+      <ELEMENTS>
+        <DATA-TYPE-MAPPING-SET UUID="0">
+          <SHORT-NAME>AttributeInterface_DataTypeMappings</SHORT-NAME>
+          <DATA-TYPE-MAPS>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_ATTR_ENUM</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_ATTR_ENUM</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_Int8</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/Int8</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_Int16</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/Int16</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_Boolean</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/ara/stdtypes/Boolean</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+          </DATA-TYPE-MAPS>
+        </DATA-TYPE-MAPPING-SET>
+      </ELEMENTS>
+    </AR-PACKAGE>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>TransformationProps</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>TransformationPropsSet</SHORT-NAME>
+          <ELEMENTS>
+            <TRANSFORMATION-PROPS-SET UUID="0">
+              <SHORT-NAME>AttributeInterface_TransformationProperties</SHORT-NAME>
+              <TRANSFORMATION-PROPSS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>AttributeInterface_boolAttr_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>AttributeInterface_enumAttr_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>AttributeInterface_int16Attr_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>AttributeInterface_int8Attr_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+              </TRANSFORMATION-PROPSS>
+            </TRANSFORMATION-PROPS-SET>
+          </ELEMENTS>
+        </AR-PACKAGE>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>TransformationPropsToServiceInterfaceMappingSets</SHORT-NAME>
+          <ELEMENTS>
+            <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING-SET UUID="0">
+              <SHORT-NAME>AttributeInterface_TransformationPropsMappingSet</SHORT-NAME>
+              <MAPPINGS>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>AttributeInterface_boolAttr_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/boolAttr</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/AttributeInterface_TransformationProperties/AttributeInterface_boolAttr_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>AttributeInterface_enumAttr_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/enumAttr</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/AttributeInterface_TransformationProperties/AttributeInterface_enumAttr_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>AttributeInterface_int16Attr_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/int16Attr</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/AttributeInterface_TransformationProperties/AttributeInterface_int16Attr_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>AttributeInterface_int8Attr_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageAttribute/v_1_2/AttributeInterface/int8Attr</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/AttributeInterface_TransformationProperties/AttributeInterface_int8Attr_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+              </MAPPINGS>
+            </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING-SET>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>
