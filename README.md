@@ -18,17 +18,18 @@ Go to Eclipse Marketplace and install "Xtend".
 
 ### AUTOSAR
 
-Artop Release 4.12 (2019-04-26).
+Artop Release 4.12.1 (2021-02-22).
 
 This supports AUTOSAR Adaptive Platform R19-03.
 You need to be registered on [artop.org](https://www.artop.org) to get access to downloads and update sites.
 
 ### Franca
 
-Franca Release 0.13.1.
+Franca Release 0.13.2.
 
 For the transformations, it is sufficient to install _Franca Runtime_ (org.franca.core).
-If you want to use the IDL editor, additionally install _Franca UI_ (org.franca.core.ui).
+If you want to use the IDL editor, additionally install _Franca UI_ (org.franca.core.ui)
+and the _Franca Providers Deployment_ (org.franca.providers).
 
 Detailed instructions can be found in the [Quick Install Guide](https://github.com/franca/franca/wiki/Franca-Quick-Install-Guide).
 The Franca User Guide is available [here](https://drive.google.com/folderview?id=0B7JseVbR6jvhUnhLOUM5ZGxOOG8).
