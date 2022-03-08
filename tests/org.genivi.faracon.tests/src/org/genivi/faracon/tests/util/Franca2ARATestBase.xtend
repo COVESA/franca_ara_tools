@@ -19,11 +19,13 @@ import static extension org.genivi.faracon.tests.util.AutosarAssertHelper.*
 abstract class Franca2ARATestBase extends FaraconTestBase {
 
 	@Inject
-	var protected extension Franca2ARATransformation franca2AraTransformation
+	protected var extension Franca2ARATransformation franca2AraTransformation
 	@Inject
-	var protected extension ARATypeCreator araTypeCreator
+	protected var extension ARATypeCreator araTypeCreator
 	@Inject
 	var Franca2AraConverter franca2AraConverter
+	
+	protected val static DEPLOYMENT_SPEC_PATH = "../../../../../../../models/deployment-files/"
 
 	@Before
 	def void initTestEnvironment() {

@@ -22,7 +22,6 @@ class Franca2ARADeployment_Tests extends Franca2ARATestBase {
 	var extension Franca2ARAConfigProvider
 
 	static final String ALL_MODELS = "models/"
-	// static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_on_franca_deployment/f2a/"
 	static final String CONFIG_PROPERTY_FILE = ALL_MODELS + "Config/config.properties"
 
 	@Before
@@ -40,42 +39,41 @@ class Franca2ARADeployment_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void testServiceIDVersionDepl() {
-		testTransformation("ServiceID_Version.fidl", "ServiceID_Version.fdepl", "ServiceID_Version",
-			"ServiceID_VersionOutputFolder")
+		testTransformation("ServiceID_Version.fidl", "ServiceID_Version.fdepl", "ServiceID_Version")
 	}
 
 	@Test
 	def void testAttributesDepl() {
-		testTransformation("Attributes.fidl", "Attributes.fdepl", "Attributes", "AttributesOutputFolder")
+		testTransformation("Attributes.fidl", "Attributes.fdepl", "Attributes")
 	}
 
 	@Test
 	def void testEventGroupDepl() {
-		testTransformation("EventGroup.fidl", "EventGroup.fdepl", "EventGroup", "EventGroupOutputFolder")
+		testTransformation("EventGroup.fidl", "EventGroup.fdepl", "EventGroup")
 	}
 
 	@Test
 	def void testMethodDepl() {
-		testTransformation("Method.fidl", "Method.fdepl", "Method", "MethodsOutputFolder")
+		testTransformation("Method.fidl", "Method.fdepl", "Method")
 	}
 
 	@Test
 	def void testStringsDepl() {
-		testTransformation("Strings.fidl", "Strings.fdepl", "Strings", "StringsOutputFolder")
+		testTransformation("Strings.fidl", "Strings.fdepl", "Strings")
 	}
 	
 	@Test
 	def void testArraysDepl() {
-		testTransformation("Arrays.fidl", "Arrays.fdepl", "Arrays", "ArraysOutputFolder")
+		testTransformation("Arrays.fidl", "Arrays.fdepl", "Arrays")
 	}
 	
 	@Test
 	def void testStructsDepl() {
-		testTransformation("Structs.fidl", "Structs.fdepl", "Structs", "StructsOutputFolder")
+		testTransformation("Structs.fidl", "Structs.fdepl", "Structs")
 	}
+	
 
-	protected def void testTransformation(String francaIDLfilePath, String francaDeplFilePath, String arxmlFilePrefix,
-		String outputFolder) {
+	def private void testTransformation(String francaIDLfilePath, String francaDeplFilePath, String arxmlFilePrefix) {
 		franca2AraTransformation.logger.enableContinueOnErrors(true)
 
 		transformAndCheckIntegrationTest(
@@ -83,11 +81,11 @@ class Franca2ARADeployment_Tests extends Franca2ARATestBase {
 			#[
 				francaIDLfilePath,
 				francaDeplFilePath,
-				"../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
-				"../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+				DEPLOYMENT_SPEC_PATH + "CommonAPI-4_deployment_spec.fdepl",
+				DEPLOYMENT_SPEC_PATH + "CommonAPI-4-SOMEIP_deployment_spec.fdepl"
 			],
 			#[testPath + arxmlFilePrefix + ".arxml", testPath + arxmlFilePrefix + "_Deployment.arxml"],
-			outputFolder
+			"deployment/" + arxmlFilePrefix
 		)
 	}
 
