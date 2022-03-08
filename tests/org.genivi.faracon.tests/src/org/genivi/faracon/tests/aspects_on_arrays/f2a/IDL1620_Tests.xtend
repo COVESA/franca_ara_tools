@@ -14,12 +14,14 @@ import org.junit.runner.RunWith
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1620_Tests extends Franca2ARATestBase {
 
+	val static OUTPUT = "arrays/anonymous/"
+
 	@Test
 	def void simpleAnonymousArrayType() {
 		transformAndCheckIntegrationTest(testPath,
 			#["simpleAnonymousArrayType.fidl"],
 			#[testPath + "simpleAnonymousArrayType.arxml"],
-			"simpleAnonymousArrayType")
+			OUTPUT + "simpleAnonymousArrayType")
 	}
 
 	@Test
@@ -27,7 +29,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["complexAnonymousArrayType.fidl"],
 			#[testPath + "complexAnonymousArrayType.arxml"],
-			"complexAnonymousArrayType")
+			OUTPUT + "complexAnonymousArrayType")
 	}
 
 	@Test
@@ -37,7 +39,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			  "commonTypesForAnonymousArrayTypes.fidl"],
 			#[testPath + "anonymousArrayTypesWithImport.arxml",
 			  testPath + "commonTypesForAnonymousArrayTypes.arxml"],
-			"anonymousArrayTypesWithImport")
+			OUTPUT + "anonymousArrayTypesWithImport")
 	}
 
 	@Test
@@ -49,7 +51,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			#[testPath + "anonymousArrayTypesWithImport.arxml",
 			  testPath + "furtherAnonymousArrayTypeWithImport.arxml",
 			  testPath + "commonTypesForAnonymousArrayTypes.arxml"],
-			"multipleAnonymousArrayTypesUsingTheSameElementType")
+			OUTPUT + "multipleAnonymousArrayTypesUsingTheSameElementType")
 	}
 
 	@Test
@@ -61,7 +63,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			#[testPath + "anonymousArrayTypesWithElementsTypesFromDifferentNamespaces.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml",
 			  testPath + "commonTypes2ForNamedArrayTypes.arxml"],
-			"anonymousArrayTypesWithElementsTypesFromDifferentNamespaces")
+			OUTPUT + "anonymousArrayTypesWithElementsTypesFromDifferentNamespaces")
 	}
 
 	@Test
@@ -73,7 +75,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "simpleAnonymousFixedSizedArrayTypeInInterface.arxml",
 			  testPath + "stdtypes_arrays.arxml"],
-			"simpleAnonymousFixedSizedArrayTypeInInterface")
+			OUTPUT + "simpleAnonymousFixedSizedArrayTypeInInterface")
 	}
 
 	@Test
@@ -85,7 +87,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "simpleAnonymousFixedSizedArrayTypeInTypeCollection.arxml",
 			  testPath + "stdtypes_arrays.arxml"],
-			"simpleAnonymousFixedSizedArrayTypeInTypeCollection")
+			OUTPUT + "simpleAnonymousFixedSizedArrayTypeInTypeCollection")
 	}
 
 	@Test
@@ -96,7 +98,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			  "../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
 			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "complexAnonymousFixedSizedArrayTypeInInterface.arxml"],
-			"complexAnonymousFixedSizedArrayTypeInInterface")
+			OUTPUT + "complexAnonymousFixedSizedArrayTypeInInterface")
 	}
 
 	@Test
@@ -107,7 +109,7 @@ class IDL1620_Tests extends Franca2ARATestBase {
 			  "../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
 			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "complexAnonymousFixedSizedArrayTypeInTypeCollection.arxml"],
-			"complexAnonymousFixedSizedArrayTypeInTypeCollection")
+			OUTPUT + "complexAnonymousFixedSizedArrayTypeInTypeCollection")
 	}
 
 }

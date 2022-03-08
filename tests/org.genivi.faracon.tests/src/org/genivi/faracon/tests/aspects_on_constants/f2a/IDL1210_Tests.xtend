@@ -17,12 +17,14 @@ import org.junit.runner.RunWith
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1210_Tests extends Franca2ARATestBase {
 
+	val static OUTPUT = "constants/f2a/"
+
 	@Test
 	def void primitiveTypesConstantsInTypeCollection() {
 		transformAndCheckIntegrationTest(testPath,
 			#["primitiveTypesConstantsInTypeCollection.fidl"],
 			#[testPath + "primitiveTypesConstantsInTypeCollection.arxml"],
-			"primitiveTypesConstantsInTypeCollection")
+			OUTPUT + "primitiveTypesConstantsInTypeCollection")
 	}
 
 	@Test
@@ -30,7 +32,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["primitiveTypesConstantsInInterface.fidl"],
 			#[testPath + "primitiveTypesConstantsInInterface.arxml"],
-			"primitiveTypesConstantsInInterface")
+			OUTPUT + "primitiveTypesConstantsInInterface")
 	}
 
 	@Test
@@ -38,7 +40,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["arrayTypeConstantsInTypeCollection.fidl"],
 			#[testPath + "arrayTypeConstantsInTypeCollection.arxml"],
-			"arrayTypeConstantsInTypeCollection")
+			OUTPUT + "arrayTypeConstantsInTypeCollection")
 	}
 
 	@Test
@@ -46,7 +48,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["arrayTypeConstantsInInterface.fidl"],
 			#[testPath + "arrayTypeConstantsInInterface.arxml"],
-			"arrayTypeConstantsInInterface")
+			OUTPUT + "arrayTypeConstantsInInterface")
 	}
 
 	@Test
@@ -54,7 +56,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["mapTypeConstantsInTypeCollection.fidl"],
 			#[testPath + "mapTypeConstantsInTypeCollection.arxml"],
-			"mapTypeConstantsInTypeCollection")
+			OUTPUT + "mapTypeConstantsInTypeCollection")
 	}
 
 	@Test
@@ -62,7 +64,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["mapTypeConstantsInInterface.fidl"],
 			#[testPath + "mapTypeConstantsInInterface.arxml"],
-			"mapTypeConstantsInInterface")
+			OUTPUT + "mapTypeConstantsInInterface")
 	}
 
 	@Test
@@ -70,7 +72,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["structTypeConstantsInTypeCollection.fidl"],
 			#[testPath + "structTypeConstantsInTypeCollection.arxml"],
-			"structTypeConstantsInTypeCollection")
+			OUTPUT + "structTypeConstantsInTypeCollection")
 	}
 
 	@Test
@@ -78,7 +80,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["structTypeConstantsInInterface.fidl"],
 			#[testPath + "structTypeConstantsInInterface.arxml"],
-			"structTypeConstantsInInterface")
+			OUTPUT + "structTypeConstantsInInterface")
 	}
 
 	@Test
@@ -86,7 +88,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["unionTypeConstantsInTypeCollection.fidl"],
 			#[testPath + "unionTypeConstantsInTypeCollection.arxml"],
-			"unionTypeConstantsInTypeCollection")
+			OUTPUT + "unionTypeConstantsInTypeCollection")
 	}
 
 	@Test
@@ -94,7 +96,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["unionTypeConstantsInInterface.fidl"],
 			#[testPath + "unionTypeConstantsInInterface.arxml"],
-			"unionTypeConstantsInInterface")
+			OUTPUT + "unionTypeConstantsInInterface")
 	}
 
 	@Test
@@ -102,7 +104,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["enumerationTypeConstantsInTypeCollection.fidl"],
 			#[testPath + "enumerationTypeConstantsInTypeCollection.arxml"],
-			"enumerationTypeConstantsInTypeCollection")
+			OUTPUT + "enumerationTypeConstantsInTypeCollection")
 	}
 
 	@Test
@@ -110,7 +112,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["enumerationTypeConstantsInInterface.fidl"],
 			#[testPath + "enumerationTypeConstantsInInterface.arxml"],
-			"enumerationTypeConstantsInInterface")
+			OUTPUT + "enumerationTypeConstantsInInterface")
 	}
 
 	@Test
@@ -118,7 +120,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["typedefTypeConstantsInTypeCollection.fidl"],
 			#[testPath + "typedefTypeConstantsInTypeCollection.arxml"],
-			"typedefTypeConstantsInTypeCollection")
+			OUTPUT + "typedefTypeConstantsInTypeCollection")
 	}
 
 	@Test
@@ -126,7 +128,7 @@ class IDL1210_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["typedefTypeConstantsInInterface.fidl"],
 			#[testPath + "typedefTypeConstantsInInterface.arxml"],
-			"typedefTypeConstantsInInterface")
+			OUTPUT + "typedefTypeConstantsInInterface")
 	}
 
 }

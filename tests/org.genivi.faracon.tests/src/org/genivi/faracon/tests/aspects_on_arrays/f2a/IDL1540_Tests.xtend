@@ -18,12 +18,14 @@ import org.eclipse.emf.ecore.EPackage
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1540_Tests extends Franca2ARATestBase {
 
+	val static OUTPUT = "arrays/named/"
+	
 	@Test
 	def void simpleNamedArrayType() {
 		transformAndCheckIntegrationTest(testPath,
 			#["simpleNamedArrayType.fidl"],
 			#[testPath + "simpleNamedArrayType.arxml"],
-			"simpleNamedArrayType")
+			OUTPUT + "simpleNamedArrayType")
 	}
 
 	@Test
@@ -31,7 +33,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(testPath,
 			#["complexNamedArrayType.fidl"],
 			#[testPath + "complexNamedArrayType.arxml"],
-			"complexNamedArrayType")
+			OUTPUT + "complexNamedArrayType")
 	}
 
 	@Test
@@ -41,7 +43,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 			  "commonTypesForNamedArrayTypes.fidl"],
 			#[testPath + "namedArrayTypesWithImport.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml"],
-			"namedArrayTypesWithImport")
+			OUTPUT + "namedArrayTypesWithImport")
 	}
 
 	@Test
@@ -53,7 +55,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 			#[testPath + "namedArrayTypesWithImport.arxml",
 			  testPath + "furtherNamedArrayTypeWithImport.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml"],
-			"multipleNamedArrayTypesUsingTheSameElementType")
+			OUTPUT + "multipleNamedArrayTypesUsingTheSameElementType")
 	}
 
 	@Test
@@ -65,7 +67,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 			#[testPath + "namedArrayTypesWithElementsTypesFromDifferentNamespaces.arxml",
 			  testPath + "commonTypesForNamedArrayTypes.arxml",
 			  testPath + "commonTypes2ForNamedArrayTypes.arxml"],
-			"namedArrayTypesWithElementsTypesFromDifferentNamespaces")
+			OUTPUT + "namedArrayTypesWithElementsTypesFromDifferentNamespaces")
 	}
 
 	@Test
@@ -76,7 +78,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 			  "../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
 			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "namedFixedSizedArrayTypeInTypeCollection.arxml"],
-			"namedFixedSizedArrayTypeInTypeCollection")
+			OUTPUT + "namedFixedSizedArrayTypeInTypeCollection")
 	}
 
 	@Test
@@ -87,7 +89,7 @@ class IDL1540_Tests extends Franca2ARATestBase {
 			  "../../../../../../../models/deployment-files/CommonAPI-4_deployment_spec.fdepl",
 			  "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"],
 			#[testPath + "namedFixedSizedArrayTypeInInterface.arxml"],
-			"namedFixedSizedArrayTypeInInterface")
+			OUTPUT + "namedFixedSizedArrayTypeInInterface")
 	}
 
 }
