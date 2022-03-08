@@ -18,12 +18,12 @@ public class IDL1270_Tests extends Franca2ARATestBase {
 
 	@Test
 	public void interfaceInheritance() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "interfaceInheritance");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "interfaceInheritance");
 	}
 
 	@Test
 	public void interfaceInheritanceWithContent() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "interfaceInheritanceWithContent");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "interfaceInheritanceWithContent");
 	}
 
 }

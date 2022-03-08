@@ -16,11 +16,13 @@ import org.genivi.faracon.logging.AbstractLogger
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1125_Tests extends ARA2FrancaTestBase {
 
+	val static OUTPUT = "imports/a2f/"
+
 	@Test
 	def void testMultipleFilesFromAutosarWithImport() {
 		transformAndCheckIntegrationTest(#[testPath + "fileWithImport.arxml"],
 			#[testPath + "fileWithImport_a1.b2.c3.fidl", testPath + "fileWithImport_a1.b2.c3.d4.fidl"],
-			"testMultipleFilesFromAutosarWithImport")
+			OUTPUT + "testMultipleFilesFromAutosarWithImport")
 	}
 
 	@Test
@@ -29,7 +31,7 @@ class IDL1125_Tests extends ARA2FrancaTestBase {
 			#[testPath + "fileWithMultiImport.arxml"],
 			#[testPath + "fileWithMultiImport_a1.b2.c3.fidl", testPath + "fileWithMultiImport_a1.b2.c3.d4.fidl",
 				testPath + "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"],
-			"testMultipleFilesWithMultipleInterfacesAndTypesWithImport"
+			OUTPUT + "testMultipleFilesWithMultipleInterfacesAndTypesWithImport"
 		)
 	}
 
@@ -40,7 +42,7 @@ class IDL1125_Tests extends ARA2FrancaTestBase {
 			#[testPath + "fileWithMultiImportPart1_a1.b2.c3.fidl",
 				testPath + "fileWithMultiImportPart2_a1.b2.c3.d4.fidl",
 				testPath + "fileWithMultiImportPart2_a1.b2.c3.d4.e5.fidl"],
-			"IDL1125_testMultipleInputToMultipleOutFiles")
+			OUTPUT + "IDL1125_testMultipleInputToMultipleOutFiles")
 	}
 
 	@Test(expected=AbstractLogger.StopOnErrorException)

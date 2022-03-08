@@ -18,7 +18,7 @@ public class IDL1220_Tests extends Franca2ARATestBase {
 
 	@Test
 	public void interfaceDefinition() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "interfaceDefinition");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "interfaceDefinition");
 	}
 
 }

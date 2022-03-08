@@ -18,12 +18,12 @@ class IDL1320_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void oneMethodReturnValue() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "oneMethodReturnValue")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "oneMethodReturnValue")
 	}
 
 	@Test
 	def void multipleMethodInputArguments() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "multipleMethodReturnValues")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "multipleMethodReturnValues")
 	}
 
 }

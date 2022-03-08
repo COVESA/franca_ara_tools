@@ -15,7 +15,7 @@ public class IDL1110_Tests extends Franca2ARATestBase {
 
 	@Test
 	public void namespacesHierarchy() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "namespacesHierarchy");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "namespacesHierarchy");
 	}
 
 }

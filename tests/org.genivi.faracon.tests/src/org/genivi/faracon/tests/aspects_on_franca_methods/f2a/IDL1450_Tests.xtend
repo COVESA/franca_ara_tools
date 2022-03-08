@@ -18,12 +18,12 @@ class IDL1450_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void arrayMethodInputArgument() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "arrayMethodInputArgument")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "arrayMethodInputArgument")
 	}
 
 	@Test
 	def void broadcastArgument() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastArgument")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastArgument")
 	}
 
 }

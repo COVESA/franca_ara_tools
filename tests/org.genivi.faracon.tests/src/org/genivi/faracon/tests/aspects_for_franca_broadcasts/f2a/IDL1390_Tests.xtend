@@ -19,7 +19,7 @@ class IDL1390_Tests extends Franca2ARATestBase {
 
 	@Test(expected = AbstractLogger.StopOnErrorException)
 	def void selectiveBroadcast() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "selectiveBroadcast")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "selectiveBroadcast")
 	}
 
 }

@@ -33,19 +33,19 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 	}
 
 	def void transform(String path, String fileBasename) {
-		transformationTest(path, fileBasename, null, false)
+		transformationTest(path, fileBasename, null, false, "transformOnly")
 	}
 
 	/**
 	 * Do not use this method any longer as it does not perform any check
 	 */
 	@Deprecated
-	def void transformAndCheck(String path, String fileBasename) {
-		transformationTest(path, fileBasename, null, true)
+	def void transformWithoutCheck(String path, String fileBasename) {
+		transformationTest(path, fileBasename, null, true, "withoutCheck")
 	}
 
 	def void transformAndCheck(String path, String fileBasename, String expectedFilePath) {
-		transformationTest(path, fileBasename, expectedFilePath, true)
+		transformationTest(path, fileBasename, expectedFilePath, true, "withCheck")
 	}
 
 	def void transformAndCheckIntegrationTest(String path, Collection<String> files,
@@ -101,7 +101,13 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		return arxmlFiles
 	}
 
-	def private void transformationTest(String path, String fileBasename, String expectedFileName, boolean check) {
+	def private void transformationTest(
+		String path,
+		String fileBasename,
+		String expectedFileName,
+		boolean check,
+		String outputPath
+	) {
 		// given
 		// load example Franca IDL interface
 		val inputfile = path + fileBasename + ".fidl"
@@ -111,7 +117,8 @@ abstract class Franca2ARATestBase extends FaraconTestBase {
 		// when
 		// transform to arxml
 		val fromFranca = araConnector.fromFranca(fmodel) as ARAModelContainer
-		val araFileName = "src-gen/testcases/" + fileBasename + ".arxml"
+		val outPath = outputPath!==null ? outputPath + "/" : ""
+		val araFileName = "src-gen/testcases/" + outPath + fileBasename + ".arxml"
 		println("Save ara file " + araFileName)
 		if (check) {
 			fromFranca.model.setUuidsTo0		

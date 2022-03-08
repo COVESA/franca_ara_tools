@@ -15,12 +15,12 @@ public class IDL1140_Tests extends Franca2ARATestBase {
 
 	@Test
 	public void oneTypeCollectionDefinition() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "oneTypeCollectionDefinition");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "oneTypeCollectionDefinition");
 	}
 
 	@Test
 	public void multipleTypeCollectionDefinitions() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "multipleTypeCollectionDefinitions");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "multipleTypeCollectionDefinitions");
 	}
 
 }

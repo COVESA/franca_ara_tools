@@ -18,7 +18,7 @@ class IDL1300_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void fireAndForgetMethod() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "fireAndForgetMethod")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "fireAndForgetMethod")
 	}
 
 }

@@ -15,12 +15,14 @@ import org.junit.runner.RunWith
 @InjectWith(FaraconTestsInjectorProvider)
 class IDL1125_Tests extends Franca2ARATestBase {
 
+	val static OUTPUT = "imports/f2a/"
+	
 	@Test
 	def void testMultipleFilesFromFrancaWithImport() {
 		transformAndCheckIntegrationTest(correspondingAutosar2FrancaTestPath,
 			#["fileWithImport_a1.b2.c3.fidl", "fileWithImport_a1.b2.c3.d4.fidl"],
 			#[testPath + "fileWithImport_a1.b2.c3.arxml", testPath + "fileWithImport_a1.b2.c3.d4.arxml"],
-			"testMultipleFilesFromFrancaWithImport")
+			OUTPUT + "testMultipleFilesFromFrancaWithImport")
 	}
 
 	@Test
@@ -29,7 +31,7 @@ class IDL1125_Tests extends Franca2ARATestBase {
 			#["fileWithMultiImport_a1.b2.c3.fidl", "fileWithMultiImport_a1.b2.c3.d4.fidl", "fileWithMultiImport_a1.b2.c3.d4.e5.fidl"],
 			#[testPath + "fileWithMultiImport_a1.b2.c3.arxml", testPath + "fileWithMultiImport_a1.b2.c3.d4.arxml",
 				testPath + "fileWithMultiImport_a1.b2.c3.d4.e5.arxml"],
-			"testMultipleFrancaInputFilesWithMultipleInterfacesAndTypesWithImport")
+			OUTPUT + "testMultipleFrancaInputFilesWithMultipleInterfacesAndTypesWithImport")
 	}
 	
 	@Test
@@ -37,7 +39,7 @@ class IDL1125_Tests extends Franca2ARATestBase {
 		transformAndCheckIntegrationTest(correspondingAutosar2FrancaTestPath,
 			#["fileWithImport_a1.b2.c3.fidl"],
 			#[testPath + "fileWithImport_a1.b2.c3.arxml"],
-			"testIncompleteFrancaInputModels")
+			OUTPUT + "testIncompleteFrancaInputModels")
 	}
 
 }

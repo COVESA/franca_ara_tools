@@ -19,7 +19,7 @@ class IDL1400_Tests extends Franca2ARATestBase {
 
 	@Test(expected = AbstractLogger.StopOnErrorException)
 	def void broadcastsWithSelectors() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastsWithSelectors")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastsWithSelectors")
 	}
 
 }

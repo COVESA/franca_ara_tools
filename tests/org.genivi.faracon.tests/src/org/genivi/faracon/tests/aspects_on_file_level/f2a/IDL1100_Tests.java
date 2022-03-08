@@ -15,7 +15,7 @@ public class IDL1100_Tests extends Franca2ARATestBase {
 
 	@Test
 	public void emptyFile() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "emptyFile");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "emptyFile");
 	}
 
 }

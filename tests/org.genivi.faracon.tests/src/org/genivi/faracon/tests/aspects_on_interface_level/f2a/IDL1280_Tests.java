@@ -19,12 +19,12 @@ public class IDL1280_Tests extends Franca2ARATestBase {
 
 	@Test(expected = AbstractLogger.StopOnErrorException.class)
 	public void singleManagesRelationBetweenInterfaces() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "singleManagesRelationBetweenInterfaces");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "singleManagesRelationBetweenInterfaces");
 	}
 
 	@Test(expected = AbstractLogger.StopOnErrorException.class)
 	public void multiManagesRelationBetweenInterfaces() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "multiManagesRelationBetweenInterfaces");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "multiManagesRelationBetweenInterfaces");
 	}
 
 }

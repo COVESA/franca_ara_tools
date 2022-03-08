@@ -15,15 +15,16 @@ import org.junit.runner.RunWith
 class IDL1310_Tests extends Franca2ARATestBase {
 
 	static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_on_franca_methods/f2a/"
+	val static OUTPUT = "methods/"
 
 	@Test
 	def void oneMethodInputArgument() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "oneMethodInputArgument")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "oneMethodInputArgument")
 	}
 
 	@Test
 	def void multipleMethodInputArguments() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "multipleMethodInputArguments")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "multipleMethodInputArguments")
 	}
 
 }

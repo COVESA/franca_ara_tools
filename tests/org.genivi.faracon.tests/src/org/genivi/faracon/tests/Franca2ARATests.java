@@ -18,48 +18,48 @@ public class Franca2ARATests extends Franca2ARATestBase {
 
 	@Test
 	public void test_20() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "simple");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "simple");
 	}
 	
 	@Test
 	@Ignore
 	public void testSimpleStruct() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleStruct");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "simpleStruct");
 	}
 	
 	@Test
 	public void testSimpleAttribute() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleAttribute");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "simpleAttribute");
 	}
 	
 	@Test
 	public void testSimpleBroadcast() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleBroadcast");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "simpleBroadcast");
 	}
 	
 	@Test
 	public void testSimpleEnum() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleEnum");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "simpleEnum");
 	}
 	
 	@Test
 	public void testSimpleArray() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleArray");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "simpleArray");
 	}
 	
 	@Test
 	public void testSimpleMap() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "simpleMap");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "simpleMap");
 	}
 	
 //	@Test
 //	public void test_40() {
-//		transformAndCheck(LOCAL_FRANCA_MODELS, "40-PolymorphicStructs");
+//		transformWithoutCheck(LOCAL_FRANCA_MODELS, "40-PolymorphicStructs");
 //	}
 //
 //	@Test
 //	public void test_ref_61() {
-//		transformAndCheck(REF_EXAMPLE_FRANCA_MODELS, "61-Interface");
+//		transformWithoutCheck(REF_EXAMPLE_FRANCA_MODELS, "61-Interface");
 //	}
 //
 

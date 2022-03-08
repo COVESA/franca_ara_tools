@@ -19,7 +19,7 @@ public class IDL1330_Tests extends Franca2ARATestBase {
 
 	@Test(expected = AbstractLogger.StopOnErrorException.class)
 	public void separateMethodErrorsEnumeration() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "separateMethodErrorsEnumeration");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "separateMethodErrorsEnumeration");
 	}
 
 }

@@ -18,12 +18,12 @@ public class IDL1240_Tests extends Franca2ARATestBase {
 
 	@Test
 	public void oneMethod() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "oneMethod");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "oneMethod");
 	}
 
 	@Test
 	public void multipleMethods() {	
-		transformAndCheck(LOCAL_FRANCA_MODELS, "multipleMethods");
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "multipleMethods");
 	}
 
 }

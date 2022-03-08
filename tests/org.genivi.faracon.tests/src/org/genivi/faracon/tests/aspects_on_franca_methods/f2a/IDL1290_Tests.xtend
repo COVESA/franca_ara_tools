@@ -15,10 +15,11 @@ import org.junit.runner.RunWith
 class IDL1290_Tests extends Franca2ARATestBase {
 
 	static final String LOCAL_FRANCA_MODELS = "src/org/genivi/faracon/tests/aspects_on_franca_methods/f2a/"
-
+	val static OUTPUT = "methods/"
+	
 	@Test
 	def void methodWithInAndOutArguments() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "methodWithInAndOutArguments")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "methodWithInAndOutArguments")
 	}
 
 	@Test
@@ -31,7 +32,7 @@ class IDL1290_Tests extends Franca2ARATestBase {
 				"../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
 			],
 			#[ testPath + "methodWithInAndOutArguments.arxml" ],
-			"methodTestOutputFolder"
+			OUTPUT + "methodTestOutputFolder"
 		)
 	}
 

@@ -18,37 +18,37 @@ class IDL1380_Tests extends Franca2ARATestBase {
 
 	@Test
 	def void broadcastWithoutArguments() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastWithoutArguments")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastWithoutArguments")
 	}
 
 	@Test
 	def void broadcastWithOneArgument() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastWithOneArgument")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastWithOneArgument")
 	}
 
 	@Test
 	def void broadcastWithMultipleArguments() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastWithMultipleArguments")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastWithMultipleArguments")
 	}
 
 	@Test
 	def void broadcastConflictWithUserStruct() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastConflictWithUserStruct")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastConflictWithUserStruct")
 	}
 
 	@Test
 	def void broadcastDoubleConflictWithUserStructs() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastDoubleConflictWithUserStructs")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastDoubleConflictWithUserStructs")
 	}
 
 	@Test
 	def void broadcastConflictWithUserEnum() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastConflictWithUserEnum")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastConflictWithUserEnum")
 	}
 
 	@Test
 	def void broadcastNonConflictWithIdenticallyNamedMethod() {
-		transformAndCheck(LOCAL_FRANCA_MODELS, "broadcastNonConflictWithIdenticallyNamedMethod")
+		transformWithoutCheck(LOCAL_FRANCA_MODELS, "broadcastNonConflictWithIdenticallyNamedMethod")
 	}
 
 }
