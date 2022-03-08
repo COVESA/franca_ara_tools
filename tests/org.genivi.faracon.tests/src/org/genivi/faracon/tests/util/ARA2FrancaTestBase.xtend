@@ -85,8 +85,8 @@ abstract class ARA2FrancaTestBase extends FaraconTestBase {
 	def private void doTransformTest(IModelContainer arModel, Collection<FModel> expectedModels) {
 		// given: non null model and non-null expected models
 		assertNotNull("The input ARXML model is null", arModel)
-		assertFalse("No expectd franca models provided", expectedModels.isNullOrEmpty)
-		expectedModels.forEach[assertNotNull("The expected franca model is null", it)]
+		assertFalse("No expected Franca models provided", expectedModels.isNullOrEmpty)
+		expectedModels.forEach[assertNotNull("The expected Franca model is null", it)]
 
 		// when: transformed to franca
 		val francaModels = transformToFranca(arModel)
