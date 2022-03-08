@@ -4,7 +4,7 @@ import "Strings.fidl"
 define org.genivi.commonapi.someip.deployment for interface packageStrings.StringsInterface {
     SomeIpServiceID = 4111
 
-    attribute aFixedString {
+    attribute aFixedString1 {
         SomeIpGetterID = 0
         SomeIpSetterID = 1
         SomeIpStringLength = 789
@@ -12,10 +12,28 @@ define org.genivi.commonapi.someip.deployment for interface packageStrings.Strin
         SomeIpStringEncoding = utf16be
     }
 
-    attribute aVariableString {
+    attribute aFixedString2 {
+        SomeIpGetterID = 0
+        SomeIpSetterID = 1
+        SomeIpStringLength = 100
+        SomeIpStringLengthWidth = 0
+        SomeIpStringEncoding = utf8
+    }
+
+
+    attribute aVariableString1 {
         SomeIpGetterID = 0
         SomeIpSetterID = 1
         SomeIpStringLengthWidth = 2
         SomeIpStringEncoding = utf8
     }
+
+    attribute aVariableString2 {
+        SomeIpGetterID = 0
+        SomeIpSetterID = 1
+        SomeIpStringLength = 75  // will be interpreted as MaxSize
+        SomeIpStringLengthWidth = 1
+        SomeIpStringEncoding = utf16le
+    }
+    
 }

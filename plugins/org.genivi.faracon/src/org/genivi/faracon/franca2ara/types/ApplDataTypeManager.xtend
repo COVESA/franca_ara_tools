@@ -84,8 +84,9 @@ class ApplDataTypeManager extends Franca2ARABase {
 	}
 	
 	def private initADTString(ApplicationPrimitiveDataType it, ImplementationDataType idt, TypeContext tc) {
-		val len = tc.typedElement.getStringLength
-		val isFixedSize = tc.typedElement.isFixedSizedString
+		val te = tc.typedElement
+		val len = te.getStringLength
+		val isFixedSize = te.isFixedSizedString
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				swTextProps = fac.createSwTextProps => [
@@ -102,7 +103,8 @@ class ApplDataTypeManager extends Franca2ARABase {
 							swMaxTextSize = len.asInteger						
 						}
 					}
-					baseType = getStringBaseType
+					val enc = te.getStringEncoding
+					baseType = enc.getStringBaseType
 					swFillCharacter = 0
 				]
 			]

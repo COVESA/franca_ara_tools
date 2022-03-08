@@ -17,29 +17,57 @@
               <SHORT-NAME>StringsInterface_Someip</SHORT-NAME>
               <FIELD-DEPLOYMENTS>
                 <SOMEIP-FIELD-DEPLOYMENT UUID="0">
-                  <SHORT-NAME>aFixedString_Someip</SHORT-NAME>
-                  <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aFixedString</FIELD-REF>
+                  <SHORT-NAME>aFixedString1_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aFixedString1</FIELD-REF>
                   <GET UUID="0">
-                    <SHORT-NAME>getAFixedString</SHORT-NAME>
+                    <SHORT-NAME>getAFixedString1</SHORT-NAME>
                     <METHOD-ID>0</METHOD-ID>
                     <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
                   </GET>
                   <SET UUID="0">
-                    <SHORT-NAME>setAFixedString</SHORT-NAME>
+                    <SHORT-NAME>setAFixedString1</SHORT-NAME>
                     <METHOD-ID>1</METHOD-ID>
                     <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
                   </SET>
                 </SOMEIP-FIELD-DEPLOYMENT>
                 <SOMEIP-FIELD-DEPLOYMENT UUID="0">
-                  <SHORT-NAME>aVariableString_Someip</SHORT-NAME>
-                  <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aVariableString</FIELD-REF>
+                  <SHORT-NAME>aFixedString2_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aFixedString2</FIELD-REF>
                   <GET UUID="0">
-                    <SHORT-NAME>getAVariableString</SHORT-NAME>
+                    <SHORT-NAME>getAFixedString2</SHORT-NAME>
                     <METHOD-ID>0</METHOD-ID>
                     <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
                   </GET>
                   <SET UUID="0">
-                    <SHORT-NAME>setAVariableString</SHORT-NAME>
+                    <SHORT-NAME>setAFixedString2</SHORT-NAME>
+                    <METHOD-ID>1</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>aVariableString1_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aVariableString1</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getAVariableString1</SHORT-NAME>
+                    <METHOD-ID>0</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <SET UUID="0">
+                    <SHORT-NAME>setAVariableString1</SHORT-NAME>
+                    <METHOD-ID>1</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>aVariableString2_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aVariableString2</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getAVariableString2</SHORT-NAME>
+                    <METHOD-ID>0</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <SET UUID="0">
+                    <SHORT-NAME>setAVariableString2</SHORT-NAME>
                     <METHOD-ID>1</METHOD-ID>
                     <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
                   </SET>

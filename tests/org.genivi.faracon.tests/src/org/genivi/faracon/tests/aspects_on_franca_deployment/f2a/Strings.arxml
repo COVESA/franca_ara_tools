@@ -40,15 +40,29 @@
               </NAMESPACES>
               <FIELDS>
                 <FIELD UUID="0">
-                  <SHORT-NAME>aFixedString</SHORT-NAME>
-                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_789</TYPE-TREF>
+                  <SHORT-NAME>aFixedString1</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_utf16_789</TYPE-TREF>
                   <HAS-GETTER>true</HAS-GETTER>
                   <HAS-NOTIFIER>false</HAS-NOTIFIER>
                   <HAS-SETTER>true</HAS-SETTER>
                 </FIELD>
                 <FIELD UUID="0">
-                  <SHORT-NAME>aVariableString</SHORT-NAME>
-                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_base2</TYPE-TREF>
+                  <SHORT-NAME>aFixedString2</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_utf8_100</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>false</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+                <FIELD UUID="0">
+                  <SHORT-NAME>aVariableString1</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_lenbt2_utf8</TYPE-TREF>
+                  <HAS-GETTER>true</HAS-GETTER>
+                  <HAS-NOTIFIER>false</HAS-NOTIFIER>
+                  <HAS-SETTER>true</HAS-SETTER>
+                </FIELD>
+                <FIELD UUID="0">
+                  <SHORT-NAME>aVariableString2</SHORT-NAME>
+                  <TYPE-TREF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_lenbt1_utf16_max75</TYPE-TREF>
                   <HAS-GETTER>true</HAS-GETTER>
                   <HAS-NOTIFIER>false</HAS-NOTIFIER>
                   <HAS-SETTER>true</HAS-SETTER>
@@ -80,7 +94,7 @@
           <SHORT-NAME>ApplicationDataTypes</SHORT-NAME>
           <ELEMENTS>
             <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
-              <SHORT-NAME>ADT_String_789</SHORT-NAME>
+              <SHORT-NAME>ADT_String_utf16_789</SHORT-NAME>
               <CATEGORY>STRING</CATEGORY>
               <SW-DATA-DEF-PROPS>
                 <SW-DATA-DEF-PROPS-VARIANTS>
@@ -88,7 +102,7 @@
                     <SW-TEXT-PROPS>
                       <ARRAY-SIZE-SEMANTICS>FIXED-SIZE</ARRAY-SIZE-SEMANTICS>
                       <SW-MAX-TEXT-SIZE>789</SW-MAX-TEXT-SIZE>
-                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/UTF-16</BASE-TYPE-REF>
                       <SW-FILL-CHARACTER>0</SW-FILL-CHARACTER>
                     </SW-TEXT-PROPS>
                   </SW-DATA-DEF-PROPS-CONDITIONAL>
@@ -96,14 +110,46 @@
               </SW-DATA-DEF-PROPS>
             </APPLICATION-PRIMITIVE-DATA-TYPE>
             <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
-              <SHORT-NAME>ADT_String_varSize_base2</SHORT-NAME>
+              <SHORT-NAME>ADT_String_utf8_100</SHORT-NAME>
+              <CATEGORY>STRING</CATEGORY>
+              <SW-DATA-DEF-PROPS>
+                <SW-DATA-DEF-PROPS-VARIANTS>
+                  <SW-DATA-DEF-PROPS-CONDITIONAL>
+                    <SW-TEXT-PROPS>
+                      <ARRAY-SIZE-SEMANTICS>FIXED-SIZE</ARRAY-SIZE-SEMANTICS>
+                      <SW-MAX-TEXT-SIZE>100</SW-MAX-TEXT-SIZE>
+                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/UTF-8</BASE-TYPE-REF>
+                      <SW-FILL-CHARACTER>0</SW-FILL-CHARACTER>
+                    </SW-TEXT-PROPS>
+                  </SW-DATA-DEF-PROPS-CONDITIONAL>
+                </SW-DATA-DEF-PROPS-VARIANTS>
+              </SW-DATA-DEF-PROPS>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_String_varSize_lenbt1_utf16_max75</SHORT-NAME>
               <CATEGORY>STRING</CATEGORY>
               <SW-DATA-DEF-PROPS>
                 <SW-DATA-DEF-PROPS-VARIANTS>
                   <SW-DATA-DEF-PROPS-CONDITIONAL>
                     <SW-TEXT-PROPS>
                       <ARRAY-SIZE-SEMANTICS>VARIABLE-SIZE</ARRAY-SIZE-SEMANTICS>
-                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                      <SW-MAX-TEXT-SIZE>75</SW-MAX-TEXT-SIZE>
+                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/UTF-16</BASE-TYPE-REF>
+                      <SW-FILL-CHARACTER>0</SW-FILL-CHARACTER>
+                    </SW-TEXT-PROPS>
+                  </SW-DATA-DEF-PROPS-CONDITIONAL>
+                </SW-DATA-DEF-PROPS-VARIANTS>
+              </SW-DATA-DEF-PROPS>
+            </APPLICATION-PRIMITIVE-DATA-TYPE>
+            <APPLICATION-PRIMITIVE-DATA-TYPE UUID="0">
+              <SHORT-NAME>ADT_String_varSize_lenbt2_utf8</SHORT-NAME>
+              <CATEGORY>STRING</CATEGORY>
+              <SW-DATA-DEF-PROPS>
+                <SW-DATA-DEF-PROPS-VARIANTS>
+                  <SW-DATA-DEF-PROPS-CONDITIONAL>
+                    <SW-TEXT-PROPS>
+                      <ARRAY-SIZE-SEMANTICS>VARIABLE-SIZE</ARRAY-SIZE-SEMANTICS>
+                      <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/UTF-8</BASE-TYPE-REF>
                       <SW-FILL-CHARACTER>0</SW-FILL-CHARACTER>
                     </SW-TEXT-PROPS>
                   </SW-DATA-DEF-PROPS-CONDITIONAL>
@@ -116,7 +162,7 @@
           <SHORT-NAME>ImplementationDataTypes</SHORT-NAME>
           <ELEMENTS>
             <IMPLEMENTATION-DATA-TYPE UUID="0">
-              <SHORT-NAME>IDT_eSOME_IP_String_789</SHORT-NAME>
+              <SHORT-NAME>IDT_eSOME_IP_String_utf16_789</SHORT-NAME>
               <CATEGORY>ARRAY</CATEGORY>
               <SUB-ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
@@ -136,11 +182,67 @@
               </SUB-ELEMENTS>
             </IMPLEMENTATION-DATA-TYPE>
             <IMPLEMENTATION-DATA-TYPE UUID="0">
-              <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2</SHORT-NAME>
+              <SHORT-NAME>IDT_eSOME_IP_String_utf8_100</SHORT-NAME>
+              <CATEGORY>ARRAY</CATEGORY>
+              <SUB-ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                  <SHORT-NAME>IDT_uint8</SHORT-NAME>
+                  <CATEGORY>VALUE</CATEGORY>
+                  <ARRAY-SIZE>100</ARRAY-SIZE>
+                  <ARRAY-SIZE-HANDLING>ALL-INDICES-SAME-ARRAY-SIZE</ARRAY-SIZE-HANDLING>
+                  <ARRAY-SIZE-SEMANTICS>FIXED-SIZE</ARRAY-SIZE-SEMANTICS>
+                  <SW-DATA-DEF-PROPS>
+                    <SW-DATA-DEF-PROPS-VARIANTS>
+                      <SW-DATA-DEF-PROPS-CONDITIONAL>
+                        <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                      </SW-DATA-DEF-PROPS-CONDITIONAL>
+                    </SW-DATA-DEF-PROPS-VARIANTS>
+                  </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+              </SUB-ELEMENTS>
+            </IMPLEMENTATION-DATA-TYPE>
+            <IMPLEMENTATION-DATA-TYPE UUID="0">
+              <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75</SHORT-NAME>
               <CATEGORY>STRUCTURE</CATEGORY>
               <SUB-ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2_Size</SHORT-NAME>
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75_Size</SHORT-NAME>
+                  <CATEGORY>VALUE</CATEGORY>
+                  <SW-DATA-DEF-PROPS>
+                    <SW-DATA-DEF-PROPS-VARIANTS>
+                      <SW-DATA-DEF-PROPS-CONDITIONAL>
+                        <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                      </SW-DATA-DEF-PROPS-CONDITIONAL>
+                    </SW-DATA-DEF-PROPS-VARIANTS>
+                  </SW-DATA-DEF-PROPS>
+                </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75_Payload</SHORT-NAME>
+                  <CATEGORY>ARRAY</CATEGORY>
+                  <SUB-ELEMENTS>
+                    <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                      <SHORT-NAME>IDT_uint8</SHORT-NAME>
+                      <CATEGORY>VALUE</CATEGORY>
+                      <ARRAY-SIZE>75</ARRAY-SIZE>
+                      <ARRAY-SIZE-SEMANTICS>VARIABLE-SIZE</ARRAY-SIZE-SEMANTICS>
+                      <SW-DATA-DEF-PROPS>
+                        <SW-DATA-DEF-PROPS-VARIANTS>
+                          <SW-DATA-DEF-PROPS-CONDITIONAL>
+                            <BASE-TYPE-REF DEST="SW-BASE-TYPE">/ara/stdtypes/std_uint8_t</BASE-TYPE-REF>
+                          </SW-DATA-DEF-PROPS-CONDITIONAL>
+                        </SW-DATA-DEF-PROPS-VARIANTS>
+                      </SW-DATA-DEF-PROPS>
+                    </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+                  </SUB-ELEMENTS>
+                </IMPLEMENTATION-DATA-TYPE-ELEMENT>
+              </SUB-ELEMENTS>
+            </IMPLEMENTATION-DATA-TYPE>
+            <IMPLEMENTATION-DATA-TYPE UUID="0">
+              <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt2_utf8</SHORT-NAME>
+              <CATEGORY>STRUCTURE</CATEGORY>
+              <SUB-ELEMENTS>
+                <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt2_utf8_Size</SHORT-NAME>
                   <CATEGORY>VALUE</CATEGORY>
                   <SW-DATA-DEF-PROPS>
                     <SW-DATA-DEF-PROPS-VARIANTS>
@@ -151,7 +253,7 @@
                   </SW-DATA-DEF-PROPS>
                 </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_base2_Payload</SHORT-NAME>
+                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt2_utf8_Payload</SHORT-NAME>
                   <CATEGORY>ARRAY</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
@@ -181,12 +283,20 @@
           <SHORT-NAME>StringsInterface_DataTypeMappings</SHORT-NAME>
           <DATA-TYPE-MAPS>
             <DATA-TYPE-MAP>
-              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_789</APPLICATION-DATA-TYPE-REF>
-              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_789</IMPLEMENTATION-DATA-TYPE-REF>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_utf16_789</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_utf16_789</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
             <DATA-TYPE-MAP>
-              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_base2</APPLICATION-DATA-TYPE-REF>
-              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize_base2</IMPLEMENTATION-DATA-TYPE-REF>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_utf8_100</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_utf8_100</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_lenbt2_utf8</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize_lenbt2_utf8</IMPLEMENTATION-DATA-TYPE-REF>
+            </DATA-TYPE-MAP>
+            <DATA-TYPE-MAP>
+              <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_lenbt1_utf16_max75</APPLICATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
           </DATA-TYPE-MAPS>
         </DATA-TYPE-MAPPING-SET>
@@ -202,16 +312,28 @@
               <SHORT-NAME>StringsInterface_TransformationProperties</SHORT-NAME>
               <TRANSFORMATION-PROPSS>
                 <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
-                  <SHORT-NAME>StringsInterface_aFixedString_TransformationProps</SHORT-NAME>
+                  <SHORT-NAME>StringsInterface_aFixedString1_TransformationProps</SHORT-NAME>
                   <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
                   <SIZE-OF-STRING-LENGTH-FIELD>0</SIZE-OF-STRING-LENGTH-FIELD>
                   <STRING-ENCODING>UTF-16BE</STRING-ENCODING>
                 </AP-SOMEIP-TRANSFORMATION-PROPS>
                 <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
-                  <SHORT-NAME>StringsInterface_aVariableString_TransformationProps</SHORT-NAME>
+                  <SHORT-NAME>StringsInterface_aFixedString2_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                  <SIZE-OF-STRING-LENGTH-FIELD>0</SIZE-OF-STRING-LENGTH-FIELD>
+                  <STRING-ENCODING>UTF-8</STRING-ENCODING>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>StringsInterface_aVariableString1_TransformationProps</SHORT-NAME>
                   <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
                   <SIZE-OF-STRING-LENGTH-FIELD>2</SIZE-OF-STRING-LENGTH-FIELD>
                   <STRING-ENCODING>UTF-8</STRING-ENCODING>
+                </AP-SOMEIP-TRANSFORMATION-PROPS>
+                <AP-SOMEIP-TRANSFORMATION-PROPS UUID="0">
+                  <SHORT-NAME>StringsInterface_aVariableString2_TransformationProps</SHORT-NAME>
+                  <BYTE-ORDER>MOST-SIGNIFICANT-BYTE-FIRST</BYTE-ORDER>
+                  <SIZE-OF-STRING-LENGTH-FIELD>1</SIZE-OF-STRING-LENGTH-FIELD>
+                  <STRING-ENCODING>UTF-16LE</STRING-ENCODING>
                 </AP-SOMEIP-TRANSFORMATION-PROPS>
               </TRANSFORMATION-PROPSS>
             </TRANSFORMATION-PROPS-SET>
@@ -224,18 +346,32 @@
               <SHORT-NAME>StringsInterface_TransformationPropsMappingSet</SHORT-NAME>
               <MAPPINGS>
                 <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
-                  <SHORT-NAME>StringsInterface_aFixedString_Mapping</SHORT-NAME>
+                  <SHORT-NAME>StringsInterface_aFixedString1_Mapping</SHORT-NAME>
                   <FIELD-REFS>
-                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aFixedString</FIELD-REF>
+                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aFixedString1</FIELD-REF>
                   </FIELD-REFS>
-                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aFixedString_TransformationProps</TRANSFORMATION-PROPS-REF>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aFixedString1_TransformationProps</TRANSFORMATION-PROPS-REF>
                 </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
                 <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
-                  <SHORT-NAME>StringsInterface_aVariableString_Mapping</SHORT-NAME>
+                  <SHORT-NAME>StringsInterface_aFixedString2_Mapping</SHORT-NAME>
                   <FIELD-REFS>
-                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aVariableString</FIELD-REF>
+                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aFixedString2</FIELD-REF>
                   </FIELD-REFS>
-                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aVariableString_TransformationProps</TRANSFORMATION-PROPS-REF>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aFixedString2_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>StringsInterface_aVariableString1_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aVariableString1</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aVariableString1_TransformationProps</TRANSFORMATION-PROPS-REF>
+                </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
+                <TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING UUID="0">
+                  <SHORT-NAME>StringsInterface_aVariableString2_Mapping</SHORT-NAME>
+                  <FIELD-REFS>
+                    <FIELD-REF DEST="FIELD">/packageStrings/v_1_2/StringsInterface/aVariableString2</FIELD-REF>
+                  </FIELD-REFS>
+                  <TRANSFORMATION-PROPS-REF DEST="AP-SOMEIP-TRANSFORMATION-PROPS">/TransformationProps/TransformationPropsSet/StringsInterface_TransformationProperties/StringsInterface_aVariableString2_TransformationProps</TRANSFORMATION-PROPS-REF>
                 </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING>
               </MAPPINGS>
             </TRANSFORMATION-PROPS-TO-SERVICE-INTERFACE-ELEMENT-MAPPING-SET>

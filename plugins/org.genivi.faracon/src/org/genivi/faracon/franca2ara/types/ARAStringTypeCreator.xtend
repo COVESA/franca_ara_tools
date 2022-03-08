@@ -24,18 +24,23 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		val len = te.getStringLength
 		val len1 = len!==null ? len : 0
 		val isFixedSize = te.isFixedSizedString
+		val enc = te.stringEncoding
 		if (isFixedSize) {
-			createFixedStringType(len1, where)
+			createFixedStringType(len1, enc, where)
 		} else {
-			createVariableStringType(te.getStringLengthWidth, len1, where)
+			createVariableStringType(te.getStringLengthWidth, len1, enc, where)
 		}
 	}
 	
 	/**
 	 * Create fixed-size string.
 	 */
-	def private create fac.createImplementationDataType createFixedStringType(int len, ARPackage where) {
-		shortName = IDTPrefix + "String_" + len
+	def private create fac.createImplementationDataType createFixedStringType(
+		int len,
+		String enc,
+		ARPackage where
+	) {
+		shortName = IDTPrefix + "String" + enc.makeNameSegment + "_" + len
 		initUUID(shortName)
 		category = CAT_ARRAY
 		subElements += createTypeElemForString(shortName) => [
@@ -49,8 +54,14 @@ class ARAStringTypeCreator extends Franca2ARABase {
 	/**
 	 * Create variable-sized string. 
 	 */
-	def private create fac.createImplementationDataType createVariableStringType(int lengthWidth, int maxlen, ARPackage where) {
-		val n = IDTPrefix + "String_varSize_base" + lengthWidth + (maxlen>0 ? "_max" + maxlen : "")
+	def private create fac.createImplementationDataType createVariableStringType(
+		int lengthWidth,
+		int maxlen,
+		String enc,
+		ARPackage where
+	) {
+		val ml = maxlen>0 ? "_max" + maxlen : ""
+		val n = IDTPrefix + "String_varSize_lenbt" + lengthWidth + enc.makeNameSegment + ml
 		shortName = n
 		initUUID(shortName)
 		if (useSizeAndPayloadStructs) {
@@ -84,6 +95,20 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		}
 		ARPackage = where
 	}
+	
+	def private makeNameSegment(String encoding) {
+		if (encoding===null)
+			return ""
+	
+		if (encoding=="UTF-8")
+			return "_utf8"
+		else if (encoding.startsWith("UTF-16"))
+			return "_utf16"
+		
+		return ""
+	}
+
+	
 
 	def private createTypeElemForString(String parentName) {
 		val it = fac.createImplementationDataTypeElement
@@ -92,7 +117,7 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		category = CAT_VALUE
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
-				baseType = getStringBaseType
+				baseType = getStringBaseType(null)
 			]
 		]
 		it

@@ -111,8 +111,24 @@ class ARAPrimitiveTypesCreator extends Franca2ARABase {
 		this.nameToBaseType.get(name)
 	}
 	
-	def getStringBaseType() {
+	def getStringBaseType(String encoding) {
+		if (encoding!==null) {
+			if (encoding == "UTF-8") {
+				return getStringEncodingBaseType("UTF-8")
+			} else if (encoding.startsWith("UTF-16")) {
+				// might be "UTF-16BE" or "UTF-16LE"
+				return getStringEncodingBaseType("UTF-16")
+			} 
+		}
+		// fallback: use UINT8 
 		getBaseTypeForReference(FBasicTypeId.UINT8)
+	}
+	
+	def private getStringEncodingBaseType(String name) {
+		val bt = nameToBaseType.get(name)
+		if (bt===null)
+			getLogger.logError("Cannot find an AUTOSAR basetype for string encoding '" + name + "'!")
+		bt
 	}
 
 	def getStdTypeForReference(FBasicTypeId fBasicTypeId, TypeContext tc) {
