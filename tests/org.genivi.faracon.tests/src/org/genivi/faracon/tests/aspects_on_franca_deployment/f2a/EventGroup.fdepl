@@ -8,7 +8,7 @@ define org.genivi.commonapi.someip.deployment for interface packageEventGroup.Ev
 	SomeIpEventGroups = { 33000, 33300 }
 	
 	broadcast onChangeEventStatus {
-		SomeIpEventID = 70000
+		SomeIpEventID = 20000
 		
 		// the broadcast event is member of two event groups
 		SomeIpEventGroups = { 30000, 30001 }

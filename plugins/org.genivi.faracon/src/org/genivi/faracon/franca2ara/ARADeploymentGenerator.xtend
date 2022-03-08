@@ -69,7 +69,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		initUUID("DEPLOY_" + shortName)
 		method = aOp
 		fSI.deploy[ipa |
-			methodId = ipa.getSomeIpMethodID(fMethod) as long
+			methodId = ipa.getSomeIpMethodID(fMethod).normalizeID
 			transportProtocol = ipa.getSomeIpReliable(fMethod).chooseTLP
 			createTrafoProps(aOp, fMethod, ipa)
 		]
@@ -85,7 +85,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		initUUID("DEPLOY_" + shortName)
 		event = aVDP
 		fSI.deploy[ipa |
-			eventId = ipa.getSomeIpEventID(fBroadcast) as long
+			eventId = ipa.getSomeIpEventID(fBroadcast).normalizeID
 			transformEventGroups(ipa.getSomeIpEventGroups(fBroadcast), sid)			
 			createTrafoProps(aVDP, fBroadcast, ipa)
 		]
@@ -113,7 +113,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 				get = fac.createSomeipMethodDeployment => [
 					shortName = 'get' + n.toFirstUpper
 					initUUID("DEPLOY_" + shortName)
-					methodId = getterID as long
+					methodId = getterID.normalizeID
 					transportProtocol = tp					
 				]
 			}
@@ -122,7 +122,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 				notifier = fac.createSomeipEventDeployment => [
 					shortName = n + 'Notifier'
 					initUUID("DEPLOY_" + shortName)
-					eventId = notifierID as long
+					eventId = notifierID.normalizeID
 					transportProtocol = tp
 					transformEventGroups(ipa.getSomeIpNotifierEventGroups(fAttribute), sid)			
 				]
@@ -132,7 +132,7 @@ class ARADeploymentGenerator extends Franca2ARABase {
 				set = fac.createSomeipMethodDeployment => [
 					shortName = 'set' + n.toFirstUpper
 					initUUID("DEPLOY_" + shortName)
-					methodId = setterID as long
+					methodId = setterID.normalizeID
 					transportProtocol = tp
 				]
 			}
@@ -173,6 +173,10 @@ class ARADeploymentGenerator extends Franca2ARABase {
 		initUUID(shortName)
 		eventGroupId = id
 		sid.eventGroups.add(it)
+	}
+	
+	def private long normalizeID(Integer original) {
+		original.bitwiseAnd(0x7fff) as long
 	}
 
 

@@ -19,7 +19,7 @@
                 <SOMEIP-EVENT-DEPLOYMENT UUID="0">
                   <SHORT-NAME>onChangeEventStatus_Event</SHORT-NAME>
                   <EVENT-REF DEST="VARIABLE-DATA-PROTOTYPE">/packageEventGroup/EventGroup/onChangeEventStatus</EVENT-REF>
-                  <EVENT-ID>70000</EVENT-ID>
+                  <EVENT-ID>20000</EVENT-ID>
                 </SOMEIP-EVENT-DEPLOYMENT>
               </EVENT-DEPLOYMENTS>
               <SERVICE-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageEventGroup/EventGroup</SERVICE-INTERFACE-REF>

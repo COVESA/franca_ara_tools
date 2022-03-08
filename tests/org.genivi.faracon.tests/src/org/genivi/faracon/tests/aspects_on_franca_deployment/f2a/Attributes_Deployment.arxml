@@ -26,7 +26,7 @@
                   </GET>
                   <NOTIFIER UUID="0">
                     <SHORT-NAME>boolAttrNotifier</SHORT-NAME>
-                    <EVENT-ID>45106</EVENT-ID>
+                    <EVENT-ID>12338</EVENT-ID>
                     <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
                   </NOTIFIER>
                   <SET UUID="0">
@@ -45,7 +45,7 @@
                   </GET>
                   <NOTIFIER UUID="0">
                     <SHORT-NAME>enumAttrNotifier</SHORT-NAME>
-                    <EVENT-ID>45100</EVENT-ID>
+                    <EVENT-ID>12332</EVENT-ID>
                     <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
                   </NOTIFIER>
                   <SET UUID="0">
@@ -64,7 +64,7 @@
                   </GET>
                   <NOTIFIER UUID="0">
                     <SHORT-NAME>int16AttrNotifier</SHORT-NAME>
-                    <EVENT-ID>45104</EVENT-ID>
+                    <EVENT-ID>12336</EVENT-ID>
                     <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
                   </NOTIFIER>
                   <SET UUID="0">
@@ -83,7 +83,7 @@
                   </GET>
                   <NOTIFIER UUID="0">
                     <SHORT-NAME>int8AttrNotifier</SHORT-NAME>
-                    <EVENT-ID>45102</EVENT-ID>
+                    <EVENT-ID>12334</EVENT-ID>
                     <TRANSPORT-PROTOCOL>TCP</TRANSPORT-PROTOCOL>
                   </NOTIFIER>
                   <SET UUID="0">
