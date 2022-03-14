@@ -336,6 +336,11 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 				subElements += createTypeElemForArray(fArrayType) => [
 					arraySizeHandling = ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
 					arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
+					
+					// set arraySize, even if array is variable-sized (used as max. value)
+					if (sizeOfArray>0) {
+						arraySize = sizeOfArray.asPositiveInteger
+					}
 				]
 			]
 		} else {
