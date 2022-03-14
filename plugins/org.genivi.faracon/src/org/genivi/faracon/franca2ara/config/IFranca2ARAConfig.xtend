@@ -16,7 +16,8 @@ interface IFranca2ARAConfig {
 	def String getADTPrefix()
 
 	// implementation data types	
-	def String getIDTPrefix()
+	def String getIDTPrefixBasic()
+	def String getIDTPrefixComplex()
 	def boolean replaceIDTPrimitiveTypeDefs()
 	//def boolean generateCppIDTs()
 	def boolean storeIDTsLocally()

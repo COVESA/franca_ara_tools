@@ -50,9 +50,14 @@ class Franca2ARAUserConfig implements IFranca2ARAConfig {
 	}
 
 	// implementation data types	
-	override String getIDTPrefix() {
-		val idtPrefix = f2aConfig.getIDTPrefix
-		!idtPrefix.nullOrEmpty ? idtPrefix : f2aDefaultConfig.getIDTPrefix
+	override String getIDTPrefixBasic() {
+		val idtPrefix = f2aConfig.getIDTPrefixBasic
+		!idtPrefix.nullOrEmpty ? idtPrefix : f2aDefaultConfig.getIDTPrefixBasic
+	}
+
+	override String getIDTPrefixComplex() {
+		val idtPrefix = f2aConfig.getIDTPrefixComplex
+		!idtPrefix.nullOrEmpty ? idtPrefix : f2aDefaultConfig.getIDTPrefixComplex
 	}
 
 	override boolean replaceIDTPrimitiveTypeDefs() {

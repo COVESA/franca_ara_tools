@@ -4,7 +4,8 @@ class F2AConfig {
 
 	new(Boolean generateAdminDataLanguage, Boolean generateAnnotations,
 		Boolean generateOptionalFalse, Boolean genAlwaysFireAndForget,
-		Boolean generateADTs, Boolean storeADTsLocally, String getADTPrefix, String getIDTPrefix,
+		Boolean generateADTs, Boolean storeADTsLocally, String getADTPrefix,
+		String getIDTPrefixBasic, String getIDTPrefixComplex,
 		Boolean replaceIDTPrimitiveTypeDefs, Boolean storeIDTsLocally, Boolean alwaysGenIDTArray,
 		String getCompuMethodPrefix, Boolean generateStringAsArray,
 		Boolean useSizeAndPayloadStructs,
@@ -20,7 +21,8 @@ class F2AConfig {
 		this.generateADTs = generateADTs
 		this.storeADTsLocally = storeADTsLocally
 		this.getADTPrefix = getADTPrefix
-		this.getIDTPrefix = getIDTPrefix
+		this.getIDTPrefixBasic = getIDTPrefixBasic
+		this.getIDTPrefixComplex = getIDTPrefixComplex
 		this.replaceIDTPrimitiveTypeDefs = replaceIDTPrimitiveTypeDefs
 		this.storeIDTsLocally = storeIDTsLocally
 		this.alwaysGenIDTArray = alwaysGenIDTArray
@@ -48,7 +50,8 @@ class F2AConfig {
 	String getADTPrefix
 
 	// implementation data types	
-	String getIDTPrefix
+	String getIDTPrefixBasic
+	String getIDTPrefixComplex
 	Boolean replaceIDTPrimitiveTypeDefs
 
 	// Boolean generateCppIDTs() { false }
@@ -93,8 +96,12 @@ class F2AConfig {
 		return getADTPrefix
 	}
 
-	def String getGetIDTPrefix() {
-		return getIDTPrefix
+	def String getGetIDTPrefixBasic() {
+		return getIDTPrefixBasic
+	}
+
+	def String getGetIDTPrefixComplex() {
+		return getIDTPrefixComplex
 	}
 
 	def Boolean isReplaceIDTPrimitiveTypeDefs() {
