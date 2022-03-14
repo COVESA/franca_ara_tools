@@ -104,7 +104,7 @@ class ApplDataTypeManager extends Franca2ARABase {
 						}
 					}
 					val enc = te.getStringEncoding
-					baseType = enc.getStringBaseType
+					baseType = enc.getStringBaseType					
 					swFillCharacter = 0
 				]
 			]
@@ -113,8 +113,10 @@ class ApplDataTypeManager extends Franca2ARABase {
 	}
 	
 	def private stripIDTPrefix(String idt) {
-		if (!IDTPrefix.empty && idt.startsWith(IDTPrefix)) {
-			idt.substring(IDTPrefix.length)
+		if (!IDTPrefixBasic.empty && idt.startsWith(IDTPrefixBasic)) {
+			idt.substring(IDTPrefixBasic.length)
+		} else if (!IDTPrefixComplex.empty && idt.startsWith(IDTPrefixComplex)) {
+			idt.substring(IDTPrefixComplex.length)
 		} else {
 			idt
 		}

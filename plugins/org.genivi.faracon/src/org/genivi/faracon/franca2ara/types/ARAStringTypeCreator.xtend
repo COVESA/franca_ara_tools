@@ -7,7 +7,6 @@ import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.swcomponent.datatype.datatypes.ArraySizeHandlingEnum
-import org.franca.core.franca.FBasicTypeId
 
 @Singleton
 class ARAStringTypeCreator extends Franca2ARABase {
@@ -40,7 +39,7 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		String enc,
 		ARPackage where
 	) {
-		shortName = IDTPrefix + "String" + enc.makeNameSegment + "_" + len
+		shortName = IDTPrefixComplex + "String" + enc.makeNameSegment + "_" + len
 		initUUID(shortName)
 		category = CAT_ARRAY
 		subElements += createTypeElemForString(shortName) => [
@@ -61,7 +60,7 @@ class ARAStringTypeCreator extends Franca2ARABase {
 		ARPackage where
 	) {
 		val ml = maxlen>0 ? "_max" + maxlen : ""
-		val n = IDTPrefix + "String_varSize_lenbt" + lengthWidth + enc.makeNameSegment + ml
+		val n = IDTPrefixComplex + "String_varSize_lenbt" + lengthWidth + enc.makeNameSegment + ml
 		shortName = n
 		initUUID(shortName)
 		if (useSizeAndPayloadStructs) {

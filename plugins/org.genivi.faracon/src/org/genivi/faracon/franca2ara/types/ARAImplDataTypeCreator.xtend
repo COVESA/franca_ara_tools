@@ -125,7 +125,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		ImplementationDataType aCompoundType
 	) {
 		fCompoundType.checkCompoundType
-		aCompoundType.shortName = getIDTPrefix + fCompoundType.name
+		aCompoundType.shortName = getIDTPrefixComplex + fCompoundType.name
 		aCompoundType.category = category
 		val fAllElements = FrancaModelExtensions.getAllElements(fCompoundType).map[it as FField]
 		val aAllElements = fAllElements.map [
@@ -157,7 +157,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	}
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FEnumerationType fEnumerationType) {
-		shortName = getIDTPrefix + fEnumerationType.name
+		shortName = getIDTPrefixBasic + fEnumerationType.name
 		initAsEnumeration([props | swDataDefProps = props], fEnumerationType)
 		it.postprocess(fEnumerationType, true)
 	}
@@ -180,7 +180,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	} 
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FMapType fMapType) {
-		it.shortName = getIDTPrefix + fMapType.name
+		it.shortName = getIDTPrefixComplex + fMapType.name
 		initUUID(fMapType)
 		it.category = "ASSOCIATIVE_MAP"
 		it.subElements += createTypeRefImplementationDataTypeElement("keyType", fMapType.francaNamespaceName, fMapType.keyType)
@@ -312,7 +312,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		val boolean isFixedSizedArray = fArrayType.isFixedSizedArray
 		val int sizeOfArray = fArrayType.getArraySize
 		val lengthWidthType = fArrayType.getArrayLengthWidth.convertLengthWidth
-		val n = getIDTPrefix + fArrayType.name
+		val n = getIDTPrefixComplex + fArrayType.name
 		shortName = n
 		if (!isFixedSizedArray && useSizeAndPayloadStructs) {
 			category = CAT_STRUCTURE
@@ -374,7 +374,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	} 
 	
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FTypeDef fTypeDef) {
-		it.shortName = getIDTPrefix + fTypeDef.name
+		it.shortName = getIDTPrefixBasic + fTypeDef.name
 		it.category = CAT_TYPEREF
 		it.subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
@@ -390,7 +390,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 	}
 
 	def create fac.createImplementationDataType createArtificialVectorType(FType fType) {
-		shortName = getIDTPrefix + fType.name + "Vector"
+		shortName = getIDTPrefixComplex + fType.name + "Vector"
 		category = CAT_VECTOR
 		subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"
@@ -418,7 +418,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		int sizeOfArray,
 		ARPackage aPackage
 	) {
-		shortName = getIDTPrefix + aElementType.shortName + "Array" + sizeOfArray
+		shortName = getIDTPrefixComplex + aElementType.shortName + "Array" + sizeOfArray
 		category = CAT_ARRAY
 		subElements += fac.createImplementationDataTypeElement => [
 			shortName = "valueType"

@@ -162,7 +162,7 @@
           <SHORT-NAME>ImplementationDataTypes</SHORT-NAME>
           <ELEMENTS>
             <IMPLEMENTATION-DATA-TYPE UUID="0">
-              <SHORT-NAME>IDT_eSOME_IP_String_utf16_789</SHORT-NAME>
+              <SHORT-NAME>IDT2_String_utf16_789</SHORT-NAME>
               <CATEGORY>ARRAY</CATEGORY>
               <SUB-ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
@@ -182,7 +182,7 @@
               </SUB-ELEMENTS>
             </IMPLEMENTATION-DATA-TYPE>
             <IMPLEMENTATION-DATA-TYPE UUID="0">
-              <SHORT-NAME>IDT_eSOME_IP_String_utf8_100</SHORT-NAME>
+              <SHORT-NAME>IDT2_String_utf8_100</SHORT-NAME>
               <CATEGORY>ARRAY</CATEGORY>
               <SUB-ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
@@ -202,11 +202,11 @@
               </SUB-ELEMENTS>
             </IMPLEMENTATION-DATA-TYPE>
             <IMPLEMENTATION-DATA-TYPE UUID="0">
-              <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75</SHORT-NAME>
+              <SHORT-NAME>IDT2_String_varSize_lenbt1_utf16_max75</SHORT-NAME>
               <CATEGORY>STRUCTURE</CATEGORY>
               <SUB-ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75_Size</SHORT-NAME>
+                  <SHORT-NAME>IDT2_String_varSize_lenbt1_utf16_max75_Size</SHORT-NAME>
                   <CATEGORY>VALUE</CATEGORY>
                   <SW-DATA-DEF-PROPS>
                     <SW-DATA-DEF-PROPS-VARIANTS>
@@ -217,7 +217,7 @@
                   </SW-DATA-DEF-PROPS>
                 </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75_Payload</SHORT-NAME>
+                  <SHORT-NAME>IDT2_String_varSize_lenbt1_utf16_max75_Payload</SHORT-NAME>
                   <CATEGORY>ARRAY</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
@@ -238,11 +238,11 @@
               </SUB-ELEMENTS>
             </IMPLEMENTATION-DATA-TYPE>
             <IMPLEMENTATION-DATA-TYPE UUID="0">
-              <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt2_utf8</SHORT-NAME>
+              <SHORT-NAME>IDT2_String_varSize_lenbt2_utf8</SHORT-NAME>
               <CATEGORY>STRUCTURE</CATEGORY>
               <SUB-ELEMENTS>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt2_utf8_Size</SHORT-NAME>
+                  <SHORT-NAME>IDT2_String_varSize_lenbt2_utf8_Size</SHORT-NAME>
                   <CATEGORY>VALUE</CATEGORY>
                   <SW-DATA-DEF-PROPS>
                     <SW-DATA-DEF-PROPS-VARIANTS>
@@ -253,7 +253,7 @@
                   </SW-DATA-DEF-PROPS>
                 </IMPLEMENTATION-DATA-TYPE-ELEMENT>
                 <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
-                  <SHORT-NAME>IDT_eSOME_IP_String_varSize_lenbt2_utf8_Payload</SHORT-NAME>
+                  <SHORT-NAME>IDT2_String_varSize_lenbt2_utf8_Payload</SHORT-NAME>
                   <CATEGORY>ARRAY</CATEGORY>
                   <SUB-ELEMENTS>
                     <IMPLEMENTATION-DATA-TYPE-ELEMENT UUID="0">
@@ -284,19 +284,19 @@
           <DATA-TYPE-MAPS>
             <DATA-TYPE-MAP>
               <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_utf16_789</APPLICATION-DATA-TYPE-REF>
-              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_utf16_789</IMPLEMENTATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT2_String_utf16_789</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
             <DATA-TYPE-MAP>
               <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_utf8_100</APPLICATION-DATA-TYPE-REF>
-              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_utf8_100</IMPLEMENTATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT2_String_utf8_100</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
             <DATA-TYPE-MAP>
               <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_lenbt2_utf8</APPLICATION-DATA-TYPE-REF>
-              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize_lenbt2_utf8</IMPLEMENTATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT2_String_varSize_lenbt2_utf8</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
             <DATA-TYPE-MAP>
               <APPLICATION-DATA-TYPE-REF DEST="APPLICATION-PRIMITIVE-DATA-TYPE">/DataTypes/ApplicationDataTypes/ADT_String_varSize_lenbt1_utf16_max75</APPLICATION-DATA-TYPE-REF>
-              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT_eSOME_IP_String_varSize_lenbt1_utf16_max75</IMPLEMENTATION-DATA-TYPE-REF>
+              <IMPLEMENTATION-DATA-TYPE-REF DEST="IMPLEMENTATION-DATA-TYPE">/DataTypes/ImplementationDataTypes/IDT2_String_varSize_lenbt1_utf16_max75</IMPLEMENTATION-DATA-TYPE-REF>
             </DATA-TYPE-MAP>
           </DATA-TYPE-MAPS>
         </DATA-TYPE-MAPPING-SET>

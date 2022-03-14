@@ -327,7 +327,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 				val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType => [
 					shortName = namesHierarchy.createAndInsertUniqueName(
 						parentInterface.francaFullyQualifiedName,
-						IDTPrefix + src.name.toFirstUpper + "Data",
+						IDTPrefixComplex + src.name.toFirstUpper + "Data",
 						FType
 					)
 					initUUID(shortName)
