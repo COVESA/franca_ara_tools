@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AUTOSAR xmlns="http://autosar.org/schema/r4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/XML/1998/namespace xml.xsd">
+  <ADMIN-DATA>
+    <LANGUAGE>EN</LANGUAGE>
+    <USED-LANGUAGES>
+      <L-10 L="EN" xml:space="default"/>
+    </USED-LANGUAGES>
+  </ADMIN-DATA>
+  <AR-PACKAGES>
+    <AR-PACKAGE UUID="0">
+      <SHORT-NAME>ServiceInterfaces</SHORT-NAME>
+      <AR-PACKAGES>
+        <AR-PACKAGE UUID="0">
+          <SHORT-NAME>ServiceInterfaceDeployment</SHORT-NAME>
+          <ELEMENTS>
+            <SOMEIP-SERVICE-INTERFACE-DEPLOYMENT UUID="0">
+              <SHORT-NAME>BBInterface_Someip</SHORT-NAME>
+              <FIELD-DEPLOYMENTS>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>aBB1_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageByteBuffer/v_1_2/BBInterface/aBB1</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getABB1</SHORT-NAME>
+                    <METHOD-ID>10</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <NOTIFIER UUID="0">
+                    <SHORT-NAME>aBB1Notifier</SHORT-NAME>
+                    <EVENT-ID>12</EVENT-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </NOTIFIER>
+                  <SET UUID="0">
+                    <SHORT-NAME>setABB1</SHORT-NAME>
+                    <METHOD-ID>11</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+                <SOMEIP-FIELD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>aBB2_Someip</SHORT-NAME>
+                  <FIELD-REF DEST="FIELD">/packageByteBuffer/v_1_2/BBInterface/aBB2</FIELD-REF>
+                  <GET UUID="0">
+                    <SHORT-NAME>getABB2</SHORT-NAME>
+                    <METHOD-ID>20</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </GET>
+                  <NOTIFIER UUID="0">
+                    <SHORT-NAME>aBB2Notifier</SHORT-NAME>
+                    <EVENT-ID>22</EVENT-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </NOTIFIER>
+                  <SET UUID="0">
+                    <SHORT-NAME>setABB2</SHORT-NAME>
+                    <METHOD-ID>21</METHOD-ID>
+                    <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                  </SET>
+                </SOMEIP-FIELD-DEPLOYMENT>
+              </FIELD-DEPLOYMENTS>
+              <METHOD-DEPLOYMENTS>
+                <SOMEIP-METHOD-DEPLOYMENT UUID="0">
+                  <SHORT-NAME>m1</SHORT-NAME>
+                  <METHOD-REF DEST="CLIENT-SERVER-OPERATION">/packageByteBuffer/v_1_2/BBInterface/m1</METHOD-REF>
+                  <METHOD-ID>1000</METHOD-ID>
+                  <TRANSPORT-PROTOCOL>UDP</TRANSPORT-PROTOCOL>
+                </SOMEIP-METHOD-DEPLOYMENT>
+              </METHOD-DEPLOYMENTS>
+              <SERVICE-INTERFACE-REF DEST="SERVICE-INTERFACE">/packageByteBuffer/v_1_2/BBInterface</SERVICE-INTERFACE-REF>
+              <SERVICE-INTERFACE-ID>4111</SERVICE-INTERFACE-ID>
+              <SERVICE-INTERFACE-VERSION>
+                <MAJOR-VERSION>1</MAJOR-VERSION>
+                <MINOR-VERSION>2</MINOR-VERSION>
+              </SERVICE-INTERFACE-VERSION>
+            </SOMEIP-SERVICE-INTERFACE-DEPLOYMENT>
+          </ELEMENTS>
+        </AR-PACKAGE>
+      </AR-PACKAGES>
+    </AR-PACKAGE>
+  </AR-PACKAGES>
+</AUTOSAR>

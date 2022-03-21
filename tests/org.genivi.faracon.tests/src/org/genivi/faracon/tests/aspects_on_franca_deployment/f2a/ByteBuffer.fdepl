@@ -1,0 +1,40 @@
+import "../../../../../../../models/deployment-files/CommonAPI-4-SOMEIP_deployment_spec.fdepl"
+import "ByteBuffer.fidl"
+
+define org.genivi.commonapi.someip.deployment for interface packageByteBuffer.BBInterface {
+    SomeIpServiceID = 4111
+
+    attribute aBB1 {
+        SomeIpGetterID = 10
+        SomeIpSetterID = 11 
+		SomeIpNotifierID = 12
+		
+		SomeIpByteBufferMaxLength = 10
+		SomeIpByteBufferLengthWidth = 4
+    }
+
+    attribute aBB2 {
+        SomeIpGetterID = 20
+        SomeIpSetterID = 21
+        SomeIpNotifierID = 22
+		
+		SomeIpByteBufferMaxLength = 15
+		SomeIpByteBufferLengthWidth = 0
+    }
+
+	method m1 {
+		SomeIpMethodID = 1000
+		in {
+			arg1 {
+				SomeIpArgMapMaxLength = 30
+				SomeIpByteBufferLengthWidth = 2
+			}
+		}
+		out {
+			result1 {
+				SomeIpArgMapMaxLength = 40
+				SomeIpByteBufferLengthWidth = 0
+			}
+		}
+	}    
+}

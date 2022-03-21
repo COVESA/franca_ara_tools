@@ -61,7 +61,12 @@ class Franca2ARADeployment_Tests extends Franca2ARATestBase {
 	def void testStringsDepl() {
 		testTransformation("Strings.fidl", "Strings.fdepl", "Strings")
 	}
-	
+
+	@Test
+	def void testByteBufferDepl() {
+		testTransformation("ByteBuffer.fidl", "ByteBuffer.fdepl", "ByteBuffer")
+	}
+		
 	@Test
 	def void testArraysDepl() {
 		testTransformation("Arrays.fidl", "Arrays.fdepl", "Arrays")

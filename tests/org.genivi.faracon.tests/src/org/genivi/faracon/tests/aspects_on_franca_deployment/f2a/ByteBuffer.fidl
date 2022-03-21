@@ -1,0 +1,17 @@
+package packageByteBuffer
+
+interface BBInterface {
+    version {major 1 minor 2}
+  
+    attribute ByteBuffer aBB1
+    attribute ByteBuffer aBB2
+    
+    method m1 {
+    	in {
+    		ByteBuffer arg1
+    	}
+    	out {
+    		ByteBuffer result1
+    	}
+    }    
+}
