@@ -158,7 +158,6 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FEnumerationType fEnumerationType) {
 		shortName = getIDTPrefixBasic + fEnumerationType.name
-		initUUID(shortName + "_" + fEnumerationType.name) // TODO: fix this, remove duplicate usage of fEnumeraitonTypeName
 		initAsEnumeration([props | swDataDefProps = props], fEnumerationType)
 		it.postprocess(fEnumerationType, true)
 	}
