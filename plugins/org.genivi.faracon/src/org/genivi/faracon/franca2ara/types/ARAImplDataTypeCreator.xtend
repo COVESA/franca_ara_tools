@@ -4,6 +4,10 @@ import autosar40.commonstructure.implementationdatatypes.ArraySizeSemanticsEnum
 import autosar40.commonstructure.implementationdatatypes.ImplementationDataType
 import autosar40.genericstructure.generaltemplateclasses.arpackage.ARPackage
 import autosar40.genericstructure.generaltemplateclasses.primitivetypes.IntervalTypeEnum
+import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
+import autosar40.commonstructure.datadefproperties.SwDataDefProps
+import autosar40.swcomponent.datatype.datatypes.ArraySizeHandlingEnum
+import autosar40.commonstructure.datadefproperties.SwDataDefPropsConditional
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -32,9 +36,6 @@ import org.genivi.faracon.franca2ara.config.Franca2ARAConfigProvider
 import static extension org.genivi.faracon.franca2ara.FConstantHelper.*
 import static extension org.genivi.faracon.util.FrancaUtil.*
 import static extension org.genivi.faracon.franca2ara.types.ARATypeHelper.*
-import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiable
-import autosar40.commonstructure.datadefproperties.SwDataDefProps
-import autosar40.swcomponent.datatype.datatypes.ArraySizeHandlingEnum
 
 @Singleton
 class ARAImplDataTypeCreator extends Franca2ARABase {
@@ -338,7 +339,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 				shortName = n + "_Payload"
 				initUUID(shortName)
 				category = CAT_ARRAY
-				subElements += createTypeElemForArray(fArrayType) => [
+				subElements += createTypeElemForArray(fArrayType, true) => [
 					arraySizeHandling = ArraySizeHandlingEnum.ALL_INDICES_SAME_ARRAY_SIZE
 					arraySizeSemantics = ArraySizeSemanticsEnum.VARIABLE_SIZE
 					
@@ -354,7 +355,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			} else {
 				category = CAT_VECTOR
 			}
-			it.subElements += createTypeElemForArray(fArrayType) => [
+			it.subElements += createTypeElemForArray(fArrayType, false) => [
 				if (isFixedSizedArray) {
 					arraySizeSemantics = ArraySizeSemanticsEnum.FIXED_SIZE
 					arraySize = sizeOfArray.asPositiveInteger
@@ -369,7 +370,7 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 //		it.createImplementationDataTypeExtension
 	}
 	
-	def private createTypeElemForArray(FArrayType fArrayType) {
+	def private createTypeElemForArray(FArrayType fArrayType, boolean useBaseTypeIfPossible) {
 		val it = fac.createImplementationDataTypeElement
 		shortName = "valueType"
 		initUUID("Elem_" + fArrayType.name)
@@ -377,11 +378,28 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
-				implementationDataType = fArrayType.elementType.createImplDataTypeReference(tc) as ImplementationDataType
+				initImplOrBaseType(fArrayType.elementType, useBaseTypeIfPossible, tc)			
 			]
 		]
 		it
-	} 
+	}
+	
+	def private initImplOrBaseType(
+		SwDataDefPropsConditional it,
+		FTypeRef fTypeRef,
+		boolean useBaseTypeIfPossible,
+		TypeContext tc
+	) {
+		if (useBaseTypeIfPossible &&
+			fTypeRef.refsPrimitiveType && !FrancaHelpers.isString(fTypeRef)
+		) {
+			baseType = getBaseTypeForReference(fTypeRef.predefined)
+			return
+		}
+		
+		// fall back to IDT
+		implementationDataType = fTypeRef.createImplDataTypeReference(tc) as ImplementationDataType			
+	}
 	
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FTypeDef fTypeDef) {
 		it.shortName = getIDTPrefixBasic + fTypeDef.name
