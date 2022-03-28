@@ -158,12 +158,16 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FEnumerationType fEnumerationType) {
 		shortName = getIDTPrefixBasic + fEnumerationType.name
+		initUUID(shortName + "_" + fEnumerationType.name) // TODO: fix this, remove duplicate usage of fEnumeraitonTypeName
 		initAsEnumeration([props | swDataDefProps = props], fEnumerationType)
 		it.postprocess(fEnumerationType, true)
 	}
 	
-	def private initAsEnumeration(Identifiable it, (SwDataDefProps) => void dataDefPropsSetter, FEnumerationType fEnumerationType) {
-		initUUID(shortName + "_" + fEnumerationType.name)
+	def private initAsEnumeration(
+		Identifiable it,
+		(SwDataDefProps) => void dataDefPropsSetter,
+		FEnumerationType fEnumerationType
+	) {
 		category = avoidTypeReferences ? CAT_VALUE : CAT_TYPEREF
 		val enumCompuMethod = fEnumerationType.createCompuMethod
 		dataDefPropsSetter.apply(
@@ -274,6 +278,8 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 			}
 			if (FrancaHelpers.isEnumeration(fTypedElement.type)) {
 				// skip type reference for enumerations
+				val et = fTypedElement.type.derived as FEnumerationType
+				initUUID(ownerName + "_" + fTypedElement.name + "_" + et.name)
 				initAsEnumeration([props | swDataDefProps = props], fTypedElement.type.derived as FEnumerationType)
 				return
 			}
