@@ -276,19 +276,17 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 					return					
 				}
 			}
-			if (FrancaHelpers.isEnumeration(fTypedElement.type)) {
-				// skip type reference for enumerations
-				val et = fTypedElement.type.derived as FEnumerationType
-				initUUID(ownerName + "_" + fTypedElement.name + "_" + et.name)
-				initAsEnumeration([props | swDataDefProps = props], fTypedElement.type.derived as FEnumerationType)
-				return
-			}
 		}
 		
 		// for all other types, create a type reference
-		initUUID(ownerName + "_" + fTypedElement.name)
-		// not sure CAT_VALUE will be correct here at all, this is a type reference after all 
-		category = skipCompoundTypeRefs ? CAT_VALUE : CAT_TYPEREF
+		val uuidTag = ownerName + "_" + fTypedElement.name
+		if (FrancaHelpers.isEnumeration(fTypedElement.type)) {
+			val et = fTypedElement.type.derived as FEnumerationType
+			initUUID(uuidTag + "_" + et.name)
+		} else {
+			initUUID(uuidTag)
+		}
+		category = CAT_TYPEREF
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				val typeRef = createImplDataTypeReference(fTypedElement.type, fTypedElement)
