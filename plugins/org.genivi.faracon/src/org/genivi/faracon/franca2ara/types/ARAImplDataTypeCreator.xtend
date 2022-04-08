@@ -8,6 +8,7 @@ import autosar40.genericstructure.generaltemplateclasses.identifiable.Identifiab
 import autosar40.commonstructure.datadefproperties.SwDataDefProps
 import autosar40.swcomponent.datatype.datatypes.ArraySizeHandlingEnum
 import autosar40.commonstructure.datadefproperties.SwDataDefPropsConditional
+import autosar40.commonstructure.implementationdatatypes.ImplementationDataTypeElement
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.eclipse.emf.ecore.util.EcoreUtil
@@ -372,11 +373,11 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		val it = fac.createImplementationDataTypeElement
 		shortName = "valueType"
 		initUUID("Elem_" + fArrayType.name)
-		category = avoidTypeReferences ? CAT_VALUE : CAT_TYPEREF
+		val categoryOwner = it
 		swDataDefProps = fac.createSwDataDefProps => [
 			swDataDefPropsVariants += fac.createSwDataDefPropsConditional => [
 				val tc = new TypeContext(fArrayType.name, fArrayType.francaNamespaceName)
-				initImplOrBaseType(fArrayType.elementType, useBaseTypeIfPossible, tc)			
+				initImplOrBaseType(fArrayType.elementType, useBaseTypeIfPossible, categoryOwner, tc)			
 			]
 		]
 		it
@@ -386,17 +387,20 @@ class ARAImplDataTypeCreator extends Franca2ARABase {
 		SwDataDefPropsConditional it,
 		FTypeRef fTypeRef,
 		boolean useBaseTypeIfPossible,
+		ImplementationDataTypeElement owner,
 		TypeContext tc
 	) {
 		if (useBaseTypeIfPossible &&
 			fTypeRef.refsPrimitiveType && !FrancaHelpers.isString(fTypeRef)
 		) {
 			baseType = getBaseTypeForReference(fTypeRef.predefined)
+			owner.category = CAT_VALUE
 			return
 		}
 		
 		// fall back to IDT
-		implementationDataType = fTypeRef.createImplDataTypeReference(tc) as ImplementationDataType			
+		implementationDataType = fTypeRef.createImplDataTypeReference(tc) as ImplementationDataType
+		owner.category = CAT_TYPEREF			
 	}
 	
 	def private dispatch create fac.createImplementationDataType createDataTypeForReference(FTypeDef fTypeDef) {
