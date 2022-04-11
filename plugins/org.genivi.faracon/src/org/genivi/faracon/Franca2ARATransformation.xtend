@@ -319,28 +319,30 @@ class Franca2ARATransformation extends Franca2ARABase {
 			sid.eventDeployments.add(md)
 		}
 		
-		type =
-			if (src?.outArgs.length == 1) {
-				val arg0 = src.outArgs.get(0)
-				arg0.type.createDataTypeReference(arg0)
-			} else {
-				val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType => [
-					shortName = namesHierarchy.createAndInsertUniqueName(
-						parentInterface.francaFullyQualifiedName,
-						IDTPrefixComplex + src.name.toFirstUpper + "Data",
-						FType
-					)
-					initUUID(shortName)
-					category = CAT_STRUCTURE
-					subElements.addAll(src.outArgs.map[ createImplDataTypeElement(name) ])
-					ARPackage = interfaceArPackage
-					addAnnotation(
-						ANNOTATION_LABEL_ARTIFICIAL_EVENT_DATA_STRUCT_TYPE,
-						"Referencing event definition: " + src.getARFullyQualifiedName
-					)
-				]
-				interfaceArPackage.elements += artificialBroadcastStruct
+		if (src?.outArgs.isEmpty) {
+			// no type, empty event
+		} else if (src?.outArgs.length == 1) {
+			val arg0 = src.outArgs.get(0)
+			type = arg0.type.createDataTypeReference(arg0)
+		} else {
+			val ImplementationDataType artificialBroadcastStruct = fac.createImplementationDataType => [
+				shortName = namesHierarchy.createAndInsertUniqueName(
+					parentInterface.francaFullyQualifiedName,
+					IDTPrefixComplex + src.name.toFirstUpper + "Data",
+					FType
+				)
+				initUUID(shortName)
+				category = CAT_STRUCTURE
+				subElements.addAll(src.outArgs.map[ createImplDataTypeElement(name) ])
+				ARPackage = interfaceArPackage
+				addAnnotation(
+					ANNOTATION_LABEL_ARTIFICIAL_EVENT_DATA_STRUCT_TYPE,
+					"Referencing event definition: " + src.getARFullyQualifiedName
+				)
+			]
+			interfaceArPackage.elements += artificialBroadcastStruct
 
+			type = 
 				if (generateADTs) {
 					fac.createApplicationRecordDataType => [
 						initApplDataTypeForCompound(src.name + "Data", src.outArgs.filter(FTypedElement), null)
@@ -349,7 +351,7 @@ class Franca2ARATransformation extends Franca2ARABase {
 				} else {
 					artificialBroadcastStruct
 				}				
-			}
+		}
 
 		// If the broadcast is not a direct member of the current interface definition but is inherited from
 		// a direct or indirect base interface the original interface where it comes from is annotated.
